@@ -1,7 +1,7 @@
 defmodule NameDataLoaderTest do
   use ExUnit.Case
 
-  import AddNameToFile.NameDataLoader, only: [load: 1, record_to_name_string: 1]
+  import AddNameToFile.NameDataLoader, only: [load: 1, create_name_string: 1]
 
   @test_name_data_file "test/resources/test_name_data.csv"
 
@@ -21,9 +21,9 @@ defmodule NameDataLoaderTest do
            }
   end
 
-  test "record_to_name_string should construct the name string based on the record given" do
+  test "create_name_string should construct the name string based on the record given" do
     assert "6118_Bennett_Lee_李景軒" ==
-             record_to_name_string(%{
+             create_name_string(%{
                "Chinese Name" => "李景軒",
                "Class" => "1A",
                "First Name" => "Bennett",
@@ -33,7 +33,7 @@ defmodule NameDataLoaderTest do
              })
 
     assert "7128_Celina_Lin_" ==
-             record_to_name_string(%{
+             create_name_string(%{
                "Chinese Name" => "",
                "Class" => "1A",
                "First Name" => "Celina",
