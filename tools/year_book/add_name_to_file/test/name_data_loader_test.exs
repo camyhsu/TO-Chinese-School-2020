@@ -8,7 +8,7 @@ defmodule NameDataLoaderTest do
   test "load should load the csv data file into a map of student id to name" do
     result = load(@test_name_data_file)
 
-    assert result == %{
+    assert %{
              "6118" => "6118_Bennett_Lee_李景軒",
              "6698" => "6698_Victoria_Chiu_邱凱蒂",
              "6703" => "6703_Sebastien_Ho_何敏求",
@@ -18,7 +18,7 @@ defmodule NameDataLoaderTest do
              "7166" => "7166_Ryan_Ho_何彦君",
              "7240" => "7240_Rachel_Mandel_陸敏慧",
              "7510" => "7510_Isabella_Lee_"
-           }
+           } == result
   end
 
   test "create_name_string should construct the name string based on the record given" do

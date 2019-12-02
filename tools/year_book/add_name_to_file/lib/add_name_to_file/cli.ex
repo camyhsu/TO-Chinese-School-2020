@@ -12,9 +12,9 @@ defmodule AddNameToFile.CLI do
   @doc """
   `argv` can be -h or --help, which returns :help.
 
-  Otherwise it is a root directory to scan for JPG files to be renamed.
+  Otherwise they are the data file path and a root directory to scan for JPG files to be renamed.
 
-  Return a tuple of `{root directory}` or `:help` if help was given.
+  Return a tuple of `{data_file_path, root_directory}` or `:help` if help was given.
   """
   def parse_args(argv) do
     parse = OptionParser.parse(argv, switches: [help: :boolean], aliases: [h: :help])
