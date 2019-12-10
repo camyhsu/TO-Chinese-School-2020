@@ -1,7 +1,8 @@
 defmodule AddNameWorkerTest do
   use ExUnit.Case
 
-  import AddNameToFile.AddNameWorker, only: [find_jpg_file_paths: 1, jpg_file_path?: 1]
+  import AddNameToFile.AddNameWorker,
+    only: [find_jpg_file_paths: 1, jpg_file_path?: 1, extract_student_id_from_old_name: 1]
 
   @test_resource_directory "test/resources"
 
@@ -36,5 +37,17 @@ defmodule AddNameWorkerTest do
 
   test "jpg_file_path? should return true if the path is a file named with suffix .JPEG" do
     assert true == jpg_file_path?(Path.join(@test_resource_directory, "images/test4.JPEG"))
+  end
+
+  test "extract_student_id_from_old_name should return correct student id" do
+    assert "1234" == extract_student_id_from_old_name("1234.jpg")
+    assert "1234" == extract_student_id_from_old_name("1234.jpeg")
+    assert "1234" == extract_student_id_from_old_name("1234.JPG")
+    assert "1234" == extract_student_id_from_old_name("1234.JPEG")
+    assert "1234" == extract_student_id_from_old_name("abc_1234.jpg")
+  end
+
+  test "extract_student_id_from_old_name should return nil if no match" do
+    assert nil == extract_student_id_from_old_name("abc.jpg")
   end
 end

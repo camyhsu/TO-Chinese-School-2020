@@ -31,6 +31,9 @@ defmodule AddNameToFile.CLI do
   end
 
   def process(data_file_path, root_directory) do
-    AddNameToFile.NameDataLoader.load(data_file_path)
+    name_data_map = AddNameToFile.NameDataLoader.load(data_file_path)
+
+    AddNameToFile.AddNameWorker.find_jpg_file_paths(root_directory)
+    |> AddNameToFile.AddNameWorker.replace_file_name(name_data_map)
   end
 end
