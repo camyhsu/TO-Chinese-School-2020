@@ -38,10 +38,10 @@ defmodule CLITest do
   test "process dry run" do
     result = capture_io(fn -> process({@test_name_data_file, @test_resource_directory, true}) end)
 
-    assert "Renaming test/resources/images/1A/7240.jpg to test/resources/images/1A/Rachel_Mandel_陸敏慧_7240.jpg\n" <>
-             "Renaming test/resources/images/1A/6118.jpg to test/resources/images/1A/Bennett_Lee_李景軒_6118.jpg\n" <>
-             "Renaming test/resources/images/1A/7510.jpg to test/resources/images/1A/Isabella_Lee__7510.jpg\n" <>
-             "Renaming test/resources/images/1A/7128.jpg to test/resources/images/1A/Celina_Lin__7128.jpg\n" ==
+    assert "Renaming test/resources/images/1A/7240.jpg to test/resources/images/1A/1A_Rachel_Mandel_陸敏慧_7240.jpg\n" <>
+             "Renaming test/resources/images/1A/6118.jpg to test/resources/images/1A/1A_Bennett_Lee_李景軒_6118.jpg\n" <>
+             "Renaming test/resources/images/1A/7510.jpg to test/resources/images/1A/1A_Isabella_Lee__7510.jpg\n" <>
+             "Renaming test/resources/images/1A/7128.jpg to test/resources/images/1A/1A_Celina_Lin__7128.jpg\n" ==
              result
   end
 end
