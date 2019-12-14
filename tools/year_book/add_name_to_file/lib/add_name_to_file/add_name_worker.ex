@@ -32,8 +32,13 @@ defmodule AddNameToFile.AddNameWorker do
 
   def construct_new_file_path(file_path, name_data_map) do
     student_id = extract_student_id_from_old_name(Path.basename(file_path))
-    student_id_replacement = Map.get(name_data_map, student_id, student_id)
-    String.replace(file_path, student_id, student_id_replacement)
+
+    if student_id == nil do
+      file_path
+    else
+      student_id_replacement = Map.get(name_data_map, student_id, student_id)
+      String.replace(file_path, student_id, student_id_replacement)
+    end
   end
 
   def replace_file_name(file_path, name_data_map, dry_run) do

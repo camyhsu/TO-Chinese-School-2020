@@ -83,6 +83,11 @@ defmodule AddNameWorkerTest do
              construct_new_file_path("images/1A/7510.jpg", @test_name_data_map)
   end
 
+  test "construct_new_file_path should return the original file path if there is no student id in the original file path" do
+    assert "images/1A/abc.jpg" ==
+             construct_new_file_path("images/1A/abc.jpg", @test_name_data_map)
+  end
+
   test "construct_new_file_path should return the original file path if the student id is not in the name data map" do
     assert "images/1A/7600.jpg" ==
              construct_new_file_path("images/1A/7600.jpg", @test_name_data_map)
