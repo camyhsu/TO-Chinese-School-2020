@@ -36,17 +36,20 @@ defmodule AddNameToFile.AddNameWorker do
     String.replace(file_path, student_id, student_id_replacement)
   end
 
-  def replace_file_name(file_path, name_data_map) do
-    IO.inspect(file_path)
+  def replace_file_name(file_path, name_data_map, dry_run) do
     new_file_path = construct_new_file_path(file_path, name_data_map)
-    IO.inspect(new_file_path)
-    if new_file_path == file_path do
-    else
+
+    unless new_file_path == file_path do
+      IO.puts("Renaming #{file_path} to #{new_file_path}")
+
+      unless dry_run do
+        IO.puts("Should not reach here")
+      end
     end
   end
 
-  def replace_file_names(jpg_file_paths, name_data_map) do
+  def replace_file_names(jpg_file_paths, name_data_map, dry_run) do
     jpg_file_paths
-    |> Enum.each(&replace_file_name(&1, name_data_map))
+    |> Enum.each(&replace_file_name(&1, name_data_map, dry_run))
   end
 end
