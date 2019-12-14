@@ -2,9 +2,25 @@ defmodule AddNameWorkerTest do
   use ExUnit.Case
 
   import AddNameToFile.AddNameWorker,
-    only: [find_jpg_file_paths: 1, jpg_file_path?: 1, extract_student_id_from_old_name: 1]
+    only: [
+      find_jpg_file_paths: 1,
+      jpg_file_path?: 1,
+      extract_student_id_from_old_name: 1,
+      construct_new_file_path: 2
+    ]
 
   @test_resource_directory "test/resources"
+  @test_name_data_map %{
+    "6118" => "Bennett_Lee_李景軒_6118",
+    "6698" => "Victoria_Chiu_邱凱蒂_6698",
+    "6703" => "Sebastien_Ho_何敏求_6703",
+    "6787" => "Joy_Huang_黄静然_6787",
+    "7006" => "Remy_Lai_賴君睿_7006",
+    "7128" => "Celina_Lin__7128",
+    "7166" => "Ryan_Ho_何彦君_7166",
+    "7240" => "Rachel_Mandel_陸敏慧_7240",
+    "7510" => "Isabella_Lee__7510"
+  }
 
   test "find_jpg_file_paths should return a list of jpg file paths" do
     files_found = find_jpg_file_paths(@test_resource_directory)
@@ -54,5 +70,21 @@ defmodule AddNameWorkerTest do
 
   test "extract_student_id_from_old_name should return nil if no match" do
     assert nil == extract_student_id_from_old_name("abc.jpg")
+  end
+
+  test "construct_new_file_path should return the new file path with student id replacement" do
+    assert "images/1A/Rachel_Mandel_陸敏慧_7240.jpg" ==
+             construct_new_file_path("images/1A/7240.jpg", @test_name_data_map)
+
+    assert "images/1A/Bennett_Lee_李景軒_6118.jpg" ==
+             construct_new_file_path("images/1A/6118.jpg", @test_name_data_map)
+
+    assert "images/1A/Isabella_Lee__7510.jpg" ==
+             construct_new_file_path("images/1A/7510.jpg", @test_name_data_map)
+  end
+
+  test "construct_new_file_path should return the original file path if the student id is not in the name data map" do
+    assert "images/1A/7600.jpg" ==
+             construct_new_file_path("images/1A/7600.jpg", @test_name_data_map)
   end
 end

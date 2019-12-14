@@ -11,8 +11,8 @@ defmodule AddNameToFile.NameDataLoader do
   end
 
   def create_name_string(name_data_map) do
-    "#{name_data_map[@student_id_key]}_#{name_data_map[@english_first_name_key]}_#{
-      name_data_map[@english_last_name_key]
-    }_#{name_data_map[@chinese_name_key]}"
+    "#{name_data_map[@english_first_name_key]}_#{name_data_map[@english_last_name_key]}_#{
+      name_data_map[@chinese_name_key]
+    }_#{name_data_map[@student_id_key]}"
   end
 end

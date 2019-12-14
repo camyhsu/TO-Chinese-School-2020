@@ -3,7 +3,7 @@ defmodule AddNameToFile.CLI do
   Handle the command line parsing and the dispatch to various functions.
   """
 
-  import AddNameToFile.AddNameWorker, only: [find_jpg_file_paths: 1, replace_file_name: 2]
+  import AddNameToFile.AddNameWorker, only: [find_jpg_file_paths: 1, replace_file_names: 2]
 
   def run(argv) do
     argv
@@ -36,6 +36,6 @@ defmodule AddNameToFile.CLI do
     name_data_map = AddNameToFile.NameDataLoader.load(data_file_path)
 
     find_jpg_file_paths(root_directory)
-    |> replace_file_name(name_data_map)
+    |> replace_file_names(name_data_map)
   end
 end

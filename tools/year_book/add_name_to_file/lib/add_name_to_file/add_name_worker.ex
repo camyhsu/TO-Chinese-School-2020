@@ -30,6 +30,23 @@ defmodule AddNameToFile.AddNameWorker do
     end
   end
 
-  def replace_file_name(jpg_file_paths, name_data_map) do
+  def construct_new_file_path(file_path, name_data_map) do
+    student_id = extract_student_id_from_old_name(Path.basename(file_path))
+    student_id_replacement = Map.get(name_data_map, student_id, student_id)
+    String.replace(file_path, student_id, student_id_replacement)
+  end
+
+  def replace_file_name(file_path, name_data_map) do
+    IO.inspect(file_path)
+    new_file_path = construct_new_file_path(file_path, name_data_map)
+    IO.inspect(new_file_path)
+    if new_file_path == file_path do
+    else
+    end
+  end
+
+  def replace_file_names(jpg_file_paths, name_data_map) do
+    jpg_file_paths
+    |> Enum.each(&replace_file_name(&1, name_data_map))
   end
 end
