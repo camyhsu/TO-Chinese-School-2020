@@ -43,7 +43,7 @@ defmodule AddNameToFile.AddNameWorker do
       IO.puts("Renaming #{file_path} to #{new_file_path}")
 
       unless dry_run do
-        IO.puts("Should not reach here")
+        File.rename!(file_path, new_file_path)
       end
     end
   end

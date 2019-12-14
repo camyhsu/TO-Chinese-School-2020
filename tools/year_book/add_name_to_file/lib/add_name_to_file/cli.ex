@@ -41,7 +41,9 @@ defmodule AddNameToFile.CLI do
   end
 
   def process(:help) do
-    IO.puts("usage:  add_name_to_file [-h | --help] [--dry-run] <data_file_path> <root_directory>")
+    IO.puts(
+      "usage:  add_name_to_file [-h | --help] [--dry-run] <data_file_path> <root_directory>"
+    )
   end
 
   def process({data_file_path, root_directory, dry_run}) do
