@@ -2,7 +2,10 @@ defmodule CLITest do
   use ExUnit.Case
   import ExUnit.CaptureIO
 
-  import AddNameToFile.CLI, only: [parse_args: 1, process: 1]
+  import AddNameToFile.CLI, only: [parse_args: 1, process: 1, process: 2]
+
+  @test_resource_directory "test/resources"
+  @test_name_data_file "test/resources/test_name_data.csv"
 
   test "parse_args should return :help by option parsing with -h and --help options" do
     assert parse_args(["-h", "anything"]) == :help
@@ -21,5 +24,9 @@ defmodule CLITest do
   test "process should return usage information if :help is given" do
     result = capture_io(fn -> process(:help) end)
     assert result == "usage:  add_name_to_file <root_directory>\n"
+  end
+
+  test "process dry run" do
+    process(@test_name_data_file, @test_resource_directory)
   end
 end

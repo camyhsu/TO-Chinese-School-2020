@@ -7,12 +7,17 @@ defmodule AddNameWorkerTest do
   @test_resource_directory "test/resources"
 
   test "find_jpg_file_paths should return a list of jpg file paths" do
-    assert [
-             Path.join(@test_resource_directory, "images/test1.jpg"),
-             Path.join(@test_resource_directory, "images/test2.JPG"),
-             Path.join(@test_resource_directory, "images/test3.jpeg"),
-             Path.join(@test_resource_directory, "images/test4.JPEG")
-           ] == find_jpg_file_paths(@test_resource_directory)
+    files_found = find_jpg_file_paths(@test_resource_directory)
+    assert 9 == length(files_found)
+    assert Path.join(@test_resource_directory, "images/test1.jpg") in files_found
+    assert Path.join(@test_resource_directory, "images/test2.JPG") in files_found
+    assert Path.join(@test_resource_directory, "images/test3.jpeg") in files_found
+    assert Path.join(@test_resource_directory, "images/test4.JPEG") in files_found
+    assert Path.join(@test_resource_directory, "images/1A/6118.jpg") in files_found
+    assert Path.join(@test_resource_directory, "images/1A/7128.jpg") in files_found
+    assert Path.join(@test_resource_directory, "images/1A/7240.jpg") in files_found
+    assert Path.join(@test_resource_directory, "images/1A/7510.jpg") in files_found
+    assert Path.join(@test_resource_directory, "images/1A/7600.jpg") in files_found
   end
 
   test "jpg_file_path? should return false if the path is not a file" do
