@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Children } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAppContext } from '../libs/contextLib';
 import { Button } from 'reactstrap';
@@ -30,6 +30,16 @@ export default function SignIn() {
                     // fetch personal user data to be displayed in Registration Home Page and Registration SideBar
                     const userPersonalDataResponse = await fetch(`/userdata/${hash[0].person_id}`);
                     var userPersonalData = await userPersonalDataResponse.json();
+                    // fetch parent two's data to be displayed in Family Details in Registration Home Page
+                    const parentTwoDataResponse = await fetch(`/parentdata/${hash[0].person_id}`);
+                    var parentTwoData = await parentTwoDataResponse.json();
+                    // fetch children/student's data to be displayed in Family and Student Details in Registration Home Page
+                    const studentDataResponse = await fetch(`/studentdata/${hash[0].person_id}`);
+                    var studentData = await studentDataResponse.json();
+                    // create a children array for easier display
+                    var children = [];
+                    studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
+                    // set the React hook data 
                     setUserData({...userData, 
                         person: {
                             chineseName: userPersonalData[0].chinese_name,
@@ -41,7 +51,13 @@ export default function SignIn() {
                             homePhone: userPersonalData[0].home_phone,
                             cellPhone: userPersonalData[0].cell_phone,
                             email: userPersonalData[0].email
-                        }
+                        },
+                        family: {
+                            parentTwoEnglishName: `${parentTwoData[0].english_first_name} ${parentTwoData[0].english_last_name}`,
+                            parentTwoChineseName: parentTwoData[0].chinese_name,
+                            children: children,
+                        },
+                        students: studentData
                     });
                     userHasAuthenticated(true);
                     // redirect to registration homepage

@@ -8,17 +8,11 @@ const RegistrationHomePage = () => (
         <div id="home">
             <button>Create a New Family</button>
             <br></br>
-                <PersonDetails person_details={andrew_details}/>
+                <PersonDetails />
             <hr></hr>
-                <FamilyDetails person_details={andrew_details} family_details={andrew_family_details}/>
+                <FamilyDetails />
             <hr></hr>
-            <h3>Student Details</h3>
-                {student_details.map((details, key) => (
-                    <div key={key}>
-                        <StudentDetails student_details={details}/>
-                        <hr id="student-break"></hr>
-                    </div>
-                ))}
+                <StudentDetails />
             <hr></hr>
             <button>Withdraw from 2020-2021 School Year</button>
         </div>

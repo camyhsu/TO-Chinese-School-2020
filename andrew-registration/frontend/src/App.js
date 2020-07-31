@@ -25,16 +25,11 @@ export default function App() {
             'email': ''
         },
         family: {
-            'parentOne': '',
-            'parentTwo': '',
+            'parentTwoEnglishName': '',
+            'parentTwoChineseName': '',
             'children': [],
-            'address': '',
-            'homePhone': '',
-            'cellPhone': '',
-            'email': ''
         },
-        children: {
-        },
+        students: [],
     });
 
     return(

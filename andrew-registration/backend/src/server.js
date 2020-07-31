@@ -22,7 +22,8 @@ app.get('/people/chineseName/:chineseName', db.getPeopleByChineseName);
 app.get('/people/englishName/:first_last', db.getPeopleByEnglishName);
 app.get('/signin/username/:username/password/:password', db.verifyUserSignIn);
 app.get('/userdata/:person_id', db.getUserData);
-app.get('/familydata/:person_id', db.getFamilyData);
+app.get('/parentdata/:person_id', db.getParentData);
+app.get('/studentdata/:person_id', db.getStudentData);
 
 app.listen(3001, () => {
     console.log(`App running on port 3001.`)
