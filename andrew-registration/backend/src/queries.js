@@ -173,9 +173,34 @@ const getStudentData = async (request, response) => {
     await client.connect();
     const id = request.params.person_id;
     try {
-        const res = await client.query('SELECT english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
+        const res = await client.query('SELECT people.id, english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
                                         FROM people WHERE people.id IN (SELECT child_id FROM families_children WHERE families_children.family_id = \
                                         (SELECT id FROM families WHERE parent_one_id = $1 OR parent_two_id = $1));', [id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
+const patchUserData = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const id = request.params.person_id;
+    const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = request.body;
+    try {
+        const res = await client.query('UPDATE people \
+                                        SET english_first_name = $1, english_last_name = $2, chinese_name = $3, birth_year = $4, birth_month = $5, gender = $6, native_language = $7 \
+                                        WHERE id = $8', [englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage, id]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -193,5 +218,6 @@ module.exports ={
     verifyUserSignIn,
     getUserData,
     getParentData,
-    getStudentData
+    getStudentData,
+    patchUserData
 }

@@ -7,8 +7,8 @@ export default function FamilyDetails() {
     return (
         <>
             <div className = "details">
-                <h3>Family for {userData.person.chineseName} ({userData.person.englishName})</h3>
-                <p>Parent One: {userData.person.chineseName} ({userData.person.englishName})</p>
+                <h3>Family for {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName})</h3>
+                <p>Parent One: {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName})</p>
                 <p>Parent Two: {userData.family.parentTwoChineseName} ({userData.family.parentTwoEnglishName})</p>
                 <p>Children: {userData.family.children.join(", ")}</p>
                 <p>Address: {userData.person.address == 'null, null, null null' ? '' : userData.person.address}</p>

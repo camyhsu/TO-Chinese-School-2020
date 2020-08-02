@@ -110,3 +110,8 @@ ul {
 #show-details {
     font-size: 10px;
 }
+
+#status {
+    color: red;
+    font-size: 10px;
+}

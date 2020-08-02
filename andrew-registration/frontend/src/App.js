@@ -8,14 +8,17 @@ import HomePage from './pages/HomePage';
 import RegistrationHomePage from './pages/RegistrationHomePage';
 import RegistrationSignInPage from './pages/RegistrationSignInPage';
 import PeopleDirectoryPage from './pages/PeopleDirectoryPage';
+import EditPersonalDetailsPage from './pages/EditPersonalDetailsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         person: {
+            'id': '',
             'chineseName': '',
-            'englishName': '',
+            'englishFirstName': '',
+            'englishLastName': '',
             'gender': '',
             'birthMonthYear': '',
             'nativeLanguage': '',
@@ -31,9 +34,10 @@ export default function App() {
         },
         students: [],
     });
+    const [status, setStatus] = useState('');
 
     return(
-        <AppContext.Provider value={{ userData, setUserData, isAuthenticated, userHasAuthenticated}}>
+        <AppContext.Provider value={{ status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
             <Router>
                 <div className="App">
                     { // only show Registration NavBar and SideBar if user is authenticated
@@ -50,6 +54,7 @@ export default function App() {
                             <Route path="/registration" component={RegistrationHomePage} exact />
                             <Route path="/registration/signin" component={RegistrationSignInPage} exact />
                             <Route path="/registration/people" component={PeopleDirectoryPage} exact/>
+                            <Route path='/registration/people/edit' component={EditPersonalDetailsPage} exact />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>
