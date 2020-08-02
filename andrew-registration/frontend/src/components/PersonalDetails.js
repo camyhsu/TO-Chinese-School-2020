@@ -11,6 +11,10 @@ export default function PersonDetails() {
         history.push('/registration/people/edit');
     }
 
+    function editPersonalAddress() {
+        history.push('/registration/address/edit');
+    }
+
     console.log(userData);
 
     return (
@@ -23,10 +27,11 @@ export default function PersonDetails() {
                 <p>Birth Date (MM/YYYY): {userData.person.birthMonth}/{userData.person.birthYear}</p>
                 <p>Native Language: {userData.person.nativeLanguage == null ? '' : userData.person.nativeLanguage}</p>
                 <Button onClick={editPersonalDetails}>Edit Personal Details</Button>
-                <p>Address: {userData.person.address == 'null, null, null null' ? '' : userData.person.address}</p>
+                <p>Address: {userData.person.street}, {userData.person.city}, {userData.person.state} {userData.person.zipcode}</p>
                 <p>Home Phone: {userData.person.homePhone == null ? '' : userData.person.homePhone}</p>
                 <p>Cell Phone: {userData.person.cellPhone == null ? '' : userData.person.cellPhone}</p>
                 <p>Email: {userData.person.email == null ? '' : userData.person.email}</p>
+                <Button onClick={editPersonalAddress}>Edit Personal Address</Button>
             </div>
         </>
     )

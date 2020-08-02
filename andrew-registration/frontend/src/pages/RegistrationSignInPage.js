@@ -41,7 +41,8 @@ export default function SignIn() {
                     // set the React hook data 
                     setUserData({...userData, 
                         person: {
-                            id: hash[0].person_id,
+                            person_id: hash[0].person_id,
+                            address_id: userPersonalData[0].address_id,
                             chineseName: userPersonalData[0].chinese_name,
                             englishFirstName: userPersonalData[0].english_first_name,
                             englishLastName: userPersonalData[0].english_last_name,
@@ -49,7 +50,10 @@ export default function SignIn() {
                             birthMonth: userPersonalData[0].birth_month,
                             birthYear: userPersonalData[0].birth_year,
                             nativeLanguage: userPersonalData[0].native_language,
-                            address: `${userPersonalData[0].street}, ${userPersonalData[0].city}, ${userPersonalData[0].state} ${userPersonalData[0].zipcode}`,
+                            street: userPersonalData[0].street,
+                            city: userPersonalData[0].city,
+                            state: userPersonalData[0].state,
+                            zipcode: userPersonalData[0].zipcode,
                             homePhone: userPersonalData[0].home_phone,
                             cellPhone: userPersonalData[0].cell_phone,
                             email: userPersonalData[0].email

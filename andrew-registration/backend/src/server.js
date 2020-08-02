@@ -24,7 +24,8 @@ app.get('/signin/username/:username/password/:password', db.verifyUserSignIn);
 app.get('/userdata/:person_id', db.getUserData);
 app.get('/parentdata/:person_id', db.getParentData);
 app.get('/studentdata/:person_id', db.getStudentData);
-app.patch('/userdata/edit/:person_id', db.patchUserData);
+app.patch('/userdata/edit/details/:person_id', db.patchUserData);
+app.patch('/userdata/edit/address/:address_id', db.patchUserAddress);
 
 app.listen(3001, () => {
     console.log(`App running on port 3001.`)

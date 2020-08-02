@@ -126,7 +126,7 @@ const getUserData = async (request, response) => {
 
     try {
         const res = await client.query('SELECT english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, \
-                                        native_language, street, city, state, zipcode, home_phone, cell_phone, email FROM people \
+                                        native_language, address_id, street, city, state, zipcode, home_phone, cell_phone, email FROM people \
                                         FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id WHERE people.id = $1', [id]);
         response.status(200).json(res.rows);
     }
@@ -211,6 +211,31 @@ const patchUserData = async (request, response) => {
     }
 }
 
+const patchUserAddress = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const id = request.params.address_id;
+    const { street, city, state, zipcode, homePhone, cellPhone, email } = request.body;
+    try {
+        const res = await client.query('UPDATE addresses \
+                                        SET street = $1, city = $2, state = $3, zipcode = $4, home_phone = $5, cell_phone = $6, email = $7 \
+                                        WHERE id = $8', [street, city, state, zipcode, homePhone, cellPhone, email, id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
 module.exports ={
     getPeopleByEmail,
     getPeopleByChineseName,
@@ -219,5 +244,6 @@ module.exports ={
     getUserData,
     getParentData,
     getStudentData,
-    patchUserData
+    patchUserData,
+    patchUserAddress
 }

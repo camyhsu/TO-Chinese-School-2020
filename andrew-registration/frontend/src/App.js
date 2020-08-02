@@ -9,20 +9,25 @@ import RegistrationHomePage from './pages/RegistrationHomePage';
 import RegistrationSignInPage from './pages/RegistrationSignInPage';
 import PeopleDirectoryPage from './pages/PeopleDirectoryPage';
 import EditPersonalDetailsPage from './pages/EditPersonalDetailsPage';
+import EditPersonalAddressPage from './pages/EditPersonalAddressPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         person: {
-            'id': '',
+            'person_id': '',
+            'address_id': '',
             'chineseName': '',
             'englishFirstName': '',
             'englishLastName': '',
             'gender': '',
             'birthMonthYear': '',
             'nativeLanguage': '',
-            'address': '',
+            'street': '',
+            'city': '',
+            'state': '',
+            'zipcode': '',
             'homePhone': '',
             'cellPhone': '',
             'email': ''
@@ -55,6 +60,7 @@ export default function App() {
                             <Route path="/registration/signin" component={RegistrationSignInPage} exact />
                             <Route path="/registration/people" component={PeopleDirectoryPage} exact/>
                             <Route path='/registration/people/edit' component={EditPersonalDetailsPage} exact />
+                            <Route path='/registration/address/edit' component={EditPersonalAddressPage} exact />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

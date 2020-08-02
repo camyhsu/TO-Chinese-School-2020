@@ -23,6 +23,7 @@ export default function EditPersonalDetailsPage() {
     function handleSubmit(event) {
         event.preventDefault();
 
+        // create body for patch request
         var body = {};
         body.englishFirstName = englishFirstName !== userData.person.englishFirstName ? englishFirstName : userData.person.englishFirstName;
         body.englishLastName = englishLastName !== userData.person.englishLastName ? englishLastName : userData.person.englishLastName;
@@ -36,7 +37,7 @@ export default function EditPersonalDetailsPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/userdata/edit/${userData.person.id}`, {
+                await fetch(`/userdata/edit/details/${userData.person.person_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -45,11 +46,13 @@ export default function EditPersonalDetailsPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                const userPersonalDataResponse = await fetch(`/userdata/${userData.person.id}`);
+                // re-fetch data to update in display
+                const userPersonalDataResponse = await fetch(`/userdata/${userData.person.person_id}`);
                 var userPersonalData = await userPersonalDataResponse.json();
                 setUserData(prevUserData => ({...prevUserData,
                     person: {
-                        id: userData.person.id,
+                        person_id: userData.person.person_id,
+                        address_id: userPersonalData[0].address_id,
                         chineseName: userPersonalData[0].chinese_name,
                         englishFirstName: userPersonalData[0].english_first_name,
                         englishLastName: userPersonalData[0].english_last_name,
@@ -57,7 +60,10 @@ export default function EditPersonalDetailsPage() {
                         birthMonth: userPersonalData[0].birth_month,
                         birthYear: userPersonalData[0].birth_year,
                         nativeLanguage: userPersonalData[0].native_language,
-                        address: `${userPersonalData[0].street}, ${userPersonalData[0].city}, ${userPersonalData[0].state} ${userPersonalData[0].zipcode}`,
+                        street: userPersonalData[0].street,
+                        city: userPersonalData[0].city,
+                        state: userPersonalData[0].state,
+                        zipcode: userPersonalData[0].zipcode,
                         homePhone: userPersonalData[0].home_phone,
                         cellPhone: userPersonalData[0].cell_phone,
                         email: userPersonalData[0].email
@@ -68,7 +74,7 @@ export default function EditPersonalDetailsPage() {
             }
         }
         patchData();
-        setStatus('Changes successfully saved.');
+        setStatus('Personal Details Successfully Updated.');
         history.push('/registration');
     }
 
