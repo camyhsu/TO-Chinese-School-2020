@@ -11,6 +11,7 @@ import PeopleDirectoryPage from './pages/PeopleDirectoryPage';
 import EditPersonalDetailsPage from './pages/EditPersonalDetailsPage';
 import EditPersonalAddressPage from './pages/EditPersonalAddressPage';
 import EditFamilyAddressPage from './pages/EditFamilyAddressPage';
+import EditStudentDetailsPage from './pages/EditStudentDetailsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -72,6 +73,7 @@ export default function App() {
                             <Route path='/registration/people/edit' component={EditPersonalDetailsPage} exact />
                             <Route path='/registration/address/edit' component={EditPersonalAddressPage} exact />
                             <Route path='/registration/familyaddress/edit' component={EditFamilyAddressPage} exact/>
+                            <Route path='/registration/student/edit' component={EditStudentDetailsPage} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

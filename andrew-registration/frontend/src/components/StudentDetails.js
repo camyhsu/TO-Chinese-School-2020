@@ -1,8 +1,16 @@
 import React from 'react';
 import { useAppContext } from '../libs/contextLib';
+import { Button } from 'reactstrap';
+import { useHistory } from 'react-router-dom';
 
 export default function StudentDetails() {
     const { userData } = useAppContext();
+
+    const history = useHistory();
+
+    function editStudentDetails(id) {
+        history.push(`/registration/student/edit/${id}`);
+    }
 
     return (
         userData.students == null ? null :
@@ -15,7 +23,7 @@ export default function StudentDetails() {
                     <p>Gender: {details.gender}</p>
                     <p>Birth Date (MM/YYYY): {details.birth_month}/{details.birth_year}</p>
                     <p>Native Language: {details.native_language}</p>
-                    <button>Edit Details</button>
+                    <Button onClick={() => editStudentDetails(key)}>Edit Student Details</Button>
                     <hr id="student-break"></hr>
                 </div>
             ))}
