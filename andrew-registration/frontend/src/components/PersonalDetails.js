@@ -8,11 +8,11 @@ export default function PersonDetails() {
     const history = useHistory();
 
     function editPersonalDetails() {
-        history.push('/registration/people/edit');
+        history.push('/registration/user/edit');
     }
 
     function editPersonalAddress() {
-        history.push('/registration/address/edit');
+        history.push('/registration/user/address/edit');
     }
 
     return (

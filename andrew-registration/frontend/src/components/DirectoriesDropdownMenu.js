@@ -37,7 +37,7 @@ export default class DirectoriesDropdownMenu extends Component {
                     </DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem href="#/action-1">Library books</DropdownItem>
-                        <DropdownItem tag={Link} to="/registration/people">All people</DropdownItem>
+                        <DropdownItem tag={Link} to="/registration/list/people">All people</DropdownItem>
                         <DropdownItem href="#/action-3">All grades</DropdownItem>
                         <DropdownItem href="#/action-3">All classes</DropdownItem>
                         <DropdownItem href="#/action-3">Active students by name</DropdownItem>

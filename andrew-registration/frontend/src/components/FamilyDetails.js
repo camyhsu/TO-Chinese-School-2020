@@ -10,7 +10,7 @@ export default function FamilyDetails() {
     const history = useHistory();
 
     function editFamilyAddress() {
-        history.push('/registration/familyaddress/edit');
+        history.push('/registration/family/address/edit');
     }
 
     function addChild() {

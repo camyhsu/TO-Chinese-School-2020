@@ -67,15 +67,15 @@ export default function App() {
                     }
                     <div id="page-body">
                         <Switch>
-                            <Route path="/" component={HomePage} exact />
-                            <Route path="/registration" component={RegistrationHomePage} exact />
-                            <Route path="/registration/signin" component={RegistrationSignInPage} exact />
-                            <Route path="/registration/people" component={PeopleDirectoryPage} exact/>
-                            <Route path='/registration/people/edit' component={EditPersonalDetailsPage} exact />
-                            <Route path='/registration/address/edit' component={EditPersonalAddressPage} exact />
-                            <Route path='/registration/familyaddress/edit' component={EditFamilyAddressPage} exact/>
+                            <Route path='/' component={HomePage} exact />
+                            <Route path='/registration' component={RegistrationHomePage} exact />
+                            <Route path='/registration/signin' component={RegistrationSignInPage} exact />
+                            <Route path='/registration/list/people' component={PeopleDirectoryPage} exact/>
+                            <Route path='/registration/user/edit' component={EditPersonalDetailsPage} exact />
+                            <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} exact />
+                            <Route path='/registration/family/address/edit' component={EditFamilyAddressPage} exact/>
+                            <Route path='/registration/family/addchild' component={AddChildPage} exact/>
                             <Route path='/registration/student/edit' component={EditStudentDetailsPage} />
-                            <Route path='/registration/family/addchild' component={AddChildPage} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>
