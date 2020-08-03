@@ -15,8 +15,14 @@ export default function EditPersonalAddressPage() {
     const [cellPhone, setCellPhone] = useState(userData.person.cellPhone);
     const [email, setEmail] = useState(userData.person.email);
 
+    function containsOnlyDigits(val) {
+        return /^\d+$/.test(val)
+    }
+
     function validateForm() {
-        return street.length > 0 && city.length > 0 && zipcode.length === 5 && homePhone.length > 0 && email.length > 0;
+        if( cellPhone.length > 0 )
+            return street.length > 0 && city.length > 0 && (containsOnlyDigits(zipcode) && zipcode.length === 5) && (containsOnlyDigits(homePhone) && homePhone.length > 0) && email.length > 0 && containsOnlyDigits(cellPhone);
+        return street.length > 0 && city.length > 0 && (containsOnlyDigits(zipcode) && zipcode.length === 5) && (containsOnlyDigits(homePhone) && homePhone.length > 0) && email.length > 0;
     }
 
     function handleSubmit(event) {
