@@ -27,6 +27,8 @@ app.get('/familyaddressdata/:person_id', db.getFamilyAddressData);
 app.get('/studentdata/:person_id', db.getStudentData);
 app.patch('/userdata/edit/details/:person_id', db.patchUserData);
 app.patch('/userdata/edit/address/:address_id', db.patchAddress);
+app.post('/people/add', db.addPerson);
+app.post('/family/addchild/:family_id', db.addChild);
 
 app.listen(3001, () => {
     console.log(`App running on port 3001.`)

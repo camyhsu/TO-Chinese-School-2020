@@ -31,6 +31,7 @@ export default function EditPersonalDetailsPage() {
         body.birthYear = birthYear !== userData.person.birthYear ? birthYear : userData.person.birthYear;
         body.birthYear = birthYear === '' ? null : birthYear;
         body.birthMonth = birthMonth !== userData.person.birthMonth ? birthMonth : userData.person.birthMonth;
+        body.birthMonth = birthMonth === '' ? null : birthMonth;
         body.gender = gender !== userData.person.gender ? gender : userData.person.gender;
         body.nativeLanguage = nativeLanguage !== userData.person.nativeLanguage ? nativeLanguage : userData.person.nativeLanguage;
 
@@ -91,7 +92,7 @@ export default function EditPersonalDetailsPage() {
                     Chinese Name: <input type="text" value={chineseName} onChange={(e) => setChineseName(e.target.value)} />
                     <br></br>
                     Gender: <select id="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)}> 
-                                <option value="F" selected>F</option>
+                                <option value="F">F</option>
                                 <option value="M">M</option>
                             </select>
                     <br></br>

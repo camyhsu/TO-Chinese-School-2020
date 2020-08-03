@@ -260,7 +260,56 @@ const patchAddress = async (request, response) => {
     }
 }
 
-module.exports ={
+const addPerson = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = request.body;
+    try {
+        const res = await client.query('INSERT INTO people (english_last_name, english_first_name, chinese_name, gender, birth_year, birth_month, native_language) \
+                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
+const addChild = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const id = request.params.family_id;
+    const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = request.body;
+    try {
+        const res = await client.query('INSERT INTO families_children (family_id, child_id) VALUES ($1, \
+                                        (SELECT id FROM people WHERE english_last_name = $2 and english_first_name = $3 and chinese_name = $4 and \
+                                        gender = $5 and birth_year = $6 and birth_month = $7 and native_language = $8));'
+                                        , [id, englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
+module.exports = {
     getPeopleByEmail,
     getPeopleByChineseName,
     getPeopleByEnglishName,
@@ -270,5 +319,7 @@ module.exports ={
     getFamilyAddressData,
     getStudentData,
     patchUserData,
-    patchAddress
+    patchAddress,
+    addPerson,
+    addChild,
 }

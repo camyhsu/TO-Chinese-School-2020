@@ -13,6 +13,11 @@ export default function FamilyDetails() {
         history.push('/registration/familyaddress/edit');
     }
 
+    function addChild() {
+        history.push('/registration/family/addchild');
+    }
+
+
     return (
         <>
             <div className = "details">
@@ -27,7 +32,7 @@ export default function FamilyDetails() {
                 <Button onClick={editFamilyAddress}>Edit Family Address</Button>
                 <br></br>
                 <br></br>
-                <button>Add a Child</button>
+                <Button onClick={addChild}>Add a Child</Button>
             </div>
         </>
     )

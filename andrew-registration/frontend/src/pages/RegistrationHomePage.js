@@ -13,14 +13,13 @@ export default function RegistrationHomePage() {
         <>
             <p id="status">{status}</p>
             <div id="home">
-                <button>Create a New Family</button>
-                <br></br>
-                    <PersonalDetails />
+                <PersonalDetails />
                 <hr></hr>
-                    <FamilyDetails />
+                <FamilyDetails />
                 <hr></hr>
-                    <StudentDetails />
+                <StudentDetails />
                 <hr></hr>
+                <button>Register for 2020-2021 School Year</button>
                 <button>Withdraw from 2020-2021 School Year</button>
             </div>
         </>

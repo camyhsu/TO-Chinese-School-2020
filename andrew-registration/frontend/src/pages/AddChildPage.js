@@ -4,20 +4,17 @@ import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
 
-export default function EditStudentDetailsPage() {
+export default function AddChildPage() {
     const { userData, setUserData, setStatus } = useAppContext(); 
-    const history = useHistory();
-    // get the index of the student in the student array
-    const url = window.location.href.split("/");
-    const studentIndex = url[url.length-1];
+    const history = useHistory();  
     
-    const [englishFirstName, setEnglishFirstName] = useState(userData.students[studentIndex].english_first_name);
-    const [englishLastName, setEnglishLastName] = useState(userData.students[studentIndex].english_last_name);
-    const [chineseName, setChineseName] = useState(userData.students[studentIndex].chinese_name);
-    const [gender, setGender] = useState(userData.students[studentIndex].gender);
-    const [birthYear, setBirthYear] = useState(userData.students[studentIndex].birth_year);
-    const [birthMonth, setBirthMonth] = useState(userData.students[studentIndex].birth_month);
-    const [nativeLanguage, setNativeLanguage] = useState(userData.students[studentIndex].native_language);
+    const [englishFirstName, setEnglishFirstName] = useState('');
+    const [englishLastName, setEnglishLastName] = useState('');
+    const [chineseName, setChineseName] = useState('');
+    const [gender, setGender] = useState('F');
+    const [birthYear, setBirthYear] = useState('');
+    const [birthMonth, setBirthMonth] = useState('1');
+    const [nativeLanguage, setNativeLanguage] = useState('Mandarin');
 
     function validateForm() {
         return englishFirstName.length > 0 && englishLastName.length > 0 && gender.length > 0;
@@ -26,27 +23,35 @@ export default function EditStudentDetailsPage() {
     function handleSubmit(event) {
         event.preventDefault();
 
-        // create body for patch request
+        // create body for post request
         var body = {};
-        body.englishFirstName = englishFirstName !== userData.students[studentIndex].english_first_name ? englishFirstName : userData.students[studentIndex].english_first_name;
-        body.englishLastName = englishLastName !== userData.students[studentIndex].english_last_name ? englishLastName : userData.students[studentIndex].english_last_name;
-        body.chineseName = chineseName !== userData.students[studentIndex].chinese_name ? chineseName : userData.students[studentIndex].chinese_name;
-        body.birthYear = birthYear !== userData.students[studentIndex].birth_year ? birthYear : userData.students[studentIndex].birth_year;
+        body.englishFirstName = englishFirstName;
+        body.englishLastName = englishLastName;
+        body.chineseName = chineseName;
         body.birthYear = birthYear === '' ? null : birthYear;
-        body.birthMonth = birthMonth !== userData.students[studentIndex].birth_month ? birthMonth : userData.students[studentIndex].birth_month;
         body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender !== userData.students[studentIndex].gender ? gender : userData.students[studentIndex].gender;
-        body.nativeLanguage = nativeLanguage !== userData.students[studentIndex].native_language ? nativeLanguage : userData.students[studentIndex].native_language;
+        body.gender = gender;
+        body.nativeLanguage = nativeLanguage;
 
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/userdata/edit/details/${userData.students[studentIndex].id}`, {
+                // first, create a new person
+                await fetch('/people/add/', {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    method: 'PATCH',                                                              
+                    method: 'POST',                                                              
+                    body: JSON.stringify( body )                                        
+                });
+                // then, add the new person to the family
+                await fetch(`/family/addchild/${userData.family.family_id}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',                                                              
                     body: JSON.stringify( body )                                        
                 });
 
@@ -61,7 +66,7 @@ export default function EditStudentDetailsPage() {
                         family_id: userData.family.family_id,
                         address_id: userData.family.address_id,
                         parentTwoEnglishName: userData.family.parentTwoEnglishName,
-                        parentTwoChineseName: userData.family.parentTwoChineseName,
+                        parentTwoChineseName: userData.family.chineseName,
                         children: children,
                         street: userData.family.street,
                         city: userData.family.city,
@@ -78,13 +83,14 @@ export default function EditStudentDetailsPage() {
             }
         }
         patchData();
-        setStatus('Student Details Successfully Updated.');
+        setStatus('Child Successfully Added.');
         history.push('/registration');
     }
 
+
     return (
         <>
-            <h1>Edit Students Details for {userData.students[studentIndex].chinese_name} ({userData.students[studentIndex].english_first_name} {userData.students[studentIndex].english_last_name})</h1>
+            <h1>Add a Child</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />
