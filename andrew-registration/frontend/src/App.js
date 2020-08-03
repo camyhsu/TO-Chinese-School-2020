@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import RegistrationHomePage from './pages/RegistrationHomePage';
 import RegistrationSignInPage from './pages/RegistrationSignInPage';
 import PeopleDirectoryPage from './pages/PeopleDirectoryPage';
+import GradesDirectoryPage from './pages/GradesDirectoryPage';
 import EditPersonalDetailsPage from './pages/EditPersonalDetailsPage';
 import EditPersonalAddressPage from './pages/EditPersonalAddressPage';
 import EditFamilyAddressPage from './pages/EditFamilyAddressPage';
@@ -71,6 +72,7 @@ export default function App() {
                             <Route path='/registration' component={RegistrationHomePage} exact />
                             <Route path='/registration/signin' component={RegistrationSignInPage} exact />
                             <Route path='/registration/list/people' component={PeopleDirectoryPage} exact/>
+                            <Route path='/registration/list/grades' component={GradesDirectoryPage} exact/>
                             <Route path='/registration/user/edit' component={EditPersonalDetailsPage} exact />
                             <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} exact />
                             <Route path='/registration/family/address/edit' component={EditFamilyAddressPage} exact/>

@@ -12,34 +12,37 @@ const Result = ({hasSearched, results}) => {
     return (
         <>
             <br></br>
-            <table>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Chinese Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Birth Month</th>
-                    <th>Birth Year</th>
-                    <th>Native Language</th>
-                </tr>
-                {results.map((entry, key) => (
-                    <>
-                        <br></br>
-                        <tr key={key}>
-                            <td>{entry.english_first_name}</td>
-                            <td>{entry.english_last_name}</td>
-                            <td>{entry.chinese_name}</td>
-                            <td>{entry.email}</td>
-                            <td>{entry.gender}</td>
-                            <td>{entry.birth_month}</td>
-                            <td>{entry.birth_year}</td>
-                            <td>{entry.native_language}</td>
-                            <td id="show-details"><Link>Show Details</Link></td>
+            <center>
+                <table id="people">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Chinese Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Birth Month</th>
+                            <th>Birth Year</th>
+                            <th>Native Language</th>
                         </tr>
-                    </>
-                ))}
-            </table>
+                    </thead>
+                    {results.map((entry, key) => (
+                        <tbody key={key}>
+                            <tr>
+                                <td>{entry.english_first_name}</td>
+                                <td>{entry.english_last_name}</td>
+                                <td>{entry.chinese_name}</td>
+                                <td>{entry.email}</td>
+                                <td>{entry.gender}</td>
+                                <td>{entry.birth_month}</td>
+                                <td>{entry.birth_year}</td>
+                                <td>{entry.native_language}</td>
+                                <td id="show-details"><Link to="#/action1">Show Details</Link></td>
+                            </tr>
+                        </tbody>
+                    ))}
+                </table>
+            </center>
         </>
     )
 }
@@ -48,7 +51,7 @@ const Search = (props) => {
     const {
         selectedOption,
         searchQuery,
-        handleClick,
+        onChange,
         onTextChange,
         handleFormSubmit,
     } = props;
@@ -59,15 +62,15 @@ const Search = (props) => {
             <form onSubmit={handleFormSubmit}>
                 <div className="radio">
                     <label>
-                        <input type="radio" value="email" checked={selectedOption === 'email'} onClick={handleClick} />
+                        <input type="radio" value="email" checked={selectedOption === 'email'} onChange={onChange} />
                         Email
                     </label>
                     <label>
-                        <input type="radio" value="english" checked={selectedOption === 'english'} onClick={handleClick}/>
+                        <input type="radio" value="english" checked={selectedOption === 'english'} onChange={onChange}/>
                         English Name
                     </label>
                     <label>
-                        <input type="radio" value="chinese" checked={selectedOption === 'chinese'} onClick={handleClick}/>
+                        <input type="radio" value="chinese" checked={selectedOption === 'chinese'} onChange={onChange}/>
                         Chinese Name
                     </label>
                 </div>
@@ -89,13 +92,13 @@ export default class PeopleDirectoryPage extends Component {
             searchQuery: '',
             results: [],
         };
-        this.handleClick = this.handleClick.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
       }
     
-    handleClick = function (changeEvent) {
+    onChange = function (changeEvent) {
         this.setState({selectedOption: changeEvent.target.value});
     }
 
@@ -116,7 +119,6 @@ export default class PeopleDirectoryPage extends Component {
                 try {
                     const response = await fetch(`/people/email/${email}`);
                     json = await response.json();
-                    console.log(json);
                     this.setState({results: json});
                 } catch (error) {
                     console.log(error);
@@ -128,7 +130,6 @@ export default class PeopleDirectoryPage extends Component {
                 try {
                     const response = await fetch(`/people/englishName/${name}`);
                     json = await response.json();
-                    console.log(json);
                     this.setState({results: json});
                 } catch (error) {
                     console.log(error);
@@ -140,7 +141,6 @@ export default class PeopleDirectoryPage extends Component {
                 try {
                     const response = await fetch(`/people/chineseName/${name}`);
                     json = await response.json();
-                    console.log(json);
                     this.setState({results: json});
                 } catch (error) {
                     console.log(error);
@@ -157,13 +157,11 @@ export default class PeopleDirectoryPage extends Component {
             <>
                 <Search selectedOption={selectedOption}
                         searchQuery={searchQuery}
-                        handleClick={this.handleClick}
+                        onChange={this.onChange}
                         onTextChange={this.onTextChange}
                         handleFormSubmit={this.handleFormSubmit}/>
                 <Result hasSearched={hasSearched} results={results}/>
             </>
-
         )
-        
     }
  };

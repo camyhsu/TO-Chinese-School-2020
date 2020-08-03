@@ -90,6 +90,29 @@ const getPeopleByEnglishName = async (request, response) => {
     }
 }
 
+const getGrades = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const emailAddress = request.params.email;
+    
+    try {
+        const res = await client.query('SELECT chinese_name, english_name, short_name FROM grades;');
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
 const verifyUserSignIn = async (request, response) => {
     const client = new Client({
         user: 'tocsorg_camyhsu',
@@ -313,6 +336,7 @@ module.exports = {
     getPeopleByEmail,
     getPeopleByChineseName,
     getPeopleByEnglishName,
+    getGrades,
     verifyUserSignIn,
     getUserData,
     getParentData,

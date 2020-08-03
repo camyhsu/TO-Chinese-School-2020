@@ -20,6 +20,7 @@ app.get('/', (request, response) => {
 app.get('/people/email/:email', db.getPeopleByEmail);
 app.get('/people/chineseName/:chineseName', db.getPeopleByChineseName);
 app.get('/people/englishName/:first_last', db.getPeopleByEnglishName);
+app.get('/grades', db.getGrades);
 app.get('/signin/username/:username/password/:password', db.verifyUserSignIn);
 app.get('/userdata/:person_id', db.getUserData);
 app.get('/parentdata/:person_id', db.getParentData);

@@ -115,3 +115,17 @@ ul {
     color: red;
     font-size: 10px;
 }
+
+#grades th, td { 
+    width:150px; 
+    text-align:center; 
+    border:1px solid black; 
+    padding:5px 
+} 
+
+#people th, td { 
+    width:150px; 
+    text-align:center; 
+    border:1px solid black; 
+    padding:5px 
+} 

@@ -5,7 +5,7 @@ import { Button } from 'reactstrap';
 import { sha256 } from 'js-sha256';
 
 export default function SignIn() {
-    const { isAuthenticated, userHasAuthenticated, userData, setUserData } = useAppContext();
+    const { userHasAuthenticated, userData, setUserData } = useAppContext();
     const history = useHistory();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

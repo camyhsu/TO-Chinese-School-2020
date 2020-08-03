@@ -4,9 +4,11 @@ import { useAppContext } from '../libs/contextLib';
 
 export default function RegistrationSideBar() {
     const { userHasAuthenticated, userData, setStatus } = useAppContext();
+    const history = useHistory();
 
     function handleSignOut() {
         userHasAuthenticated(false);
+        history.push('/');
     }
 
     function handleHome() {
