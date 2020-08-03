@@ -15,8 +15,6 @@ export default function PersonDetails() {
         history.push('/registration/address/edit');
     }
 
-    console.log(userData);
-
     return (
         <>
             <div className = "details">

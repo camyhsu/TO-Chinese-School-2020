@@ -32,6 +32,9 @@ export default function SignIn() {
                     // fetch parent two's data to be displayed in Family Details in Registration Home Page
                     const parentTwoDataResponse = await fetch(`/parentdata/${hash[0].person_id}`);
                     var parentTwoData = await parentTwoDataResponse.json();
+                    // fetch family address data to be displayed in Family Details in Registration Home Page
+                    const familyAddressDataResponse = await fetch(`/familyaddressdata/${hash[0].person_id}`);
+                    var familyAddressData = await familyAddressDataResponse.json();
                     // fetch children/student's data to be displayed in Family and Student Details in Registration Home Page
                     const studentDataResponse = await fetch(`/studentdata/${hash[0].person_id}`);
                     var studentData = await studentDataResponse.json();
@@ -59,9 +62,18 @@ export default function SignIn() {
                             email: userPersonalData[0].email
                         },
                         family: {
+                            family_id: parentTwoData[0].family_id,
+                            address_id: familyAddressData[0].id,
                             parentTwoEnglishName: `${parentTwoData[0].english_first_name} ${parentTwoData[0].english_last_name}`,
                             parentTwoChineseName: parentTwoData[0].chinese_name,
                             children: children,
+                            street: familyAddressData[0].street,
+                            city: familyAddressData[0].city,
+                            state: familyAddressData[0].state,
+                            zipcode: familyAddressData[0].zipcode,
+                            homePhone: familyAddressData[0].home_phone,
+                            cellPhone: familyAddressData[0].cell_phone,
+                            email: familyAddressData[0].email
                         },
                         students: studentData
                     });

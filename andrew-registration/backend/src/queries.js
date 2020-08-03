@@ -149,9 +149,33 @@ const getParentData = async (request, response) => {
     await client.connect();
     const id = request.params.person_id;
     try {
-        const res = await client.query('SELECT english_first_name, english_last_name, chinese_name FROM people WHERE \
+        const res = await client.query('SELECT families.id as family_id, english_first_name, english_last_name, chinese_name FROM people JOIN families \
+                                        ON parent_one_id = $1 or parent_two_id = $1 WHERE \
                                         (SELECT parent_one_id FROM families WHERE parent_two_id = $1) = people.id OR \
                                         (SELECT parent_two_id FROM families WHERE parent_one_id = $1) = people.id;', [id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
+const getFamilyAddressData = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const id = request.params.person_id;
+    try {
+        const res = await client.query('SELECT id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses \
+                                        WHERE addresses.id = (SELECT address_id FROM families WHERE parent_one_id = $1 or parent_two_id = $1)', [id]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -211,7 +235,7 @@ const patchUserData = async (request, response) => {
     }
 }
 
-const patchUserAddress = async (request, response) => {
+const patchAddress = async (request, response) => {
     const client = new Client({
         user: 'tocsorg_camyhsu',
         host: 'localhost',
@@ -243,7 +267,8 @@ module.exports ={
     verifyUserSignIn,
     getUserData,
     getParentData,
+    getFamilyAddressData,
     getStudentData,
     patchUserData,
-    patchUserAddress
+    patchAddress
 }

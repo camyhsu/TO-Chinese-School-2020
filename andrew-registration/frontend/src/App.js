@@ -10,6 +10,7 @@ import RegistrationSignInPage from './pages/RegistrationSignInPage';
 import PeopleDirectoryPage from './pages/PeopleDirectoryPage';
 import EditPersonalDetailsPage from './pages/EditPersonalDetailsPage';
 import EditPersonalAddressPage from './pages/EditPersonalAddressPage';
+import EditFamilyAddressPage from './pages/EditFamilyAddressPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -33,9 +34,18 @@ export default function App() {
             'email': ''
         },
         family: {
+            'family_id': '',
+            'address_id': '',
             'parentTwoEnglishName': '',
             'parentTwoChineseName': '',
             'children': [],
+            'street': '',
+            'city': '',
+            'state': '',
+            'zipcode': '',
+            'homePhone': '',
+            'cellPhone': '',
+            'email': ''
         },
         students: [],
     });
@@ -61,6 +71,7 @@ export default function App() {
                             <Route path="/registration/people" component={PeopleDirectoryPage} exact/>
                             <Route path='/registration/people/edit' component={EditPersonalDetailsPage} exact />
                             <Route path='/registration/address/edit' component={EditPersonalAddressPage} exact />
+                            <Route path='/registration/familyaddress/edit' component={EditFamilyAddressPage} exact/>
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>
