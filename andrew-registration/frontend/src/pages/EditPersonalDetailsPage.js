@@ -52,6 +52,7 @@ export default function EditPersonalDetailsPage() {
                 var userPersonalData = await userPersonalDataResponse.json();
                 setUserData(prevUserData => ({...prevUserData,
                     person: {
+                        username: userData.person.username,
                         person_id: userData.person.person_id,
                         address_id: userPersonalData[0].address_id,
                         chineseName: userPersonalData[0].chinese_name,
@@ -70,13 +71,13 @@ export default function EditPersonalDetailsPage() {
                         email: userPersonalData[0].email
                     },
                 }))
+                setStatus('Personal Details Successfully Updated.');
+                history.push('/registration');
             } catch (error) {
                 console.log(error);
             }
         }
         patchData();
-        setStatus('Personal Details Successfully Updated.');
-        history.push('/registration');
     }
 
 

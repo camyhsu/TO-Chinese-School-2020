@@ -73,13 +73,13 @@ export default function EditStudentDetailsPage() {
                     },
                     students: studentData
                 }))
+                setStatus('Student Details Successfully Updated.');
+                history.push('/registration');
             } catch (error) {
                 console.log(error);
             }
         }
         patchData();
-        setStatus('Student Details Successfully Updated.');
-        history.push('/registration');
     }
 
     return (

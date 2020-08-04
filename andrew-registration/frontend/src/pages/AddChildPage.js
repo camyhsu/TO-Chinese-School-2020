@@ -78,13 +78,13 @@ export default function AddChildPage() {
                     },
                     students: studentData
                 }))
+                setStatus('Child Successfully Added.');
+                history.push('/registration');
             } catch (error) {
                 console.log(error);
             }
         }
         patchData();
-        setStatus('Child Successfully Added.');
-        history.push('/registration');
     }
 
 

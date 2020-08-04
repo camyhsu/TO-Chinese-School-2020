@@ -69,13 +69,13 @@ export default function EditFamilyAddressPage() {
                         email: familyAddressData[0].email
                     },
                 }))
+                setStatus('Family Address Successfully Updated.');
+                history.push('/registration');
             } catch (error) {
                 console.log(error);
             }
         }
         patchData();
-        setStatus('Family Address Successfully Updated.');
-        history.push('/registration');
     }
 
 

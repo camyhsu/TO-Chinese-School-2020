@@ -21,7 +21,7 @@ export default function SignIn() {
         const fetchData = async () => {
             try {
                 // fetch signin data from psql database
-                const signInResponse = await fetch(`/signin/username/${username}/password/${password}`);
+                const signInResponse = await fetch(`/signin/username/${username}`);
                 var hash = await signInResponse.json();
                 const pass_salt = password + hash[0].password_salt;
                 // ensure password is valid
@@ -44,6 +44,7 @@ export default function SignIn() {
                     // set the React hook data 
                     setUserData({...userData, 
                         person: {
+                            username: username,
                             person_id: hash[0].person_id,
                             address_id: userPersonalData[0].address_id,
                             chineseName: userPersonalData[0].chinese_name,

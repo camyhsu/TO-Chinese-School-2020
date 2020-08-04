@@ -14,12 +14,14 @@ import EditPersonalAddressPage from './pages/EditPersonalAddressPage';
 import EditFamilyAddressPage from './pages/EditFamilyAddressPage';
 import EditStudentDetailsPage from './pages/EditStudentDetailsPage';
 import AddChildPage from './pages/AddChildPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         person: {
+            'username': '',
             'person_id': '',
             'address_id': '',
             'chineseName': '',
@@ -74,6 +76,7 @@ export default function App() {
                             <Route path='/registration/list/people' component={PeopleDirectoryPage} exact/>
                             <Route path='/registration/list/grades' component={GradesDirectoryPage} exact/>
                             <Route path='/registration/user/edit' component={EditPersonalDetailsPage} exact />
+                            <Route path='/registration/user/password/edit' component={ChangePasswordPage} exact/>
                             <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} exact />
                             <Route path='/registration/family/address/edit' component={EditFamilyAddressPage} exact/>
                             <Route path='/registration/family/addchild' component={AddChildPage} exact/>

@@ -283,6 +283,29 @@ const patchAddress = async (request, response) => {
     }
 }
 
+const changePassword = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const username = request.params.username;
+    const { password_hash, password_salt } = request.body;
+    try {
+        const res = await client.query('UPDATE users SET password_hash = $1, password_salt = $2 WHERE username = $3',[password_hash, password_salt, username]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
 const addPerson = async (request, response) => {
     const client = new Client({
         user: 'tocsorg_camyhsu',
@@ -344,6 +367,7 @@ module.exports = {
     getStudentData,
     patchUserData,
     patchAddress,
+    changePassword,
     addPerson,
     addChild,
 }

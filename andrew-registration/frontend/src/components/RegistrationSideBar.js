@@ -8,6 +8,7 @@ export default function RegistrationSideBar() {
 
     function handleSignOut() {
         userHasAuthenticated(false);
+        setStatus('');
         history.push('/');
     }
 
@@ -24,7 +25,7 @@ export default function RegistrationSideBar() {
                 <Link to='/2'>Privacy Policy</Link>
                 <Link to='/3'>Waiver</Link>
                 <Link to='/4'>Transaction History</Link>
-                <Link to='/5'>Change Password</Link>
+                <Link to='/registration/user/password/edit'>Change Password</Link>
                 <Link to='/' onClick={handleSignOut}>Sign Out</Link>
             </div>  
         </>
