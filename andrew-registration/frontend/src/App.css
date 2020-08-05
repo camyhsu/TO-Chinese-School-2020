@@ -116,15 +116,8 @@ ul {
     font-size: 10px;
 }
 
-#grades th, td { 
-    width:150px; 
-    text-align:center; 
-    border:1px solid black; 
-    padding:5px 
-} 
-
-#people th, td { 
-    width:150px; 
+th, td { 
+    width:fit-content; 
     text-align:center; 
     border:1px solid black; 
     padding:5px 

@@ -1,4 +1,5 @@
 import React , {Component} from 'react';
+import { Link } from 'react-router-dom';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 export default class SchoolResourceDropdownMenu extends Component {
@@ -37,7 +38,7 @@ export default class SchoolResourceDropdownMenu extends Component {
                     <DropdownMenu>
                         <DropdownItem href="#/action-1">2020-2021  班級人數清單</DropdownItem>
                         <DropdownItem href="#/action-2">2020-2021 Elective 人數清單</DropdownItem>
-                        <DropdownItem href="#/action-3">2020-2021 年級人數清單</DropdownItem>
+                        <DropdownItem tag={Link} to='/registration/list/grades/studentcount'>2020-2021 年級人數清單</DropdownItem>
                         <DropdownItem href="#/action-3">2020-2021 active school classes</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>

@@ -113,6 +113,35 @@ const getGrades = async (request, response) => {
     }
 }
 
+const getStudentCountByGrade = async (request, response) => {
+    const client = new Client({
+        user: 'tocsorg_camyhsu',
+        host: 'localhost',
+        database: 'chineseschool_development',
+        password: 'root',
+        port: 5432,
+    });
+    await client.connect();
+    const schoolYearId = request.params.school_year_id;
+    
+    try {
+        const res = await client.query('SELECT chinese_name, english_name, count(grades.id), max_table.sum as max FROM grades \
+                                        INNER JOIN student_class_assignments AS sca ON grades.id = sca.grade_id \
+                                        INNER JOIN (SELECT grade_id, sum(max_size) FROM school_class_active_flags AS scaf \
+                                        INNER JOIN school_classes ON school_classes.id = scaf.school_class_id WHERE \
+                                        school_year_id = $1 AND active = \'t\' AND school_class_type != \'ELECTIVE\' \
+                                        GROUP BY school_classes.grade_id ORDER BY grade_id) as max_table ON max_table.grade_id = grades.id \
+                                        WHERE sca.school_year_id = $1 GROUP BY chinese_name, english_name, grades.id, max_table.sum ORDER BY grades.id;', [schoolYearId]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+    finally {
+        await client.end();
+    }
+}
+
 const verifyUserSignIn = async (request, response) => {
     const client = new Client({
         user: 'tocsorg_camyhsu',
@@ -360,6 +389,7 @@ module.exports = {
     getPeopleByChineseName,
     getPeopleByEnglishName,
     getGrades,
+    getStudentCountByGrade,
     verifyUserSignIn,
     getUserData,
     getParentData,

@@ -16,6 +16,7 @@ import EditStudentDetailsPage from './pages/EditStudentDetailsPage';
 import AddChildPage from './pages/AddChildPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import NotFoundPage from './pages/NotFoundPage';
+import StudentCountByGradePage from './pages/StudentCountByGradePage';
 
 export default function App() {
     const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -75,6 +76,7 @@ export default function App() {
                             <Route path='/registration/signin' component={RegistrationSignInPage} exact />
                             <Route path='/registration/list/people' component={PeopleDirectoryPage} exact/>
                             <Route path='/registration/list/grades' component={GradesDirectoryPage} exact/>
+                            <Route path='/registration/list/grades/studentcount' component={StudentCountByGradePage} exact/>
                             <Route path='/registration/user/edit' component={EditPersonalDetailsPage} exact />
                             <Route path='/registration/user/password/edit' component={ChangePasswordPage} exact/>
                             <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} exact />
