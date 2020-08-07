@@ -116,9 +116,18 @@ ul {
     font-size: 10px;
 }
 
-th, td { 
+td { 
     width:fit-content; 
     text-align:center; 
     border:1px solid black; 
-    padding:5px 
+    padding:5px;
+    font-size: 12px;
 } 
+
+th {
+    width:fit-content; 
+    text-align:center; 
+    border:1px solid black; 
+    padding:5px;
+    font-size: 15px;
+}
