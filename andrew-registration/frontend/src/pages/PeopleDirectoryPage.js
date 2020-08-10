@@ -117,7 +117,7 @@ export default class PeopleDirectoryPage extends Component {
             if( this.state.selectedOption === "email" ) {
                 let email = this.state.searchQuery.trim();
                 try {
-                    const response = await fetch(`/people/email/${email}`);
+                    const response = await fetch(`/directories/people/email/${email}`);
                     json = await response.json();
                     this.setState({results: json});
                 } catch (error) {
@@ -128,7 +128,7 @@ export default class PeopleDirectoryPage extends Component {
             else if( this.state.selectedOption === "english" ) {
                 let name  = this.state.searchQuery.replace(/\s/g, '').trim();
                 try {
-                    const response = await fetch(`/people/englishName/${name}`);
+                    const response = await fetch(`/directories/people/englishName/${name}`);
                     json = await response.json();
                     this.setState({results: json});
                 } catch (error) {
@@ -139,7 +139,7 @@ export default class PeopleDirectoryPage extends Component {
             else {
                 let name = this.state.searchQuery.replace(/\s/g, '').trim();
                 try {
-                    const response = await fetch(`/people/chineseName/${name}`);
+                    const response = await fetch(`/directories/people/chineseName/${name}`);
                     json = await response.json();
                     this.setState({results: json});
                 } catch (error) {

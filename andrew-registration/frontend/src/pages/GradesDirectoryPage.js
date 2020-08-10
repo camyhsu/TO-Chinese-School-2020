@@ -12,7 +12,7 @@ export default class GradesDirectoryPage extends Component {
     componentDidMount() {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/grades`);
+                const response = await fetch(`/directories/grades`);
                 var json = await response.json();
                 this.setState({results: json});
             } catch (error) {

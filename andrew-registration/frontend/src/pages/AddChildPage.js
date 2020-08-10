@@ -37,7 +37,7 @@ export default function AddChildPage() {
         const patchData = async () => {
             try {
                 // first, create a new person
-                await fetch('/people/add/', {
+                await fetch('/admin/people/add/', {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ export default function AddChildPage() {
                     body: JSON.stringify( body )                                        
                 });
                 // then, add the new person to the family
-                await fetch(`/family/addchild/${userData.family.family_id}`, {
+                await fetch(`/person/family/addchild/${userData.family.family_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ export default function AddChildPage() {
                 });
 
                 // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/studentdata/${userData.person.person_id}`);
+                const studentDataResponse = await fetch(`/person/studentdata/${userData.person.person_id}`);
                 var studentData = await studentDataResponse.json();
                 // create a children array for easier display
                 var children = [];

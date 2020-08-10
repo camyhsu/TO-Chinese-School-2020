@@ -41,7 +41,7 @@ export default function EditFamilyAddressPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/userdata/edit/address/${userData.family.address_id}`, {
+                await fetch(`/person/userdata/edit/address/${userData.family.address_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -51,12 +51,12 @@ export default function EditFamilyAddressPage() {
                 });
 
                 // re-fetch data to update in display
-                const familyAddressDataResponse = await fetch(`/userdata/${userData.person.person_id}`);
+                const familyAddressDataResponse = await fetch(`/person/familyaddressdata/${userData.person.person_id}`);
                 var familyAddressData = await familyAddressDataResponse.json();
                 setUserData(prevUserData => ({...prevUserData,
                     family: {
                         family_id: userData.family.family_id,
-                        address_id: familyAddressData[0].id,
+                        address_id: userData.family.address_id,
                         parentTwoEnglishName: userData.family.parentTwoEnglishName,
                         parentTwoChineseName: userData.family.parentTwoChineseName,
                         children: userData.family.children,

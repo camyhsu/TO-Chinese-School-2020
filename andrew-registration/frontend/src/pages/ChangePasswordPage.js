@@ -23,7 +23,7 @@ export default function ChangePasswordPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                const signInResponse = await fetch(`/signin/username/${userData.person.username}`);
+                const signInResponse = await fetch(`/admin/signin/username/${userData.person.username}`);
                 var hash = await signInResponse.json();
                 const pass_salt = oldPassword + hash[0].password_salt;
 
@@ -41,13 +41,13 @@ export default function ChangePasswordPage() {
                     body.password_hash = sha256(newPassword + salt);
                     body.password_salt = salt;
 
-                    await fetch(`/userdata/edit/password/${userData.person.username}`, {
+                    await fetch(`/person/userdata/edit/password/${userData.person.username}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
                         method: 'PATCH',                                                              
-                        body: JSON.stringify( body )                                        
+                        body: JSON.stringify( body )                                 
                     });
                     setStatus('Password Successfully Changed.');
                     history.push('/registration');

@@ -41,7 +41,7 @@ export default function EditPersonalAddressPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/userdata/edit/address/${userData.person.address_id}`, {
+                await fetch(`/person/userdata/edit/address/${userData.person.address_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export default function EditPersonalAddressPage() {
                 });
 
                 // re-fetch data to update in display
-                const userPersonalDataResponse = await fetch(`/userdata/${userData.person.person_id}`);
+                const userPersonalDataResponse = await fetch(`/person/userdata/${userData.person.person_id}`);
                 var userPersonalData = await userPersonalDataResponse.json();
                 setUserData(prevUserData => ({...prevUserData,
                     person: {

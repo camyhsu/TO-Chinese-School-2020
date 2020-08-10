@@ -13,7 +13,7 @@ export default class StudentCountByClassPage extends Component {
         const fetchData = async () => {
             try {
                 // psql db is not up to date so using previous year's id
-                const response = await fetch(`/studentcount/class/${'14'}`);
+                const response = await fetch(`/directories/studentcount/class/${'14'}`);
                 var json = await response.json();
                 this.setState({results: json});
             } catch (error) {
