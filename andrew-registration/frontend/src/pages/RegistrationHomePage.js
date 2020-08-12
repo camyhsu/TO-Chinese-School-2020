@@ -1,7 +1,7 @@
 import React from 'react';
-import PersonalDetails from '../components/PersonalDetails';
-import FamilyDetails from '../components/FamilyDetails';
-import StudentDetails from '../components/StudentDetails';
+import PersonalDetails from '../components/user/PersonalDetails';
+import FamilyDetails from '../components/user/FamilyDetails';
+import StudentDetails from '../components/user/StudentDetails';
 import { useAppContext } from '../libs/contextLib';
 
 

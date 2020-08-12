@@ -27,16 +27,16 @@ export default function SignIn() {
                 // ensure password is valid
                 if(sha256(pass_salt) === hash[0].password_hash) {
                     // fetch personal user data to be displayed in Registration Home Page and Registration SideBar
-                    const userPersonalDataResponse = await fetch(`/person/userdata/${hash[0].person_id}`);
+                    const userPersonalDataResponse = await fetch(`/user/userdata/${hash[0].person_id}`);
                     var userPersonalData = await userPersonalDataResponse.json();
                     // fetch parent two's data to be displayed in Family Details in Registration Home Page
-                    const parentTwoDataResponse = await fetch(`/person/parentdata/${hash[0].person_id}`);
+                    const parentTwoDataResponse = await fetch(`/user/parentdata/${hash[0].person_id}`);
                     var parentTwoData = await parentTwoDataResponse.json();
                     // fetch family address data to be displayed in Family Details in Registration Home Page
-                    const familyAddressDataResponse = await fetch(`/person/familyaddressdata/${hash[0].person_id}`);
+                    const familyAddressDataResponse = await fetch(`/user/familyaddressdata/${hash[0].person_id}`);
                     var familyAddressData = await familyAddressDataResponse.json();
                     // fetch children/student's data to be displayed in Family and Student Details in Registration Home Page
-                    const studentDataResponse = await fetch(`/person/studentdata/${hash[0].person_id}`);
+                    const studentDataResponse = await fetch(`/user/studentdata/${hash[0].person_id}`);
                     var studentData = await studentDataResponse.json();
                     // create a children array for easier display
                     var children = [];

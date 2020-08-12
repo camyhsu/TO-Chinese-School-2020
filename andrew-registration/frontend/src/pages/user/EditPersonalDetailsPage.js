@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../libs/contextLib';
+import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
 
-export default function AddChildPage() {
+export default function EditPersonalDetailsPage() {
     const { userData, setUserData, setStatus } = useAppContext(); 
     const history = useHistory();  
     
-    const [englishFirstName, setEnglishFirstName] = useState('');
-    const [englishLastName, setEnglishLastName] = useState('');
-    const [chineseName, setChineseName] = useState('');
-    const [gender, setGender] = useState('F');
-    const [birthYear, setBirthYear] = useState('');
-    const [birthMonth, setBirthMonth] = useState('1');
-    const [nativeLanguage, setNativeLanguage] = useState('Mandarin');
+    const [englishFirstName, setEnglishFirstName] = useState(userData.person.englishFirstName);
+    const [englishLastName, setEnglishLastName] = useState(userData.person.englishLastName);
+    const [chineseName, setChineseName] = useState(userData.person.chineseName);
+    const [gender, setGender] = useState(userData.person.gender);
+    const [birthYear, setBirthYear] = useState(userData.person.birthYear);
+    const [birthMonth, setBirthMonth] = useState(userData.person.birthMonth);
+    const [nativeLanguage, setNativeLanguage] = useState(userData.person.nativeLanguage);
 
     function validateForm() {
         return englishFirstName.length > 0 && englishLastName.length > 0 && gender.length > 0;
@@ -23,62 +23,55 @@ export default function AddChildPage() {
     function handleSubmit(event) {
         event.preventDefault();
 
-        // create body for post request
+        // create body for patch request
         var body = {};
-        body.englishFirstName = englishFirstName;
-        body.englishLastName = englishLastName;
-        body.chineseName = chineseName;
+        body.englishFirstName = englishFirstName !== userData.person.englishFirstName ? englishFirstName : userData.person.englishFirstName;
+        body.englishLastName = englishLastName !== userData.person.englishLastName ? englishLastName : userData.person.englishLastName;
+        body.chineseName = chineseName !== userData.person.chineseName ? chineseName : userData.person.chineseName;
+        body.birthYear = birthYear !== userData.person.birthYear ? birthYear : userData.person.birthYear;
         body.birthYear = birthYear === '' ? null : birthYear;
+        body.birthMonth = birthMonth !== userData.person.birthMonth ? birthMonth : userData.person.birthMonth;
         body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender;
-        body.nativeLanguage = nativeLanguage;
+        body.gender = gender !== userData.person.gender ? gender : userData.person.gender;
+        body.nativeLanguage = nativeLanguage !== userData.person.nativeLanguage ? nativeLanguage : userData.person.nativeLanguage;
 
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                // first, create a new person
-                await fetch('/admin/people/add/', {
+                await fetch(`/user/userdata/edit/details/${userData.person.person_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    method: 'POST',                                                              
-                    body: JSON.stringify( body )                                        
-                });
-                // then, add the new person to the family
-                await fetch(`/person/family/addchild/${userData.family.family_id}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'POST',                                                              
+                    method: 'PATCH',                                                              
                     body: JSON.stringify( body )                                        
                 });
 
                 // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/person/studentdata/${userData.person.person_id}`);
-                var studentData = await studentDataResponse.json();
-                // create a children array for easier display
-                var children = [];
-                studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
+                const userPersonalDataResponse = await fetch(`/user/userdata/${userData.person.person_id}`);
+                var userPersonalData = await userPersonalDataResponse.json();
                 setUserData(prevUserData => ({...prevUserData,
-                    family: {
-                        family_id: userData.family.family_id,
-                        address_id: userData.family.address_id,
-                        parentTwoEnglishName: userData.family.parentTwoEnglishName,
-                        parentTwoChineseName: userData.family.chineseName,
-                        children: children,
-                        street: userData.family.street,
-                        city: userData.family.city,
-                        state: userData.family.state,
-                        zipcode: userData.family.zipcode,
-                        homePhone: userData.family.home_phone,
-                        cellPhone: userData.family.cell_phone,
-                        email: userData.family.email
+                    person: {
+                        username: userData.person.username,
+                        person_id: userData.person.person_id,
+                        address_id: userPersonalData[0].address_id,
+                        chineseName: userPersonalData[0].chinese_name,
+                        englishFirstName: userPersonalData[0].english_first_name,
+                        englishLastName: userPersonalData[0].english_last_name,
+                        gender: userPersonalData[0].gender,
+                        birthMonth: userPersonalData[0].birth_month,
+                        birthYear: userPersonalData[0].birth_year,
+                        nativeLanguage: userPersonalData[0].native_language,
+                        street: userPersonalData[0].street,
+                        city: userPersonalData[0].city,
+                        state: userPersonalData[0].state,
+                        zipcode: userPersonalData[0].zipcode,
+                        homePhone: userPersonalData[0].home_phone,
+                        cellPhone: userPersonalData[0].cell_phone,
+                        email: userPersonalData[0].email
                     },
-                    students: studentData
                 }))
-                setStatus('Child Successfully Added.');
+                setStatus('Personal Details Successfully Updated.');
                 history.push('/registration');
             } catch (error) {
                 console.log(error);
@@ -90,7 +83,7 @@ export default function AddChildPage() {
 
     return (
         <>
-            <h1>Add a Child</h1>
+            <h1>Edit Personal Details</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />

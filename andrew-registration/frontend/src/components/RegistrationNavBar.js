@@ -1,8 +1,8 @@
 import React from 'react';
-import SchoolResourceDropdownMenu from './SchoolResourceDropdownMenu';
-import AdministrativeTasksDropdownMenu from './AdministrativeTasksDropdownMenu';
-import DownloadablesDropdownMenu from './DownloadablesDropdownMenu';
-import DirectoriesDropdownMenu from './DirectoriesDropdownMenu';
+import SchoolResourceDropdownMenu from './dropdowns/SchoolResourceDropdownMenu';
+import AdministrativeTasksDropdownMenu from './dropdowns/AdministrativeTasksDropdownMenu';
+import DownloadablesDropdownMenu from './dropdowns/DownloadablesDropdownMenu';
+import DirectoriesDropdownMenu from './dropdowns/DirectoriesDropdownMenu';
 
 export default function RegistrationNavBar() {
 

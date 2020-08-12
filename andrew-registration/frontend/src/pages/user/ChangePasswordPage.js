@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../libs/contextLib';
+import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
@@ -41,7 +41,7 @@ export default function ChangePasswordPage() {
                     body.password_hash = sha256(newPassword + salt);
                     body.password_salt = salt;
 
-                    await fetch(`/person/userdata/edit/password/${userData.person.username}`, {
+                    await fetch(`/user/userdata/edit/password/${userData.person.username}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'

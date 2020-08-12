@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../libs/contextLib';
+import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
 
-export default function EditPersonalDetailsPage() {
+export default function EditStudentDetailsPage() {
     const { userData, setUserData, setStatus } = useAppContext(); 
-    const history = useHistory();  
+    const history = useHistory();
+    // get the index of the student in the student array
+    const url = window.location.href.split("/");
+    const studentIndex = url[url.length-1];
     
-    const [englishFirstName, setEnglishFirstName] = useState(userData.person.englishFirstName);
-    const [englishLastName, setEnglishLastName] = useState(userData.person.englishLastName);
-    const [chineseName, setChineseName] = useState(userData.person.chineseName);
-    const [gender, setGender] = useState(userData.person.gender);
-    const [birthYear, setBirthYear] = useState(userData.person.birthYear);
-    const [birthMonth, setBirthMonth] = useState(userData.person.birthMonth);
-    const [nativeLanguage, setNativeLanguage] = useState(userData.person.nativeLanguage);
+    const [englishFirstName, setEnglishFirstName] = useState(userData.students[studentIndex].english_first_name);
+    const [englishLastName, setEnglishLastName] = useState(userData.students[studentIndex].english_last_name);
+    const [chineseName, setChineseName] = useState(userData.students[studentIndex].chinese_name);
+    const [gender, setGender] = useState(userData.students[studentIndex].gender);
+    const [birthYear, setBirthYear] = useState(userData.students[studentIndex].birth_year);
+    const [birthMonth, setBirthMonth] = useState(userData.students[studentIndex].birth_month);
+    const [nativeLanguage, setNativeLanguage] = useState(userData.students[studentIndex].native_language);
 
     function validateForm() {
         return englishFirstName.length > 0 && englishLastName.length > 0 && gender.length > 0;
@@ -25,20 +28,20 @@ export default function EditPersonalDetailsPage() {
 
         // create body for patch request
         var body = {};
-        body.englishFirstName = englishFirstName !== userData.person.englishFirstName ? englishFirstName : userData.person.englishFirstName;
-        body.englishLastName = englishLastName !== userData.person.englishLastName ? englishLastName : userData.person.englishLastName;
-        body.chineseName = chineseName !== userData.person.chineseName ? chineseName : userData.person.chineseName;
-        body.birthYear = birthYear !== userData.person.birthYear ? birthYear : userData.person.birthYear;
+        body.englishFirstName = englishFirstName !== userData.students[studentIndex].english_first_name ? englishFirstName : userData.students[studentIndex].english_first_name;
+        body.englishLastName = englishLastName !== userData.students[studentIndex].english_last_name ? englishLastName : userData.students[studentIndex].english_last_name;
+        body.chineseName = chineseName !== userData.students[studentIndex].chinese_name ? chineseName : userData.students[studentIndex].chinese_name;
+        body.birthYear = birthYear !== userData.students[studentIndex].birth_year ? birthYear : userData.students[studentIndex].birth_year;
         body.birthYear = birthYear === '' ? null : birthYear;
-        body.birthMonth = birthMonth !== userData.person.birthMonth ? birthMonth : userData.person.birthMonth;
+        body.birthMonth = birthMonth !== userData.students[studentIndex].birth_month ? birthMonth : userData.students[studentIndex].birth_month;
         body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender !== userData.person.gender ? gender : userData.person.gender;
-        body.nativeLanguage = nativeLanguage !== userData.person.nativeLanguage ? nativeLanguage : userData.person.nativeLanguage;
+        body.gender = gender !== userData.students[studentIndex].gender ? gender : userData.students[studentIndex].gender;
+        body.nativeLanguage = nativeLanguage !== userData.students[studentIndex].native_language ? nativeLanguage : userData.students[studentIndex].native_language;
 
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/person/userdata/edit/details/${userData.person.person_id}`, {
+                await fetch(`/user/userdata/edit/details/${userData.students[studentIndex].id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -48,30 +51,29 @@ export default function EditPersonalDetailsPage() {
                 });
 
                 // re-fetch data to update in display
-                const userPersonalDataResponse = await fetch(`/person/userdata/${userData.person.person_id}`);
-                var userPersonalData = await userPersonalDataResponse.json();
+                const studentDataResponse = await fetch(`/user/studentdata/${userData.person.person_id}`);
+                var studentData = await studentDataResponse.json();
+                // create a children array for easier display
+                var children = [];
+                studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
                 setUserData(prevUserData => ({...prevUserData,
-                    person: {
-                        username: userData.person.username,
-                        person_id: userData.person.person_id,
-                        address_id: userPersonalData[0].address_id,
-                        chineseName: userPersonalData[0].chinese_name,
-                        englishFirstName: userPersonalData[0].english_first_name,
-                        englishLastName: userPersonalData[0].english_last_name,
-                        gender: userPersonalData[0].gender,
-                        birthMonth: userPersonalData[0].birth_month,
-                        birthYear: userPersonalData[0].birth_year,
-                        nativeLanguage: userPersonalData[0].native_language,
-                        street: userPersonalData[0].street,
-                        city: userPersonalData[0].city,
-                        state: userPersonalData[0].state,
-                        zipcode: userPersonalData[0].zipcode,
-                        homePhone: userPersonalData[0].home_phone,
-                        cellPhone: userPersonalData[0].cell_phone,
-                        email: userPersonalData[0].email
+                    family: {
+                        family_id: userData.family.family_id,
+                        address_id: userData.family.address_id,
+                        parentTwoEnglishName: userData.family.parentTwoEnglishName,
+                        parentTwoChineseName: userData.family.parentTwoChineseName,
+                        children: children,
+                        street: userData.family.street,
+                        city: userData.family.city,
+                        state: userData.family.state,
+                        zipcode: userData.family.zipcode,
+                        homePhone: userData.family.home_phone,
+                        cellPhone: userData.family.cell_phone,
+                        email: userData.family.email
                     },
+                    students: studentData
                 }))
-                setStatus('Personal Details Successfully Updated.');
+                setStatus('Student Details Successfully Updated.');
                 history.push('/registration');
             } catch (error) {
                 console.log(error);
@@ -80,10 +82,9 @@ export default function EditPersonalDetailsPage() {
         patchData();
     }
 
-
     return (
         <>
-            <h1>Edit Personal Details</h1>
+            <h1>Edit Students Details for {userData.students[studentIndex].chinese_name} ({userData.students[studentIndex].english_first_name} {userData.students[studentIndex].english_last_name})</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />

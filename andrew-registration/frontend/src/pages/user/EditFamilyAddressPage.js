@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../libs/contextLib';
+import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ export default function EditFamilyAddressPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/person/userdata/edit/address/${userData.family.address_id}`, {
+                await fetch(`/user/userdata/edit/address/${userData.family.address_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export default function EditFamilyAddressPage() {
                 });
 
                 // re-fetch data to update in display
-                const familyAddressDataResponse = await fetch(`/person/familyaddressdata/${userData.person.person_id}`);
+                const familyAddressDataResponse = await fetch(`/user/familyaddressdata/${userData.person.person_id}`);
                 var familyAddressData = await familyAddressDataResponse.json();
                 setUserData(prevUserData => ({...prevUserData,
                     family: {

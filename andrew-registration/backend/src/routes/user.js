@@ -129,14 +129,14 @@ const addChild = async (request, response) => {
     }
 }
 
-const personRouter = express.Router();
-personRouter.get('/userdata/:person_id', getUserData);
-personRouter.get('/parentdata/:person_id', getParentData);
-personRouter.get('/familyaddressdata/:person_id', getFamilyAddressData);
-personRouter.get('/studentdata/:person_id', getStudentData);
-personRouter.patch('/userdata/edit/details/:person_id', patchUserData);
-personRouter.patch('/userdata/edit/address/:address_id', patchAddress);
-personRouter.patch('/userdata/edit/password/:username', changePassword);
-personRouter.post('/family/addchild/:family_id', addChild);
+const userRouter = express.Router();
+userRouter.get('/userdata/:person_id', getUserData);
+userRouter.get('/parentdata/:person_id', getParentData);
+userRouter.get('/familyaddressdata/:person_id', getFamilyAddressData);
+userRouter.get('/studentdata/:person_id', getStudentData);
+userRouter.patch('/userdata/edit/details/:person_id', patchUserData);
+userRouter.patch('/userdata/edit/address/:address_id', patchAddress);
+userRouter.patch('/userdata/edit/password/:username', changePassword);
+userRouter.post('/family/addchild/:family_id', addChild);
 
-module.exports = personRouter;
+module.exports = userRouter;

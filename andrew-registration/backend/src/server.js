@@ -4,11 +4,11 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const directoriesRouter = require('./routes/directories');
-const personRouter = require('./routes/person');
+const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
 
 app.use('/directories', directoriesRouter);
-app.use('/person', personRouter);
+app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 
 app.listen(3001, () => {
