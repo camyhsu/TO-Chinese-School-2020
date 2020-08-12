@@ -36,8 +36,24 @@ const addPerson = async (request, response) => {
     }
 }
 
+const changeClassActiveStatus = async (request, response) => {
+    const class_id = request.params.class_id;
+    const year_id = request.params.year_id;
+    const body = await readBody(request);
+    const { active } = JSON.parse(body);
+
+    try {
+        const res = await pool.query('UPDATE school_class_active_flags SET active = $1 WHERE school_class_id = $2 AND school_year_id = $3;', [active, class_id, year_id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const adminRouter = express.Router();
 adminRouter.get('/signin/username/:username', verifyUserSignIn);
 adminRouter.post('/people/add', addPerson);
+adminRouter.patch('/class/active/edit/:year_id/:class_id', changeClassActiveStatus);
 
 module.exports = adminRouter;

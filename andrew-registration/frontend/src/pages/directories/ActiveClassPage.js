@@ -18,7 +18,7 @@ export default function ActiveClassPage() {
             }
         };
         fetchData();
-    })
+    }, [schoolYear.id])
 
     return (
         <>

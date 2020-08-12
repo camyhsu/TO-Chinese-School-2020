@@ -17,7 +17,7 @@ export default function StudentCountByGradePage() {
             }
         };
         fetchData();
-    })
+    }, [schoolYear.id])
 
     return (
         <>

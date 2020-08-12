@@ -226,6 +226,20 @@ const getActiveClasses = async (request, response) => {
     }
 }
 
+const getAllSchoolClasses = async (request, response) => {
+    const schoolYearId = request.params.school_year_id; 
+    
+    try {
+        const res = await pool.query('SELECT sc.id, english_name, chinese_name, short_name, description, location, school_class_type AS type, max_size, min_age, max_age, grade_id, active \
+                                        FROM school_classes AS sc JOIN school_class_active_flags AS scaf ON sc.id = scaf.school_class_id WHERE scaf.school_year_id = $1 \
+                                        ORDER BY grade_id, english_name;', [schoolYearId]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const directoriesRouter = express.Router();
 directoriesRouter.get('/people/email/:email', getPeopleByEmail);
 directoriesRouter.get('/people/chineseName/:chineseName', getPeopleByChineseName);
@@ -235,5 +249,6 @@ directoriesRouter.get('/studentcount/grades/:school_year_id', getStudentCountByG
 directoriesRouter.get('/studentcount/class/:school_year_id', getStudentCountByClass);
 directoriesRouter.get('/studentcount/elective/:school_year_id', getStudentCountByElective);
 directoriesRouter.get('/classes/active/:school_year_id', getActiveClasses);
+directoriesRouter.get('/classes/all/:school_year_id', getAllSchoolClasses);
 
 module.exports = directoriesRouter;

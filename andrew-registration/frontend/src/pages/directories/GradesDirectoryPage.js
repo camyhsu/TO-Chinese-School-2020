@@ -14,7 +14,7 @@ export default function GradesDirectoryPage() {
             }
         };
         fetchData();
-    })
+    }, [])
 
     return (
         <>
