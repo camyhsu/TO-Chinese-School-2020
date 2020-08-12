@@ -39,7 +39,7 @@ export default class SchoolResourceDropdownMenu extends Component {
                         <DropdownItem tag={Link} to='/registration/list/studentcount/class'>2020-2021 班級人數清單</DropdownItem>
                         <DropdownItem tag={Link} to='/registration/list/studentcount/elective'>2020-2021 Elective 人數清單</DropdownItem>
                         <DropdownItem tag={Link} to='/registration/list/studentcount/grades'>2020-2021 年級人數清單</DropdownItem>
-                        <DropdownItem href="#/action-3">2020-2021 active school classes</DropdownItem>
+                        <DropdownItem tag={Link} to='/registration/list/classes/active'>2020-2021 active school classes</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </>

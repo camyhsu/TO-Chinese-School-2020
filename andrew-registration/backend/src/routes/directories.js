@@ -187,6 +187,45 @@ const getStudentCountByElective = async (request, response) => {
     }
 }
 
+const getActiveClasses = async (request, response) => {
+    const schoolYearId = request.params.school_year_id; 
+    
+    try {
+        const res = await pool.query('SELECT sc.english_name AS class_english_name, sc.chinese_name AS class_chinese_name, sc.location, \
+                                            pi.english_first_name AS teacher_first_name, pi.english_last_name AS teacher_last_name, pi.chinese_name AS teacher_chinese_name \
+                                            ,rp.english_first_name AS parent_first_name, rp.english_last_name AS parent_last_name, rp.chinese_name AS parent_chinese_name \
+                                            ,si.english_first_name AS teacher2_first_name, si.english_last_name AS teacher2_last_name, si.chinese_name AS teacher2_chinese_name \
+                                            ,ta.english_first_name AS ta_first_name, ta.english_last_name AS ta_last_name, ta.chinese_name AS ta_chinese_name \
+                                        FROM school_class_active_flags as scaf \
+                                        JOIN school_classes AS sc ON sc.id = scaf.school_class_id \
+                                        FULL JOIN (SELECT ia.school_class_id, p.english_first_name, p.english_last_name, p.chinese_name \
+                                            FROM instructor_assignments AS ia \
+                                            JOIN people AS p ON p.id = ia.instructor_id \
+                                            WHERE ia.role = \'Primary Instructor\' AND ia.school_year_id = $1) \
+                                            AS pi ON pi.school_class_id = scaf.school_class_id \
+                                        FULL JOIN (SELECT ia2.school_class_id, p2.english_first_name, p2.english_last_name, p2.chinese_name \
+                                                FROM instructor_assignments AS ia2 \
+                                            JOIN people AS p2 ON p2.id = ia2.instructor_id \
+                                                WHERE ia2.role = \'Room Parent\' AND ia2.school_year_id = $1) \
+                                                AS rp ON rp.school_class_id = scaf.school_class_id \
+                                        FULL JOIN (SELECT ia3.school_class_id, p3.english_first_name, p3.english_last_name, p3.chinese_name \
+                                                FROM instructor_assignments AS ia3 \
+                                            JOIN people AS p3 ON p3.id = ia3.instructor_id \
+                                                WHERE ia3.role = \'Secondary Instructor\' AND ia3.school_year_id = $1) \
+                                                AS si ON si.school_class_id = scaf.school_class_id \
+                                        FULL JOIN (SELECT ia4.school_class_id, p4.english_first_name, p4.english_last_name, p4.chinese_name \
+                                                FROM instructor_assignments AS ia4 \
+                                            JOIN people AS p4 ON p4.id = ia4.instructor_id \
+                                                WHERE ia4.role = \'Teaching Assistant\' AND ia4.school_year_id = $1) \
+                                                AS ta ON ta.school_class_id = scaf.school_class_id \
+                                        WHERE scaf.active = \'t\' AND scaf.school_year_id = $1 Order by sc.grade_id, sc.english_name;', [schoolYearId]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const directoriesRouter = express.Router();
 directoriesRouter.get('/people/email/:email', getPeopleByEmail);
 directoriesRouter.get('/people/chineseName/:chineseName', getPeopleByChineseName);
@@ -195,5 +234,6 @@ directoriesRouter.get('/grades', getGrades);
 directoriesRouter.get('/studentcount/grades/:school_year_id', getStudentCountByGrade);
 directoriesRouter.get('/studentcount/class/:school_year_id', getStudentCountByClass);
 directoriesRouter.get('/studentcount/elective/:school_year_id', getStudentCountByElective);
+directoriesRouter.get('/classes/active/:school_year_id', getActiveClasses);
 
 module.exports = directoriesRouter;
