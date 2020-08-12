@@ -1,51 +1,40 @@
-import React , {Component} from 'react';
+import React , { useState } from 'react';
+import { useAppContext } from '../../libs/contextLib';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-export default class AdministrativeTasksDropdownMenu extends Component {
-    constructor(props) {
-        super(props);
+export default function AdministrativeTasksDropdownMenu() {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const { schoolYear } = useAppContext();
     
-        this.toggle = this.toggle.bind(this);
-        this.onMouseEnter = this.onMouseEnter.bind(this);
-        this.onMouseLeave = this.onMouseLeave.bind(this);
-        this.state = {
-          dropdownOpen: false
-        };
-      }
-    
-      toggle() {
-        this.setState(prevState => ({
-          dropdownOpen: !prevState.dropdownOpen
-        }));
-      }
-    
-      onMouseEnter() {
-        this.setState({dropdownOpen: true});
-      }
-    
-      onMouseLeave() {
-        this.setState({dropdownOpen: false});
-      }
+    function toggle() {
+        setDropdownOpen(!dropdownOpen);
+    }
 
-      render() {
-        return (
-            <>
-                <Dropdown id="dropdown-basic-button" onMouseOver={this.onMouseEnter} onMouseLeave={this.onMouseLeave} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                    <DropdownToggle>
-                        Administrative Tasks
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem href="#/action-1">2020-2021 Online Resgistration Summary</DropdownItem>
-                        <DropdownItem href="#/action-2">Student's Previous Final Marks</DropdownItem>
-                        <DropdownItem href="#/action-3">Registration Integrity Report</DropdownItem>
-                        <DropdownItem href="#/action-3">Sibling in Same Grade Report</DropdownItem>
-                        <DropdownItem href="#/action-1">In-Person Registration Payments</DropdownItem>
-                        <DropdownItem href="#/action-2">Withdraw Requests</DropdownItem>
-                        <DropdownItem href="#/action-3">Manage Track Events</DropdownItem>
-                        <DropdownItem href="#/action-3">Randomly Assign Students to grade class</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-            </>
-        );
-      }
-}
+    function onMouseEnter() {
+        setDropdownOpen(true);
+    }
+
+    function onMouseLeave() {
+        setDropdownOpen(false);
+    }
+
+    return (
+        <>
+            <Dropdown id="dropdown-basic-button" onMouseOver={onMouseEnter} onMouseLeave={onMouseLeave} isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle>
+                    Administrative Tasks
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem href="#/action-1">{schoolYear.name} Online Resgistration Summary</DropdownItem>
+                    <DropdownItem href="#/action-2">Student's Previous Final Marks</DropdownItem>
+                    <DropdownItem href="#/action-3">Registration Integrity Report</DropdownItem>
+                    <DropdownItem href="#/action-3">Sibling in Same Grade Report</DropdownItem>
+                    <DropdownItem href="#/action-1">In-Person Registration Payments</DropdownItem>
+                    <DropdownItem href="#/action-2">Withdraw Requests</DropdownItem>
+                    <DropdownItem href="#/action-3">Manage Track Events</DropdownItem>
+                    <DropdownItem href="#/action-3">Randomly Assign Students to grade class</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </>
+    );
+};

@@ -22,6 +22,7 @@ import StudentCountByElectivePage from './pages/directories/StudentCountByElecti
 import ActiveClassPage from './pages/directories/ActiveClassPage';
 
 export default function App() {
+    const [schoolYear] = useState({'id': 14, 'name': '2020-2021'})
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         person: {
@@ -61,7 +62,7 @@ export default function App() {
     const [status, setStatus] = useState('');
 
     return(
-        <AppContext.Provider value={{ status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
+        <AppContext.Provider value={{ schoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
             <Router>
                 <div className="App">
                     { // only show Registration NavBar and SideBar if user is authenticated

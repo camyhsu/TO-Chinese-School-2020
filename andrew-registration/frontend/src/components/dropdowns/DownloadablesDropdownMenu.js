@@ -1,50 +1,39 @@
-import React , {Component} from 'react';
+import React , { useState } from 'react';
+import { useAppContext } from '../../libs/contextLib';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-export default class DownloadablesDropdownMenu extends Component {
-    constructor(props) {
-        super(props);
+export default function DownloadablesDropdownMenu() {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const { schoolYear } = useAppContext();
     
-        this.toggle = this.toggle.bind(this);
-        this.onMouseEnter = this.onMouseEnter.bind(this);
-        this.onMouseLeave = this.onMouseLeave.bind(this);
-        this.state = {
-          dropdownOpen: false
-        };
-      }
-    
-      toggle() {
-        this.setState(prevState => ({
-          dropdownOpen: !prevState.dropdownOpen
-        }));
-      }
-    
-      onMouseEnter() {
-        this.setState({dropdownOpen: true});
-      }
-    
-      onMouseLeave() {
-        this.setState({dropdownOpen: false});
-      }
+    function toggle() {
+        setDropdownOpen(!dropdownOpen);
+    }
 
-      render() {
-        return (
-            <>
-                <Dropdown id="dropdown-basic-button" onMouseOver={this.onMouseEnter} onMouseLeave={this.onMouseLeave} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                    <DropdownToggle caret>
-                        Downloadables
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem href="#/action-3">Student list by name</DropdownItem>
-                        <DropdownItem href="#/action-1">Student list by class</DropdownItem>
-                        <DropdownItem href="#/action-2">Student list by grade</DropdownItem>
-                        <DropdownItem href="#/action-3">fire drill form</DropdownItem>
-                        <DropdownItem href="#/action-1">班級人數清單class student count csv</DropdownItem>
-                        <DropdownItem href="#/action-2">Elective 人數清單 elective student count csv</DropdownItem>
-                        <DropdownItem href="#/action-2">2020-2021 student final marks csv</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-            </>
-        );
-      }
-}
+    function onMouseEnter() {
+        setDropdownOpen(true);
+    }
+
+    function onMouseLeave() {
+        setDropdownOpen(false);
+    }
+
+    return (
+        <>
+            <Dropdown id="dropdown-basic-button" onMouseOver={onMouseEnter} onMouseLeave={onMouseLeave} isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle caret>
+                    Downloadables
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem href="#/action-3">Student list by name</DropdownItem>
+                    <DropdownItem href="#/action-1">Student list by class</DropdownItem>
+                    <DropdownItem href="#/action-2">Student list by grade</DropdownItem>
+                    <DropdownItem href="#/action-3">fire drill form</DropdownItem>
+                    <DropdownItem href="#/action-1">班級人數清單class student count csv</DropdownItem>
+                    <DropdownItem href="#/action-2">Elective 人數清單 elective student count csv</DropdownItem>
+                    <DropdownItem href="#/action-2">{schoolYear.name} student final marks csv</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </>
+    );
+};

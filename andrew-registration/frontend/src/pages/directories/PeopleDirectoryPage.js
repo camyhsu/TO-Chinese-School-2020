@@ -1,6 +1,5 @@
-import React, { Component  } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 
 const Result = ({hasSearched, results}) => {
     if( !hasSearched ) {
@@ -82,66 +81,56 @@ const Search = (props) => {
     )
 }
 
-export default class PeopleDirectoryPage extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            hasSearched: false,
-            selectedOption: 'email',
-            searchQuery: '',
-            results: [],
-        };
-        this.onChange = this.onChange.bind(this);
-        this.onTextChange = this.onTextChange.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-
-      }
+export default function PeopleDirectoryPage() {
+    const [hasSearched, setHasSearched] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('email');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [results, setResults] = useState([]);
     
-    onChange = function (changeEvent) {
-        this.setState({selectedOption: changeEvent.target.value});
+    function onChange(changeEvent) {
+        setSelectedOption(changeEvent.target.value);
     }
 
-    onTextChange = function (changeEvent) {
-        this.setState({searchQuery: changeEvent.target.value});
+    function onTextChange(changeEvent) {
+        setSearchQuery(changeEvent.target.value);
     }
 
-    handleFormSubmit = function (formSubmitEvent) {
+    function handleFormSubmit(formSubmitEvent) {
         formSubmitEvent.preventDefault();
-        this.setState({hasSearched: true});
+        setHasSearched(true);
         const fetch = require("node-fetch");
         var json = null;
 
         const fetchData = async () => {
             // fetch people data by email
-            if( this.state.selectedOption === "email" ) {
-                let email = this.state.searchQuery.trim();
+            if( selectedOption === "email" ) {
+                let email = searchQuery.trim();
                 try {
                     const response = await fetch(`/directories/people/email/${email}`);
                     json = await response.json();
-                    this.setState({results: json});
+                    setResults(json);
                 } catch (error) {
                     console.log(error);
                 }
             }
             // fetch people data by english name
-            else if( this.state.selectedOption === "english" ) {
-                let name  = this.state.searchQuery.replace(/\s/g, '').trim();
+            else if( selectedOption === "english" ) {
+                let name  = searchQuery.replace(/\s/g, '').trim();
                 try {
                     const response = await fetch(`/directories/people/englishName/${name}`);
                     json = await response.json();
-                    this.setState({results: json});
+                    setResults(json);
                 } catch (error) {
                     console.log(error);
                 }
             }
             // fetch people data by chinese name
             else {
-                let name = this.state.searchQuery.replace(/\s/g, '').trim();
+                let name = searchQuery.replace(/\s/g, '').trim();
                 try {
                     const response = await fetch(`/directories/people/chineseName/${name}`);
                     json = await response.json();
-                    this.setState({results: json});
+                    setResults(json);
                 } catch (error) {
                     console.log(error);
                 }
@@ -150,18 +139,14 @@ export default class PeopleDirectoryPage extends Component {
         fetchData();
     }
 
-    render() {
-        const {hasSearched, selectedOption, searchQuery, results} = this.state;
-
-        return (
-            <>
-                <Search selectedOption={selectedOption}
-                        searchQuery={searchQuery}
-                        onChange={this.onChange}
-                        onTextChange={this.onTextChange}
-                        handleFormSubmit={this.handleFormSubmit}/>
-                <Result hasSearched={hasSearched} results={results}/>
-            </>
-        )
-    }
+    return (
+        <>
+            <Search selectedOption={selectedOption}
+                    searchQuery={searchQuery}
+                    onChange={onChange}
+                    onTextChange={onTextChange}
+                    handleFormSubmit={handleFormSubmit}/>
+            <Result hasSearched={hasSearched} results={results}/>
+        </>
+    )
  };
