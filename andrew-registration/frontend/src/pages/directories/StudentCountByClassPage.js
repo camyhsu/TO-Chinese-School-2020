@@ -8,7 +8,6 @@ export default function StudentCountByClassPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // psql db is not up to date so using previous year's id
                 const response = await fetch(`/directories/studentcount/class/${schoolYear.id}`);
                 var json = await response.json();
                 setResults(json);

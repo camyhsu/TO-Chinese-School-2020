@@ -21,6 +21,7 @@ import StudentCountByClassPage from './pages/directories/StudentCountByClassPage
 import StudentCountByElectivePage from './pages/directories/StudentCountByElectivePage';
 import ActiveClassPage from './pages/directories/ActiveClassPage';
 import AllSchoolClassesPage from './pages/directories/AllSchoolClassesPage';
+import StudentListForClassPage from './pages/directories/StudentListForClassPage';
 
 export default function App() {
     const [schoolYear] = useState({'id': 14, 'name': '2020-2021'})
@@ -85,6 +86,7 @@ export default function App() {
                             <Route path='/registration/list/studentcount/grades' component={StudentCountByGradePage} exact/>
                             <Route path='/registration/list/studentcount/class' component={StudentCountByClassPage} exact/>
                             <Route path='/registration/list/studentcount/elective' component={StudentCountByElectivePage} exact/>
+                            <Route path='/registration/list/studentlist/class' component={StudentListForClassPage} />
                             <Route path='/registration/list/classes/active' component={ActiveClassPage} exact/>
                             <Route path='/registration/user/edit' component={EditPersonalDetailsPage} exact />
                             <Route path='/registration/user/password/edit' component={ChangePasswordPage} exact/>

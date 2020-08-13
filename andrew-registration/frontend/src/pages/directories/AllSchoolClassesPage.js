@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 
-//TO-DO: Add functionality to click on people names to redirect to profile page and student list
-
 export default function ActiveClassPage() {
     const [results, setResults] = useState([]);
     const { schoolYear } = useAppContext();
@@ -46,8 +44,8 @@ export default function ActiveClassPage() {
                 <table>
                     <thead>
                         <tr>
-                            <th>English Name</th>
                             <th>Chinese Name</th>
+                            <th>English Name</th>
                             <th>Short Name</th>
                             <th>Description</th>
                             <th>Location</th>

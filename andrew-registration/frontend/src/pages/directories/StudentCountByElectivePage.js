@@ -8,7 +8,6 @@ export default function StudentCountByElectivePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // psql db is not up to date so using previous year's id
                 const response = await fetch(`/directories/studentcount/elective/${schoolYear.id}`);
                 var json = await response.json();
                 setResults(json);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../libs/contextLib';
+import { Link } from 'react-router-dom';
 
 //TO-DO: Add functionality to click on people names to redirect to profile page and student list
 
@@ -51,7 +52,7 @@ export default function ActiveClassPage() {
                                     td></td> : <td>{entry.teacher2_chinese_name} ({entry.teacher2_first_name} {entry.teacher2_last_name})</td> }
                                 {entry.ta_chinese_name == null && entry.ta_first_name == null && entry.ta_last_name == null ? <
                                     td></td> : <td>{entry.ta_chinese_name} ({entry.ta_first_name} {entry.ta_last_name})</td> }
-                                <td>Student List</td>
+                                <td><Link to={{pathname: `/registration/list/studentlist/class/${entry.id}`}}>Student List</Link></td>
                             </tr>
                         </tbody>
                     ))}
