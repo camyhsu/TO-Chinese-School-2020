@@ -44,14 +44,30 @@ export default function ActiveClassPage() {
                                 <td>{entry.class_chinese_name}</td>
                                 <td>{entry.class_english_name}</td>
                                 <td>{entry.location}</td>
-                                {entry.teacher_chinese_name == null && entry.teacher_first_name == null && entry.teacher_last_name == null ? <
-                                    td></td> : <td>{entry.teacher_chinese_name} ({entry.teacher_first_name} {entry.teacher_last_name})</td> }
-                                {entry.parent_chinese_name == null && entry.parent_first_name == null && entry.parent_last_name == null ? <
-                                    td></td> : <td>{entry.parent_chinese_name} ({entry.parent_first_name} {entry.parent_last_name})</td> }
-                                {entry.teacher2_chinese_name == null && entry.teacher2_first_name == null && entry.teacher2_last_name == null ? <
-                                    td></td> : <td>{entry.teacher2_chinese_name} ({entry.teacher2_first_name} {entry.teacher2_last_name})</td> }
-                                {entry.ta_chinese_name == null && entry.ta_first_name == null && entry.ta_last_name == null ? <
-                                    td></td> : <td>{entry.ta_chinese_name} ({entry.ta_first_name} {entry.ta_last_name})</td> }
+                                {entry.teacher_chinese_name == null && entry.teacher_first_name == null && entry.teacher_last_name == null ? <td></td> : 
+                                    <td>
+                                        <Link to={{pathname: `/registration/people/profile/${entry.teacher_id}`}}>
+                                            {entry.teacher_chinese_name} ({entry.teacher_first_name} {entry.teacher_last_name})
+                                        </Link>
+                                    </td> }
+                                {entry.parent_chinese_name == null && entry.parent_first_name == null && entry.parent_last_name == null ? <td></td> : 
+                                    <td>
+                                        <Link to={{pathname: `/registration/people/profile/${entry.parent_id}`}}>
+                                            {entry.parent_chinese_name} ({entry.parent_first_name} {entry.parent_last_name})
+                                        </Link>
+                                    </td> }
+                                {entry.teacher2_chinese_name == null && entry.teacher2_first_name == null && entry.teacher2_last_name == null ? <td></td> : 
+                                    <td>
+                                        <Link to={{pathname: `/registration/people/profile/${entry.teacher2_id}`}}>
+                                            {entry.teacher2_chinese_name} ({entry.teacher2_first_name} {entry.teacher2_last_name})
+                                        </Link>
+                                    </td> }
+                                {entry.ta_chinese_name == null && entry.ta_first_name == null && entry.ta_last_name == null ? <td></td> : 
+                                    <td>
+                                        <Link to={{pathname: `/registration/people/profile/${entry.ta_id}`}}>
+                                            {entry.ta_chinese_name} ({entry.ta_first_name} {entry.ta_last_name})
+                                        </Link>
+                                    </td> }
                                 <td><Link to={{pathname: `/registration/list/studentlist/class/${entry.id}`}}>Student List</Link></td>
                             </tr>
                         </tbody>

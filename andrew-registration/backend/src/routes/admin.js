@@ -36,6 +36,20 @@ const addPerson = async (request, response) => {
     }
 }
 
+const addAddress = async (request, response) => {
+    const body = await readBody(request);
+    const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
+
+    try {
+        const res = await pool.query('INSERT INTO addresses (street, city, state, zipcode, home_phone, cell_phone, email) \
+                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [street, city, state, zipcode, homePhone, cellPhone, email]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const changeClassActiveStatus = async (request, response) => {
     const class_id = request.params.class_id;
     const year_id = request.params.year_id;
@@ -54,6 +68,7 @@ const changeClassActiveStatus = async (request, response) => {
 const adminRouter = express.Router();
 adminRouter.get('/signin/username/:username', verifyUserSignIn);
 adminRouter.post('/people/add', addPerson);
+adminRouter.post('/address/add', addAddress);
 adminRouter.patch('/class/active/edit/:year_id/:class_id', changeClassActiveStatus);
 
 module.exports = adminRouter;

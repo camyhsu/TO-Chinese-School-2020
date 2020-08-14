@@ -1,20 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
 
 export default function EditPersonalDetailsPage() {
+    const url = window.location.href.split("/");
+    const personId = url[url.length-1];
+
     const { userData, setUserData, setStatus } = useAppContext(); 
     const history = useHistory();  
-    
-    const [englishFirstName, setEnglishFirstName] = useState(userData.person.englishFirstName);
-    const [englishLastName, setEnglishLastName] = useState(userData.person.englishLastName);
-    const [chineseName, setChineseName] = useState(userData.person.chineseName);
-    const [gender, setGender] = useState(userData.person.gender);
-    const [birthYear, setBirthYear] = useState(userData.person.birthYear);
-    const [birthMonth, setBirthMonth] = useState(userData.person.birthMonth);
-    const [nativeLanguage, setNativeLanguage] = useState(userData.person.nativeLanguage);
+
+    const [personDetails, setPersonDetails] = useState({
+        'chinese_name':'',
+        'english_first_name':'',
+        'english_last_name':'',
+        'gender':'',
+        'birth_year':'',
+        'birth_month':'',
+        'native_language':''
+    });
+
+    const [englishFirstName, setEnglishFirstName] = useState('');
+    const [englishLastName, setEnglishLastName] = useState('');
+    const [chineseName, setChineseName] = useState('');
+    const [gender, setGender] = useState('');
+    const [birthYear, setBirthYear] = useState('');
+    const [birthMonth, setBirthMonth] = useState('');
+    const [nativeLanguage, setNativeLanguage] = useState('');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`/user/data/${personId}`);
+                var json = await response.json();
+                setPersonDetails(json[0]);
+                setEnglishFirstName(json[0].english_first_name);
+                setEnglishLastName(json[0].english_last_name);
+                setChineseName(json[0].chinese_name);
+                setGender(json[0].gender);
+                setBirthYear(json[0].birth_year);
+                setBirthMonth(json[0].birth_month);
+                setNativeLanguage(json[0].native_language);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [personId])
 
     function validateForm() {
         return englishFirstName.length > 0 && englishLastName.length > 0 && gender.length > 0;
@@ -25,20 +58,18 @@ export default function EditPersonalDetailsPage() {
 
         // create body for patch request
         var body = {};
-        body.englishFirstName = englishFirstName !== userData.person.englishFirstName ? englishFirstName : userData.person.englishFirstName;
-        body.englishLastName = englishLastName !== userData.person.englishLastName ? englishLastName : userData.person.englishLastName;
-        body.chineseName = chineseName !== userData.person.chineseName ? chineseName : userData.person.chineseName;
-        body.birthYear = birthYear !== userData.person.birthYear ? birthYear : userData.person.birthYear;
+        body.englishFirstName = englishFirstName;
+        body.englishLastName = englishLastName;
+        body.chineseName = chineseName;
         body.birthYear = birthYear === '' ? null : birthYear;
-        body.birthMonth = birthMonth !== userData.person.birthMonth ? birthMonth : userData.person.birthMonth;
         body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender !== userData.person.gender ? gender : userData.person.gender;
-        body.nativeLanguage = nativeLanguage !== userData.person.nativeLanguage ? nativeLanguage : userData.person.nativeLanguage;
+        body.gender = gender;
+        body.nativeLanguage = nativeLanguage;
 
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/user/userdata/edit/details/${userData.person.person_id}`, {
+                await fetch(`/user/data/edit/${personId}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -47,32 +78,35 @@ export default function EditPersonalDetailsPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                // re-fetch data to update in display
-                const userPersonalDataResponse = await fetch(`/user/userdata/${userData.person.person_id}`);
-                var userPersonalData = await userPersonalDataResponse.json();
-                setUserData(prevUserData => ({...prevUserData,
-                    person: {
-                        username: userData.person.username,
-                        person_id: userData.person.person_id,
-                        address_id: userPersonalData[0].address_id,
-                        chineseName: userPersonalData[0].chinese_name,
-                        englishFirstName: userPersonalData[0].english_first_name,
-                        englishLastName: userPersonalData[0].english_last_name,
-                        gender: userPersonalData[0].gender,
-                        birthMonth: userPersonalData[0].birth_month,
-                        birthYear: userPersonalData[0].birth_year,
-                        nativeLanguage: userPersonalData[0].native_language,
-                        street: userPersonalData[0].street,
-                        city: userPersonalData[0].city,
-                        state: userPersonalData[0].state,
-                        zipcode: userPersonalData[0].zipcode,
-                        homePhone: userPersonalData[0].home_phone,
-                        cellPhone: userPersonalData[0].cell_phone,
-                        email: userPersonalData[0].email
-                    },
-                }))
+                if(parseInt(personId,10) === userData.person.personId) {
+                    const personalDataResponse = await fetch(`/user/data/${userData.person.personId}`);
+                    var personalData = await personalDataResponse.json();
+                    const personalAddressResponse = await fetch(`/user/address/${userData.person.personId}`);
+                    var personalAddress = await personalAddressResponse.json();
+                    setUserData(prevUserData => ({...prevUserData,
+                        person: {
+                            username: userData.person.username,
+                            personId: userData.person.personId,
+                            addressId: personalData[0].address_id,
+                            chineseName: personalData[0].chinese_name,
+                            englishFirstName: personalData[0].english_first_name,
+                            englishLastName: personalData[0].english_last_name,
+                            gender: personalData[0].gender,
+                            birthMonth: personalData[0].birth_month,
+                            birthYear: personalData[0].birth_year,
+                            nativeLanguage: personalData[0].native_language,
+                            street: personalAddress[0].street,
+                            city: personalAddress[0].city,
+                            state: personalAddress[0].state,
+                            zipcode: personalAddress[0].zipcode,
+                            homePhone: personalAddress[0].home_phone,
+                            cellPhone: personalAddress[0].cell_phone,
+                            email: personalAddress[0].email
+                        },
+                    }))
+                }
                 setStatus('Personal Details Successfully Updated.');
-                history.push('/registration');
+                history.goBack();
             } catch (error) {
                 console.log(error);
             }
@@ -83,7 +117,7 @@ export default function EditPersonalDetailsPage() {
 
     return (
         <>
-            <h1>Edit Personal Details</h1>
+            <h1>Edit Personal Details for {personDetails.chinese_name} ({personDetails.english_first_name} {personDetails.english_last_name})</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />
@@ -98,6 +132,7 @@ export default function EditPersonalDetailsPage() {
                             </select>
                     <br></br>
                     Birth Month: <select id="month" name="month" value={birthMonth} onChange={(e) => setBirthMonth(e.target.value)}>
+                                    <option value=""></option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>

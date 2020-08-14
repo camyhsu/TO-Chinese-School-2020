@@ -3,10 +3,10 @@ import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
-export default function EditPersonalAddressPage() {
+export default function CreatePersonalAddressPage() {
     const url = window.location.href.split("/");
     const personId = url[url.length-1];
-    const { userData, setUserData, setStatus } = useAppContext(); 
+    const { setStatus } = useAppContext(); 
     const history = useHistory();  
     
     const [personDetails, setPersonDetails] = useState({
@@ -18,7 +18,6 @@ export default function EditPersonalAddressPage() {
         'birth_month':'',
         'native_language':''
     });
-    const [addressDetails, setAddressDetails] = useState();
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('CA');
@@ -26,31 +25,6 @@ export default function EditPersonalAddressPage() {
     const [homePhone, setHomePhone] = useState('');
     const [cellPhone, setCellPhone] = useState('');
     const [email, setEmail] = useState('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const personResponse = await fetch(`/user/data/${personId}`);
-                var person = await personResponse.json();
-                setPersonDetails(person[0]);
-                const addressResponse = await fetch(`/user/address/${personId}`);
-                var address = await addressResponse.json();
-                setAddressDetails(address[0]);
-                
-                setStreet(address[0].street);
-                setCity(address[0].city);
-                setState(address[0].state);
-                setZipcode(address[0].zipcode);
-                setHomePhone(address[0].home_phone);
-                setCellPhone(address[0].cell_phone);
-                setEmail(address[0].email);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, [personId])
-
 
     function containsOnlyDigits(val) {
         return /^\d+$/.test(val)
@@ -62,10 +36,23 @@ export default function EditPersonalAddressPage() {
         return street.length > 0 && city.length > 0 && (containsOnlyDigits(zipcode) && zipcode.length === 5) && (containsOnlyDigits(homePhone) && homePhone.length > 0) && email.length > 0;
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`/user/data/${personId}`);
+                var json = await response.json();
+                setPersonDetails(json[0]);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [personId])
+
     function handleSubmit(event) {
         event.preventDefault();
 
-        // create body for patch request
+        // create body for post request
         var body = {};
         body.street = street;
         body.city = city;
@@ -76,57 +63,39 @@ export default function EditPersonalAddressPage() {
         body.email = email;
 
         const fetch = require("node-fetch");
-        const patchData = async () => {
+        const postData = async () => {
             try {
-                await fetch(`/user/address/edit/${addressDetails.address_id}`, {
+                // first, create a new address
+                await fetch('/admin/address/add/', {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    method: 'PATCH',                                                              
+                    method: 'POST',                                                              
+                    body: JSON.stringify( body )                                        
+                });
+                // then, add the new address id to the person
+                await fetch(`/user/address/add/${personId}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',                                                              
                     body: JSON.stringify( body )                                        
                 });
 
-                if(parseInt(personId,10) === userData.person.personId) {
-                    const personalDataResponse = await fetch(`/user/data/${userData.person.personId}`);
-                    var personalData = await personalDataResponse.json();
-                    const personalAddressResponse = await fetch(`/user/address/${userData.person.personId}`);
-                    var personalAddress = await personalAddressResponse.json();
-                    setUserData(prevUserData => ({...prevUserData,
-                        person: {
-                            username: userData.person.username,
-                            personId: userData.person.personId,
-                            addressId: personalData[0].address_id,
-                            chineseName: personalData[0].chinese_name,
-                            englishFirstName: personalData[0].english_first_name,
-                            englishLastName: personalData[0].english_last_name,
-                            gender: personalData[0].gender,
-                            birthMonth: personalData[0].birth_month,
-                            birthYear: personalData[0].birth_year,
-                            nativeLanguage: personalData[0].native_language,
-                            street: personalAddress[0].street,
-                            city: personalAddress[0].city,
-                            state: personalAddress[0].state,
-                            zipcode: personalAddress[0].zipcode,
-                            homePhone: personalAddress[0].home_phone,
-                            cellPhone: personalAddress[0].cell_phone,
-                            email: personalAddress[0].email
-                        },
-                    }))
-                }
-                setStatus('Personal Address Successfully Updated.');
+                setStatus('Address Successfully Created.');
                 history.goBack();
             } catch (error) {
                 console.log(error);
             }
         }
-        patchData();
+        postData();
     }
-
 
     return (
         <>
-            <h1>Edit Address Details for {personDetails.chinese_name} ({personDetails.english_first_name} {personDetails.english_last_name})</h1>
+            <h1>Create Address Details for {personDetails.chinese_name} ({personDetails.english_first_name} {personDetails.english_last_name})</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     Street: <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} />

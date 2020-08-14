@@ -8,11 +8,11 @@ export default function PersonDetails() {
     const history = useHistory();
 
     function editPersonalDetails() {
-        history.push('/registration/user/edit');
+        history.push(`/registration/user/edit/${userData.person.personId}`);
     }
 
     function editPersonalAddress() {
-        history.push('/registration/user/address/edit');
+        history.push(`/registration/user/address/edit/${userData.person.personId}`);
     }
 
     return (
@@ -26,8 +26,9 @@ export default function PersonDetails() {
                 <p>Native Language: {userData.person.nativeLanguage == null ? '' : userData.person.nativeLanguage}</p>
                 <Button onClick={editPersonalDetails}>Edit Personal Details</Button>
                 <p>Address: {userData.person.street}, {userData.person.city}, {userData.person.state} {userData.person.zipcode}</p>
-                <p>Home Phone: {userData.person.homePhone == null ? '' : userData.person.homePhone}</p>
-                <p>Cell Phone: {userData.person.cellPhone == null ? '' : userData.person.cellPhone}</p>
+                <p>Home Phone: ({userData.person.homePhone.slice(0,3)}) {userData.person.homePhone.slice(3,6)}-{userData.person.homePhone.slice(6)}</p>
+                {userData.person.cellPhone === '' ? <p>Cell Phone: </p> :  
+                <p>Cell Phone: ({userData.person.cellPhone.slice(0,3)}) {userData.person.cellPhone.slice(3,6)}-{userData.person.cellPhone.slice(6)}</p>}
                 <p>Email: {userData.person.email == null ? '' : userData.person.email}</p>
                 <Button onClick={editPersonalAddress}>Edit Personal Address</Button>
             </div>

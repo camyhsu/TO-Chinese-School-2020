@@ -14,9 +14,34 @@ const getUserData = async (request, response) => {
     const id = request.params.person_id;
 
     try {
-        const res = await pool.query('SELECT english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, \
-                                        native_language, address_id, street, city, state, zipcode, home_phone, cell_phone, email FROM people \
-                                        FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id WHERE people.id = $1', [id]);
+        const res = await pool.query('SELECT users.username, english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
+                                        FROM people FULL JOIN users ON people.id = users.person_id WHERE people.id = $1;', [id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+const getUserAddress = async (request, response) => {
+    const id = request.params.person_id;
+
+    try {
+        const res = await pool.query('SELECT id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email \
+                                        FROM addresses WHERE addresses.id = (SELECT address_id FROM people WHERE people.id = $1);', [id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+const getParentTwoData = async (request, response) => {
+    const id = request.params.person_id;
+
+    try {
+        const res = await pool.query('SELECT username, english_first_name, english_last_name, chinese_name FROM people FULL JOIN users ON users.person_id = people.id WHERE (SELECT parent_one_id FROM families WHERE \
+                                        parent_two_id = $1) = people.id OR (SELECT parent_two_id FROM families WHERE parent_one_id = $1) = people.id;', [id]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -28,10 +53,8 @@ const getParentData = async (request, response) => {
     const id = request.params.person_id;
 
     try {
-        const res = await pool.query('SELECT families.id as family_id, english_first_name, english_last_name, chinese_name FROM people JOIN families \
-                                        ON parent_one_id = $1 or parent_two_id = $1 WHERE \
-                                        (SELECT parent_one_id FROM families WHERE parent_two_id = $1) = people.id OR \
-                                        (SELECT parent_two_id FROM families WHERE parent_one_id = $1) = people.id;', [id]);
+        const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, username FROM people JOIN users ON users.person_id = people.id \
+                                        JOIN families ON families.parent_one_id = people.id OR families.parent_two_id = people.id WHERE families.id = $1;', [id]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -43,8 +66,21 @@ const getFamilyAddressData = async (request, response) => {
     const id = request.params.person_id;
 
     try {
-        const res = await pool.query('SELECT id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses \
-                                        WHERE addresses.id = (SELECT address_id FROM families WHERE parent_one_id = $1 or parent_two_id = $1)', [id]);
+        const res = await pool.query('SELECT families.id AS family_id, addresses.id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses \
+                                        JOIN families ON families.address_id = addresses.id WHERE parent_one_id = $1 or parent_two_id = $1;', [id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+const getFamilyAddressFromChildData = async (request, response) => {
+    const id = request.params.person_id;
+
+    try {
+        const res = await pool.query('SELECT families.id as family_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses JOIN families \
+                                        ON families.address_id = addresses.id WHERE families.id = (SELECT family_id FROM families_children WHERE child_id = $1);', [id]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -72,9 +108,8 @@ const patchUserData = async (request, response) => {
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
 
     try {
-        const res = await pool.query('UPDATE people \
-                                        SET english_first_name = $1, english_last_name = $2, chinese_name = $3, birth_year = $4, birth_month = $5, gender = $6, native_language = $7 \
-                                        WHERE id = $8', [englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage, id]);
+        const res = await pool.query('UPDATE people SET english_first_name = $1, english_last_name = $2, chinese_name = $3, birth_year = $4, birth_month = $5, \
+                                        gender = $6, native_language = $7 WHERE id = $8', [englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage, id]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -129,14 +164,33 @@ const addChild = async (request, response) => {
     }
 }
 
+const addAddress = async (request, response) => {
+    const id = request.params.person_id;
+    const body = await readBody(request);
+    const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
+    
+    try {
+        const res = await pool.query('UPDATE people SET address_id = (SELECT id FROM addresses WHERE street = $1 and city = $2 and state = $3 and zipcode = $4 and \
+                                        home_phone = $5 and cell_phone = $6 and email = $7) WHERE people.id = $8;', [street, city, state, zipcode, homePhone, cellPhone, email, id]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const userRouter = express.Router();
-userRouter.get('/userdata/:person_id', getUserData);
-userRouter.get('/parentdata/:person_id', getParentData);
-userRouter.get('/familyaddressdata/:person_id', getFamilyAddressData);
-userRouter.get('/studentdata/:person_id', getStudentData);
-userRouter.patch('/userdata/edit/details/:person_id', patchUserData);
-userRouter.patch('/userdata/edit/address/:address_id', patchAddress);
-userRouter.patch('/userdata/edit/password/:username', changePassword);
-userRouter.post('/family/addchild/:family_id', addChild);
+userRouter.get('/data/:person_id', getUserData);
+userRouter.get('/address/:person_id', getUserAddress);
+userRouter.get('/parenttwo/data/:person_id', getParentTwoData);
+userRouter.get('/parent/data/:person_id', getParentData);
+userRouter.get('/family/address/:person_id', getFamilyAddressData);
+userRouter.get('/family/address/fromchild/:person_id', getFamilyAddressFromChildData);
+userRouter.get('/student/data/:person_id', getStudentData);
+userRouter.patch('/data/edit/:person_id', patchUserData);
+userRouter.patch('/address/edit/:address_id', patchAddress);
+userRouter.patch('/password/edit/:username', changePassword);
+userRouter.post('/family/child/add/:family_id', addChild);
+userRouter.post('/address/add/:person_id', addAddress);
 
 module.exports = userRouter;

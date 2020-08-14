@@ -36,7 +36,7 @@ const Result = ({hasSearched, results}) => {
                                 <td>{entry.birth_month}</td>
                                 <td>{entry.birth_year}</td>
                                 <td>{entry.native_language}</td>
-                                <td id="show-details"><Link to="#/action1">Show Details</Link></td>
+                                <td id="show-details"><Link to={{pathname: `/registration/people/profile/${entry.id}`}}>Show Details</Link></td>
                             </tr>
                         </tbody>
                     ))}

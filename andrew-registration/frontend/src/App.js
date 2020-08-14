@@ -22,6 +22,8 @@ import StudentCountByElectivePage from './pages/directories/StudentCountByElecti
 import ActiveClassPage from './pages/directories/ActiveClassPage';
 import AllSchoolClassesPage from './pages/directories/AllSchoolClassesPage';
 import StudentListForClassPage from './pages/directories/StudentListForClassPage';
+import PeopleProfilePage from './pages/directories/PeopleProfilePage';
+import CreatePersonalAddressPage from './pages/user/CreatePersonalAddressPage';
 
 export default function App() {
     const [schoolYear] = useState({'id': 14, 'name': '2020-2021'})
@@ -29,13 +31,14 @@ export default function App() {
     const [userData, setUserData] = useState({
         person: {
             'username': '',
-            'person_id': '',
-            'address_id': '',
+            'personId': '',
+            'addressId': '',
             'chineseName': '',
             'englishFirstName': '',
             'englishLastName': '',
             'gender': '',
-            'birthMonthYear': '',
+            'birthMonth': '',
+            'birthYear': '',
             'nativeLanguage': '',
             'street': '',
             'city': '',
@@ -46,8 +49,8 @@ export default function App() {
             'email': ''
         },
         family: {
-            'family_id': '',
-            'address_id': '',
+            'familyId': '',
+            'addressId': '',
             'parentTwoEnglishName': '',
             'parentTwoChineseName': '',
             'children': [],
@@ -88,12 +91,14 @@ export default function App() {
                             <Route path='/registration/list/studentcount/elective' component={StudentCountByElectivePage} exact/>
                             <Route path='/registration/list/studentlist/class' component={StudentListForClassPage} />
                             <Route path='/registration/list/classes/active' component={ActiveClassPage} exact/>
-                            <Route path='/registration/user/edit' component={EditPersonalDetailsPage} exact />
+                            <Route path='/registration/people/profile' component={PeopleProfilePage} />
+                            <Route path='/registration/user/edit' component={EditPersonalDetailsPage} />
                             <Route path='/registration/user/password/edit' component={ChangePasswordPage} exact/>
-                            <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} exact />
-                            <Route path='/registration/family/address/edit' component={EditFamilyAddressPage} exact/>
-                            <Route path='/registration/family/addchild' component={AddChildPage} exact/>
+                            <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} />
+                            <Route path='/registration/family/address/edit' component={EditFamilyAddressPage} />
+                            <Route path='/registration/family/addchild' component={AddChildPage} />
                             <Route path='/registration/student/edit' component={EditStudentDetailsPage} />
+                            <Route path='/registration/user/address/create' component={CreatePersonalAddressPage} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

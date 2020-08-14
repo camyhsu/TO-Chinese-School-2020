@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 
 
 export default function AddChildPage() {
+    const url = window.location.href.split("/");
+    const familyId = url[url.length-1];
     const { userData, setUserData, setStatus } = useAppContext(); 
     const history = useHistory();  
     
@@ -34,7 +36,7 @@ export default function AddChildPage() {
         body.nativeLanguage = nativeLanguage;
 
         const fetch = require("node-fetch");
-        const patchData = async () => {
+        const postData = async () => {
             try {
                 // first, create a new person
                 await fetch('/admin/people/add/', {
@@ -46,7 +48,7 @@ export default function AddChildPage() {
                     body: JSON.stringify( body )                                        
                 });
                 // then, add the new person to the family
-                await fetch(`/user/family/addchild/${userData.family.family_id}`, {
+                await fetch(`/user/family/child/add/${familyId}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -55,42 +57,43 @@ export default function AddChildPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/user/studentdata/${userData.person.person_id}`);
-                var studentData = await studentDataResponse.json();
-                // create a children array for easier display
-                var children = [];
-                studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
-                setUserData(prevUserData => ({...prevUserData,
-                    family: {
-                        family_id: userData.family.family_id,
-                        address_id: userData.family.address_id,
-                        parentTwoEnglishName: userData.family.parentTwoEnglishName,
-                        parentTwoChineseName: userData.family.chineseName,
-                        children: children,
-                        street: userData.family.street,
-                        city: userData.family.city,
-                        state: userData.family.state,
-                        zipcode: userData.family.zipcode,
-                        homePhone: userData.family.home_phone,
-                        cellPhone: userData.family.cell_phone,
-                        email: userData.family.email
-                    },
-                    students: studentData
-                }))
+                if(parseInt(familyId, 10) === userData.family.familyId) {
+                    const studentDataResponse = await fetch(`/user/student/data/${userData.person.personId}`);
+                    var studentData = await studentDataResponse.json();
+                    // create a children array for easier display
+                    var children = [];
+                    studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
+                    setUserData(prevUserData => ({...prevUserData,
+                        family: {
+                            familyId: userData.family.familyId,
+                            addressId: userData.family.addressId,
+                            parentTwoEnglishName: userData.family.parentTwoEnglishName,
+                            parentTwoChineseName: userData.family.chineseName,
+                            children: children,
+                            street: userData.family.street,
+                            city: userData.family.city,
+                            state: userData.family.state,
+                            zipcode: userData.family.zipcode,
+                            homePhone: userData.family.homePhone,
+                            cellPhone: userData.family.cellPhone,
+                            email: userData.family.email
+                        },
+                        students: studentData
+                    }))
+                }
                 setStatus('Child Successfully Added.');
-                history.push('/registration');
+                history.goBack();
             } catch (error) {
                 console.log(error);
             }
         }
-        patchData();
+        postData();
     }
 
 
     return (
         <>
-            <h1>Add a Child</h1>
+            <h1>Add Child To Family</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />

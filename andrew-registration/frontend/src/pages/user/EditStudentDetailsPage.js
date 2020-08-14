@@ -28,15 +28,13 @@ export default function EditStudentDetailsPage() {
 
         // create body for patch request
         var body = {};
-        body.englishFirstName = englishFirstName !== userData.students[studentIndex].english_first_name ? englishFirstName : userData.students[studentIndex].english_first_name;
-        body.englishLastName = englishLastName !== userData.students[studentIndex].english_last_name ? englishLastName : userData.students[studentIndex].english_last_name;
-        body.chineseName = chineseName !== userData.students[studentIndex].chinese_name ? chineseName : userData.students[studentIndex].chinese_name;
-        body.birthYear = birthYear !== userData.students[studentIndex].birth_year ? birthYear : userData.students[studentIndex].birth_year;
+        body.englishFirstName = englishFirstName;
+        body.englishLastName = englishLastName;
+        body.chineseName = chineseName;
         body.birthYear = birthYear === '' ? null : birthYear;
-        body.birthMonth = birthMonth !== userData.students[studentIndex].birth_month ? birthMonth : userData.students[studentIndex].birth_month;
         body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender !== userData.students[studentIndex].gender ? gender : userData.students[studentIndex].gender;
-        body.nativeLanguage = nativeLanguage !== userData.students[studentIndex].native_language ? nativeLanguage : userData.students[studentIndex].native_language;
+        body.gender = gender;
+        body.nativeLanguage = nativeLanguage;
 
         const fetch = require("node-fetch");
         const patchData = async () => {
@@ -51,15 +49,15 @@ export default function EditStudentDetailsPage() {
                 });
 
                 // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/user/studentdata/${userData.person.person_id}`);
+                const studentDataResponse = await fetch(`/user/studentdata/${userData.person.personId}`);
                 var studentData = await studentDataResponse.json();
                 // create a children array for easier display
                 var children = [];
                 studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
                 setUserData(prevUserData => ({...prevUserData,
                     family: {
-                        family_id: userData.family.family_id,
-                        address_id: userData.family.address_id,
+                        familyId: userData.family.familyId,
+                        addressId: userData.family.addressId,
                         parentTwoEnglishName: userData.family.parentTwoEnglishName,
                         parentTwoChineseName: userData.family.parentTwoChineseName,
                         children: children,
@@ -67,14 +65,14 @@ export default function EditStudentDetailsPage() {
                         city: userData.family.city,
                         state: userData.family.state,
                         zipcode: userData.family.zipcode,
-                        homePhone: userData.family.home_phone,
-                        cellPhone: userData.family.cell_phone,
+                        homePhone: userData.family.homePhone,
+                        cellPhone: userData.family.cellPhone,
                         email: userData.family.email
                     },
                     students: studentData
                 }))
                 setStatus('Student Details Successfully Updated.');
-                history.push('/registration');
+                history.goBack();
             } catch (error) {
                 console.log(error);
             }
@@ -99,6 +97,7 @@ export default function EditStudentDetailsPage() {
                             </select>
                     <br></br>
                     Birth Month: <select id="month" name="month" value={birthMonth} onChange={(e) => setBirthMonth(e.target.value)}>
+                                    <option value=""></option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>

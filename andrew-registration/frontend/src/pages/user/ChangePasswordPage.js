@@ -41,7 +41,7 @@ export default function ChangePasswordPage() {
                     body.password_hash = sha256(newPassword + salt);
                     body.password_salt = salt;
 
-                    await fetch(`/user/userdata/edit/password/${userData.person.username}`, {
+                    await fetch(`/user/password/edit/${userData.person.username}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ export default function ChangePasswordPage() {
                         body: JSON.stringify( body )                                 
                     });
                     setStatus('Password Successfully Changed.');
-                    history.push('/registration');
+                    history.goBack();
                 }
                 else {
                     alert('Incorrect Password.');

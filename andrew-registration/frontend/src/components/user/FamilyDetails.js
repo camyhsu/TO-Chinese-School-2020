@@ -10,11 +10,11 @@ export default function FamilyDetails() {
     const history = useHistory();
 
     function editFamilyAddress() {
-        history.push('/registration/family/address/edit');
+        history.push(`/registration/family/address/edit/${userData.person.personId}`);
     }
 
     function addChild() {
-        history.push('/registration/family/addchild');
+        history.push(`/registration/family/addchild/${userData.family.familyId}`);
     }
 
 
@@ -26,8 +26,9 @@ export default function FamilyDetails() {
                 <p>Parent Two: {userData.family.parentTwoChineseName} ({userData.family.parentTwoEnglishName})</p>
                 <p>Children: {userData.family.children.join(", ")}</p>
                 <p>Address: {userData.family.street}, {userData.family.city}, {userData.family.state} {userData.family.zipcode}</p>
-                <p>Home Phone: {userData.family.homePhone == null ? '' : userData.family.homePhone}</p>
-                <p>Cell Phone: {userData.family.cellPhone == null ? '' : userData.family.cellPhone}</p>
+                <p>Home Phone: ({userData.family.homePhone.slice(0,3)}) {userData.family.homePhone.slice(3,6)}-{userData.family.homePhone.slice(6)}</p>
+                {userData.family.cellPhone === '' ? <p>Cell Phone: </p> :  
+                <p>Cell Phone: ({userData.family.cellPhone.slice(0,3)}) {userData.family.cellPhone.slice(3,6)}-{userData.family.cellPhone.slice(6)}</p>}
                 <p>Email: {userData.family.email == null ? '' : userData.family.email}</p>
                 <Button onClick={editFamilyAddress}>Edit Family Address</Button>
                 <br></br>

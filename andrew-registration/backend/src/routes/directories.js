@@ -14,7 +14,8 @@ const getPeopleByEmail = async (request, response) => {
     const emailAddress = request.params.email;
     
     try {
-        const res = await pool.query("SELECT * FROM people FULL JOIN addresses ON people.address_id = addresses.id WHERE email LIKE '%" + emailAddress + "%'");
+        const res = await pool.query("SELECT people.id, english_last_name, english_first_name, chinese_name, gender, birth_month, birth_year, native_language, email \
+                                        FROM people JOIN addresses ON people.address_id = addresses.id WHERE email LIKE '%" + emailAddress + "%'");
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -26,9 +27,8 @@ const getPeopleByChineseName = async (request, response) => {
     const chineseName = request.params.chineseName;
 
     try {
-        const res = await pool.query('SELECT english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
-                                        FROM people FULL JOIN addresses ON people.address_id = null \
-                                        OR people.address_id = addresses.id WHERE chinese_name = $1', [chineseName]);
+        const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
+                                        FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id WHERE chinese_name = $1', [chineseName]);
         response.status(200).json(res.rows);
     }
     catch (error) {
@@ -45,7 +45,7 @@ const getPeopleByEnglishName = async (request, response) => {
         if( nameArr.length == 1 ) {
             const name = nameArr[0];
     
-            const res = await pool.query("SELECT english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
+            const res = await pool.query("SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
                                             FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id \
                                             WHERE english_first_name LIKE '%" + name + "%' or english_last_name LIKE '%" + name + "%'");
             response.status(200).json(res.rows);
@@ -55,7 +55,7 @@ const getPeopleByEnglishName = async (request, response) => {
             const firstName = nameArr[0];
             const lastName = nameArr[nameArr.length - 1];
         
-            const res = await pool.query('SELECT english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
+            const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
                                             FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id \
                                             WHERE english_first_name = $1 AND english_last_name = $2', [firstName, lastName]);
             response.status(200).json(res.rows);
@@ -164,22 +164,22 @@ const getActiveClasses = async (request, response) => {
     
     try {
         const res = await pool.query('SELECT sc.id, sc.english_name AS class_english_name, sc.chinese_name AS class_chinese_name, sc.location, \
-                                            pi.english_first_name AS teacher_first_name, pi.english_last_name AS teacher_last_name, pi.chinese_name AS teacher_chinese_name \
-                                            ,rp.english_first_name AS parent_first_name, rp.english_last_name AS parent_last_name, rp.chinese_name AS parent_chinese_name \
-                                            ,si.english_first_name AS teacher2_first_name, si.english_last_name AS teacher2_last_name, si.chinese_name AS teacher2_chinese_name \
-                                            ,ta.english_first_name AS ta_first_name, ta.english_last_name AS ta_last_name, ta.chinese_name AS ta_chinese_name \
+                                        pi.id AS teacher_id, pi.english_first_name AS teacher_first_name, pi.english_last_name AS teacher_last_name, pi.chinese_name AS teacher_chinese_name \
+                                        ,rp.id AS parent_id, rp.english_first_name AS parent_first_name, rp.english_last_name AS parent_last_name, rp.chinese_name AS parent_chinese_name \
+                                        ,si.id AS teacher2_id, si.english_first_name AS teacher2_first_name, si.english_last_name AS teacher2_last_name, si.chinese_name AS teacher2_chinese_name \
+                                        ,ta.id AS ta_id, ta.english_first_name AS ta_first_name, ta.english_last_name AS ta_last_name, ta.chinese_name AS ta_chinese_name \
                                         FROM school_class_active_flags as scaf \
                                         JOIN school_classes AS sc ON sc.id = scaf.school_class_id \
-                                        FULL JOIN (SELECT ia.school_class_id, p.english_first_name, p.english_last_name, p.chinese_name \
+                                        FULL JOIN (SELECT ia.school_class_id, p.id, p.english_first_name, p.english_last_name, p.chinese_name \
                                             FROM instructor_assignments AS ia JOIN people AS p ON p.id = ia.instructor_id \
                                             WHERE ia.role = \'Primary Instructor\' AND ia.school_year_id = $1) AS pi ON pi.school_class_id = scaf.school_class_id \
-                                        FULL JOIN (SELECT ia2.school_class_id, p2.english_first_name, p2.english_last_name, p2.chinese_name \
+                                        FULL JOIN (SELECT ia2.school_class_id, p2.id, p2.english_first_name, p2.english_last_name, p2.chinese_name \
                                             FROM instructor_assignments AS ia2 JOIN people AS p2 ON p2.id = ia2.instructor_id \
                                             WHERE ia2.role = \'Room Parent\' AND ia2.school_year_id = $1) AS rp ON rp.school_class_id = scaf.school_class_id \
-                                        FULL JOIN (SELECT ia3.school_class_id, p3.english_first_name, p3.english_last_name, p3.chinese_name \
+                                        FULL JOIN (SELECT ia3.school_class_id, p3.id, p3.english_first_name, p3.english_last_name, p3.chinese_name \
                                             FROM instructor_assignments AS ia3 JOIN people AS p3 ON p3.id = ia3.instructor_id \
                                             WHERE ia3.role = \'Secondary Instructor\' AND ia3.school_year_id = $1) AS si ON si.school_class_id = scaf.school_class_id \
-                                        FULL JOIN (SELECT ia4.school_class_id, p4.english_first_name, p4.english_last_name, p4.chinese_name \
+                                        FULL JOIN (SELECT ia4.school_class_id, p4.id, p4.english_first_name, p4.english_last_name, p4.chinese_name \
                                             FROM instructor_assignments AS ia4 JOIN people AS p4 ON p4.id = ia4.instructor_id \
                                             WHERE ia4.role = \'Teaching Assistant\' AND ia4.school_year_id = $1) AS ta ON ta.school_class_id = scaf.school_class_id \
                                         WHERE scaf.active = \'t\' AND scaf.school_year_id = $1 Order by sc.grade_id, sc.english_name;', [schoolYearId]);
