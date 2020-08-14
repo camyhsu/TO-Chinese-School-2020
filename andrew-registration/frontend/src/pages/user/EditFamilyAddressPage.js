@@ -106,8 +106,6 @@ export default function EditFamilyAddressPage() {
                         family: {
                             familyId: userData.family.familyId,
                             addressId: userData.family.addressId,
-                            parentTwoEnglishName: userData.family.parentTwoEnglishName,
-                            parentTwoChineseName: userData.family.parentTwoChineseName,
                             children: userData.family.children,
                             street: familyAddressData[0].street,
                             city: familyAddressData[0].city,

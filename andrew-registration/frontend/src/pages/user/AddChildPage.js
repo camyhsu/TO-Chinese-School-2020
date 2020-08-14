@@ -67,8 +67,6 @@ export default function AddChildPage() {
                         family: {
                             familyId: userData.family.familyId,
                             addressId: userData.family.addressId,
-                            parentTwoEnglishName: userData.family.parentTwoEnglishName,
-                            parentTwoChineseName: userData.family.chineseName,
                             children: children,
                             street: userData.family.street,
                             city: userData.family.city,

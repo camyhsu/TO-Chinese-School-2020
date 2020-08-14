@@ -22,8 +22,8 @@ export default function FamilyDetails() {
         <>
             <div className = "details">
                 <h3>Family for {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName})</h3>
-                <p>Parent One: {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName})</p>
-                <p>Parent Two: {userData.family.parentTwoChineseName} ({userData.family.parentTwoEnglishName})</p>
+                <p>Parent One: {userData.parents.parentOneChineseName} ({userData.parents.parentOneEnglishName})</p>
+                <p>Parent Two: {userData.parents.parentTwoChineseName} ({userData.parents.parentTwoEnglishName})</p>
                 <p>Children: {userData.family.children.join(", ")}</p>
                 <p>Address: {userData.family.street}, {userData.family.city}, {userData.family.state} {userData.family.zipcode}</p>
                 <p>Home Phone: ({userData.family.homePhone.slice(0,3)}) {userData.family.homePhone.slice(3,6)}-{userData.family.homePhone.slice(6)}</p>

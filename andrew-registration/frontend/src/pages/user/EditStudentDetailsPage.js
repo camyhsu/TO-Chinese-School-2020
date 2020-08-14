@@ -58,8 +58,6 @@ export default function EditStudentDetailsPage() {
                     family: {
                         familyId: userData.family.familyId,
                         addressId: userData.family.addressId,
-                        parentTwoEnglishName: userData.family.parentTwoEnglishName,
-                        parentTwoChineseName: userData.family.parentTwoChineseName,
                         children: children,
                         street: userData.family.street,
                         city: userData.family.city,

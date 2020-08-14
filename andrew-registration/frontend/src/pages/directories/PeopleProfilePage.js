@@ -111,62 +111,36 @@ export default function PeopleProfilePage() {
                 
                 var familyAddressInformationResponse = await fetch(`/user/family/address/${personId}`);
                 var familyAddressInformation = await familyAddressInformationResponse.json();
-                var parentInformation = null
                 if(typeof familyAddressInformation[0] == 'undefined') {
                     // person is a child of a family, so we must retrieve family information from the bottom up
                     familyAddressInformationResponse = await fetch(`/user/family/address/fromchild/${personId}`);
                     familyAddressInformation = await familyAddressInformationResponse.json();
+                }
 
-                    const parentInformationResponse = await fetch(`/user/parent/data/${familyAddressInformation[0].family_id}`);
-                    parentInformation = await parentInformationResponse.json();
-                    if(parentInformation.length === 1) {
-                        setParentData({
-                            parentOneId: parentInformation[0].id,
-                            parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
-                            parentOneChineseName: parentInformation[0].chinese_name,
-                            parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
-                        })
-                    }
-                    else {
-                        setParentData({
-                            parentOneId: parentInformation[0].id,
-                            parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
-                            parentOneChineseName: parentInformation[0].chinese_name,
-                            parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
-                            parentTwoId: parentInformation[1].id,
-                            parentTwoEnglishName: `${parentInformation[1].english_first_name} ${parentInformation[1].english_last_name}`,
-                            parentTwoChineseName: parentInformation[1].chinese_name,
-                            parentTwoUsername: parentInformation[1].username,
-                        });
-                    }
+                const parentInformationResponse = await fetch(`/user/parent/data/${familyAddressInformation[0].family_id}`);
+                var parentInformation = await parentInformationResponse.json();
+                if(parentInformation.length === 1) {
+                    setParentData({
+                        parentOneId: parentInformation[0].person_id,
+                        parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
+                        parentOneChineseName: parentInformation[0].chinese_name,
+                        parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
+                    })
                 }
                 else {
-                    // person is a parent of a family
-                    const parentTwoInformationResponse = await fetch(`/user/parenttwo/data/${personId}`);
-                    parentInformation = await parentTwoInformationResponse.json();
-                    if(typeof parentInformation[0] == 'undefined') {
-                        setParentData({
-                            parentOneId: personInformation[0].person_id,
-                            parentOneEnglishName: `${personInformation[0].english_first_name} ${personInformation[0].english_last_name}`,
-                            parentOneChineseName: personInformation[0].chinese_name,
-                            parentOneUsername: personInformation[0].username == null ? '' : personInformation[0].username,
-                        })
-                    }
-                    else {
-                        setParentData({
-                            parentOneId: personInformation[0].person_id,
-                            parentOneEnglishName: `${personInformation[0].english_first_name} ${personInformation[0].english_last_name}`,
-                            parentOneChineseName: personInformation[0].chinese_name,
-                            parentOneUsername: personInformation[0].username == null ? '' : personInformation[0].username,
-                            parentTwoId: parentInformation[0].person_id,
-                            parentTwoEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
-                            parentTwoChineseName: parentInformation[0].chinese_name,
-                            parentTwoUsername: parentInformation[0].username,
-                        });
-                    }
+                    setParentData({
+                        parentOneId: parentInformation[0].person_id,
+                        parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
+                        parentOneChineseName: parentInformation[0].chinese_name,
+                        parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
+                        parentTwoId: parentInformation[1].person_id,
+                        parentTwoEnglishName: `${parentInformation[1].english_first_name} ${parentInformation[1].english_last_name}`,
+                        parentTwoChineseName: parentInformation[1].chinese_name,
+                        parentTwoUsername: parentInformation[1].username,
+                    });
                 }
 
-                const studentDataResponse = await fetch(`/user/student/data/${parentInformation[0].id}`);
+                const studentDataResponse = await fetch(`/user/student/data/${parentInformation[0].person_id}`);
                 var studentData = await studentDataResponse.json();
                 var children = [];
                 studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));

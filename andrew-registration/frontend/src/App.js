@@ -48,11 +48,19 @@ export default function App() {
             'cellPhone': '',
             'email': ''
         },
+        parents: {
+            'parentOneId': '',
+            'parentOneEnglishName': '',
+            'parentOneChineseName': '',
+            'parentOneUsername': '',
+            'parentTwoId':'',
+            'parentTwoEnglishName': '',
+            'parentTwoChineseName': '',
+            'parentTwoUsername': '',
+        },
         family: {
             'familyId': '',
             'addressId': '',
-            'parentTwoEnglishName': '',
-            'parentTwoChineseName': '',
             'children': [],
             'street': '',
             'city': '',

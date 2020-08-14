@@ -36,24 +36,11 @@ const getUserAddress = async (request, response) => {
     }
 }
 
-const getParentTwoData = async (request, response) => {
-    const id = request.params.person_id;
-
-    try {
-        const res = await pool.query('SELECT username, english_first_name, english_last_name, chinese_name FROM people FULL JOIN users ON users.person_id = people.id WHERE (SELECT parent_one_id FROM families WHERE \
-                                        parent_two_id = $1) = people.id OR (SELECT parent_two_id FROM families WHERE parent_one_id = $1) = people.id;', [id]);
-        response.status(200).json(res.rows);
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
 const getParentData = async (request, response) => {
-    const id = request.params.person_id;
+    const id = request.params.family_id;
 
     try {
-        const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, username FROM people JOIN users ON users.person_id = people.id \
+        const res = await pool.query('SELECT people.id AS person_id, english_first_name, english_last_name, chinese_name, username FROM people JOIN users ON users.person_id = people.id \
                                         JOIN families ON families.parent_one_id = people.id OR families.parent_two_id = people.id WHERE families.id = $1;', [id]);
         response.status(200).json(res.rows);
     }
@@ -182,8 +169,7 @@ const addAddress = async (request, response) => {
 const userRouter = express.Router();
 userRouter.get('/data/:person_id', getUserData);
 userRouter.get('/address/:person_id', getUserAddress);
-userRouter.get('/parenttwo/data/:person_id', getParentTwoData);
-userRouter.get('/parent/data/:person_id', getParentData);
+userRouter.get('/parent/data/:family_id', getParentData);
 userRouter.get('/family/address/:person_id', getFamilyAddressData);
 userRouter.get('/family/address/fromchild/:person_id', getFamilyAddressFromChildData);
 userRouter.get('/student/data/:person_id', getStudentData);

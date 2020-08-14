@@ -32,12 +32,12 @@ export default function SignIn() {
                     // fetch personal user address to be displayed in Registration Home Page and Registration SideBar
                     const personalAddressResponse = await fetch(`/user/address/${hash[0].person_id}`);
                     var personalAddress = await personalAddressResponse.json();
-                    // fetch parent two's data to be displayed in Family Details in Registration Home Page
-                    const parentTwoDataResponse = await fetch(`/user/parenttwo/data/${hash[0].person_id}`);
-                    var parentTwoData = await parentTwoDataResponse.json();
                     // fetch family address data to be displayed in Family Details in Registration Home Page
                     const familyAddressDataResponse = await fetch(`/user/family/address/${hash[0].person_id}`);
                     var familyAddressData = await familyAddressDataResponse.json();
+                    // fetch parent two's data to be displayed in Family Details in Registration Home Page
+                    const parentDataResponse = await fetch(`/user/parent/data/${familyAddressData[0].family_id}`);
+                    var parentData = await parentDataResponse.json();
                     // fetch children/student's data to be displayed in Family and Student Details in Registration Home Page
                     const studentDataResponse = await fetch(`/user/student/data/${hash[0].person_id}`);
                     var studentData = await studentDataResponse.json();
@@ -65,11 +65,19 @@ export default function SignIn() {
                             cellPhone: personalAddress[0].cell_phone,
                             email: personalAddress[0].email
                         },
+                        parents: {
+                            parentOneId: parentData[0].person_id,
+                            parentOneEnglishName: parentData[0].english_first_name + ' ' + parentData[0].english_last_name,
+                            parentOneChineseName: parentData[0].chinese_name,
+                            parentOneUsername: parentData[0].username,
+                            parentTwoId: parentData[1].person_id,
+                            parentTwoEnglishName: parentData[1].english_first_name + ' ' + parentData[1].english_last_name,
+                            parentTwoChineseName: parentData[1].chinese_name,
+                            parentTwoUsername: parentData[1].username,
+                        },
                         family: {
                             familyId: familyAddressData[0].family_id,
                             addressId: familyAddressData[0].address_id,
-                            parentTwoEnglishName: `${parentTwoData[0].english_first_name} ${parentTwoData[0].english_last_name}`,
-                            parentTwoChineseName: parentTwoData[0].chinese_name,
                             children: children,
                             street: familyAddressData[0].street,
                             city: familyAddressData[0].city,
