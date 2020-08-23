@@ -10,8 +10,8 @@ const pool = new Pool({
     port: 5432,
 })
 
-const getUserData = async (request, response) => {
-    const id = request.params.person_id;
+const getUserData = async (request, response, next) => {
+    const id = request.query.id;
 
     try {
         const res = await pool.query('SELECT users.username, english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
@@ -23,8 +23,8 @@ const getUserData = async (request, response) => {
     }
 }
 
-const getUserAddress = async (request, response) => {
-    const id = request.params.person_id;
+const getUserAddress = async (request, response, next) => {
+    const id = request.query.id;
 
     try {
         const res = await pool.query('SELECT id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email \
@@ -36,8 +36,8 @@ const getUserAddress = async (request, response) => {
     }
 }
 
-const getParentData = async (request, response) => {
-    const id = request.params.family_id;
+const getParentData = async (request, response, next) => {
+    const id = request.query.id;
 
     try {
         const res = await pool.query('SELECT people.id AS person_id, english_first_name, english_last_name, chinese_name, username FROM people JOIN users ON users.person_id = people.id \
@@ -49,8 +49,8 @@ const getParentData = async (request, response) => {
     }
 }
 
-const getFamilyAddressData = async (request, response) => {
-    const id = request.params.person_id;
+const getFamilyAddressData = async (request, response, next) => {
+    const id = request.query.id;
 
     try {
         const res = await pool.query('SELECT families.id AS family_id, addresses.id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses \
@@ -62,8 +62,8 @@ const getFamilyAddressData = async (request, response) => {
     }
 }
 
-const getFamilyAddressFromChildData = async (request, response) => {
-    const id = request.params.person_id;
+const getFamilyAddressFromChildData = async (request, response, next) => {
+    const id = request.query.id;
 
     try {
         const res = await pool.query('SELECT families.id as family_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses JOIN families \
@@ -75,8 +75,8 @@ const getFamilyAddressFromChildData = async (request, response) => {
     }
 }
 
-const getStudentData = async (request, response) => {
-    const id = request.params.person_id;
+const getStudentData = async (request, response, next) => {
+    const id = request.query.id;
 
     try {
         const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
@@ -89,7 +89,7 @@ const getStudentData = async (request, response) => {
     }
 }
 
-const patchUserData = async (request, response) => {
+const patchUserData = async (request, response, next) => {
     const body = await readBody(request);
     const id = request.params.person_id;
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
@@ -104,7 +104,7 @@ const patchUserData = async (request, response) => {
     }
 }
 
-const patchAddress = async (request, response) => {
+const patchAddress = async (request, response, next) => {
     const body = await readBody(request);
     const id = request.params.address_id;
     const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
@@ -120,7 +120,7 @@ const patchAddress = async (request, response) => {
     }
 }
 
-const changePassword = async (request, response) => {
+const changePassword = async (request, response, next) => {
     const body = await readBody(request);
     const username = request.params.username;
     const { password_hash, password_salt } = JSON.parse(body);
@@ -134,7 +134,7 @@ const changePassword = async (request, response) => {
     }
 }
 
-const addChild = async (request, response) => {
+const addChild = async (request, response, next) => {
     const body = await readBody(request);
     const id = request.params.family_id;
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
@@ -144,14 +144,14 @@ const addChild = async (request, response) => {
                                         (SELECT id FROM people WHERE english_last_name = $2 and english_first_name = $3 and chinese_name = $4 and \
                                         gender = $5 and birth_year = $6 and birth_month = $7 and native_language = $8));'
                                         , [id, englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
-        response.status(200).json(res.rows);
+        response.status(201).json(res.rows);
     }
     catch (error) {
         throw error;
     }
 }
 
-const addAddress = async (request, response) => {
+const addAddress = async (request, response, next) => {
     const id = request.params.person_id;
     const body = await readBody(request);
     const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
@@ -159,7 +159,7 @@ const addAddress = async (request, response) => {
     try {
         const res = await pool.query('UPDATE people SET address_id = (SELECT id FROM addresses WHERE street = $1 and city = $2 and state = $3 and zipcode = $4 and \
                                         home_phone = $5 and cell_phone = $6 and email = $7) WHERE people.id = $8;', [street, city, state, zipcode, homePhone, cellPhone, email, id]);
-        response.status(200).json(res.rows);
+        response.status(201).json(res.rows);
     }
     catch (error) {
         throw error;
@@ -167,12 +167,12 @@ const addAddress = async (request, response) => {
 }
 
 const userRouter = express.Router();
-userRouter.get('/data/:person_id', getUserData);
-userRouter.get('/address/:person_id', getUserAddress);
-userRouter.get('/parent/data/:family_id', getParentData);
-userRouter.get('/family/address/:person_id', getFamilyAddressData);
-userRouter.get('/family/address/fromchild/:person_id', getFamilyAddressFromChildData);
-userRouter.get('/student/data/:person_id', getStudentData);
+userRouter.get('/data', getUserData);
+userRouter.get('/address', getUserAddress);
+userRouter.get('/parent/data', getParentData);
+userRouter.get('/family/address', getFamilyAddressData);
+userRouter.get('/family/address/fromchild', getFamilyAddressFromChildData);
+userRouter.get('/student/data', getStudentData);
 userRouter.patch('/data/edit/:person_id', patchUserData);
 userRouter.patch('/address/edit/:address_id', patchAddress);
 userRouter.patch('/password/edit/:username', changePassword);

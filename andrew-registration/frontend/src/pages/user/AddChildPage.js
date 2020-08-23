@@ -58,7 +58,7 @@ export default function AddChildPage() {
                 });
 
                 if(parseInt(familyId, 10) === userData.family.familyId) {
-                    const studentDataResponse = await fetch(`/user/student/data/${userData.person.personId}`);
+                    const studentDataResponse = await fetch(`/user/student/data?id=${userData.person.personId}`);
                     var studentData = await studentDataResponse.json();
                     // create a children array for easier display
                     var children = [];

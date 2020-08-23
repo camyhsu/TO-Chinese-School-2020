@@ -11,7 +11,7 @@ export default function ActiveClassPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/directories/classes/active/${schoolYear.id}`);
+                const response = await fetch(`/directories/classes/active?id=${schoolYear.id}`);
                 var json = await response.json();
                 setResults(json);
             } catch (error) {

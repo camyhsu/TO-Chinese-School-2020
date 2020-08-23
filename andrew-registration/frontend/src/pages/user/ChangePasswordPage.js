@@ -23,7 +23,7 @@ export default function ChangePasswordPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                const signInResponse = await fetch(`/admin/signin/username/${userData.person.username}`);
+                const signInResponse = await fetch(`/admin/signin?username=${userData.person.username}`);
                 var hash = await signInResponse.json();
                 const pass_salt = oldPassword + hash[0].password_salt;
 

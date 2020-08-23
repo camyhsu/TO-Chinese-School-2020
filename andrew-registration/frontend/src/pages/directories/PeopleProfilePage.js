@@ -78,7 +78,7 @@ export default function PeopleProfilePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const personInformationResponse = await fetch(`/user/data/${personId}`);
+                const personInformationResponse = await fetch(`/user/data?id=${personId}`);
                 var personInformation = await personInformationResponse.json();
                 setPersonData({
                     personId: personId,
@@ -91,7 +91,7 @@ export default function PeopleProfilePage() {
                     nativeLanguage: personInformation[0].native_language,
                 });
 
-                const personalAddressInformationResponse = await fetch(`/user/address/${personId}`);
+                const personalAddressInformationResponse = await fetch(`/user/address?id=${personId}`);
                 var personalAddressInformation = await personalAddressInformationResponse.json();
                 if(typeof personalAddressInformation[0] == 'undefined') {
                     setPersonalAddressData(null)
@@ -109,15 +109,15 @@ export default function PeopleProfilePage() {
                     });
                 }
                 
-                var familyAddressInformationResponse = await fetch(`/user/family/address/${personId}`);
+                var familyAddressInformationResponse = await fetch(`/user/family/address?id=${personId}`);
                 var familyAddressInformation = await familyAddressInformationResponse.json();
                 if(typeof familyAddressInformation[0] == 'undefined') {
                     // person is a child of a family, so we must retrieve family information from the bottom up
-                    familyAddressInformationResponse = await fetch(`/user/family/address/fromchild/${personId}`);
+                    familyAddressInformationResponse = await fetch(`/user/family/address/fromchild?id=${personId}`);
                     familyAddressInformation = await familyAddressInformationResponse.json();
                 }
 
-                const parentInformationResponse = await fetch(`/user/parent/data/${familyAddressInformation[0].family_id}`);
+                const parentInformationResponse = await fetch(`/user/parent/data?id=${familyAddressInformation[0].family_id}`);
                 var parentInformation = await parentInformationResponse.json();
                 if(parentInformation.length === 1) {
                     setParentData({
@@ -140,7 +140,7 @@ export default function PeopleProfilePage() {
                     });
                 }
 
-                const studentDataResponse = await fetch(`/user/student/data/${parentInformation[0].person_id}`);
+                const studentDataResponse = await fetch(`/user/student/data?id=${parentInformation[0].person_id}`);
                 var studentData = await studentDataResponse.json();
                 var children = [];
                 studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));

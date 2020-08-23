@@ -8,7 +8,7 @@ export default function ActiveClassPage() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/directories/classes/all/${schoolYear.id}`);
+            const response = await fetch(`/directories/classes/all?id=${schoolYear.id}`);
             var json = await response.json();
             setResults(json);
         } catch (error) {
@@ -38,7 +38,7 @@ export default function ActiveClassPage() {
 
     return (
         <>
-            <h3>All Active Classes</h3>
+            <h3>All School Classes</h3>
             <br></br>
             <center>
                 <table>

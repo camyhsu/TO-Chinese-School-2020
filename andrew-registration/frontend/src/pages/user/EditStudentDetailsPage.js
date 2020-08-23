@@ -39,7 +39,7 @@ export default function EditStudentDetailsPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/user/userdata/edit/details/${userData.students[studentIndex].id}`, {
+                await fetch(`/user/data/edit/${userData.students[studentIndex].id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ export default function EditStudentDetailsPage() {
                 });
 
                 // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/user/studentdata/${userData.person.personId}`);
+                const studentDataResponse = await fetch(`/user/student/data?id=${userData.person.personId}`);
                 var studentData = await studentDataResponse.json();
                 // create a children array for easier display
                 var children = [];

@@ -35,18 +35,10 @@ export default function EditFamilyAddressPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const personResponse = await fetch(`/user/data/${personId}`);
+                const personResponse = await fetch(`/user/data?id=${personId}`);
                 var person = await personResponse.json();
                 setPersonDetails(person[0]);
-                const parentTwoResponse = await fetch(`/user/parenttwo/data/${personId}`);
-                var parentTwo = await parentTwoResponse.json();
-                if(typeof parentTwo[0] == 'undefined') {
-                    setParentTwoDetails(null)
-                }
-                else {
-                    setParentTwoDetails(parentTwo[0]);
-                }
-                const familyResponse = await fetch(`/user/family/address/${personId}`);
+                const familyResponse = await fetch(`/user/family/address?id=${personId}`);
                 var family = await familyResponse.json();
                 setFamilyDetails(family[0]);
                 setStreet(family[0].street);
@@ -56,6 +48,14 @@ export default function EditFamilyAddressPage() {
                 setHomePhone(family[0].home_phone);
                 setCellPhone(family[0].cell_phone);
                 setEmail(family[0].email);
+                const parentTwoResponse = await fetch(`/user/parent/data?id=${family[0].id}`);
+                var parentTwo = await parentTwoResponse.json();
+                if(typeof parentTwo[0] == 'undefined') {
+                    setParentTwoDetails(null)
+                }
+                else {
+                    setParentTwoDetails(parentTwo[0]);
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -100,7 +100,7 @@ export default function EditFamilyAddressPage() {
                 });
 
                 if(parseInt(personId,10) === userData.person.personId) {
-                    const familyAddressDataResponse = await fetch(`/user/family/address/${personId}`);
+                    const familyAddressDataResponse = await fetch(`/user/family/address?id=${personId}`);
                     var familyAddressData = await familyAddressDataResponse.json();
                     setUserData(prevUserData => ({...prevUserData,
                         family: {

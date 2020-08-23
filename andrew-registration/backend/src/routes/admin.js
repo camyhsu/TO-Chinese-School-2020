@@ -10,47 +10,50 @@ const pool = new Pool({
     port: 5432,
 })
 
-const verifyUserSignIn = async (request, response) => {
-    const username = request.params.username;
+const verifyUserSignIn = async (request, response, next) => {
+    const username = request.query.username;
+
+    if( !username )
+        return response.status(400).json({message: 'Username is required'});
 
     try {
         const res = await pool.query('SELECT person_id, password_hash, password_salt FROM users WHERE username = $1', [username]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
-const addPerson = async (request, response) => {
+const addPerson = async (request, response, next) => {
     const body = await readBody(request);
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
 
     try {
         const res = await pool.query('INSERT INTO people (english_last_name, english_first_name, chinese_name, gender, birth_year, birth_month, native_language) \
                                         VALUES ($1, $2, $3, $4, $5, $6, $7);', [englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
-        response.status(200).json(res.rows);
+        response.status(201).json(res.rows);
     }
     catch (error) {
         throw error;
     }
 }
 
-const addAddress = async (request, response) => {
+const addAddress = async (request, response, next) => {
     const body = await readBody(request);
     const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
 
     try {
         const res = await pool.query('INSERT INTO addresses (street, city, state, zipcode, home_phone, cell_phone, email) \
                                         VALUES ($1, $2, $3, $4, $5, $6, $7);', [street, city, state, zipcode, homePhone, cellPhone, email]);
-        response.status(200).json(res.rows);
+        response.status(201).json(res.rows);
     }
     catch (error) {
         throw error;
     }
 }
 
-const changeClassActiveStatus = async (request, response) => {
+const changeClassActiveStatus = async (request, response, next) => {
     const class_id = request.params.class_id;
     const year_id = request.params.year_id;
     const body = await readBody(request);
@@ -66,7 +69,7 @@ const changeClassActiveStatus = async (request, response) => {
 }
 
 const adminRouter = express.Router();
-adminRouter.get('/signin/username/:username', verifyUserSignIn);
+adminRouter.get('/signin', verifyUserSignIn);
 adminRouter.post('/people/add', addPerson);
 adminRouter.post('/address/add', addAddress);
 adminRouter.patch('/class/active/edit/:year_id/:class_id', changeClassActiveStatus);

@@ -39,7 +39,7 @@ export default function CreatePersonalAddressPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/user/data/${personId}`);
+                const response = await fetch(`/user/data?id=${personId}`);
                 var json = await response.json();
                 setPersonDetails(json[0]);
             } catch (error) {

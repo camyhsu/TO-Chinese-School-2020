@@ -8,7 +8,7 @@ export default function StudentCountByElectivePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/directories/studentcount/elective/${schoolYear.id}`);
+                const response = await fetch(`/directories/studentcount/elective?id=${schoolYear.id}`);
                 var json = await response.json();
                 setResults(json);
             } catch (error) {

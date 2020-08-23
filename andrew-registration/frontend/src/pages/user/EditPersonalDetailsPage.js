@@ -32,7 +32,7 @@ export default function EditPersonalDetailsPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/user/data/${personId}`);
+                const response = await fetch(`/user/data?id=${personId}`);
                 var json = await response.json();
                 setPersonDetails(json[0]);
                 setEnglishFirstName(json[0].english_first_name);
@@ -79,9 +79,9 @@ export default function EditPersonalDetailsPage() {
                 });
 
                 if(parseInt(personId,10) === userData.person.personId) {
-                    const personalDataResponse = await fetch(`/user/data/${userData.person.personId}`);
+                    const personalDataResponse = await fetch(`/user/data?id=${userData.person.personId}`);
                     var personalData = await personalDataResponse.json();
-                    const personalAddressResponse = await fetch(`/user/address/${userData.person.personId}`);
+                    const personalAddressResponse = await fetch(`/user/address?id=${userData.person.personId}`);
                     var personalAddress = await personalAddressResponse.json();
                     setUserData(prevUserData => ({...prevUserData,
                         person: {

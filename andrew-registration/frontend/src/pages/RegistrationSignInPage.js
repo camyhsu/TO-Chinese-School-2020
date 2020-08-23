@@ -21,25 +21,25 @@ export default function SignIn() {
         const fetchData = async () => {
             try {
                 // fetch signin data from psql database
-                const signInResponse = await fetch(`/admin/signin/username/${username}`);
+                const signInResponse = await fetch(`/admin/signin?username=${username}`);
                 var hash = await signInResponse.json();
                 const pass_salt = password + hash[0].password_salt;
                 // ensure password is valid
                 if(sha256(pass_salt) === hash[0].password_hash) {
                     // fetch personal user data to be displayed in Registration Home Page and Registration SideBar
-                    const personalDataResponse = await fetch(`/user/data/${hash[0].person_id}`);
+                    const personalDataResponse = await fetch(`/user/data?id=${hash[0].person_id}`);
                     var personalData = await personalDataResponse.json();
                     // fetch personal user address to be displayed in Registration Home Page and Registration SideBar
-                    const personalAddressResponse = await fetch(`/user/address/${hash[0].person_id}`);
+                    const personalAddressResponse = await fetch(`/user/address?id=${hash[0].person_id}`);
                     var personalAddress = await personalAddressResponse.json();
                     // fetch family address data to be displayed in Family Details in Registration Home Page
-                    const familyAddressDataResponse = await fetch(`/user/family/address/${hash[0].person_id}`);
+                    const familyAddressDataResponse = await fetch(`/user/family/address?id=${hash[0].person_id}`);
                     var familyAddressData = await familyAddressDataResponse.json();
                     // fetch parent two's data to be displayed in Family Details in Registration Home Page
-                    const parentDataResponse = await fetch(`/user/parent/data/${familyAddressData[0].family_id}`);
+                    const parentDataResponse = await fetch(`/user/parent/data?id=${familyAddressData[0].family_id}`);
                     var parentData = await parentDataResponse.json();
                     // fetch children/student's data to be displayed in Family and Student Details in Registration Home Page
-                    const studentDataResponse = await fetch(`/user/student/data/${hash[0].person_id}`);
+                    const studentDataResponse = await fetch(`/user/student/data?id=${hash[0].person_id}`);
                     var studentData = await studentDataResponse.json();
                     // create a children array for easier display
                     var children = [];

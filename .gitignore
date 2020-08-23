@@ -9,4 +9,5 @@ erl_crash.dump
 /config/*.secret.exs
 .idea/
 .DS_Store
+/node_modules
 

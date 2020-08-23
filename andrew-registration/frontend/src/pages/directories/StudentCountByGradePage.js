@@ -8,7 +8,7 @@ export default function StudentCountByGradePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/directories/studentcount/grades/${schoolYear.id}`);
+                const response = await fetch(`/directories/studentcount/grades?id=${schoolYear.id}`);
                 var json = await response.json();
                 setResults(json);
             } catch (error) {

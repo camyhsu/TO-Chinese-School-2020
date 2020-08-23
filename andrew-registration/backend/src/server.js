@@ -1,11 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-
 const app = express();
+const morgan = require('morgan');
 
 const directoriesRouter = require('./routes/directories');
 const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
+
+app.use(morgan('dev'));
 
 app.use('/directories', directoriesRouter);
 app.use('/user', userRouter);

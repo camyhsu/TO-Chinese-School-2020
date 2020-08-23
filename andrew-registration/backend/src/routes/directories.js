@@ -10,66 +10,63 @@ const pool = new Pool({
 })
 
 
-const getPeopleByEmail = async (request, response) => {
-    const emailAddress = request.params.email;
-    
-    try {
-        const res = await pool.query("SELECT people.id, english_last_name, english_first_name, chinese_name, gender, birth_month, birth_year, native_language, email \
-                                        FROM people JOIN addresses ON people.address_id = addresses.id WHERE email LIKE '%" + emailAddress + "%'");
-        response.status(200).json(res.rows);
-    }
-    catch (error) {
-        throw error;
-    }
-}
+const getPeople = async (request, response, next) => {
+    const email = request.query.email;
+    const chinese = request.query.chinese;
+    const english = request.query.english;
 
-const getPeopleByChineseName = async (request, response) => {
-    const chineseName = request.params.chineseName;
-
-    try {
-        const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
-                                        FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id WHERE chinese_name = $1', [chineseName]);
-        response.status(200).json(res.rows);
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
-const getPeopleByEnglishName = async (request, response) => {
-    const firstAndLast = request.params.first_last;
-    const nameArr = firstAndLast.split(/(?=[A-Z])/);
-
-    try {
-        // if only one name is given, search for the name in first and last names
-        if( nameArr.length == 1 ) {
-            const name = nameArr[0];
-    
-            const res = await pool.query("SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
-                                            FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id \
-                                            WHERE english_first_name LIKE '%" + name + "%' or english_last_name LIKE '%" + name + "%'");
-            response.status(200).json(res.rows);
+    if( email ) {
+        try {
+            const res = await pool.query("SELECT people.id, english_last_name, english_first_name, chinese_name, gender, birth_month, birth_year, native_language, email \
+                                            FROM people JOIN addresses ON people.address_id = addresses.id WHERE email LIKE '%" + email + "%'");
+            return response.status(200).json(res.rows);
         }
-        // take the first and last names in the query as the first and last name, respectively
-        else {
-            const firstName = nameArr[0];
-            const lastName = nameArr[nameArr.length - 1];
-        
+        catch (error) {
+            throw error;
+        }
+    }
+    else if ( chinese ) {
+        try {
             const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
-                                            FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id \
-                                            WHERE english_first_name = $1 AND english_last_name = $2', [firstName, lastName]);
-            response.status(200).json(res.rows);
+                                            FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id WHERE chinese_name = $1', [chinese]);
+            return response.status(200).json(res.rows);
         }
-
+        catch (error) {
+            throw error;
+        }
     }
-    catch (error) {
-        throw error;
+    else {
+        const nameArr = english.split(/(?=[A-Z])/);
+        try {
+            // if only one name is given, search for the name in first and last names
+            if( nameArr.length == 1 ) {
+                const name = nameArr[0];
+        
+                const res = await pool.query("SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
+                                                FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id \
+                                                WHERE english_first_name LIKE '%" + name + "%' or english_last_name LIKE '%" + name + "%'");
+                return response.status(200).json(res.rows);
+            }
+            // take the first and last names in the query as the first and last name, respectively
+            else {
+                const firstName = nameArr[0];
+                const lastName = nameArr[nameArr.length - 1];
+            
+                const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, email, gender, birth_month, birth_year, native_language \
+                                                FROM people FULL JOIN addresses ON people.address_id = null OR people.address_id = addresses.id \
+                                                WHERE english_first_name = $1 AND english_last_name = $2', [firstName, lastName]);
+                return response.status(200).json(res.rows);
+            }
+    
+        }
+        catch (error) {
+            throw error;
+        }
     }
+    
 }
 
-const getGrades = async (request, response) => {
-    const emailAddress = request.params.email;
-    
+const getGrades = async (request, response, next) => {
     try {
         const res = await pool.query('SELECT chinese_name, english_name, short_name FROM grades;');
         response.status(200).json(res.rows);
@@ -79,8 +76,8 @@ const getGrades = async (request, response) => {
     }
 }
 
-const getStudentCountByGrade = async (request, response) => {
-    const schoolYearId = request.params.school_year_id;
+const getStudentCountByGrade = async (request, response, next) => {
+    const schoolYearId = request.query.id;
     
     try {
         const res = await pool.query('SELECT chinese_name, english_name, count(grades.id), max_table.sum as max FROM grades \
@@ -97,8 +94,8 @@ const getStudentCountByGrade = async (request, response) => {
     }
 }
 
-const getStudentCountByClass = async (request, response) => {
-    const schoolYearId = request.params.school_year_id;
+const getStudentCountByClass = async (request, response, next) => {
+    const schoolYearId = request.query.id;
     
     try {
         const res = await pool.query('SELECT ci.english_name AS class_english_name, ci.chinese_name AS class_chinese_name, ci.count, ci.location, ci.max_size, ci.min_age, ci.max_age, \
@@ -128,8 +125,8 @@ const getStudentCountByClass = async (request, response) => {
     }
 }
 
-const getStudentCountByElective = async (request, response) => {
-    const schoolYearId = request.params.school_year_id; 
+const getStudentCountByElective = async (request, response, next) => {
+    const schoolYearId = request.query.id; 
     
     try {
         const res = await pool.query('SELECT ci.english_name AS class_english_name, ci.chinese_name AS class_chinese_name, ci.count, ci.location, ci.max_size, ci.min_age, ci.max_age, \
@@ -159,8 +156,8 @@ const getStudentCountByElective = async (request, response) => {
     }
 }
 
-const getActiveClasses = async (request, response) => {
-    const schoolYearId = request.params.school_year_id; 
+const getActiveClasses = async (request, response, next) => {
+    const schoolYearId = request.query.id; 
     
     try {
         const res = await pool.query('SELECT sc.id, sc.english_name AS class_english_name, sc.chinese_name AS class_chinese_name, sc.location, \
@@ -190,8 +187,8 @@ const getActiveClasses = async (request, response) => {
     }
 }
 
-const getAllSchoolClasses = async (request, response) => {
-    const schoolYearId = request.params.school_year_id; 
+const getAllSchoolClasses = async (request, response, next) => {
+    const schoolYearId = request.query.id; 
     
     try {
         const res = await pool.query('SELECT sc.id, english_name, chinese_name, short_name, description, location, school_class_type AS type, max_size, min_age, max_age, grade_id, active \
@@ -204,9 +201,9 @@ const getAllSchoolClasses = async (request, response) => {
     }
 }
 
-const getStudentInfoForClass = async (request, response) => {
-    const classId = request.params.class_id; 
-    const yearId = request.params.school_year_id;
+const getStudentInfoForClass = async (request, response, next) => {
+    const classId = request.query.class; 
+    const yearId = request.query.year;
     
     try {
         const res = await pool.query('SELECT s.chinese_name AS student_chinese_name, s.english_last_name AS student_last_name, s.english_first_name AS student_first_name, \
@@ -231,9 +228,9 @@ const getStudentInfoForClass = async (request, response) => {
     }
 }
 
-const getClassInfoForClass = async (request, response) => {
-    const classId = request.params.class_id; 
-    const yearId = request.params.school_year_id;
+const getClassInfoForClass = async (request, response, next) => {
+    const classId = request.query.class; 
+    const yearId = request.query.year;
     
     try {
         const res = await pool.query('SELECT i.chinese_name AS teacher_chinese_name, i.english_first_name AS teacher_first_name, i.english_last_name AS teacher_last_name, \
@@ -251,16 +248,14 @@ const getClassInfoForClass = async (request, response) => {
 }
 
 const directoriesRouter = express.Router();
-directoriesRouter.get('/people/email/:email', getPeopleByEmail);
-directoriesRouter.get('/people/chineseName/:chineseName', getPeopleByChineseName);
-directoriesRouter.get('/people/englishName/:first_last', getPeopleByEnglishName);
+directoriesRouter.get('/people', getPeople);
 directoriesRouter.get('/grades', getGrades);
-directoriesRouter.get('/studentcount/grades/:school_year_id', getStudentCountByGrade);
-directoriesRouter.get('/studentcount/class/:school_year_id', getStudentCountByClass);
-directoriesRouter.get('/studentcount/elective/:school_year_id', getStudentCountByElective);
-directoriesRouter.get('/classes/active/:school_year_id', getActiveClasses);
-directoriesRouter.get('/classes/all/:school_year_id', getAllSchoolClasses);
-directoriesRouter.get('/studentlist/class/:class_id/:school_year_id', getStudentInfoForClass);
-directoriesRouter.get('/info/class/:class_id/:school_year_id', getClassInfoForClass);
+directoriesRouter.get('/studentcount/grades', getStudentCountByGrade);
+directoriesRouter.get('/studentcount/class', getStudentCountByClass);
+directoriesRouter.get('/studentcount/elective', getStudentCountByElective);
+directoriesRouter.get('/classes/active', getActiveClasses);
+directoriesRouter.get('/classes/all', getAllSchoolClasses);
+directoriesRouter.get('/studentlist', getStudentInfoForClass);
+directoriesRouter.get('/info', getClassInfoForClass);
 
 module.exports = directoriesRouter;

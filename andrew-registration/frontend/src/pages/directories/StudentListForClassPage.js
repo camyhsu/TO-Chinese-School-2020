@@ -12,11 +12,11 @@ export default function StudentListForClassPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const classInfoResponse = await fetch(`/directories/info/class/${classId}/${schoolYear.id}`);
+                const classInfoResponse = await fetch(`/directories/info?class=${classId}&year=${schoolYear.id}`);
                 var classInfo = await classInfoResponse.json();
                 setClassResults(classInfo[0]);
 
-                const studentInfoResponse = await fetch(`/directories/studentlist/class/${classId}/${schoolYear.id}`);
+                const studentInfoResponse = await fetch(`/directories/studentlist?class=${classId}&year=${schoolYear.id}`);
                 var studentInfo = await studentInfoResponse.json();
                 setStudentResults(studentInfo);
             } catch (error) {

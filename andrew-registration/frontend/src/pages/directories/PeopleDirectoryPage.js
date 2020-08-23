@@ -106,7 +106,7 @@ export default function PeopleDirectoryPage() {
             if( selectedOption === "email" ) {
                 let email = searchQuery.trim();
                 try {
-                    const response = await fetch(`/directories/people/email/${email}`);
+                    const response = await fetch(`/directories/people?email=${email}`);
                     json = await response.json();
                     setResults(json);
                 } catch (error) {
@@ -117,7 +117,7 @@ export default function PeopleDirectoryPage() {
             else if( selectedOption === "english" ) {
                 let name  = searchQuery.replace(/\s/g, '').trim();
                 try {
-                    const response = await fetch(`/directories/people/englishName/${name}`);
+                    const response = await fetch(`/directories/people?english=${name}`);
                     json = await response.json();
                     setResults(json);
                 } catch (error) {
@@ -128,7 +128,7 @@ export default function PeopleDirectoryPage() {
             else {
                 let name = searchQuery.replace(/\s/g, '').trim();
                 try {
-                    const response = await fetch(`/directories/people/chineseName/${name}`);
+                    const response = await fetch(`/directories/people?chinese=${name}`);
                     json = await response.json();
                     setResults(json);
                 } catch (error) {
