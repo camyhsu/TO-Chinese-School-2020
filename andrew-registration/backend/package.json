@@ -4,7 +4,7 @@
   "description": "RESTful API with Node.js, Express, and PostgreSQL",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --watch --recursive test/unit",
+    "test": "jest",
     "start": "nodemon src/server.js"
   },
   "keywords": [],

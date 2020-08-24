@@ -12,80 +12,104 @@ const pool = new Pool({
 
 const getUserData = async (request, response, next) => {
     const id = request.query.id;
+    
+    if( !id )
+        return response.status(400).json({message: 'Id is required'});
 
     try {
         const res = await pool.query('SELECT users.username, english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
                                         FROM people FULL JOIN users ON people.id = users.person_id WHERE people.id = $1;', [id]);
-        response.status(200).json(res.rows);
+        if (res.rows.length === 0)
+            return response.status(404).json({message: `No user found with id: ${id}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getUserAddress = async (request, response, next) => {
     const id = request.query.id;
 
+    if( !id )
+        return response.status(400).json({message: 'Id is required'});
+
     try {
         const res = await pool.query('SELECT id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email \
                                         FROM addresses WHERE addresses.id = (SELECT address_id FROM people WHERE people.id = $1);', [id]);
-        response.status(200).json(res.rows);
+        if (res.rows.length === 0)
+            return response.status(404).json({message: `No address found for person id: ${id}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getParentData = async (request, response, next) => {
     const id = request.query.id;
 
+    if( !id )
+        return response.status(400).json({message: 'Id is required'});
+
     try {
         const res = await pool.query('SELECT people.id AS person_id, english_first_name, english_last_name, chinese_name, username FROM people JOIN users ON users.person_id = people.id \
                                         JOIN families ON families.parent_one_id = people.id OR families.parent_two_id = people.id WHERE families.id = $1;', [id]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
-const getFamilyAddressData = async (request, response, next) => {
+const getFamilyAddress = async (request, response, next) => {
     const id = request.query.id;
+
+    if( !id )
+        return response.status(400).json({message: 'Id is required'});
 
     try {
         const res = await pool.query('SELECT families.id AS family_id, addresses.id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses \
                                         JOIN families ON families.address_id = addresses.id WHERE parent_one_id = $1 or parent_two_id = $1;', [id]);
-        response.status(200).json(res.rows);
+        if (res.rows.length === 0)
+            return response.status(404).json({message: `No family address found for person id: ${id}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getFamilyAddressFromChildData = async (request, response, next) => {
     const id = request.query.id;
 
+    if( !id )
+        return response.status(400).json({message: 'Id is required'});
+
     try {
         const res = await pool.query('SELECT families.id as family_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses JOIN families \
                                         ON families.address_id = addresses.id WHERE families.id = (SELECT family_id FROM families_children WHERE child_id = $1);', [id]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getStudentData = async (request, response, next) => {
     const id = request.query.id;
 
+    if( !id )
+        return response.status(400).json({message: 'Id is required'});
+
     try {
         const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, gender, birth_month, birth_year, native_language \
                                         FROM people WHERE people.id IN (SELECT child_id FROM families_children WHERE families_children.family_id = \
                                         (SELECT id FROM families WHERE parent_one_id = $1 OR parent_two_id = $1));', [id]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -170,7 +194,7 @@ const userRouter = express.Router();
 userRouter.get('/data', getUserData);
 userRouter.get('/address', getUserAddress);
 userRouter.get('/parent/data', getParentData);
-userRouter.get('/family/address', getFamilyAddressData);
+userRouter.get('/family/address', getFamilyAddress);
 userRouter.get('/family/address/fromchild', getFamilyAddressFromChildData);
 userRouter.get('/student/data', getStudentData);
 userRouter.patch('/data/edit/:person_id', patchUserData);
