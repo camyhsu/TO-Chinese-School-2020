@@ -39,7 +39,7 @@ export default function SignIn() {
                     const parentDataResponse = await fetch(`/user/parent/data?id=${familyAddressData[0].family_id}`);
                     var parentData = await parentDataResponse.json();
                     // fetch children/student's data to be displayed in Family and Student Details in Registration Home Page
-                    const studentDataResponse = await fetch(`/user/student/data?id=${hash[0].person_id}`);
+                    const studentDataResponse = await fetch(`/user/student/data?id=${familyAddressData[0].family_id}`);
                     var studentData = await studentDataResponse.json();
                     // create a children array for easier display
                     var children = [];

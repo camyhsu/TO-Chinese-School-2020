@@ -49,7 +49,7 @@ export default function EditStudentDetailsPage() {
                 });
 
                 // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/user/student/data?id=${userData.person.personId}`);
+                const studentDataResponse = await fetch(`/user/student/data?id=${userData.family.familyId}`);
                 var studentData = await studentDataResponse.json();
                 // create a children array for easier display
                 var children = [];

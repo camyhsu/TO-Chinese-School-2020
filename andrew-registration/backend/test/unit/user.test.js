@@ -1,5 +1,5 @@
 const chai = require('chai')
-const { getUserData, getUserAddress, getFamilyAddress } = require('./user');
+const { getUserData, getUserAddress, getFamilyAddress, getStudentData, getParentData, getFamilyAddressFromChild } = require('./user');
 
 const mockRequest = (query) => ({
     query
@@ -25,15 +25,8 @@ describe('getUserData tests', () => {
         await getUserData(req, res);
         expect(res.status).toBeCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({
-            message: 'Id is required'
+            message: 'Person id is required'
         });
-    })
-    it('should return 200 and return the user\'s data if user exists', async () => {
-        const req = mockRequest({id: 123});
-        const res = mockResponse();
-        await getUserData(req, res);
-        expect(res.status).toBeCalledWith(200);
-        expect(res.json).toHaveBeenCalled();
     })
     it('should return 404 and an empty response if the user does not exist', async () => {
         const req = mockRequest({id: 404});
@@ -41,7 +34,24 @@ describe('getUserData tests', () => {
         await getUserData(req, res);
         expect(res.status).toBeCalledWith(404);
         expect(res.json).toHaveBeenCalledWith({
-            message: 'No user found with id: 404'
+            message: 'No user found with person id: 404'
+        });
+    })
+    it('should return 200 and return the user\'s data if user exists', async () => {
+        const req = mockRequest({id: 123});
+        const res = mockResponse();
+        await getUserData(req, res);
+        expect(res.status).toBeCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            user_id: 123,
+            username: 'user1',
+            english_first_name: 'andrew',
+            english_last_name: 'tsui',
+            chinese_name: 'chinese',
+            gender: 'M',
+            birth_month: '6',
+            birth_year: '1999',
+            native_langugage: 'English'
         });
     })
 });
@@ -53,7 +63,7 @@ describe('getUserAddress tests', () => {
         await getUserAddress(req, res);
         expect(res.status).toBeCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({
-            message: 'Id is required'
+            message: 'Person id is required'
         });
     })
     it('should return 404 if the user does not exist', async () => {
@@ -79,7 +89,17 @@ describe('getUserAddress tests', () => {
         const res = mockResponse();
         await getUserAddress(req, res);
         expect(res.status).toBeCalledWith(200);
-        expect(res.json).toHaveBeenCalled();
+        expect(res.json).toHaveBeenCalledWith({
+            address_id: 456,
+            family_id: 900,
+            street: 'Street St',
+            city: 'Thousand Oaks',
+            state: 'CA',
+            zipcode: 91362,
+            home_phone: 1234567890,
+            cell_phone: 9876543210,
+            email: 'email@email.com'
+        });
     })
 });
 
@@ -90,7 +110,7 @@ describe('getFamilyAddress tests', () => {
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({
-            message: 'Id is required'
+            message: 'Person id is required'
         });
     })
     it('should return 404 if the user does not exist', async () => {
@@ -125,6 +145,158 @@ describe('getFamilyAddress tests', () => {
         const res = mockResponse();
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(200);
-        expect(res.json).toHaveBeenCalled();
+        expect(res.json).toHaveBeenCalledWith({
+            address_id: 345,
+            family_id: 345,
+            street: 'Street St',
+            city: 'Thousand Oaks',
+            state: 'CA',
+            zipcode: 91362,
+            home_phone: 1234567890,
+            cell_phone: 9876543210,
+            email: 'email@email.com'
+        });
+    })
+});
+
+describe('getStudentData tests', () => {
+    it('should return 400 if id is missing in query', async () => {
+        const req = mockRequest({});
+        const res = mockResponse();
+        await getStudentData(req, res);
+        expect(res.status).toBeCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'Family id is required'
+        });
+    })
+    it('should return 404 if the family does not exist', async () => {
+        const req = mockRequest({id: 404});
+        const res = mockResponse();
+        await getStudentData(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No students found for family id: 404'
+        });
+    })
+    it('should return 404 if the family exists but the student does not', async () => {
+        const req = mockRequest({id: 678});
+        const res = mockResponse();
+        await getStudentData(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No students found for family id: 678'
+        });
+    })
+    it('should return 200 and return the family address data if user exists', async () => {
+        const req = mockRequest({id: 345});
+        const res = mockResponse();
+        await getStudentData(req, res);
+        expect(res.status).toBeCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            user_id: 123,
+            username: 'user1',
+            english_first_name: 'andrew',
+            english_last_name: 'tsui',
+            chinese_name: 'chinese',
+            gender: 'M',
+            birth_month: '6',
+            birth_year: '1999',
+            native_langugage: 'English'
+        });
+    })
+});
+
+describe('getParentData tests', () => {
+    it('should return 400 if id is missing in query', async () => {
+        const req = mockRequest({});
+        const res = mockResponse();
+        await getParentData(req, res);
+        expect(res.status).toBeCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'Family id is required'
+        });
+    })
+    it('should return 404 if the family does not exist', async () => {
+        const req = mockRequest({id: 404});
+        const res = mockResponse();
+        await getParentData(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No parents found for family id: 404'
+        });
+    })
+    it('should return 404 if the family exists but the parent does not', async () => {
+        const req = mockRequest({id: 654});
+        const res = mockResponse();
+        await getParentData(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No parents found for family id: 654'
+        });
+    })
+    it('should return 200 and return the family address data if user exists', async () => {
+        const req = mockRequest({id: 345});
+        const res = mockResponse();
+        await getParentData(req, res);
+        expect(res.status).toBeCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            user_id: 789,
+            address_id: 457,
+            username: 'user3',
+            english_first_name: 'andrew',
+            english_last_name: 'tsui',
+            chinese_name: 'chinese',
+            gender: 'M',
+            birth_month: '6',
+            birth_year: '1999',
+            native_langugage: 'English'
+        });
+    })
+});
+
+describe('getFamilyAddressFromChildData tests', () => {
+    it('should return 400 if id is missing in query', async () => {
+        const req = mockRequest({});
+        const res = mockResponse();
+        await getFamilyAddressFromChild(req, res);
+        expect(res.status).toBeCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'Person id is required'
+        });
+    })
+    it('should return 404 if the family does not exist', async () => {
+        const req = mockRequest({id: 456});
+        const res = mockResponse();
+        await getFamilyAddressFromChild(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No family address found for person id: 456'
+        });
+    })
+    it('should return 404 if the family exists but the address does not', async () => {
+        const req = mockRequest({id: 789});
+        const res = mockResponse();
+        await getFamilyAddressFromChild(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No family address found for person id: 789'
+        });
+    })
+    it('should return 200 and return the family address data if user exists', async () => {
+        const req = mockRequest({id: 123});
+        const res = mockResponse();
+        await getFamilyAddressFromChild(req, res);
+        expect(res.status).toBeCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            address_id: 345,
+            family_id: 345,
+            street: 'Street St',
+            city: 'Thousand Oaks',
+            state: 'CA',
+            zipcode: 91362,
+            home_phone: 1234567890,
+            cell_phone: 9876543210,
+            email: 'email@email.com'
+        });
     })
 });
