@@ -25,6 +25,20 @@ const verifyUserSignIn = async (request, response, next) => {
     }
 }
 
+const changePassword = async (request, response, next) => {
+    const body = await readBody(request);
+    const username = request.params.username;
+    const { password_hash, password_salt } = JSON.parse(body);
+    
+    try {
+        const res = await pool.query('UPDATE users SET password_hash = $1, password_salt = $2 WHERE username = $3',[password_hash, password_salt, username]);
+        response.status(200).json(res.rows);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const addPerson = async (request, response, next) => {
     const body = await readBody(request);
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
@@ -70,6 +84,7 @@ const changeClassActiveStatus = async (request, response, next) => {
 
 const adminRouter = express.Router();
 adminRouter.get('/signin', verifyUserSignIn);
+adminRouter.patch('/password/edit/:username', changePassword);
 adminRouter.post('/people/add', addPerson);
 adminRouter.post('/address/add', addAddress);
 adminRouter.patch('/class/active/edit/:year_id/:class_id', changeClassActiveStatus);

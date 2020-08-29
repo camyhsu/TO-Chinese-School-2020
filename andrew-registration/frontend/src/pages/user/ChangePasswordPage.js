@@ -41,7 +41,7 @@ export default function ChangePasswordPage() {
                     body.password_hash = sha256(newPassword + salt);
                     body.password_salt = salt;
 
-                    await fetch(`/user/password/edit/${userData.person.username}`, {
+                    await fetch(`/admin/password/edit/${userData.person.username}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'

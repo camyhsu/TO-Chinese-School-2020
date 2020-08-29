@@ -149,20 +149,6 @@ const patchAddress = async (request, response, next) => {
     }
 }
 
-const changePassword = async (request, response, next) => {
-    const body = await readBody(request);
-    const username = request.params.username;
-    const { password_hash, password_salt } = JSON.parse(body);
-    
-    try {
-        const res = await pool.query('UPDATE users SET password_hash = $1, password_salt = $2 WHERE username = $3',[password_hash, password_salt, username]);
-        response.status(200).json(res.rows);
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
 const addChild = async (request, response, next) => {
     const body = await readBody(request);
     const id = request.params.family_id;
@@ -204,7 +190,6 @@ userRouter.get('/family/address/fromchild', getFamilyAddressFromChild);
 userRouter.get('/student/data', getStudentData);
 userRouter.patch('/data/edit/:person_id', patchUserData);
 userRouter.patch('/address/edit/:address_id', patchAddress);
-userRouter.patch('/password/edit/:username', changePassword);
 userRouter.post('/family/child/add/:family_id', addChild);
 userRouter.post('/address/add/:person_id', addAddress);
 

@@ -210,11 +210,73 @@ const getFamilyAddressFromChild = async (request, response, next) => {
     }
 }
 
+const makeChanges = (original, update) => {
+    for(key in update) {
+        if(update[key])
+            original[key] = update[key];
+    }
+    return original;
+}
+
+const patchUserData = async (request, response, next) => {
+    const id = request.query.id;
+    const body = request.body;
+
+    if( !id )
+        return response.status(400).json({message: 'Person id is required'});
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
+    if( !body.english_first_name || !body.english_last_name || !body.gender )
+        return response.status(400).json({message: 'English First and Last Name and Gender required'});
+
+    try {
+        var user = users.find(({user_id}) => user_id === id);
+        if (!user)
+            return response.status(404).json({message: `No user found with person id: ${id}`});
+        var userIndex = users.indexOf(user);
+        var changedUser = makeChanges(user, body);
+        users.splice(userIndex, userIndex, changedUser);
+        var updatedUser = users.find(({user_id}) => user_id === id);
+        response.status(200).json(updatedUser);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+const patchAddress = async (request, response, next) => {
+    const id = request.query.id;
+    const body = request.body;
+
+    if( !id )
+        return response.status(400).json({message: 'Address id is required'});
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
+    if( !body.street || !body.city || !body.state || !body.zipcode || !body.home_phone || !body.email )
+        return response.status(400).json({message: 'Street, City, State, Zipcode, Home Phone, and Email required'});
+
+    try {
+        var address = addresses.find(({address_id}) => address_id === id);
+        if (!address)
+            return response.status(404).json({message: `No address found with address id: ${id}`});
+        var addressIndex = addresses.indexOf(address);
+        var changedAddress = makeChanges(address, body);
+        addresses.splice(addressIndex, addressIndex, changedAddress);
+        var updatedAddress = addresses.find(({address_id}) => address_id === id);
+        response.status(200).json(updatedAddress);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getUserData,
     getUserAddress,
     getFamilyAddress,
     getStudentData,
     getParentData,
-    getFamilyAddressFromChild
+    getFamilyAddressFromChild,
+    patchUserData,
+    patchAddress,
 };
