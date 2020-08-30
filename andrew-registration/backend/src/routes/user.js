@@ -119,8 +119,12 @@ const getStudentData = async (request, response, next) => {
 }
 
 const patchUserData = async (request, response, next) => {
-    const body = await readBody(request);
     const id = request.params.person_id;
+    if( !id )
+        return response.status(400).json({message: 'Person id is required'});
+    const body = await readBody(request);
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
 
     try {
@@ -134,8 +138,12 @@ const patchUserData = async (request, response, next) => {
 }
 
 const patchAddress = async (request, response, next) => {
-    const body = await readBody(request);
     const id = request.params.address_id;
+    if( !id )
+        return response.status(400).json({message: 'Address id is required'});
+    const body = await readBody(request);
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
     const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
 
     try {
@@ -150,8 +158,12 @@ const patchAddress = async (request, response, next) => {
 }
 
 const addChild = async (request, response, next) => {
-    const body = await readBody(request);
     const id = request.params.family_id;
+    if( !id )
+        return response.status(400).json({message: 'Family id is required'});
+    const body = await readBody(request);
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
     
     try {
@@ -168,7 +180,11 @@ const addChild = async (request, response, next) => {
 
 const addAddress = async (request, response, next) => {
     const id = request.params.person_id;
+    if( !id )
+        return response.status(400).json({message: 'Family id is required'});
     const body = await readBody(request);
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
     const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
     
     try {

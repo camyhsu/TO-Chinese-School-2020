@@ -6,8 +6,8 @@ users = [
         english_last_name: 'tsui',
         chinese_name: 'chinese',
         gender: 'M',
-        birth_month: '6',
-        birth_year: '1999',
+        birth_month: '2',
+        birth_year: '1996',
         native_langugage: 'English'
     },
     {
@@ -226,8 +226,6 @@ const patchUserData = async (request, response, next) => {
         return response.status(400).json({message: 'Person id is required'});
     if( !body || Object.keys(body).length === 0 )
         return response.status(400).json({message: 'JSON body required'});
-    if( !body.english_first_name || !body.english_last_name || !body.gender )
-        return response.status(400).json({message: 'English First and Last Name and Gender required'});
 
     try {
         var user = users.find(({user_id}) => user_id === id);
@@ -252,8 +250,6 @@ const patchAddress = async (request, response, next) => {
         return response.status(400).json({message: 'Address id is required'});
     if( !body || Object.keys(body).length === 0 )
         return response.status(400).json({message: 'JSON body required'});
-    if( !body.street || !body.city || !body.state || !body.zipcode || !body.home_phone || !body.email )
-        return response.status(400).json({message: 'Street, City, State, Zipcode, Home Phone, and Email required'});
 
     try {
         var address = addresses.find(({address_id}) => address_id === id);
@@ -270,6 +266,59 @@ const patchAddress = async (request, response, next) => {
     }
 }
 
+const addChild = async (request, response, next) => {
+    const body = request.body;
+    const id = request.query.id;
+
+    if( !id )
+        return response.status(400).json({message: 'Family id is required'});
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
+
+    try {
+        var family = families.find(({family_id}) => family_id === id)
+        if( !family )
+            return response.status(404).json({message: `No family found with family id: ${id}`})
+        var child = users.find(({english_first_name, english_last_name, birth_month, birth_year, gender}) => 
+            english_first_name === body.english_first_name && english_last_name === body.english_last_name && 
+            birth_month === body.birth_month && birth_year === body.birth_year && gender === body.gender)
+        
+        var newFamiliesChildren = {family_id : id, child_id: child.user_id};
+        families_children.splice(0,0, newFamiliesChildren);
+        var newlyAdded = families_children.find(({family_id, child_id}) => family_id === id && child_id === child.user_id);
+        response.status(201).json(newlyAdded);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+const addAddress = async (request, response, next) => {
+    const id = request.query.id;
+    const body = request.body;
+    
+    if( !id )
+        return response.status(400).json({message: 'Person id is required'});
+    if( !body || Object.keys(body).length === 0 )
+        return response.status(400).json({message: 'JSON body required'});
+
+    try {
+        var address = addresses.find(({street, city, state, zipcode, home_phone, email}) => 
+            street === body.street && city === body.city && state === body.state && 
+            zipcode === body.zipcode && home_phone === body.home_phone && email === body.email);
+        var user = users.find(({user_id}) => user_id === id);
+        if( !user )
+            return response.status(404).json({message: `No person found with user id: ${id}`})
+        var userIndex = users.indexOf(user);
+        user.address_id = address.address_id;
+        users.splice(userIndex, userIndex, user);
+        response.status(201).json(user);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getUserData,
     getUserAddress,
@@ -279,4 +328,6 @@ module.exports = {
     getFamilyAddressFromChild,
     patchUserData,
     patchAddress,
+    addChild,
+    addAddress
 };
