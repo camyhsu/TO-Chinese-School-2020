@@ -219,7 +219,7 @@ const makeChanges = (original, update) => {
 }
 
 const patchUserData = async (request, response, next) => {
-    const id = request.query.id;
+    const id = request.params.id;
     const body = request.body;
 
     if( !id )
@@ -235,7 +235,7 @@ const patchUserData = async (request, response, next) => {
         var changedUser = makeChanges(user, body);
         users.splice(userIndex, userIndex, changedUser);
         var updatedUser = users.find(({user_id}) => user_id === id);
-        response.status(200).json(updatedUser);
+        response.status(200);
     }
     catch (error) {
         throw error;
@@ -243,7 +243,7 @@ const patchUserData = async (request, response, next) => {
 }
 
 const patchAddress = async (request, response, next) => {
-    const id = request.query.id;
+    const id = request.params.id;
     const body = request.body;
 
     if( !id )
@@ -259,7 +259,7 @@ const patchAddress = async (request, response, next) => {
         var changedAddress = makeChanges(address, body);
         addresses.splice(addressIndex, addressIndex, changedAddress);
         var updatedAddress = addresses.find(({address_id}) => address_id === id);
-        response.status(200).json(updatedAddress);
+        response.status(200);
     }
     catch (error) {
         throw error;
@@ -268,7 +268,7 @@ const patchAddress = async (request, response, next) => {
 
 const addChild = async (request, response, next) => {
     const body = request.body;
-    const id = request.query.id;
+    const id = request.params.id;
 
     if( !id )
         return response.status(400).json({message: 'Family id is required'});
@@ -286,7 +286,7 @@ const addChild = async (request, response, next) => {
         var newFamiliesChildren = {family_id : id, child_id: child.user_id};
         families_children.splice(0,0, newFamiliesChildren);
         var newlyAdded = families_children.find(({family_id, child_id}) => family_id === id && child_id === child.user_id);
-        response.status(201).json(newlyAdded);
+        response.status(201);
     }
     catch (error) {
         throw error;
@@ -294,7 +294,7 @@ const addChild = async (request, response, next) => {
 }
 
 const addAddress = async (request, response, next) => {
-    const id = request.query.id;
+    const id = request.params.id;
     const body = request.body;
     
     if( !id )
@@ -312,7 +312,7 @@ const addAddress = async (request, response, next) => {
         var userIndex = users.indexOf(user);
         user.address_id = address.address_id;
         users.splice(userIndex, userIndex, user);
-        response.status(201).json(user);
+        response.status(201);
     }
     catch (error) {
         throw error;

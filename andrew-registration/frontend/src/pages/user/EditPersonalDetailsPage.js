@@ -69,7 +69,7 @@ export default function EditPersonalDetailsPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/user/data/edit/${personId}`, {
+                const patchResponse = await fetch(`/user/data/edit/${personId}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -78,35 +78,40 @@ export default function EditPersonalDetailsPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                if(parseInt(personId,10) === userData.person.personId) {
-                    const personalDataResponse = await fetch(`/user/data?id=${userData.person.personId}`);
-                    var personalData = await personalDataResponse.json();
-                    const personalAddressResponse = await fetch(`/user/address?id=${userData.person.personId}`);
-                    var personalAddress = await personalAddressResponse.json();
-                    setUserData(prevUserData => ({...prevUserData,
-                        person: {
-                            username: userData.person.username,
-                            personId: userData.person.personId,
-                            addressId: personalData[0].address_id,
-                            chineseName: personalData[0].chinese_name,
-                            englishFirstName: personalData[0].english_first_name,
-                            englishLastName: personalData[0].english_last_name,
-                            gender: personalData[0].gender,
-                            birthMonth: personalData[0].birth_month,
-                            birthYear: personalData[0].birth_year,
-                            nativeLanguage: personalData[0].native_language,
-                            street: personalAddress[0].street,
-                            city: personalAddress[0].city,
-                            state: personalAddress[0].state,
-                            zipcode: personalAddress[0].zipcode,
-                            homePhone: personalAddress[0].home_phone,
-                            cellPhone: personalAddress[0].cell_phone,
-                            email: personalAddress[0].email
-                        },
-                    }))
+                if(patchResponse.status === 200) {
+                    if(parseInt(personId,10) === userData.person.personId) {
+                        const personalDataResponse = await fetch(`/user/data?id=${userData.person.personId}`);
+                        var personalData = await personalDataResponse.json();
+                        const personalAddressResponse = await fetch(`/user/address?id=${userData.person.personId}`);
+                        var personalAddress = await personalAddressResponse.json();
+                        setUserData(prevUserData => ({...prevUserData,
+                            person: {
+                                username: userData.person.username,
+                                personId: userData.person.personId,
+                                addressId: personalData[0].address_id,
+                                chineseName: personalData[0].chinese_name,
+                                englishFirstName: personalData[0].english_first_name,
+                                englishLastName: personalData[0].english_last_name,
+                                gender: personalData[0].gender,
+                                birthMonth: personalData[0].birth_month,
+                                birthYear: personalData[0].birth_year,
+                                nativeLanguage: personalData[0].native_language,
+                                street: personalAddress[0].street,
+                                city: personalAddress[0].city,
+                                state: personalAddress[0].state,
+                                zipcode: personalAddress[0].zipcode,
+                                homePhone: personalAddress[0].home_phone,
+                                cellPhone: personalAddress[0].cell_phone,
+                                email: personalAddress[0].email
+                            },
+                        }))
+                    }
+                    setStatus('Personal Details Successfully Updated.');
+                    history.goBack();
                 }
-                setStatus('Personal Details Successfully Updated.');
-                history.goBack();
+                else {
+                    alert('Failed to update personal details. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }

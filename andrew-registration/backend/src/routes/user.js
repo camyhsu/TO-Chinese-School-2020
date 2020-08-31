@@ -129,11 +129,11 @@ const patchUserData = async (request, response, next) => {
 
     try {
         const res = await pool.query('UPDATE people SET english_first_name = $1, english_last_name = $2, chinese_name = $3, birth_year = $4, birth_month = $5, \
-                                        gender = $6, native_language = $7 WHERE id = $8', [englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage, id]);
-        response.status(200).json(res.rows);
+                            gender = $6, native_language = $7 WHERE id = $8', [englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage, id]);
+        return response.status(200).json(res);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -147,13 +147,12 @@ const patchAddress = async (request, response, next) => {
     const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
 
     try {
-        const res = await pool.query('UPDATE addresses \
-                                        SET street = $1, city = $2, state = $3, zipcode = $4, home_phone = $5, cell_phone = $6, email = $7 \
+        const res = await pool.query('UPDATE addresses SET street = $1, city = $2, state = $3, zipcode = $4, home_phone = $5, cell_phone = $6, email = $7 \
                                         WHERE id = $8', [street, city, state, zipcode, homePhone, cellPhone, email, id]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -167,14 +166,14 @@ const addChild = async (request, response, next) => {
     const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
     
     try {
-        const res = await pool.query('INSERT INTO families_children (family_id, child_id) VALUES ($1, \
-                                        (SELECT id FROM people WHERE english_last_name = $2 and english_first_name = $3 and chinese_name = $4 and \
-                                        gender = $5 and birth_year = $6 and birth_month = $7 and native_language = $8));'
-                                        , [id, englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
-        response.status(201).json(res.rows);
+        const res = await pool.query('INSERT INTO families_children (family_id, child_id) VALUES ($1, (SELECT id FROM people WHERE \
+                                        english_last_name = $2 and english_first_name = $3 and chinese_name = $4 and gender = $5 and \
+                                        birth_year = $6 and birth_month = $7 and native_language = $8));',
+                                        [id, englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
+        return response.status(201).json(res);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -189,11 +188,11 @@ const addAddress = async (request, response, next) => {
     
     try {
         const res = await pool.query('UPDATE people SET address_id = (SELECT id FROM addresses WHERE street = $1 and city = $2 and state = $3 and zipcode = $4 and \
-                                        home_phone = $5 and cell_phone = $6 and email = $7) WHERE people.id = $8;', [street, city, state, zipcode, homePhone, cellPhone, email, id]);
-        response.status(201).json(res.rows);
+                            home_phone = $5 and cell_phone = $6 and email = $7) WHERE people.id = $8;', [street, city, state, zipcode, homePhone, cellPhone, email, id]);
+        return response.status(201).json(res);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 

@@ -8,21 +8,8 @@ export default function EditFamilyAddressPage() {
     const personId = url[url.length-1];
     const { userData, setUserData, setStatus } = useAppContext(); 
     const history = useHistory();  
-    
-    const [personDetails, setPersonDetails] = useState({
-        'chinese_name':'',
-        'english_first_name':'',
-        'english_last_name':'',
-        'gender':'',
-        'birth_year':'',
-        'birth_month':'',
-        'native_language':''
-    });
-    const [parentTwoDetails, setParentTwoDetails] = useState({
-        'chinese_name':'',
-        'english_first_name':'',
-        'english_last_name':'',
-    })
+
+    const [parentDetails, setParentDetails] = useState([{}]);
     const [familyDetails, setFamilyDetails] = useState();
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
@@ -35,9 +22,6 @@ export default function EditFamilyAddressPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const personResponse = await fetch(`/user/data?id=${personId}`);
-                var person = await personResponse.json();
-                setPersonDetails(person[0]);
                 const familyResponse = await fetch(`/user/family/address?id=${personId}`);
                 var family = await familyResponse.json();
                 setFamilyDetails(family[0]);
@@ -48,14 +32,9 @@ export default function EditFamilyAddressPage() {
                 setHomePhone(family[0].home_phone);
                 setCellPhone(family[0].cell_phone);
                 setEmail(family[0].email);
-                const parentTwoResponse = await fetch(`/user/parent/data?id=${family[0].id}`);
-                var parentTwo = await parentTwoResponse.json();
-                if(typeof parentTwo[0] == 'undefined') {
-                    setParentTwoDetails(null)
-                }
-                else {
-                    setParentTwoDetails(parentTwo[0]);
-                }
+                const parentResponse = await fetch(`/user/parent/data?id=${family[0].family_id}`);
+                var parents = await parentResponse.json();
+                setParentDetails(parents);
             } catch (error) {
                 console.log(error);
             }
@@ -90,7 +69,7 @@ export default function EditFamilyAddressPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/user/address/edit/${familyDetails.address_id}`, {
+                const patchResponse = await fetch(`/user/address/edit/${familyDetails.address_id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -99,26 +78,31 @@ export default function EditFamilyAddressPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                if(parseInt(personId,10) === userData.person.personId) {
-                    const familyAddressDataResponse = await fetch(`/user/family/address?id=${personId}`);
-                    var familyAddressData = await familyAddressDataResponse.json();
-                    setUserData(prevUserData => ({...prevUserData,
-                        family: {
-                            familyId: userData.family.familyId,
-                            addressId: userData.family.addressId,
-                            children: userData.family.children,
-                            street: familyAddressData[0].street,
-                            city: familyAddressData[0].city,
-                            state: familyAddressData[0].state,
-                            zipcode: familyAddressData[0].zipcode,
-                            homePhone: familyAddressData[0].home_phone,
-                            cellPhone: familyAddressData[0].cell_phone,
-                            email: familyAddressData[0].email
-                        },
-                    }))
+                if( patchResponse.status === 200 ) {
+                    if(parseInt(personId,10) === userData.person.personId) {
+                        const familyAddressDataResponse = await fetch(`/user/family/address?id=${personId}`);
+                        var familyAddressData = await familyAddressDataResponse.json();
+                        setUserData(prevUserData => ({...prevUserData,
+                            family: {
+                                familyId: userData.family.familyId,
+                                addressId: userData.family.addressId,
+                                children: userData.family.children,
+                                street: familyAddressData[0].street,
+                                city: familyAddressData[0].city,
+                                state: familyAddressData[0].state,
+                                zipcode: familyAddressData[0].zipcode,
+                                homePhone: familyAddressData[0].home_phone,
+                                cellPhone: familyAddressData[0].cell_phone,
+                                email: familyAddressData[0].email
+                            },
+                        }))
+                    }
+                    setStatus('Family Address Successfully Updated.');
+                    history.goBack();
                 }
-                setStatus('Family Address Successfully Updated.');
-                history.goBack();
+                else {
+                    alert('Failed to update family address. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -130,8 +114,8 @@ export default function EditFamilyAddressPage() {
     return (
         <>
             <h1>Edit Family Address Details</h1>
-            <h3>Parent One: {personDetails.chinese_name} ({personDetails.english_first_name} {personDetails.english_last_name})</h3>
-            {parentTwoDetails === null ? <h3>Parent Two: </h3> : <h3>Parent Two: {parentTwoDetails.chinese_name} ({parentTwoDetails.english_first_name} {parentTwoDetails.english_last_name})</h3>}
+            <h3>Parent One: {parentDetails[0].chinese_name} ({parentDetails[0].english_first_name} {parentDetails[0].english_last_name})</h3>
+            {parentDetails.length === 1 ? <h3>Parent Two: </h3> : <h3>Parent Two: {parentDetails[1].chinese_name} ({parentDetails[1].english_first_name} {parentDetails[1].english_last_name})</h3>}
             <form onSubmit={handleSubmit}>
                 <div>
                     Street: <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} />

@@ -39,16 +39,7 @@ export default function AddChildPage() {
         const postData = async () => {
             try {
                 // first, create a new person
-                await fetch('/admin/people/add/', {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'POST',                                                              
-                    body: JSON.stringify( body )                                        
-                });
-                // then, add the new person to the family
-                await fetch(`/user/family/child/add/${familyId}`, {
+                const postResponse1 = await fetch('/admin/people/add/', {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -57,30 +48,50 @@ export default function AddChildPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                if(parseInt(familyId, 10) === userData.family.familyId) {
-                    const studentDataResponse = await fetch(`/user/student/data?id=${userData.person.personId}`);
-                    var studentData = await studentDataResponse.json();
-                    // create a children array for easier display
-                    var children = [];
-                    studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
-                    setUserData(prevUserData => ({...prevUserData,
-                        family: {
-                            familyId: userData.family.familyId,
-                            addressId: userData.family.addressId,
-                            children: children,
-                            street: userData.family.street,
-                            city: userData.family.city,
-                            state: userData.family.state,
-                            zipcode: userData.family.zipcode,
-                            homePhone: userData.family.homePhone,
-                            cellPhone: userData.family.cellPhone,
-                            email: userData.family.email
+                if( postResponse1.status === 201 ) {
+                     // then, add the new person to the family
+                    const postResponse2 = await fetch(`/user/family/child/add/${familyId}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
                         },
-                        students: studentData
-                    }))
+                        method: 'POST',                                                              
+                        body: JSON.stringify( body )                                        
+                    });
+
+                    if( postResponse2.status === 201 ) {
+                        if(parseInt(familyId, 10) === userData.family.familyId) {
+                            const studentDataResponse = await fetch(`/user/student/data?id=${userData.person.personId}`);
+                            var studentData = await studentDataResponse.json();
+                            // create a children array for easier display
+                            var children = [];
+                            studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
+                            setUserData(prevUserData => ({...prevUserData,
+                                family: {
+                                    familyId: userData.family.familyId,
+                                    addressId: userData.family.addressId,
+                                    children: children,
+                                    street: userData.family.street,
+                                    city: userData.family.city,
+                                    state: userData.family.state,
+                                    zipcode: userData.family.zipcode,
+                                    homePhone: userData.family.homePhone,
+                                    cellPhone: userData.family.cellPhone,
+                                    email: userData.family.email
+                                },
+                                students: studentData
+                            }))
+                        }
+                        setStatus('Child Successfully Added.');
+                        history.goBack();
+                    }
+                    else {
+                        alert('Failed to add child. Please try again.');
+                    }
                 }
-                setStatus('Child Successfully Added.');
-                history.goBack();
+                else {
+                    alert('Failed to add child. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }

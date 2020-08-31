@@ -39,7 +39,7 @@ export default function EditStudentDetailsPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                await fetch(`/user/data/edit/${userData.students[studentIndex].id}`, {
+                const patchResponse = await fetch(`/user/data/edit/${userData.students[studentIndex].id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -48,29 +48,34 @@ export default function EditStudentDetailsPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                // re-fetch data to update in display
-                const studentDataResponse = await fetch(`/user/student/data?id=${userData.family.familyId}`);
-                var studentData = await studentDataResponse.json();
-                // create a children array for easier display
-                var children = [];
-                studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
-                setUserData(prevUserData => ({...prevUserData,
-                    family: {
-                        familyId: userData.family.familyId,
-                        addressId: userData.family.addressId,
-                        children: children,
-                        street: userData.family.street,
-                        city: userData.family.city,
-                        state: userData.family.state,
-                        zipcode: userData.family.zipcode,
-                        homePhone: userData.family.homePhone,
-                        cellPhone: userData.family.cellPhone,
-                        email: userData.family.email
-                    },
-                    students: studentData
-                }))
-                setStatus('Student Details Successfully Updated.');
-                history.goBack();
+                if( patchResponse.status === 200 ) {
+                    // re-fetch data to update in display
+                    const studentDataResponse = await fetch(`/user/student/data?id=${userData.family.familyId}`);
+                    var studentData = await studentDataResponse.json();
+                    // create a children array for easier display
+                    var children = [];
+                    studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
+                    setUserData(prevUserData => ({...prevUserData,
+                        family: {
+                            familyId: userData.family.familyId,
+                            addressId: userData.family.addressId,
+                            children: children,
+                            street: userData.family.street,
+                            city: userData.family.city,
+                            state: userData.family.state,
+                            zipcode: userData.family.zipcode,
+                            homePhone: userData.family.homePhone,
+                            cellPhone: userData.family.cellPhone,
+                            email: userData.family.email
+                        },
+                        students: studentData
+                    }))
+                    setStatus('Student Details Successfully Updated.');
+                    history.goBack();
+                }
+                else {
+                    alert('Failed to update student details. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }

@@ -66,16 +66,7 @@ export default function CreatePersonalAddressPage() {
         const postData = async () => {
             try {
                 // first, create a new address
-                await fetch('/admin/address/add/', {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'POST',                                                              
-                    body: JSON.stringify( body )                                        
-                });
-                // then, add the new address id to the person
-                await fetch(`/user/address/add/${personId}`, {
+                const postResponse1 = await fetch('/admin/address/add/', {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -84,8 +75,28 @@ export default function CreatePersonalAddressPage() {
                     body: JSON.stringify( body )                                        
                 });
 
-                setStatus('Address Successfully Created.');
-                history.goBack();
+                if( postResponse1.status === 201 ) {
+                    // then, add the new address id to the person
+                    const postResponse2 = await fetch(`/user/address/add/${personId}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'POST',                                                              
+                        body: JSON.stringify( body )                                        
+                    });
+
+                    if( postResponse2.status === 201 ) {
+                        setStatus('Address Successfully Created.');
+                        history.goBack();
+                    }
+                    else {
+                        alert('Failed to create address. Please try again.');
+                    }
+                }
+                else {
+                    alert('Failed to create address. Please try again.');
+                } 
             } catch (error) {
                 console.log(error);
             }

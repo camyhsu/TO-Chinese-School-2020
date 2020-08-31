@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import { sha256 } from 'js-sha256';
-
 
 export default function ChangePasswordPage() {
     const { userData, setStatus } = useAppContext(); 
@@ -23,25 +21,11 @@ export default function ChangePasswordPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                const signInResponse = await fetch(`/admin/signin?username=${userData.person.username}`);
-                var hash = await signInResponse.json();
-                const pass_salt = oldPassword + hash[0].password_salt;
+                const signInResponse = await fetch(`/admin/signin?username=${userData.person.username}&&password=${oldPassword}`);
+                if( signInResponse.status === 200 ) {
+                    var body = {password: newPassword};
 
-                if(sha256(pass_salt) === hash[0].password_hash) {
-
-                    const crypto = require('crypto');
-                    var generateSalt = function(length) {
-                        return crypto.randomBytes(Math.ceil(length/2))
-                            .toString('hex')
-                            .slice(0,length); 
-                    }
-                    const salt = generateSalt(8);
-                    // create body for patch request
-                    var body = {};
-                    body.password_hash = sha256(newPassword + salt);
-                    body.password_salt = salt;
-
-                    await fetch(`/admin/password/edit/${userData.person.username}`, {
+                    const passwordResponse = await fetch(`/admin/password/edit/${userData.person.username}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -49,8 +33,13 @@ export default function ChangePasswordPage() {
                         method: 'PATCH',                                                              
                         body: JSON.stringify( body )                                 
                     });
-                    setStatus('Password Successfully Changed.');
-                    history.goBack();
+                    if( passwordResponse.status === 200 ) {
+                        setStatus('Password Successfully Changed.');
+                        history.goBack();
+                    }
+                    else {
+                        alert('Failed to update password. Please try again.');
+                    }
                 }
                 else {
                     alert('Incorrect Password.');

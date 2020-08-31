@@ -1,8 +1,7 @@
-const chai = require('chai')
 const { getUserData, getUserAddress, getFamilyAddress, getStudentData, getParentData, getFamilyAddressFromChild, 
         patchUserData, patchAddress,addChild,addAddress } = require('./user');
 
-const mockRequest = (query, body) => ({query,body});
+const mockRequest = (params, query, body) => ({params, query, body});
   
 const mockResponse = () => {
     const res = {};
@@ -13,7 +12,7 @@ const mockResponse = () => {
 
 describe('getUserData tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{});
+        const req = mockRequest({},{},{});
         const res = mockResponse();
         await getUserData(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -22,7 +21,7 @@ describe('getUserData tests', () => {
         });
     })
     it('should return 404 and an empty response if the user does not exist', async () => {
-        const req = mockRequest({id: 404},{});
+        const req = mockRequest({},{id: 404},{});
         const res = mockResponse();
         await getUserData(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -31,7 +30,7 @@ describe('getUserData tests', () => {
         });
     })
     it('should return 200 and return the user\'s data if user exists', async () => {
-        const req = mockRequest({id: 123},{});
+        const req = mockRequest({},{id: 123},{});
         const res = mockResponse();
         await getUserData(req, res);
         expect(res.status).toBeCalledWith(200);
@@ -51,7 +50,7 @@ describe('getUserData tests', () => {
 
 describe('getUserAddress tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{});
+        const req = mockRequest({},{},{});
         const res = mockResponse();
         await getUserAddress(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -60,7 +59,7 @@ describe('getUserAddress tests', () => {
         });
     })
     it('should return 404 if the user does not exist', async () => {
-        const req = mockRequest({id: 404},{});
+        const req = mockRequest({},{id: 404},{});
         const res = mockResponse();
         await getUserAddress(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -69,7 +68,7 @@ describe('getUserAddress tests', () => {
         });
     })
     it('should return 404 if the user exists but the address does not', async () => {
-        const req = mockRequest({id: 789},{});
+        const req = mockRequest({},{id: 789},{});
         const res = mockResponse();
         await getUserAddress(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -78,7 +77,7 @@ describe('getUserAddress tests', () => {
         });
     })
     it('should return 200 and return the address data if user exists', async () => {
-        const req = mockRequest({id: 456},{});
+        const req = mockRequest({},{id: 456},{});
         const res = mockResponse();
         await getUserAddress(req, res);
         expect(res.status).toBeCalledWith(200);
@@ -98,7 +97,7 @@ describe('getUserAddress tests', () => {
 
 describe('getFamilyAddress tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{});
+        const req = mockRequest({},{},{});
         const res = mockResponse();
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -107,7 +106,7 @@ describe('getFamilyAddress tests', () => {
         });
     })
     it('should return 404 if the user does not exist', async () => {
-        const req = mockRequest({id: 404},{});
+        const req = mockRequest({},{id: 404},{});
         const res = mockResponse();
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -116,7 +115,7 @@ describe('getFamilyAddress tests', () => {
         });
     })
     it('should return 404 if the user exists but the family does not', async () => {
-        const req = mockRequest({id: 123},{});
+        const req = mockRequest({},{id: 123},{});
         const res = mockResponse();
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -125,7 +124,7 @@ describe('getFamilyAddress tests', () => {
         });
     })
     it('should return 404 if the user and family exists but the address does not', async () => {
-        const req = mockRequest({id: 456},{});
+        const req = mockRequest({},{id: 456},{});
         const res = mockResponse();
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -134,7 +133,7 @@ describe('getFamilyAddress tests', () => {
         });
     })
     it('should return 200 and return the family address data if user exists', async () => {
-        const req = mockRequest({id: 789},{});
+        const req = mockRequest({},{id: 789},{});
         const res = mockResponse();
         await getFamilyAddress(req, res);
         expect(res.status).toBeCalledWith(200);
@@ -154,7 +153,7 @@ describe('getFamilyAddress tests', () => {
 
 describe('getStudentData tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{});
+        const req = mockRequest({},{},{});
         const res = mockResponse();
         await getStudentData(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -163,7 +162,7 @@ describe('getStudentData tests', () => {
         });
     })
     it('should return 404 if the family does not exist', async () => {
-        const req = mockRequest({id: 404},{});
+        const req = mockRequest({},{id: 404},{});
         const res = mockResponse();
         await getStudentData(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -172,7 +171,7 @@ describe('getStudentData tests', () => {
         });
     })
     it('should return 404 if the family exists but the student does not', async () => {
-        const req = mockRequest({id: 678},{});
+        const req = mockRequest({},{id: 678},{});
         const res = mockResponse();
         await getStudentData(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -181,7 +180,7 @@ describe('getStudentData tests', () => {
         });
     })
     it('should return 200 and return the family address data if user exists', async () => {
-        const req = mockRequest({id: 345},{});
+        const req = mockRequest({},{id: 345},{});
         const res = mockResponse();
         await getStudentData(req, res);
         expect(res.status).toBeCalledWith(200);
@@ -201,7 +200,7 @@ describe('getStudentData tests', () => {
 
 describe('getParentData tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{});
+        const req = mockRequest({},{},{});
         const res = mockResponse();
         await getParentData(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -210,7 +209,7 @@ describe('getParentData tests', () => {
         });
     })
     it('should return 404 if the family does not exist', async () => {
-        const req = mockRequest({id: 404},{});
+        const req = mockRequest({},{id: 404},{});
         const res = mockResponse();
         await getParentData(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -219,7 +218,7 @@ describe('getParentData tests', () => {
         });
     })
     it('should return 404 if the family exists but the parent does not', async () => {
-        const req = mockRequest({id: 654},{});
+        const req = mockRequest({},{id: 654},{});
         const res = mockResponse();
         await getParentData(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -228,7 +227,7 @@ describe('getParentData tests', () => {
         });
     })
     it('should return 200 and return the family address data if user exists', async () => {
-        const req = mockRequest({id: 345},{});
+        const req = mockRequest({},{id: 345},{});
         const res = mockResponse();
         await getParentData(req, res);
         expect(res.status).toBeCalledWith(200);
@@ -249,7 +248,7 @@ describe('getParentData tests', () => {
 
 describe('getFamilyAddressFromChildData tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{});
+        const req = mockRequest({},{},{});
         const res = mockResponse();
         await getFamilyAddressFromChild(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -258,7 +257,7 @@ describe('getFamilyAddressFromChildData tests', () => {
         });
     })
     it('should return 404 if the family does not exist', async () => {
-        const req = mockRequest({id: 456},{});
+        const req = mockRequest({},{id: 456},{});
         const res = mockResponse();
         await getFamilyAddressFromChild(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -267,7 +266,7 @@ describe('getFamilyAddressFromChildData tests', () => {
         });
     })
     it('should return 404 if the family exists but the address does not', async () => {
-        const req = mockRequest({id: 789},{});
+        const req = mockRequest({},{id: 789},{});
         const res = mockResponse();
         await getFamilyAddressFromChild(req, res);
         expect(res.status).toBeCalledWith(404);
@@ -276,7 +275,7 @@ describe('getFamilyAddressFromChildData tests', () => {
         });
     })
     it('should return 200 and return the family address data if user exists', async () => {
-        const req = mockRequest({id: 123},{});
+        const req = mockRequest({},{id: 123},{});
         const res = mockResponse();
         await getFamilyAddressFromChild(req, res);
         expect(res.status).toBeCalledWith(200);
@@ -295,8 +294,8 @@ describe('getFamilyAddressFromChildData tests', () => {
 });
 
 describe('patchUserData tests', () => {
-    it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{
+    it('should return 400 if id is missing in params', async () => {
+        const req = mockRequest({},{},{
             english_first_name: 'emily',
             english_last_name: 'tsui',
             chinese_name: 'chinese',
@@ -311,8 +310,8 @@ describe('patchUserData tests', () => {
             message: 'Person id is required'
         });
     })
-    it('should return 400 if body is missing in query', async () => {
-        const req = mockRequest({id: 123},{});
+    it('should return 400 if body is missing', async () => {
+        const req = mockRequest({id: 123},{},{});
         const res = mockResponse();
         await patchUserData(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -321,7 +320,7 @@ describe('patchUserData tests', () => {
         });
     })
     it('should return 404 if the user does not exist', async () => {
-        const req = mockRequest({id: 404},{
+        const req = mockRequest({id: 404},{},{
             english_first_name: 'emily',
             english_last_name: 'tsui',
             gender: 'F',
@@ -335,7 +334,7 @@ describe('patchUserData tests', () => {
         });
     })
     it('should return 200 and return the updated user data if user exists', async () => {
-        const req = mockRequest({id: 123},{
+        const req = mockRequest({id: 123},{},{
             english_first_name: 'emily',
             english_last_name: 'tsui',
             gender: 'F',
@@ -344,23 +343,12 @@ describe('patchUserData tests', () => {
         const res = mockResponse();
         await patchUserData(req, res);
         expect(res.status).toBeCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({
-            user_id: 123,
-            username: 'user1',
-            english_first_name: 'emily',
-            english_last_name: 'tsui',
-            chinese_name: 'chinese',
-            gender: 'F',
-            birth_month: '2',
-            birth_year: '1996',
-            native_langugage: 'Mandarin'
-        });
     })
 });
 
 describe('patchAddress tests', () => {
-    it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{
+    it('should return 400 if id is missing in params', async () => {
+        const req = mockRequest({},{},{
             street: 'Street St',
             city: 'Thousand Oaks',
             state: 'CA',
@@ -375,8 +363,8 @@ describe('patchAddress tests', () => {
             message: 'Address id is required'
         });
     })
-    it('should return 400 if body is missing in query', async () => {
-        const req = mockRequest({id: 345},{});
+    it('should return 400 if body is missing', async () => {
+        const req = mockRequest({id: 345},{},{});
         const res = mockResponse();
         await patchAddress(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -385,7 +373,7 @@ describe('patchAddress tests', () => {
         });
     })
     it('should return 404 if the address does not exist', async () => {
-        const req = mockRequest({id: 404},{
+        const req = mockRequest({id: 404},{},{
             street: 'Street St',
             city: 'Thousand Oaks',
             state: 'CA',
@@ -401,7 +389,7 @@ describe('patchAddress tests', () => {
         });
     })
     it('should return 200 and return the updated address data if address exists', async () => {
-        const req = mockRequest({id: 345},{
+        const req = mockRequest({id: 345},{},{
             street: 'Avenue Ave',
             city: 'Thousand Oaks',
             state: 'CA',
@@ -412,23 +400,12 @@ describe('patchAddress tests', () => {
         const res = mockResponse();
         await patchAddress(req, res);
         expect(res.status).toBeCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({
-            address_id: 345,
-            family_id: 345,
-            street: 'Avenue Ave',
-            city: 'Thousand Oaks',
-            state: 'CA',
-            zipcode: 91360,
-            home_phone: 1234567890,
-            cell_phone: 987656789,
-            email: 'email123@email.com'
-        });
     })
 });
 
 describe('addChild tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{
+        const req = mockRequest({},{},{
             english_first_name: 'andrew',
             english_last_name: 'tsui',
             chinese_name: 'chinese',
@@ -444,7 +421,7 @@ describe('addChild tests', () => {
         });
     })
     it('should return 400 if body is missing in query', async () => {
-        const req = mockRequest({id: 345},{});
+        const req = mockRequest({id: 345},{},{});
         const res = mockResponse();
         await addChild(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -453,7 +430,7 @@ describe('addChild tests', () => {
         });
     })
     it('should return 404 if the address does not exist', async () => {
-        const req = mockRequest({id: 404},{
+        const req = mockRequest({id: 404},{},{
             english_first_name: 'andrew',
             english_last_name: 'tsui',
             chinese_name: 'chinese',
@@ -469,7 +446,7 @@ describe('addChild tests', () => {
         });
     })
     it('should return 200 and return the newly added data if family exists', async () => {
-        const req = mockRequest({id: 345},{
+        const req = mockRequest({id: 345},{},{
             english_first_name: 'andrew',
             english_last_name: 'tsui',
             chinese_name: 'chinese',
@@ -480,16 +457,12 @@ describe('addChild tests', () => {
         const res = mockResponse();
         await addChild(req, res);
         expect(res.status).toBeCalledWith(201);
-        expect(res.json).toHaveBeenCalledWith({
-            family_id: 345,
-            child_id: 456
-        });
     })
 });
 
 describe('addAddress tests', () => {
     it('should return 400 if id is missing in query', async () => {
-        const req = mockRequest({},{
+        const req = mockRequest({},{},{
             street: 'Street St',
             city: 'Thousand Oaks',
             state: 'CA',
@@ -505,7 +478,7 @@ describe('addAddress tests', () => {
         });
     })
     it('should return 400 if body is missing in query', async () => {
-        const req = mockRequest({id: 123},{});
+        const req = mockRequest({id: 123},{},{});
         const res = mockResponse();
         await addAddress(req, res);
         expect(res.status).toBeCalledWith(400);
@@ -514,7 +487,7 @@ describe('addAddress tests', () => {
         });
     })
     it('should return 404 if the person does not exist', async () => {
-        const req = mockRequest({id: 404},{
+        const req = mockRequest({id: 404},{},{
             street: 'Street St',
             city: 'Thousand Oaks',
             state: 'CA',
@@ -530,7 +503,7 @@ describe('addAddress tests', () => {
         });
     })
     it('should return 200 and return the newly added data if person exists', async () => {
-        const req = mockRequest({id: 123},{
+        const req = mockRequest({id: 123},{},{
             street: 'Street St',
             city: 'Thousand Oaks',
             state: 'CA',
@@ -541,17 +514,5 @@ describe('addAddress tests', () => {
         const res = mockResponse();
         await addAddress(req, res);
         expect(res.status).toBeCalledWith(201);
-        expect(res.json).toHaveBeenCalledWith({
-            user_id: 123,
-            address_id: 456,
-            username: 'user1',
-            english_first_name: 'emily',
-            english_last_name: 'tsui',
-            chinese_name: 'chinese',
-            gender: 'F',
-            birth_month: '2',
-            birth_year: '1996',
-            native_langugage: 'Mandarin'
-        });
     })
 });
