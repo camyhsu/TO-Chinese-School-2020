@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAppContext } from '../libs/contextLib';
 import { Button } from 'reactstrap';
-import { sha256 } from 'js-sha256';
 
 export default function SignIn() {
     const { userHasAuthenticated, userData, setUserData } = useAppContext();
@@ -21,19 +20,17 @@ export default function SignIn() {
         const fetchData = async () => {
             try {
                 // fetch signin data from psql database
-                const signInResponse = await fetch(`/admin/signin?username=${username}`);
-                var hash = await signInResponse.json();
-                const pass_salt = password + hash[0].password_salt;
-                // ensure password is valid
-                if(sha256(pass_salt) === hash[0].password_hash) {
+                const signInResponse = await fetch(`/admin/signin?username=${username}&&password=${password}`);
+                if( signInResponse.status === 200 ) {
+                    var person_id = await signInResponse.json();
                     // fetch personal user data to be displayed in Registration Home Page and Registration SideBar
-                    const personalDataResponse = await fetch(`/user/data?id=${hash[0].person_id}`);
+                    const personalDataResponse = await fetch(`/user/data?id=${person_id}`);
                     var personalData = await personalDataResponse.json();
                     // fetch personal user address to be displayed in Registration Home Page and Registration SideBar
-                    const personalAddressResponse = await fetch(`/user/address?id=${hash[0].person_id}`);
+                    const personalAddressResponse = await fetch(`/user/address?id=${person_id}`);
                     var personalAddress = await personalAddressResponse.json();
                     // fetch family address data to be displayed in Family Details in Registration Home Page
-                    const familyAddressDataResponse = await fetch(`/user/family/address?id=${hash[0].person_id}`);
+                    const familyAddressDataResponse = await fetch(`/user/family/address?id=${person_id}`);
                     var familyAddressData = await familyAddressDataResponse.json();
                     // fetch parent two's data to be displayed in Family Details in Registration Home Page
                     const parentDataResponse = await fetch(`/user/parent/data?id=${familyAddressData[0].family_id}`);
@@ -48,7 +45,7 @@ export default function SignIn() {
                     setUserData({...userData, 
                         person: {
                             username: username,
-                            personId: hash[0].person_id,
+                            personId: person_id,
                             addressId: personalAddress[0].address_id,
                             chineseName: personalData[0].chinese_name,
                             englishFirstName: personalData[0].english_first_name,

@@ -219,7 +219,7 @@ const makeChanges = (original, update) => {
 }
 
 const patchUserData = async (request, response, next) => {
-    const id = request.query.id;
+    const id = request.params.id;
     const body = request.body;
 
     if( !id )
@@ -243,7 +243,7 @@ const patchUserData = async (request, response, next) => {
 }
 
 const patchAddress = async (request, response, next) => {
-    const id = request.query.id;
+    const id = request.params.id;
     const body = request.body;
 
     if( !id )
@@ -268,7 +268,7 @@ const patchAddress = async (request, response, next) => {
 
 const addChild = async (request, response, next) => {
     const body = request.body;
-    const id = request.query.id;
+    const id = request.params.id;
 
     if( !id )
         return response.status(400).json({message: 'Family id is required'});
@@ -294,7 +294,7 @@ const addChild = async (request, response, next) => {
 }
 
 const addAddress = async (request, response, next) => {
-    const id = request.query.id;
+    const id = request.params.id;
     const body = request.body;
     
     if( !id )
