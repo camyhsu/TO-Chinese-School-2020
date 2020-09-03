@@ -9,8 +9,13 @@ export default function StudentCountByElectivePage() {
         const fetchData = async () => {
             try {
                 const response = await fetch(`/directories/studentcount/elective?id=${schoolYear.id}`);
-                var json = await response.json();
-                setResults(json);
+                if( response.status === 200 ) {
+                    var json = await response.json();
+                    setResults(json);
+                }
+                else {
+                    alert('Failed to get student count by elective. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }

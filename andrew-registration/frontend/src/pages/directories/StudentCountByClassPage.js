@@ -9,8 +9,14 @@ export default function StudentCountByClassPage() {
         const fetchData = async () => {
             try {
                 const response = await fetch(`/directories/studentcount/class?id=${schoolYear.id}`);
-                var json = await response.json();
-                setResults(json);
+                if( response.status === 200 ) {
+                    var json = await response.json();
+                    setResults(json);
+                }
+                else {
+                    alert('Failed to get student count by class. Please try again.');
+                }
+                
             } catch (error) {
                 console.log(error);
             }

@@ -107,30 +107,45 @@ export default function PeopleDirectoryPage() {
                 let email = searchQuery.trim();
                 try {
                     const response = await fetch(`/directories/people?email=${email}`);
-                    json = await response.json();
-                    setResults(json);
+                    if( response.status === 200 ) {
+                        json = await response.json();
+                        setResults(json);
+                    }
+                    else {
+                        alert('Failed to search. Please try again.');
+                    }
                 } catch (error) {
                     console.log(error);
                 }
             }
             // fetch people data by english name
             else if( selectedOption === "english" ) {
-                let name  = searchQuery.replace(/\s/g, '').trim();
+                let name  = searchQuery.trim();
                 try {
                     const response = await fetch(`/directories/people?english=${name}`);
-                    json = await response.json();
-                    setResults(json);
+                    if( response.status === 200 ) {
+                        json = await response.json();
+                        setResults(json);
+                    }
+                    else {
+                        alert('Failed to search. Please try again.');
+                    }
                 } catch (error) {
                     console.log(error);
                 }
             }
             // fetch people data by chinese name
             else {
-                let name = searchQuery.replace(/\s/g, '').trim();
+                let name = searchQuery.trim();
                 try {
                     const response = await fetch(`/directories/people?chinese=${name}`);
-                    json = await response.json();
-                    setResults(json);
+                    if( response.status === 200 ) {
+                        json = await response.json();
+                        setResults(json);
+                    }
+                    else {
+                        alert('Failed to search. Please try again.');
+                    }
                 } catch (error) {
                     console.log(error);
                 }

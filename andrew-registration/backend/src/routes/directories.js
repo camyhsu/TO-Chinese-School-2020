@@ -22,7 +22,7 @@ const getPeople = async (request, response, next) => {
             return response.status(200).json(res.rows);
         }
         catch (error) {
-            throw error;
+            return response.status(500).json({ message: error.message });
         }
     }
     else if ( chinese ) {
@@ -32,11 +32,11 @@ const getPeople = async (request, response, next) => {
             return response.status(200).json(res.rows);
         }
         catch (error) {
-            throw error;
+            return response.status(500).json({ message: error.message });
         }
     }
     else {
-        const nameArr = english.split(/(?=[A-Z])/);
+        const nameArr = english.split(' ');
         try {
             // if only one name is given, search for the name in first and last names
             if( nameArr.length == 1 ) {
@@ -57,22 +57,20 @@ const getPeople = async (request, response, next) => {
                                                 WHERE english_first_name = $1 AND english_last_name = $2', [firstName, lastName]);
                 return response.status(200).json(res.rows);
             }
-    
         }
         catch (error) {
-            throw error;
+            return response.status(500).json({ message: error.message });
         }
     }
-    
 }
 
 const getGrades = async (request, response, next) => {
     try {
         const res = await pool.query('SELECT chinese_name, english_name, short_name FROM grades;');
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -90,7 +88,7 @@ const getStudentCountByGrade = async (request, response, next) => {
         response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 

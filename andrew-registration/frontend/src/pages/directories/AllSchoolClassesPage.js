@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 
-export default function ActiveClassPage() {
+export default function AllSchoolClassesPage() {
     const [results, setResults] = useState([]);
     const { schoolYear } = useAppContext();
 
     const fetchData = async () => {
         try {
             const response = await fetch(`/directories/classes/all?id=${schoolYear.id}`);
-            var json = await response.json();
-            setResults(json);
+            if( response.status === 200 ) {
+                var json = await response.json();
+                setResults(json);
+            }
+            else {
+                alert('Failed to get school class information. Please try again.');
+            }
         } catch (error) {
             console.log(error);
         }
@@ -25,7 +30,7 @@ export default function ActiveClassPage() {
         let body = {
             active: value === 'Disable' ? false : true
         }
-        await fetch(`/admin/class/active/edit/${schoolYear.id}/${results[key].id}`, {
+        const patchResponse = await fetch(`/admin/class/active/edit/${schoolYear.id}/${results[key].id}`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -33,7 +38,11 @@ export default function ActiveClassPage() {
             method: 'PATCH',                                                              
             body: JSON.stringify( body )                                        
         });
-        fetchData();
+        if( patchResponse.status === 200 )
+            fetchData();
+        else {
+            alert('Failed to update active flag. Please try again.');
+        }
     }
 
     return (

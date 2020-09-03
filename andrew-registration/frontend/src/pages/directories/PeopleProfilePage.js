@@ -79,72 +79,103 @@ export default function PeopleProfilePage() {
         const fetchData = async () => {
             try {
                 const personInformationResponse = await fetch(`/user/data?id=${personId}`);
-                var personInformation = await personInformationResponse.json();
-                setPersonData({
-                    personId: personId,
-                    username: personInformation[0].username,
-                    chineseName: personInformation[0].chinese_name,
-                    englishFirstName: personInformation[0].english_first_name,
-                    englishLastName: personInformation[0].english_last_name,
-                    gender: personInformation[0].gender,
-                    birthMonthYear: personInformation[0].birth_month + '/' + personInformation[0].birth_year,
-                    nativeLanguage: personInformation[0].native_language,
-                });
-
-                const personalAddressInformationResponse = await fetch(`/user/address?id=${personId}`);
-                var personalAddressInformation = await personalAddressInformationResponse.json();
-                if(typeof personalAddressInformation[0] == 'undefined') {
-                    setPersonalAddressData(null)
+                if( personInformationResponse.status === 200 ) {
+                    var personInformation = await personInformationResponse.json();
+                    setPersonData({
+                        personId: personId,
+                        username: personInformation[0].username,
+                        chineseName: personInformation[0].chinese_name,
+                        englishFirstName: personInformation[0].english_first_name,
+                        englishLastName: personInformation[0].english_last_name,
+                        gender: personInformation[0].gender,
+                        birthMonthYear: personInformation[0].birth_month + '/' + personInformation[0].birth_year,
+                        nativeLanguage: personInformation[0].native_language,
+                    });
                 }
                 else {
-                    setPersonalAddressData({
-                        addressId: personalAddressInformation[0].address_id,
-                        street: personalAddressInformation[0].street,
-                        city: personalAddressInformation[0].city,
-                        state: personalAddressInformation[0].state,
-                        zipcode: personalAddressInformation[0].zipcode,
-                        homePhone: personalAddressInformation[0].home_phone,
-                        cellPhone: personalAddressInformation[0].cell_phone,
-                        email: personalAddressInformation[0].email
-                    });
+                    alert('Failed to get personal information. Please try again.');
+                }
+                
+                const personalAddressInformationResponse = await fetch(`/user/address?id=${personId}`);
+                if( personalAddressInformationResponse.status === 200 ) {
+                    var personalAddressInformation = await personalAddressInformationResponse.json();
+                    if(typeof personalAddressInformation[0] == 'undefined') {
+                        setPersonalAddressData(null)
+                    }
+                    else {
+                        setPersonalAddressData({
+                            addressId: personalAddressInformation[0].address_id,
+                            street: personalAddressInformation[0].street,
+                            city: personalAddressInformation[0].city,
+                            state: personalAddressInformation[0].state,
+                            zipcode: personalAddressInformation[0].zipcode,
+                            homePhone: personalAddressInformation[0].home_phone,
+                            cellPhone: personalAddressInformation[0].cell_phone,
+                            email: personalAddressInformation[0].email
+                        });
+                    }
+                }
+                else {
+                    alert('Failed to get personal address. Please try again.');
                 }
                 
                 var familyAddressInformationResponse = await fetch(`/user/family/address?id=${personId}`);
-                var familyAddressInformation = await familyAddressInformationResponse.json();
-                if(typeof familyAddressInformation[0] == 'undefined') {
-                    // person is a child of a family, so we must retrieve family information from the bottom up
-                    familyAddressInformationResponse = await fetch(`/user/family/address/fromchild?id=${personId}`);
-                    familyAddressInformation = await familyAddressInformationResponse.json();
+                if( familyAddressInformationResponse.status === 200 ) {
+                    var familyAddressInformation = await familyAddressInformationResponse.json();
+                    if(typeof familyAddressInformation[0] == 'undefined') {
+                        // person is a child of a family, so we must retrieve family information from the bottom up
+                        familyAddressInformationResponse = await fetch(`/user/family/address/fromchild?id=${personId}`);
+                        if( familyAddressInformationResponse.status === 200 ) {
+                            familyAddressInformation = await familyAddressInformationResponse.json();
+                        }
+                        else {
+                            alert('Failed to get family address. Please try again.');
+                        }
+                    }
+                }
+                else {
+                    alert('Failed to get family address. Please try again.');
                 }
 
                 const parentInformationResponse = await fetch(`/user/parent/data?id=${familyAddressInformation[0].family_id}`);
-                var parentInformation = await parentInformationResponse.json();
-                if(parentInformation.length === 1) {
-                    setParentData({
-                        parentOneId: parentInformation[0].person_id,
-                        parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
-                        parentOneChineseName: parentInformation[0].chinese_name,
-                        parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
-                    })
+                if( parentInformationResponse.status === 200 ) {
+                    var parentInformation = await parentInformationResponse.json();
+                    if(parentInformation.length === 1) {
+                        setParentData({
+                            parentOneId: parentInformation[0].person_id,
+                            parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
+                            parentOneChineseName: parentInformation[0].chinese_name,
+                            parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
+                        })
+                    }
+                    else {
+                        setParentData({
+                            parentOneId: parentInformation[0].person_id,
+                            parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
+                            parentOneChineseName: parentInformation[0].chinese_name,
+                            parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
+                            parentTwoId: parentInformation[1].person_id,
+                            parentTwoEnglishName: `${parentInformation[1].english_first_name} ${parentInformation[1].english_last_name}`,
+                            parentTwoChineseName: parentInformation[1].chinese_name,
+                            parentTwoUsername: parentInformation[1].username,
+                        });
+                    }
                 }
                 else {
-                    setParentData({
-                        parentOneId: parentInformation[0].person_id,
-                        parentOneEnglishName: `${parentInformation[0].english_first_name} ${parentInformation[0].english_last_name}`,
-                        parentOneChineseName: parentInformation[0].chinese_name,
-                        parentOneUsername: parentInformation[0].username == null ? '' : parentInformation[0].username,
-                        parentTwoId: parentInformation[1].person_id,
-                        parentTwoEnglishName: `${parentInformation[1].english_first_name} ${parentInformation[1].english_last_name}`,
-                        parentTwoChineseName: parentInformation[1].chinese_name,
-                        parentTwoUsername: parentInformation[1].username,
-                    });
+                    alert('Failed to get parent information. Please try again.');
                 }
+                
 
                 const studentDataResponse = await fetch(`/user/student/data?id=${parentInformation[0].person_id}`);
-                var studentData = await studentDataResponse.json();
-                var children = [];
-                studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
-
+                if( studentDataResponse.status === 200 ) {
+                    var studentData = await studentDataResponse.json();
+                    var children = [];
+                    studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));    
+                }
+                else {
+                    alert('Failed to get student information. Please try again.');
+                }
+                
                 setFamilyData({
                     familyId: familyAddressInformation[0].family_id,
                     addressId: familyAddressInformation[0].address_id,

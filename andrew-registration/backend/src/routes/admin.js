@@ -74,7 +74,7 @@ const addPerson = async (request, response, next) => {
         return response.status(201).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -88,7 +88,7 @@ const addAddress = async (request, response, next) => {
         return response.status(201).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
@@ -107,7 +107,7 @@ const changeClassActiveStatus = async (request, response, next) => {
         return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 

@@ -7,8 +7,13 @@ export default function GradesDirectoryPage() {
         const fetchData = async () => {
             try {
                 const response = await fetch(`/directories/grades`);
-                var json = await response.json();
-                setResults(json);
+                if( response.status === 200 ) {
+                    var json = await response.json();
+                    setResults(json);
+                }
+                else {
+                    alert('Failed to get grade information. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }

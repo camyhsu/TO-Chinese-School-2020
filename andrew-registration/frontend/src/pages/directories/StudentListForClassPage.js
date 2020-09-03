@@ -13,12 +13,22 @@ export default function StudentListForClassPage() {
         const fetchData = async () => {
             try {
                 const classInfoResponse = await fetch(`/directories/info?class=${classId}&year=${schoolYear.id}`);
-                var classInfo = await classInfoResponse.json();
-                setClassResults(classInfo[0]);
+                if( classInfoResponse.status === 200 ) {
+                    var classInfo = await classInfoResponse.json();
+                    setClassResults(classInfo[0]);
+                }
+                else {
+                    alert('Failed to get class information. Please try again.');
+                }   
 
                 const studentInfoResponse = await fetch(`/directories/studentlist?class=${classId}&year=${schoolYear.id}`);
-                var studentInfo = await studentInfoResponse.json();
-                setStudentResults(studentInfo);
+                if( studentInfoResponse.status === 200 ) {
+                    var studentInfo = await studentInfoResponse.json();
+                    setStudentResults(studentInfo);
+                }
+                else {
+                    alert('Failed to get student information. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }
