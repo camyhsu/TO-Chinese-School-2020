@@ -76,6 +76,8 @@ const getGrades = async (request, response, next) => {
 
 const getStudentCountByGrade = async (request, response, next) => {
     const schoolYearId = request.query.id;
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT chinese_name, english_name, count(grades.id), max_table.sum as max FROM grades \
@@ -85,7 +87,7 @@ const getStudentCountByGrade = async (request, response, next) => {
                                         school_year_id = $1 AND active = \'t\' AND school_class_type != \'ELECTIVE\' \
                                         GROUP BY school_classes.grade_id ORDER BY grade_id) as max_table ON max_table.grade_id = grades.id \
                                         WHERE sca.school_year_id = $1 GROUP BY chinese_name, english_name, grades.id, max_table.sum ORDER BY grades.id;', [schoolYearId]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
         return response.status(500).json({ message: error.message });
@@ -94,6 +96,8 @@ const getStudentCountByGrade = async (request, response, next) => {
 
 const getStudentCountByClass = async (request, response, next) => {
     const schoolYearId = request.query.id;
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT ci.english_name AS class_english_name, ci.chinese_name AS class_chinese_name, ci.count, ci.location, ci.max_size, ci.min_age, ci.max_age, \
@@ -116,15 +120,17 @@ const getStudentCountByClass = async (request, response, next) => {
                                             CASE WHEN p2.address_id IS NOT null THEN p2.address_id ELSE f2.address_id END \
                                             WHERE ia2.role = \'Room Parent\' AND ia2.school_year_id = $1) AS rp ON rp.school_class_id = scaf.school_class_id \
                                         WHERE scaf.active = \'t\' AND scaf.school_year_id = $1 Order by ci.grade_id, ci.english_name;', [schoolYearId]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getStudentCountByElective = async (request, response, next) => {
     const schoolYearId = request.query.id; 
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT ci.english_name AS class_english_name, ci.chinese_name AS class_chinese_name, ci.count, ci.location, ci.max_size, ci.min_age, ci.max_age, \
@@ -147,15 +153,17 @@ const getStudentCountByElective = async (request, response, next) => {
                                             CASE  WHEN p2.address_id IS NOT null THEN p2.address_id ELSE f2.address_id END \
                                             WHERE ia2.role = \'Room Parent\' AND ia2.school_year_id = $1) AS rp ON rp.school_class_id = scaf.school_class_id \
                                         WHERE scaf.active = \'t\' AND scaf.school_year_id = $1 Order by ci.grade_id, ci.english_name;', [schoolYearId]);
-        response.status(200).json(res.rows);
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getActiveClasses = async (request, response, next) => {
     const schoolYearId = request.query.id; 
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT sc.id, sc.english_name AS class_english_name, sc.chinese_name AS class_chinese_name, sc.location, \
@@ -178,30 +186,40 @@ const getActiveClasses = async (request, response, next) => {
                                             FROM instructor_assignments AS ia4 JOIN people AS p4 ON p4.id = ia4.instructor_id \
                                             WHERE ia4.role = \'Teaching Assistant\' AND ia4.school_year_id = $1) AS ta ON ta.school_class_id = scaf.school_class_id \
                                         WHERE scaf.active = \'t\' AND scaf.school_year_id = $1 Order by sc.grade_id, sc.english_name;', [schoolYearId]);
-        response.status(200).json(res.rows);
+        if( res.rows.length === 0 ) 
+            return response.status(404).json({message: `No active classes found for school year id: ${schoolYearId}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getAllSchoolClasses = async (request, response, next) => {
     const schoolYearId = request.query.id; 
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT sc.id, english_name, chinese_name, short_name, description, location, school_class_type AS type, max_size, min_age, max_age, grade_id, active \
                                         FROM school_classes AS sc JOIN school_class_active_flags AS scaf ON sc.id = scaf.school_class_id WHERE scaf.school_year_id = $1 \
                                         ORDER BY grade_id, english_name;', [schoolYearId]);
-        response.status(200).json(res.rows);
+        if( res.rows.length === 0 ) 
+            return response.status(404).json({message: `No school classes found for school year id: ${schoolYearId}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getStudentInfoForClass = async (request, response, next) => {
     const classId = request.query.class; 
-    const yearId = request.query.year;
+    if( !classId ) 
+        return response.status(400).json({message: 'Class id required'});
+    const schoolYearId = request.query.year;
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT s.chinese_name AS student_chinese_name, s.english_last_name AS student_last_name, s.english_first_name AS student_first_name, \
@@ -218,17 +236,23 @@ const getStudentInfoForClass = async (request, response, next) => {
                                         JOIN (SELECT fc.child_id, a.email, a.home_phone \
                                             FROM addresses AS a JOIN families AS f on a.id = f.address_id \
                                             JOIN families_children AS fc ON f.id = fc.family_id) AS a ON a.child_id = s.id \
-                                        WHERE (sca.school_class_id = $1 OR sca.elective_class_id = $1) AND sca.school_year_id = $2 ORDER BY s.english_last_name;', [classId, yearId]);
-        response.status(200).json(res.rows);
+                                        WHERE (sca.school_class_id = $1 OR sca.elective_class_id = $1) AND sca.school_year_id = $2 ORDER BY s.english_last_name;', [classId, schoolYearId]);
+        if( res.rows.length === 0 ) 
+            return response.status(404).json({message: `No student info found for class id: ${classId} and school year id: ${schoolYearId}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
 const getClassInfoForClass = async (request, response, next) => {
     const classId = request.query.class; 
-    const yearId = request.query.year;
+    if( !classId ) 
+        return response.status(400).json({message: 'Class id required'});
+    const schoolYearId = request.query.year;
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
     
     try {
         const res = await pool.query('SELECT i.chinese_name AS teacher_chinese_name, i.english_first_name AS teacher_first_name, i.english_last_name AS teacher_last_name, \
@@ -237,11 +261,13 @@ const getClassInfoForClass = async (request, response, next) => {
                                         FROM instructor_assignments AS ia JOIN people AS i ON i.id = ia.instructor_id AND ia.role = \'Primary Instructor\' \
                                         JOIN school_classes AS sc ON sc.id = ia.school_class_id FULL JOIN (SELECT ia.school_class_id, chinese_name, english_last_name, english_first_name \
                                         FROM instructor_assignments AS ia JOIN people AS p ON p.id = ia.instructor_id AND ia.school_year_id = $2 WHERE ia.role = \'Room Parent\') \
-                                        AS rp ON rp.school_class_id = ia.school_class_id WHERE ia.school_class_id = $1 AND ia.school_year_id = $2;', [classId, yearId]);
-        response.status(200).json(res.rows);
+                                        AS rp ON rp.school_class_id = ia.school_class_id WHERE ia.school_class_id = $1 AND ia.school_year_id = $2;', [classId, schoolYearId]);
+        if( res.rows.length === 0 ) 
+            return response.status(404).json({message: `No class info found for class id: ${classId} and school year id: ${schoolYearId}`});
+        return response.status(200).json(res.rows);
     }
     catch (error) {
-        throw error;
+        return response.status(500).json({ message: error.message });
     }
 }
 
