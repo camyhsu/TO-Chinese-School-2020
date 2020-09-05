@@ -28,7 +28,7 @@ export default function DirectoriesDropdownMenu() {
                     <DropdownItem tag={Link} to='/registration/list/people'>All People</DropdownItem>
                     <DropdownItem tag={Link} to='/registration/list/grades'>All Grades</DropdownItem>
                     <DropdownItem tag={Link} to='/registration/list/classes'>All School Classes</DropdownItem>
-                    <DropdownItem href="#/action-3">Active students by name</DropdownItem>
+                    <DropdownItem tag={Link} to='/registration/list/students/active'>Active students by name</DropdownItem>
                     <DropdownItem href="#/action-3">Manual transactions from last two school years</DropdownItem>
                 </DropdownMenu>
             </Dropdown>

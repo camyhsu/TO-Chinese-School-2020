@@ -1,5 +1,5 @@
 const { getPeople, getGrades, getStudentCountByGrade, getStudentCountByClass, getStudentCountByElective, 
-        getActiveClasses, getAllSchoolClasses, getStudentInfoForClass, getClassInfoForClass } = require('./directories');
+        getActiveClasses, getAllSchoolClasses, getStudentInfoForClass, getClassInfoForClass, getActiveStudents } = require('./directories');
 
 const mockRequest = (params, query, body) => ({params, query, body});
   
@@ -377,5 +377,50 @@ describe('getClassInfoForClass tests', () => {
             year_id: 1,
             class_id: 1
         });
+    })
+})
+
+describe('getActiveStudents tests', () => {
+    it('should return 400 when school year id is missing from query', async () => {
+        const req = mockRequest({},{},{});
+        const res = mockResponse();
+        await getActiveStudents(req, res);
+        expect(res.status).toBeCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'School year id required'
+        });
+    })
+    it('should return 404 when no results found', async () => {
+        const req = mockRequest({},{year: 404},{});
+        const res = mockResponse();
+        await getActiveStudents(req, res);
+        expect(res.status).toBeCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'No active students found for school year id: 404'
+        });
+    })
+    it('should return 200 with class info', async () => {
+        const req = mockRequest({},{year: 1},{});
+        const res = mockResponse();
+        await getActiveStudents(req, res);
+        expect(res.status).toBeCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith([
+            [
+              {
+                student_id: 1,
+                class_id: 1,
+                year_id: 1,
+                grade_id: 1,
+                elective_id: 1
+              },
+              {
+                student_id: 2,
+                class_id: 1,
+                year_id: 1,
+                grade_id: 1,
+                elective_id: 2
+              }
+            ]
+          ]);
     })
 })

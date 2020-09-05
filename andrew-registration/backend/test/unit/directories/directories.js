@@ -269,6 +269,24 @@ const getClassInfoForClass = async (request, response, next) => {
     }
 }
 
+const getActiveStudents = async (request, response, next) => {
+    const schoolYearId = request.query.year;
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
+    
+    try {
+        var classes = sc.filter(({active, year_id}) => active === 't' && year_id === schoolYearId);
+        var students = [];
+        classes.forEach(c => students.push(sca.filter(({class_id, year_id})=> c.class_id === class_id && c.year_id === year_id)));
+        if( !students || students.length === 0 ) 
+            return response.status(404).json({message: `No active students found for school year id: ${schoolYearId}`});
+        return response.status(200).json(students);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
 
 module.exports = {
     getPeople,
@@ -279,5 +297,6 @@ module.exports = {
     getActiveClasses,
     getAllSchoolClasses,
     getStudentInfoForClass,
-    getClassInfoForClass
+    getClassInfoForClass,
+    getActiveStudents
 }

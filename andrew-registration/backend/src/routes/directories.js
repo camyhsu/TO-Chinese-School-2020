@@ -271,6 +271,37 @@ const getClassInfoForClass = async (request, response, next) => {
     }
 }
 
+const getActiveStudents = async (request, response, next) => {
+    const schoolYearId = request.query.year;
+    if( !schoolYearId ) 
+        return response.status(400).json({message: 'School year id required'});
+    
+    try {
+
+        // Need to create collation if it doesn't exist for case_insensitive ordering
+        // CREATE COLLATION IF NOT EXISTS case_insensitive (
+        //     provider = icu,
+        //     locale = 'und-u-ks-level2',
+        //     deterministic = false
+        //   );
+
+        const res = await pool.query('SELECT english_last_name AS last_name, english_first_name AS first_name, p.chinese_name, c.short_name AS class_name,\
+                                        c.location AS class_loc, e.chinese_name AS elective_name, e.location AS elective_loc FROM student_class_assignments AS sca \
+                                        JOIN (SELECT sc.id, sc.short_name, sc.location FROM school_classes AS sc JOIN school_class_active_flags AS scaf ON \
+                                        sc.id = scaf.school_class_id AND scaf.school_year_id = $1 AND scaf.active = \'t\') AS c ON c.id = sca.school_class_id \
+                                        JOIN (SELECT sc.id, sc.chinese_name, sc.location FROM school_classes AS sc JOIN school_class_active_flags AS scaf ON \
+                                        sc.id = scaf.school_class_id AND scaf.school_year_id = $1 AND scaf.active = \'t\') AS e ON e.id = sca.elective_class_id \
+                                        JOIN people AS p ON sca.student_id = p.id WHERE sca.school_year_id = $1 ORDER BY english_last_name \
+                                        COLLATE case_insensitive, english_first_name COLLATE case_insensitive;', [schoolYearId]);
+        if( res.rows.length === 0 ) 
+            return response.status(404).json({message: `No active students found for school year id: ${schoolYearId}`});
+        return response.status(200).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
 const directoriesRouter = express.Router();
 directoriesRouter.get('/people', getPeople);
 directoriesRouter.get('/grades', getGrades);
@@ -280,6 +311,7 @@ directoriesRouter.get('/studentcount/elective', getStudentCountByElective);
 directoriesRouter.get('/classes/active', getActiveClasses);
 directoriesRouter.get('/classes/all', getAllSchoolClasses);
 directoriesRouter.get('/studentlist', getStudentInfoForClass);
-directoriesRouter.get('/info', getClassInfoForClass);
+directoriesRouter.get('/classinfo', getClassInfoForClass);
+directoriesRouter.get('/activestudents', getActiveStudents);
 
 module.exports = directoriesRouter;
