@@ -4,6 +4,10 @@ import { useAppContext } from '../../libs/contextLib';
 export default function StudentCountByGradePage() {
     const [results, setResults] = useState([]);
     const { schoolYear } = useAppContext();
+    const d = new Date();
+    const date = String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()+1).padStart(2,'0') + '/' + d.getFullYear();
+    const time = d.getHours() + ':' + d.getMinutes();
+    var count = 0;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,6 +44,7 @@ export default function StudentCountByGradePage() {
                         <tbody key={key}>
                             <tr>
                                 <td>{entry.chinese_name} ({entry.english_name})</td>
+                                <td style={{display:'none'}}>{count += parseInt(entry.count)}</td>
                                 <td>{entry.count}</td>
                                 <td>{entry.max}</td>
                             </tr>
@@ -47,6 +52,8 @@ export default function StudentCountByGradePage() {
                     ))}
                 </table>
             </center>
+            <p>Total count: {count}</p>
+            <p>As of: {date} {time}</p>
         </>
     )
 };

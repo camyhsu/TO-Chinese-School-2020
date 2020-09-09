@@ -8,6 +8,9 @@ export default function StudentListForClassPage() {
     const [studentResults, setStudentResults] = useState([]);
     const [classResults, setClassResults] = useState([]);
     const { schoolYear } = useAppContext();
+    const d = new Date();
+    const date = String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()+1).padStart(2,'0') + '/' + d.getFullYear();
+    const time = d.getHours() + ':' + d.getMinutes();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -79,6 +82,8 @@ export default function StudentListForClassPage() {
                     ))}
                 </table>
             </center>
+            <p>Total count: {studentResults.length}</p>
+            <p>As of: {date} {time}</p>
         </>
     )
 };

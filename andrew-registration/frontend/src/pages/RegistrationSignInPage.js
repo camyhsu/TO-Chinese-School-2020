@@ -107,7 +107,7 @@ export default function SignIn() {
                 <div>
                     Username: <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
                     <br></br>
-                    Password: <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    Password: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <br></br>
                 <Button type="signin" disabled={!validateForm()}>Sign In</Button>

@@ -4,6 +4,10 @@ import { useAppContext } from '../../libs/contextLib';
 export default function StudentCountByElectivePage() {
     const [results, setResults] = useState([]);
     const { schoolYear } = useAppContext();
+    const d = new Date();
+    const date = String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()+1).padStart(2,'0') + '/' + d.getFullYear();
+    const time = d.getHours() + ':' + d.getMinutes();
+    var count = 0;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +49,7 @@ export default function StudentCountByElectivePage() {
                         <tbody key={key}>
                             <tr>
                                 <td>{entry.class_chinese_name} ({entry.class_english_name})</td>
+                                <td style={{display:'none'}}>{count += parseInt(entry.count)}</td>
                                 <td>{entry.count}</td>
                                 <td>{entry.location}</td>
                                 <td>{entry.teacher_chinese_name} ({entry.teacher_first_name} {entry.teacher_last_name})<br></br>{entry.teacher_email}<br></br>{entry.teacher_phone}</td>
@@ -58,6 +63,8 @@ export default function StudentCountByElectivePage() {
                     ))}
                 </table>
             </center> 
+            <p>Total count: {count}</p>
+            <p>As of: {date} {time}</p>
         </>
     )
 };

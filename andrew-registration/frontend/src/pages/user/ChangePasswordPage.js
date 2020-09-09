@@ -59,11 +59,11 @@ export default function ChangePasswordPage() {
             <h1>Change Password</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    Old Password: <input type="text" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+                    Old Password: <input type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
                     <br></br>
-                    New Password: <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    New Password: <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                     <br></br>
-                    Confirm New Password: <input type="text" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    Confirm New Password: <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     <br></br>
                 </div>
                 <br></br>

@@ -4,6 +4,9 @@ import { useAppContext } from '../../libs/contextLib';
 export default function ActiveStudentsPage() {
     const[results, setResults] = useState([]);
     const { schoolYear } = useAppContext();
+    const d = new Date();
+    const date = String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()+1).padStart(2,'0') + '/' + d.getFullYear();
+    const time = d.getHours() + ':' + d.getMinutes();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,6 +59,8 @@ export default function ActiveStudentsPage() {
                     ))}
                 </table>
             </center>
+            <p>Total count: {results.length}</p>
+            <p>As of: {date} {time}</p>
         </>
     )
 };
