@@ -4,9 +4,9 @@ import { AppContext } from './libs/contextLib';
 import './App.css';
 import RegistrationNavBar from './components/RegistrationNavBar';
 import RegistrationSideBar from './components/RegistrationSideBar';
+import RedirectPage from './pages/RedirectPage';
 import HomePage from './pages/HomePage';
-import RegistrationHomePage from './pages/RegistrationHomePage';
-import RegistrationSignInPage from './pages/RegistrationSignInPage';
+import SignInPage from './pages/SignInPage';
 import PeopleDirectoryPage from './pages/directories/PeopleDirectoryPage';
 import GradesDirectoryPage from './pages/directories/GradesDirectoryPage';
 import EditPersonalDetailsPage from './pages/user/EditPersonalDetailsPage';
@@ -25,9 +25,10 @@ import StudentListForClassPage from './pages/directories/StudentListForClassPage
 import PeopleProfilePage from './pages/directories/PeopleProfilePage';
 import CreatePersonalAddressPage from './pages/user/CreatePersonalAddressPage';
 import ActiveStudentsPage from './pages/directories/ActiveStudentsPage';
+import RegistrationStudentPage from './pages/registration/RegistrationStudentPage';
 
 export default function App() {
-    const [schoolYear] = useState({'id': 14, 'name': '2020-2021'})
+    const [schoolYear] = useState({'id': 14, 'name': '2020-2021', 'threshYear': 2020, 'prev' : '2019-2020'})
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         person: {
@@ -89,13 +90,14 @@ export default function App() {
                     }
                     <div id="page-body">
                         <Switch>
-                            <Route path='/' component={HomePage} exact />
-                            <Route path='/registration' component={RegistrationHomePage} exact />
-                            <Route path='/registration/signin' component={RegistrationSignInPage} exact />
+                            <Route path='/' component={RedirectPage} exact />
+                            <Route path='/registration/home' component={HomePage} exact />
+                            <Route path='/registration/signin' component={SignInPage} exact />
+                            <Route path='/registration/register' component={RegistrationStudentPage} exact />
                             <Route path='/registration/list/people' component={PeopleDirectoryPage} exact/>
                             <Route path='/registration/list/grades' component={GradesDirectoryPage} exact/>
                             <Route path='/registration/list/classes' component={AllSchoolClassesPage} exact/>
-                            <Route path='/registration/list/studentcount/grades' component={StudentCountByGradePage} exact/>
+                            <Route path='/registration/list/studentcount/grade' component={StudentCountByGradePage} exact/>
                             <Route path='/registration/list/studentcount/class' component={StudentCountByClassPage} exact/>
                             <Route path='/registration/list/studentcount/elective' component={StudentCountByElectivePage} exact/>
                             <Route path='/registration/list/studentlist/class' component={StudentListForClassPage} />
@@ -106,7 +108,7 @@ export default function App() {
                             <Route path='/registration/user/password/edit' component={ChangePasswordPage} exact/>
                             <Route path='/registration/user/address/edit' component={EditPersonalAddressPage} />
                             <Route path='/registration/family/address/edit' component={EditFamilyAddressPage} />
-                            <Route path='/registration/family/addchild' component={AddChildPage} />
+                            <Route path='/registration/family/child/add' component={AddChildPage} />
                             <Route path='/registration/student/edit' component={EditStudentDetailsPage} />
                             <Route path='/registration/user/address/create' component={CreatePersonalAddressPage} />
                             <Route component={NotFoundPage} />

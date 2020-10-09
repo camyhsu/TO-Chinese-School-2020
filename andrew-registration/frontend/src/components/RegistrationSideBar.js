@@ -20,7 +20,7 @@ export default function RegistrationSideBar() {
         <>
             <div id="side-bar">
                 <p>Welcome, {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName})</p>
-                <Link to='/registration' onClick={handleHome}>Home</Link>
+                <Link to='/registration/home' onClick={handleHome}>Home</Link>
                 <Link to='/1'>Contact Us</Link>
                 <Link to='/2'>Privacy Policy</Link>
                 <Link to='/3'>Waiver</Link>

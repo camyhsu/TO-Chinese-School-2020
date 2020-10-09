@@ -166,7 +166,7 @@ const getActiveClasses = async (request, response, next) => {
         return response.status(400).json({message: 'School year id required'});
     
     try {
-        const res = await pool.query('SELECT sc.id, sc.english_name AS class_english_name, sc.chinese_name AS class_chinese_name, sc.location, \
+        const res = await pool.query('SELECT sc.id, sc.english_name AS class_english_name, sc.chinese_name AS class_chinese_name, sc.location, sc.school_class_type as type, \
                                         pi.id AS teacher_id, pi.english_first_name AS teacher_first_name, pi.english_last_name AS teacher_last_name, pi.chinese_name AS teacher_chinese_name \
                                         ,rp.id AS parent_id, rp.english_first_name AS parent_first_name, rp.english_last_name AS parent_last_name, rp.chinese_name AS parent_chinese_name \
                                         ,si.id AS teacher2_id, si.english_first_name AS teacher2_first_name, si.english_last_name AS teacher2_last_name, si.chinese_name AS teacher2_chinese_name \
@@ -186,7 +186,7 @@ const getActiveClasses = async (request, response, next) => {
                                             FROM instructor_assignments AS ia4 JOIN people AS p4 ON p4.id = ia4.instructor_id \
                                             WHERE ia4.role = \'Teaching Assistant\' AND ia4.school_year_id = $1) AS ta ON ta.school_class_id = scaf.school_class_id \
                                         WHERE scaf.active = \'t\' AND scaf.school_year_id = $1 Order by sc.grade_id, sc.english_name;', [schoolYearId]);
-        if( res.rows.length === 0 ) 
+        if( res.rows.length === 0 )
             return response.status(404).json({message: `No active classes found for school year id: ${schoolYearId}`});
         return response.status(200).json(res.rows);
     }

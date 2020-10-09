@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Link } from 'react-router-dom';
 
-//TO-DO: Add functionality to click on people names to redirect to profile page and student list
-
 export default function ActiveClassPage() {
     const [results, setResults] = useState([]);
     const { schoolYear } = useAppContext();
@@ -74,6 +72,7 @@ export default function ActiveClassPage() {
                                         </Link>
                                     </td> }
                                 <td><Link to={{pathname: `/registration/list/studentlist/class/${entry.id}`}}>Student List</Link></td>
+                                {entry.type === 'ELECTIVE' ? null : <td><Link to={{pathname: '/registration/students/finalgrades'}}>Student Final Grade</Link></td>}
                             </tr>
                         </tbody>
                     ))}

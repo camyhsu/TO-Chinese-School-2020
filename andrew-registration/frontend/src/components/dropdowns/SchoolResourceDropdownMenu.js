@@ -28,7 +28,7 @@ export default function SchoolResourceDropdownMenu() {
                 <DropdownMenu>
                     <DropdownItem tag={Link} to='/registration/list/studentcount/class'>{schoolYear.name} 班級人數清單</DropdownItem>
                     <DropdownItem tag={Link} to='/registration/list/studentcount/elective'>{schoolYear.name} Elective 人數清單</DropdownItem>
-                    <DropdownItem tag={Link} to='/registration/list/studentcount/grades'>{schoolYear.name} 年級人數清單</DropdownItem>
+                    <DropdownItem tag={Link} to='/registration/list/studentcount/grade'>{schoolYear.name} 年級人數清單</DropdownItem>
                     <DropdownItem tag={Link} to='/registration/list/classes/active'>{schoolYear.name} Active School Classes</DropdownItem>
                 </DropdownMenu>
             </Dropdown>

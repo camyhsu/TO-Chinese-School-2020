@@ -72,7 +72,7 @@ export default function PeopleProfilePage() {
     }
 
     function addChild() {
-        history.push(`/registration/family/addchild/${familyData.familyId}`)
+        history.push(`/registration/family/child/add/${familyData.familyId}`)
     }
 
     useEffect(() => {

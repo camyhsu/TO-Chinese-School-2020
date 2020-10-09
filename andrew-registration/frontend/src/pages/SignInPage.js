@@ -88,7 +88,7 @@ export default function SignIn() {
                     });
                     userHasAuthenticated(true);
                     // redirect to registration homepage
-                    history.push('/registration');
+                    history.push('/registration/home');
                 }
                 else {
                     alert("Sign In Failed");

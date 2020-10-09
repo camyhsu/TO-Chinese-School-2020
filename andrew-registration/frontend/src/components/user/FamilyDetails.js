@@ -14,7 +14,7 @@ export default function FamilyDetails() {
     }
 
     function addChild() {
-        history.push(`/registration/family/addchild/${userData.family.familyId}`);
+        history.push(`/registration/family/child/add/${userData.family.familyId}`);
     }
 
 
