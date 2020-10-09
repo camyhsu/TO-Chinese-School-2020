@@ -12,7 +12,7 @@ export default function RegistrationHomePage() {
     const history = useHistory();
 
     function registerStudent() {
-        history.push(`/registration/register`);
+        history.push(`/registration/register/select`);
     }
 
     return (

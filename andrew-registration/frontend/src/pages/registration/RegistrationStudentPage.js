@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
+import { useHistory } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 export default function RegistrationStudentPage() {
-    const { schoolYear } = useAppContext();
+    const { registerList, setRegisterList, schoolYear, status, setStatus, userData } = useAppContext();
+    const history = useHistory();
     const registrationInfo = `<h3>Registration For ${schoolYear.name} School Year</h3><ul><li>School Grade Placement:</li><ul>\
             <li>A new student must be between the age of 4 to 16 to be eligible for registration and will be assigned to the age-appropriate grade at enrollment.</li>\
             <li>A returning student is automatically assigned to one grade higher than their previous grade at Thousand Oaks Chinese School.</li></ul>\
@@ -15,43 +18,91 @@ export default function RegistrationStudentPage() {
     const [studentRegistrationInfo, setStudentRegistrationInfo] = useState([]);
     const [electiveAvailability, setElectiveAvailability] = useState([]);
     const [grades, setGrades] = useState([]);
-    const [elective, setElective] = useState();
-    const [classType, setClassType] = useState();
-
-    const fetchData = async () => {
-        try {
-            const studentResponse = await fetch(`/registration/student/info?id=486`);//${userData.family.familyId}`);
-            if( studentResponse.status === 200 ) {
-                var studentJson = await studentResponse.json();
-                setStudentRegistrationInfo(studentJson);
-            }
-            else {
-                alert('Failed to get student registration information. Please try again.');
-            }
-            const electiveResponse = await fetch(`/registration/elective/available?id=14`);//${schoolYear.id}`);
-            if(electiveResponse.status === 200) {
-                var electiveJson = await electiveResponse.json();
-                setElectiveAvailability(electiveJson);
-            }
-            else {
-                alert('Failed to get available elective classes. Please try again.');
-            }
-            const gradesResponse = await fetch(`/registration/grades`);
-            if(gradesResponse.status === 200) {
-                var gradesJson = await gradesResponse.json();
-                setGrades(gradesJson);
-            }
-            else {
-                alert('Failed to get grades. Please try again.');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const studentResponse = await fetch(`/registration/student/info?id=${userData.family.familyId}`);
+                if( studentResponse.status === 200 ) {
+                    var studentJson = await studentResponse.json();
+                    setStudentRegistrationInfo(studentJson);
+                }
+                else {
+                    alert('Failed to get student registration information. Please try again.');
+                }
+                const electiveResponse = await fetch(`/registration/elective/available?id=${schoolYear.id}`);
+                if(electiveResponse.status === 200) {
+                    var electiveJson = await electiveResponse.json();
+                    setElectiveAvailability(electiveJson);
+                }
+                else {
+                    alert('Failed to get available elective classes. Please try again.');
+                }
+                const gradesResponse = await fetch(`/registration/grades`);
+                if(gradesResponse.status === 200) {
+                    var gradesJson = await gradesResponse.json();
+                    setGrades(gradesJson);
+                }
+                else {
+                    alert('Failed to get grades. Please try again.');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
         fetchData();
-    },[]);
+    },[schoolYear.id, userData.family.familyId]);
+
+    function cancel() {
+        history.push(`/registration/home`);
+    }
+
+    function updateRegisterList(checked, key) {
+        if(checked) {
+            registerList.push(eligibleStudents[key]);
+        }
+        else {
+            var index = registerList.indexOf(eligibleStudents[key]);
+            registerList.splice(index, 1);
+        }
+    }
+
+    function setClassType(value, key) {
+        var index = registerList.indexOf(eligibleStudents[key]);
+        if(index !== -1) {
+            registerList.splice(index, 1);
+            eligibleStudents[key].class_type = value;
+            registerList.push(eligibleStudents[key]);
+        }
+        else {
+            eligibleStudents[key].class_type = value;
+        }
+    }
+
+    function setElective(value, key) {
+        var index = registerList.indexOf(eligibleStudents[key]);
+        if(index !== -1) {
+            registerList.splice(index, 1);
+            eligibleStudents[key].elective = value;
+            registerList.push(eligibleStudents[key]);
+        }
+        else {
+            eligibleStudents[key].elective = value;
+        }
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        if(registerList.length === 0) {
+            setStatus('No student selected for registration.');
+        }
+        else {
+            setStatus('');
+            setRegisterList(registerList);
+            history.push('/registration/register/waiver');
+        }
+    }
 
     function ageEligible(student) {
         var threshYear = schoolYear.threshYear;
@@ -67,7 +118,7 @@ export default function RegistrationStudentPage() {
 
     var eligibleStudents = studentRegistrationInfo.filter(ageEligible);
     eligibleStudents.forEach(function(student) {
-        var grade = null
+        var grade = null;
         if(student.prev_grade == null) {
             grade = grades.find(g => g.id === ageGradeAssignment[schoolYear.threshYear - student.birth_year]);
             if(grade) {
@@ -83,6 +134,8 @@ export default function RegistrationStudentPage() {
                 student.curr_grade_name = grade.chinese_name + '(' + grade.english_name + ')';
             }
         }
+        student.class_type = 'S';
+        student.elective = '';
     });
     
     function createSelectItems() {
@@ -96,53 +149,58 @@ export default function RegistrationStudentPage() {
     };
 
     return (
-            eligibleStudents.length === 0 ? 
-            <>
-                <div className="registration-info" dangerouslySetInnerHTML={{__html: registrationInfo}}></div>
-                <h4>No eligible students to register - please contact registration@to-cs.org for special case registration.</h4>
-            </>
-            :
-            <>
-                <div className="registration-info" dangerouslySetInnerHTML={{__html: registrationInfo}}></div>
-                <h3>Select Students to Register</h3>
-                <center>
-                    <table id="grades">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th>{schoolYear.prev} Grade</th>
-                                <th>{schoolYear.name} Grade</th>
-                                <th>Select School Class Type</th>
-                                <th>Select Elective Class Type</th>
-                            </tr>
-                        </thead>
-                        {eligibleStudents.map((entry, key) => (
-                            <tbody key={key}>
+        eligibleStudents.length === 0 ? 
+        <>
+            <div className="registration-info" dangerouslySetInnerHTML={{__html: DOMPurify(registrationInfo)}}></div>
+            <h4>No eligible students to register - please contact registration@to-cs.org for special case registration.</h4>
+        </>
+        :
+        <>
+            <p id="status">{status}</p>
+            <div className="registration-info" dangerouslySetInnerHTML={{__html: registrationInfo}}></div>
+            <h3>Select Students to Register</h3>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <center>
+                        <table id="grades">
+                            <thead>
                                 <tr>
-                                    <td><input type="checkbox" id={key} value={key}></input></td>
-                                    <td>{entry.chinese_name} ({entry.english_first_name} {entry.english_last_name})</td>
-                                    <td>{entry.prev_grade === null ? 'Not in Record' : entry.prev_grade_name}</td>
-                                    <td>{entry.curr_grade_name}</td>
-                                    <td>
-                                        <select id="class-type" name="class-type" onChange={(e) => setClassType(e.target.value)}>
-                                                <option key='S' value="S">S(簡)</option>
-                                                <option key='T' value="T">T(繁)</option>
-                                                <option key='EC' value="EC">EC</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="elective" name="elective" onChange={(e) => setElective(e.target.value)}>
-                                            {createSelectItems()}
-                                        </select>
-                                    </td>
+                                    <th></th>
+                                    <th></th>
+                                    <th>{schoolYear.prev} Grade</th>
+                                    <th>{schoolYear.name} Grade</th>
+                                    <th>Select School Class Type</th>
+                                    <th>Select Elective Class Type</th>
                                 </tr>
-                            </tbody>
-                        ))}
-                    </table>
-                </center>
+                            </thead>
+                            {eligibleStudents.map((entry, key) => (
+                                <tbody key={key}>
+                                    <tr>
+                                        <td><input type="checkbox" id={key} value={key} onChange={(e) => updateRegisterList(e.target.checked, key)}></input></td>
+                                        <td>{entry.chinese_name} ({entry.english_first_name} {entry.english_last_name})</td>
+                                        <td>{entry.prev_grade === null ? 'Not in Record' : entry.prev_grade_name}</td>
+                                        <td>{entry.curr_grade_name}</td>
+                                        <td>
+                                            <select id="class-type" name="class-type" defaultValue={"S"} onChange={(e) => setClassType(e.target.value, key)}>
+                                                    <option key='S' value="S">S(簡)</option>
+                                                    <option key='T' value="T">T(繁)</option>
+                                                    <option key='EC' value="EC">EC</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="elective" name="elective" onChange={(e) => setElective(e.target.value, key)}>
+                                                {createSelectItems()}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            ))}
+                        </table>
+                    </center>
+                </div>
                 <Button type="submit">Continue</Button>
-                <Button type="submit">Cancel Registration</Button>
-            </>
+                <Button onClick={cancel}>Cancel Registration</Button>
+            </form>
+        </>
     )
 }

@@ -26,6 +26,8 @@ import PeopleProfilePage from './pages/directories/PeopleProfilePage';
 import CreatePersonalAddressPage from './pages/user/CreatePersonalAddressPage';
 import ActiveStudentsPage from './pages/directories/ActiveStudentsPage';
 import RegistrationStudentPage from './pages/registration/RegistrationStudentPage';
+import RegistrationWaiverPage from './pages/registration/RegistrationWaiverPage';
+import RegistrationPaymentPage from './pages/registration/RegistrationPaymentPage';
 
 export default function App() {
     const [schoolYear] = useState({'id': 14, 'name': '2020-2021', 'threshYear': 2020, 'prev' : '2019-2020'})
@@ -75,9 +77,10 @@ export default function App() {
         students: [],
     });
     const [status, setStatus] = useState('');
+    const [registerList, setRegisterList] = useState([]);
 
     return(
-        <AppContext.Provider value={{ schoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
+        <AppContext.Provider value={{ registerList, setRegisterList, schoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
             <Router>
                 <div className="App">
                     { // only show Registration NavBar and SideBar if user is authenticated
@@ -93,7 +96,9 @@ export default function App() {
                             <Route path='/' component={RedirectPage} exact />
                             <Route path='/registration/home' component={HomePage} exact />
                             <Route path='/registration/signin' component={SignInPage} exact />
-                            <Route path='/registration/register' component={RegistrationStudentPage} exact />
+                            <Route path='/registration/register/select' component={RegistrationStudentPage} exact />
+                            <Route path='/registration/register/waiver' component={RegistrationWaiverPage} exact />
+                            <Route path='/registration/register/payment' component={RegistrationPaymentPage} exact />
                             <Route path='/registration/list/people' component={PeopleDirectoryPage} exact/>
                             <Route path='/registration/list/grades' component={GradesDirectoryPage} exact/>
                             <Route path='/registration/list/classes' component={AllSchoolClassesPage} exact/>
