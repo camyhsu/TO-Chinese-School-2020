@@ -75,6 +75,7 @@ export default function SignIn() {
                         family: {
                             familyId: familyAddressData[0].family_id,
                             addressId: familyAddressData[0].address_id,
+                            cccaLifetimeMember: familyAddressData[0].ccca_lifetime_member,
                             children: children,
                             street: familyAddressData[0].street,
                             city: familyAddressData[0].city,

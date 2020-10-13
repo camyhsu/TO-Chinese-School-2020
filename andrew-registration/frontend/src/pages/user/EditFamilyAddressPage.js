@@ -86,6 +86,7 @@ export default function EditFamilyAddressPage() {
                             family: {
                                 familyId: userData.family.familyId,
                                 addressId: userData.family.addressId,
+                                cccaLifetimeMember: userData.family.cccaLifetimeMember,
                                 children: userData.family.children,
                                 street: familyAddressData[0].street,
                                 city: familyAddressData[0].city,

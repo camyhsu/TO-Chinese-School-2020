@@ -71,8 +71,8 @@ const getFamilyAddress = async (request, response, next) => {
         return response.status(400).json({message: 'Person id is required'});
 
     try {
-        const res = await pool.query('SELECT families.id AS family_id, addresses.id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email FROM addresses \
-                                        JOIN families ON families.address_id = addresses.id WHERE parent_one_id = $1 or parent_two_id = $1;', [id]);
+        const res = await pool.query('SELECT families.id AS family_id, addresses.id AS address_id, street, city, state, zipcode, home_phone, cell_phone, email, ccca_lifetime_member \
+                                        FROM addresses JOIN families ON families.address_id = addresses.id WHERE parent_one_id = $1 or parent_two_id = $1;', [id]);
         if (res.rows.length === 0)
             return response.status(404).json({message: `No family address found for person id: ${id}`});
         return response.status(200).json(res.rows);

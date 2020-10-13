@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AppContext } from './libs/contextLib';
 import './App.css';
-import RegistrationNavBar from './components/RegistrationNavBar';
-import RegistrationSideBar from './components/RegistrationSideBar';
+import NavBar from './components/NavBar';
+import SideBar from './components/SideBar';
 import RedirectPage from './pages/RedirectPage';
 import HomePage from './pages/HomePage';
 import SignInPage from './pages/SignInPage';
@@ -33,47 +33,10 @@ export default function App() {
     const [schoolYear] = useState({'id': 14, 'name': '2020-2021', 'threshYear': 2020, 'prev' : '2019-2020'})
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
-        person: {
-            'username': '',
-            'personId': '',
-            'addressId': '',
-            'chineseName': '',
-            'englishFirstName': '',
-            'englishLastName': '',
-            'gender': '',
-            'birthMonth': '',
-            'birthYear': '',
-            'nativeLanguage': '',
-            'street': '',
-            'city': '',
-            'state': '',
-            'zipcode': '',
-            'homePhone': '',
-            'cellPhone': '',
-            'email': ''
-        },
-        parents: {
-            'parentOneId': '',
-            'parentOneEnglishName': '',
-            'parentOneChineseName': '',
-            'parentOneUsername': '',
-            'parentTwoId':'',
-            'parentTwoEnglishName': '',
-            'parentTwoChineseName': '',
-            'parentTwoUsername': '',
-        },
-        family: {
-            'familyId': '',
-            'addressId': '',
-            'children': [],
-            'street': '',
-            'city': '',
-            'state': '',
-            'zipcode': '',
-            'homePhone': '',
-            'cellPhone': '',
-            'email': ''
-        },
+        person: {},
+        roles: {},
+        parents: {},
+        family: {},
         students: [],
     });
     const [status, setStatus] = useState('');
@@ -86,8 +49,8 @@ export default function App() {
                     { // only show Registration NavBar and SideBar if user is authenticated
                         isAuthenticated ?
                         <>
-                            <RegistrationNavBar />
-                            <RegistrationSideBar />
+                            <NavBar />
+                            <SideBar />
                         </> :
                         null
                     }

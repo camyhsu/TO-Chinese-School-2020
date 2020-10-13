@@ -44,7 +44,6 @@ const getElectiveAvailability = async (request, response, next) => {
 }
 
 const getGrades = async (request, response, next) => {
-
     try {
         const res = await pool.query('SELECT id, chinese_name, english_name, next_grade FROM grades;');
         if (res.rows.length === 0)
@@ -56,9 +55,29 @@ const getGrades = async (request, response, next) => {
     }
 }
 
+const getStaffStatus = async (request, response, next) => {
+    const user = request.query.user;
+    const year = request.query.year;
+
+    if( !user )
+        return response.status(400).json({message: 'Person id is required'});
+    if( !year )
+        return response.status(400).json({message: 'School year id is required'});
+
+    try {
+        const res = await pool.query('SELECT (SELECT COUNT(*) FROM staff_assignments WHERE person_id = $1 AND school_year_id = $2) + \
+                    (SELECT count(*) FROM instructor_assignments WHERE instructor_id = $1 AND school_year_id = $2) AS status;', [user, year]);
+        return response.status(200).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
 const registrationRouter = express.Router();
 registrationRouter.get('/student/info', getStudentRegistrationData);
 registrationRouter.get('/elective/available', getElectiveAvailability);
 registrationRouter.get('/grades/', getGrades);
+registrationRouter.get('/staff/status', getStaffStatus);
 
 module.exports = registrationRouter;
