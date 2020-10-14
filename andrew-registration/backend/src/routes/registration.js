@@ -56,6 +56,29 @@ const getGrades = async (request, response, next) => {
 }
 
 const getStaffStatus = async (request, response, next) => {
+    const parentOne = request.query.parentOne;
+    const parentTwo = request.query.parentTwo;
+    const year = request.query.year;
+
+    if( !parentOne )
+        return response.status(400).json({message: 'Parent One id is required'});
+    if( !parentTwo )
+        return response.status(400).json({message: 'Parent Two id is required'});
+    if( !year )
+        return response.status(400).json({message: 'School year id is required'});
+
+    try {
+        const res = await pool.query('SELECT (SELECT COUNT(*) FROM instructor_assignments WHERE (instructor_id = $1 OR instructor_id = $2) AND school_year_id = $3 \
+                    AND (role = \'Primary Instructor\' OR role = \'Secondary Instructor\')) AS instructor_discount, (SELECT COUNT(*) FROM staff_assignments \
+                    WHERE (person_id = $1 OR person_id = $2) AND school_year_id = $3) AS staff_discount;', [parentOne, parentTwo, year]);
+        return response.status(200).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
+const getNumStudentsRegistered = async (request, response, next) => {
     const user = request.query.user;
     const year = request.query.year;
 
@@ -65,8 +88,9 @@ const getStaffStatus = async (request, response, next) => {
         return response.status(400).json({message: 'School year id is required'});
 
     try {
-        const res = await pool.query('SELECT (SELECT COUNT(*) FROM staff_assignments WHERE person_id = $1 AND school_year_id = $2) + \
-                    (SELECT count(*) FROM instructor_assignments WHERE instructor_id = $1 AND school_year_id = $2) AS status;', [user, year]);
+        const res = await pool.query('SELECT COUNT(*) AS registered, COUNT(CASE WHEN staff_discount THEN 1 END) as staff_count, \
+                    COUNT(CASE WHEN instructor_discount THEN 1 END) as instructor_count FROM student_fee_payments WHERE registration_payment_id IN \
+                    (SELECT id FROM registration_payments WHERE paid_by_id = $1 AND school_year_id = $2 AND paid = true);', [user, year]);
         return response.status(200).json(res.rows);
     }
     catch (error) {
@@ -79,5 +103,6 @@ registrationRouter.get('/student/info', getStudentRegistrationData);
 registrationRouter.get('/elective/available', getElectiveAvailability);
 registrationRouter.get('/grades/', getGrades);
 registrationRouter.get('/staff/status', getStaffStatus);
+registrationRouter.get('/registered/count', getNumStudentsRegistered);
 
 module.exports = registrationRouter;

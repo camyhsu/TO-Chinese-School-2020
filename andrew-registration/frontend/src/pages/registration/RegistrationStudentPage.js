@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 export default function RegistrationStudentPage() {
-    const { registerList, setRegisterList, schoolYear, status, setStatus, userData } = useAppContext();
+    const { setRegisterInfo, schoolYear, status, setStatus, userData } = useAppContext();
     const history = useHistory();
     const registrationInfo = `<h3>Registration For ${schoolYear.name} School Year</h3><ul><li>School Grade Placement:</li><ul>\
             <li>A new student must be between the age of 4 to 16 to be eligible for registration and will be assigned to the age-appropriate grade at enrollment.</li>\
@@ -18,6 +18,9 @@ export default function RegistrationStudentPage() {
     const [studentRegistrationInfo, setStudentRegistrationInfo] = useState([]);
     const [electiveAvailability, setElectiveAvailability] = useState([]);
     const [grades, setGrades] = useState([]);
+    const [discountsAvailable, setDiscountsAvailable] = useState();
+    const [numStudentsRegistered, setNumStudentsRegistered] = useState();
+    const studentsToRegister = [];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,12 +49,30 @@ export default function RegistrationStudentPage() {
                 else {
                     alert('Failed to get grades. Please try again.');
                 }
+
+                const staffResponse = await fetch(`/registration/staff/status?parentOne=${userData.parents.parentOneId}&&parentTwo=${userData.parents.parentTwoId}&&year=${schoolYear.id}`);
+                if( staffResponse.status === 200 ) {
+                    var staffJson = await staffResponse.json();
+                    setDiscountsAvailable(staffJson[0]);
+                }
+                else {
+                    alert('Failed to check staff status. Please try again');
+                }
+                const numStudentsRegisteredResponse = await fetch(`/registration/registered/count?user=${userData.person.personId}&&year=${schoolYear.id}`);
+                if( numStudentsRegisteredResponse.status === 200 ) {
+                    var numStudentsRegisteredJson = await numStudentsRegisteredResponse.json();
+                    setNumStudentsRegistered(numStudentsRegisteredJson[0]);
+                }
+                else {
+                    alert('Failed to get number of students registered. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    },[schoolYear.id, userData.family.familyId]);
+    // eslint-disable-next-line
+    },[]);
 
     function cancel() {
         history.push(`/registration/home`);
@@ -59,20 +80,20 @@ export default function RegistrationStudentPage() {
 
     function updateRegisterList(checked, key) {
         if(checked) {
-            registerList.push(eligibleStudents[key]);
+            studentsToRegister.push(eligibleStudents[key]);
         }
         else {
-            var index = registerList.indexOf(eligibleStudents[key]);
-            registerList.splice(index, 1);
+            var index = studentsToRegister.indexOf(eligibleStudents[key]);
+            studentsToRegister.splice(index, 1);
         }
     }
 
     function setClassType(value, key) {
-        var index = registerList.indexOf(eligibleStudents[key]);
+        var index = studentsToRegister.indexOf(eligibleStudents[key]);
         if(index !== -1) {
-            registerList.splice(index, 1);
+            studentsToRegister.splice(index, 1);
             eligibleStudents[key].class_type = value;
-            registerList.push(eligibleStudents[key]);
+            studentsToRegister.push(eligibleStudents[key]);
         }
         else {
             eligibleStudents[key].class_type = value;
@@ -80,11 +101,11 @@ export default function RegistrationStudentPage() {
     }
 
     function setElective(value, key) {
-        var index = registerList.indexOf(eligibleStudents[key]);
+        var index = studentsToRegister.indexOf(eligibleStudents[key]);
         if(index !== -1) {
-            registerList.splice(index, 1);
+            studentsToRegister.splice(index, 1);
             eligibleStudents[key].elective = value;
-            registerList.push(eligibleStudents[key]);
+            studentsToRegister.push(eligibleStudents[key]);
         }
         else {
             eligibleStudents[key].elective = value;
@@ -94,12 +115,17 @@ export default function RegistrationStudentPage() {
     function handleSubmit(event) {
         event.preventDefault();
         
-        if(registerList.length === 0) {
+        if(studentsToRegister.length === 0) {
             setStatus('No student selected for registration.');
         }
         else {
             setStatus('');
-            setRegisterList(registerList);
+            setRegisterInfo(registerInfo => ({ 
+                ...registerInfo,
+                studentsToRegister: studentsToRegister,
+                numStudentsRegistered: numStudentsRegistered,
+                discountsAvailable: discountsAvailable
+            }));
             history.push('/registration/register/waiver');
         }
     }

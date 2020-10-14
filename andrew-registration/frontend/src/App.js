@@ -40,10 +40,10 @@ export default function App() {
         students: [],
     });
     const [status, setStatus] = useState('');
-    const [registerList, setRegisterList] = useState([]);
+    const [registerInfo, setRegisterInfo] = useState([]);
 
     return(
-        <AppContext.Provider value={{ registerList, setRegisterList, schoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
+        <AppContext.Provider value={{ registerInfo, setRegisterInfo, schoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
             <Router>
                 <div className="App">
                     { // only show Registration NavBar and SideBar if user is authenticated

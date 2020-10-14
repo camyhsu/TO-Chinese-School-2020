@@ -4,11 +4,11 @@ import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 
 export default function RegistrationWaiverPage() {
-    const { registerList, userData } = useAppContext();
+    const { registerInfo, userData } = useAppContext();
     const history = useHistory();
     const studentNames = [];
 
-    registerList.forEach(function(student) {
+    registerInfo.studentsToRegister.forEach(function(student) {
         studentNames.push(' ' + student.chinese_name + '(' + student.english_first_name + ' ' + student.english_last_name + ')');
     });
 
