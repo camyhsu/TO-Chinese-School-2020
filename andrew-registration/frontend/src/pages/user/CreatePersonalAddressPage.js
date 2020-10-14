@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 export default function CreatePersonalAddressPage() {
     const url = window.location.href.split("/");
     const personId = url[url.length-1];
-    const { setStatus } = useAppContext(); 
+    const { setStatus, userData, setUserData } = useAppContext(); 
     const history = useHistory();  
     
     const [personDetails, setPersonDetails] = useState({
@@ -18,23 +18,15 @@ export default function CreatePersonalAddressPage() {
         'birth_month':'',
         'native_language':''
     });
-    const [street, setStreet] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('CA');
-    const [zipcode, setZipcode] = useState('');
-    const [homePhone, setHomePhone] = useState('');
-    const [cellPhone, setCellPhone] = useState('');
-    const [email, setEmail] = useState('');
-
-    function containsOnlyDigits(val) {
-        return /^\d+$/.test(val)
-    }
-
-    function validateForm() {
-        if( cellPhone.length > 0 )
-            return street.length > 0 && city.length > 0 && (containsOnlyDigits(zipcode) && zipcode.length === 5) && (containsOnlyDigits(homePhone) && homePhone.length > 0) && email.length > 0 && containsOnlyDigits(cellPhone);
-        return street.length > 0 && city.length > 0 && (containsOnlyDigits(zipcode) && zipcode.length === 5) && (containsOnlyDigits(homePhone) && homePhone.length > 0) && email.length > 0;
-    }
+    const [changes, setChanges] = useState({
+        street: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        home_phone: '',
+        cell_phone: '',
+        email: '',
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,20 +39,27 @@ export default function CreatePersonalAddressPage() {
             }
         };
         fetchData();
-    }, [personId])
+    }, [personId]);
+
+    const handleInputChange = (e) => {
+        setChanges({
+            ...changes,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    function containsOnlyDigits(val) {
+        return /^\d+$/.test(val)
+    }
+
+    function validateForm() {
+        if( changes.cell_phone.length > 0 )
+            return changes.street.length > 0 && changes.city.length > 0 && (containsOnlyDigits(changes.zipcode) && changes.zipcode.length === 5) && (containsOnlyDigits(changes.home_phone) && changes.home_phone.length > 0) && changes.email.length > 0 && (containsOnlyDigits(changes.cell_phone) && changes.cell_phone.length === 10);
+        return changes.street.length > 0 && changes.city.length > 0 && (containsOnlyDigits(changes.zipcode) && changes.zipcode.length === 5) && (containsOnlyDigits(changes.home_phone) && changes.home_phone.length ===  10) && changes.email.length > 0;
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
-
-        // create body for post request
-        var body = {};
-        body.street = street;
-        body.city = city;
-        body.state = state;
-        body.zipcode = zipcode;
-        body.homePhone = homePhone;
-        body.cellPhone = cellPhone;
-        body.email = email;
 
         const fetch = require("node-fetch");
         const postData = async () => {
@@ -72,7 +71,7 @@ export default function CreatePersonalAddressPage() {
                         'Content-Type': 'application/json'
                     },
                     method: 'POST',                                                              
-                    body: JSON.stringify( body )                                        
+                    body: JSON.stringify( changes )                                        
                 });
 
                 if( postResponse1.status === 201 ) {
@@ -83,15 +82,31 @@ export default function CreatePersonalAddressPage() {
                             'Content-Type': 'application/json'
                         },
                         method: 'POST',                                                              
-                        body: JSON.stringify( body )                                        
+                        body: JSON.stringify( changes )                                        
                     });
 
                     if( postResponse2.status === 201 ) {
+                        if(parseInt(personId,10) === userData.personalData.personId) {
+                            const personalAddressResponse = await fetch(`/user/address?id=${userData.personalData.personId}`);
+                            var personalAddress = await personalAddressResponse.json();
+                            setUserData(prevUserData => ({...prevUserData,
+                                personalAddress: {
+                                    addressId: personalAddress[0].address_id,
+                                    street: personalAddress[0].street,
+                                    city: personalAddress[0].city,
+                                    state: personalAddress[0].state,
+                                    zipcode: personalAddress[0].zipcode,
+                                    homePhone: personalAddress[0].home_phone,
+                                    cellPhone: personalAddress[0].cell_phone,
+                                    email: personalAddress[0].email
+                                },
+                            }))
+                        }
                         setStatus('Address Successfully Created.');
                         history.goBack();
                     }
                     else {
-                        alert('Failed to create address. Please try again.');
+                        alert('Failed to add address to person. Please try again.');
                     }
                 }
                 else {
@@ -109,21 +124,21 @@ export default function CreatePersonalAddressPage() {
             <h1>Create Address Details for {personDetails.chinese_name} ({personDetails.english_first_name} {personDetails.english_last_name})</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    Street: <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} />
+                    Street: <input type="text" name="street" value={changes.street} onChange={handleInputChange} />
                     <br></br>
-                    City: <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
+                    City: <input type="text" name="city" value={changes.city} onChange={handleInputChange} />
                     <br></br>
-                    State: <select id="state" name="state" value={state} onChange={(e) => setState(e.target.value)}>
+                    State: <select id="state" name="state" value={changes.state} onChange={handleInputChange}>
                                     <option value="CA">CA</option>
                             </select>
                     <br></br>
-                    Zipcode: <input type="text" value={zipcode} size="5" onChange={(e) => setZipcode(e.target.value)} />
+                    Zipcode: <input type="text" name="zipcode" value={changes.zipcode} size="5" onChange={handleInputChange} />
                     <br></br>
-                    Home Phone: <input type="text" value={homePhone} onChange={(e) => setHomePhone(e.target.value)} />
+                    Home Phone: <input type="text" name="home_phone" value={changes.home_phone} onChange={handleInputChange} />
                     <br></br>
-                    Cell Phone: <input type="text" value={cellPhone} onChange={(e) => setCellPhone(e.target.value)} />
+                    Cell Phone: <input type="text" name="cell_phone" value={changes.cell_phone} onChange={handleInputChange} />
                     <br></br>
-                    Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    Email: <input type="text" name="email" value={changes.email} onChange={handleInputChange} />
                     <br></br>
                 </div>
                 <br></br>

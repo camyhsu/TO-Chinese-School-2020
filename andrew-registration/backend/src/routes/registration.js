@@ -62,8 +62,6 @@ const getStaffStatus = async (request, response, next) => {
 
     if( !parentOne )
         return response.status(400).json({message: 'Parent One id is required'});
-    if( !parentTwo )
-        return response.status(400).json({message: 'Parent Two id is required'});
     if( !year )
         return response.status(400).json({message: 'School year id is required'});
 

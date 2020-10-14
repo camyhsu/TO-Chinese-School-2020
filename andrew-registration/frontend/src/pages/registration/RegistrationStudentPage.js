@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../libs/contextLib';
 import { Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import DOMPurify from 'dompurify';
 
 export default function RegistrationStudentPage() {
     const { setRegisterInfo, schoolYear, status, setStatus, userData } = useAppContext();
@@ -25,7 +24,7 @@ export default function RegistrationStudentPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const studentResponse = await fetch(`/registration/student/info?id=${userData.family.familyId}`);
+                const studentResponse = await fetch(`/registration/student/info?id=${userData.familyAddress.familyId}`);
                 if( studentResponse.status === 200 ) {
                     var studentJson = await studentResponse.json();
                     setStudentRegistrationInfo(studentJson);
@@ -50,7 +49,11 @@ export default function RegistrationStudentPage() {
                     alert('Failed to get grades. Please try again.');
                 }
 
-                const staffResponse = await fetch(`/registration/staff/status?parentOne=${userData.parents.parentOneId}&&parentTwo=${userData.parents.parentTwoId}&&year=${schoolYear.id}`);
+                var staffResponse = null;
+                if(userData.parentData.parentTwoId === null)
+                    staffResponse = await fetch(`/registration/staff/status?parentOne=${userData.parentData.parentOneId}&&year=${schoolYear.id}`);
+                else
+                    staffResponse = await fetch(`/registration/staff/status?parentOne=${userData.parentData.parentOneId}&&parentTwo=${userData.parentData.parentTwoId}&&year=${schoolYear.id}`);
                 if( staffResponse.status === 200 ) {
                     var staffJson = await staffResponse.json();
                     setDiscountsAvailable(staffJson[0]);
@@ -58,7 +61,7 @@ export default function RegistrationStudentPage() {
                 else {
                     alert('Failed to check staff status. Please try again');
                 }
-                const numStudentsRegisteredResponse = await fetch(`/registration/registered/count?user=${userData.person.personId}&&year=${schoolYear.id}`);
+                const numStudentsRegisteredResponse = await fetch(`/registration/registered/count?user=${userData.personalData.personId}&&year=${schoolYear.id}`);
                 if( numStudentsRegisteredResponse.status === 200 ) {
                     var numStudentsRegisteredJson = await numStudentsRegisteredResponse.json();
                     setNumStudentsRegistered(numStudentsRegisteredJson[0]);
@@ -177,7 +180,7 @@ export default function RegistrationStudentPage() {
     return (
         eligibleStudents.length === 0 ? 
         <>
-            <div className="registration-info" dangerouslySetInnerHTML={{__html: DOMPurify(registrationInfo)}}></div>
+            <div className="registration-info" dangerouslySetInnerHTML={{__html: registrationInfo}}></div>
             <h4>No eligible students to register - please contact registration@to-cs.org for special case registration.</h4>
         </>
         :

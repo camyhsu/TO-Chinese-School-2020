@@ -51,7 +51,7 @@ export default function RegistrationWaiverPage() {
                     <hr></hr>
                     <b>WE HAVE CAREFULLY READ THIS AGREEMENT AND FULLY UNDERSTAND ITS CONTENTS. WE ARE AWARE THAT THIS IS A CONSENT, RELEASE OF LIABILITY, ASSUMPTION OF RISK, 
                         INDEMNIFICATION, AND PROMISE NOT TO SUE OR MAKE A CLAIM, AND WE AGREE TO THIS OF OUR OWN FREE WILL.</b>
-                    <b>By clicking on the "Agree and Continue" button below, I, {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName}), 
+                    <b>By clicking on the "Agree and Continue" button below, I, {userData.personalData.chineseName} ({userData.personalData.englishFirstName} {userData.personalData.englishLastName}), 
                         agree to the legal terms outlined above, and I’ve also read and agreed to the Student and Parent Handbook.</b>
                 </div>
                 <Button type="submit">Agree and Continue</Button>

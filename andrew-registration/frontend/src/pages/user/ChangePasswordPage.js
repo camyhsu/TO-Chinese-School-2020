@@ -21,11 +21,11 @@ export default function ChangePasswordPage() {
         const fetch = require("node-fetch");
         const patchData = async () => {
             try {
-                const signInResponse = await fetch(`/admin/signin?username=${userData.person.username}&&password=${oldPassword}`);
+                const signInResponse = await fetch(`/admin/signin?username=${userData.personalData.username}&&password=${oldPassword}`);
                 if( signInResponse.status === 200 ) {
                     var body = {password: newPassword};
 
-                    const passwordResponse = await fetch(`/admin/password/edit/${userData.person.username}`, {
+                    const passwordResponse = await fetch(`/admin/password/edit/${userData.personalData.username}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'

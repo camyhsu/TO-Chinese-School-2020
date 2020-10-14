@@ -19,7 +19,7 @@ export default function RegistrationSideBar() {
     return (
         <>
             <div id="side-bar">
-                <p>Welcome, {userData.person.chineseName} ({userData.person.englishFirstName} {userData.person.englishLastName})</p>
+                <p>Welcome, {userData.personalData.chineseName} ({userData.personalData.englishFirstName} {userData.personalData.englishLastName})</p>
                 <Link to='/registration/home' onClick={handleHome}>Home</Link>
                 <Link to='/1'>Contact Us</Link>
                 <Link to='/2'>Privacy Policy</Link>

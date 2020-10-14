@@ -66,11 +66,11 @@ const changePassword = async (request, response, next) => {
 
 const addPerson = async (request, response, next) => {
     const body = await readBody(request);
-    const { englishFirstName, englishLastName, chineseName, birthYear, birthMonth, gender, nativeLanguage } = JSON.parse(body);
+    const { english_first_name, english_last_name, chinese_name, birth_year, birth_month, gender, native_language } = JSON.parse(body);
 
     try {
-        const res = await pool.query('INSERT INTO people (english_last_name, english_first_name, chinese_name, gender, birth_year, birth_month, native_language) \
-                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [englishLastName, englishFirstName, chineseName, gender, birthYear, birthMonth, nativeLanguage]);
+        const res = await pool.query('INSERT INTO people (english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, native_language) \
+                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, native_language]);
         return response.status(201).json(res.rows);
     }
     catch (error) {
@@ -80,11 +80,11 @@ const addPerson = async (request, response, next) => {
 
 const addAddress = async (request, response, next) => {
     const body = await readBody(request);
-    const { street, city, state, zipcode, homePhone, cellPhone, email } = JSON.parse(body);
+    const { street, city, state, zipcode, home_phone, cell_phone, email } = JSON.parse(body);
 
     try {
         const res = await pool.query('INSERT INTO addresses (street, city, state, zipcode, home_phone, cell_phone, email) \
-                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [street, city, state, zipcode, homePhone, cellPhone, email]);
+                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [street, city, state, zipcode, home_phone, cell_phone, email]);
         return response.status(201).json(res.rows);
     }
     catch (error) {

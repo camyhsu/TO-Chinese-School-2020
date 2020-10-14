@@ -33,11 +33,13 @@ export default function App() {
     const [schoolYear] = useState({'id': 14, 'name': '2020-2021', 'threshYear': 2020, 'prev' : '2019-2020'})
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
-        person: {},
-        roles: {},
-        parents: {},
-        family: {},
+        personalData: {},
+        personalAddress: {},
+        familyAddress: {},
+        parentData: {},
         students: [],
+        children: [],
+        roles: {},
     });
     const [status, setStatus] = useState('');
     const [registerInfo, setRegisterInfo] = useState([]);

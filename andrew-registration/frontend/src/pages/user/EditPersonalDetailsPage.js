@@ -12,59 +12,58 @@ export default function EditPersonalDetailsPage() {
     const history = useHistory();  
 
     const [personDetails, setPersonDetails] = useState({
-        'chinese_name':'',
-        'english_first_name':'',
-        'english_last_name':'',
-        'gender':'',
-        'birth_year':'',
-        'birth_month':'',
-        'native_language':''
+        english_first_name: '',
+        english_last_name: '',
+        chinese_name: '',
+        birth_year: '',
+        birth_month: '',
+        native_language: '',
+        gender: ''
     });
-
-    const [englishFirstName, setEnglishFirstName] = useState('');
-    const [englishLastName, setEnglishLastName] = useState('');
-    const [chineseName, setChineseName] = useState('');
-    const [gender, setGender] = useState('');
-    const [birthYear, setBirthYear] = useState('');
-    const [birthMonth, setBirthMonth] = useState('');
-    const [nativeLanguage, setNativeLanguage] = useState('');
+    const [changes, setChanges] = useState({
+        english_first_name: '',
+        english_last_name: '',
+        chinese_name: '',
+        birth_year: '',
+        birth_month: '',
+        native_language: '',
+        gender: ''
+    });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`/user/data?id=${personId}`);
-                var json = await response.json();
-                setPersonDetails(json[0]);
-                setEnglishFirstName(json[0].english_first_name);
-                setEnglishLastName(json[0].english_last_name);
-                setChineseName(json[0].chinese_name);
-                setGender(json[0].gender);
-                setBirthYear(json[0].birth_year);
-                setBirthMonth(json[0].birth_month);
-                setNativeLanguage(json[0].native_language);
+                if(response.status === 200) {
+                    var json = await response.json();
+                    setPersonDetails(json[0]);
+                    setChanges(json[0]);
+                }
+                else {
+                    alert('Failed to get personal data. Please try again.');
+                }
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    }, [personId])
+    }, [personId]);
+
+    const handleInputChange = (e) => {
+        setChanges({
+            ...changes,
+            [e.target.name]: e.target.value
+        });
+    };
 
     function validateForm() {
-        return englishFirstName.length > 0 && englishLastName.length > 0 && gender.length > 0;
+        return changes.english_first_name.length > 0 && changes.english_last_name.length > 0 && changes.gender.length > 0;
     }
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        // create body for patch request
-        var body = {};
-        body.englishFirstName = englishFirstName;
-        body.englishLastName = englishLastName;
-        body.chineseName = chineseName;
-        body.birthYear = birthYear === '' ? null : birthYear;
-        body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender;
-        body.nativeLanguage = nativeLanguage;
+        console.log(changes);
 
         const fetch = require("node-fetch");
         const patchData = async () => {
@@ -75,20 +74,17 @@ export default function EditPersonalDetailsPage() {
                         'Content-Type': 'application/json'
                     },
                     method: 'PATCH',                                                              
-                    body: JSON.stringify( body )                                        
+                    body: JSON.stringify( changes )                                        
                 });
 
                 if(patchResponse.status === 200) {
-                    if(parseInt(personId,10) === userData.person.personId) {
-                        const personalDataResponse = await fetch(`/user/data?id=${userData.person.personId}`);
+                    if(parseInt(personId,10) === userData.personalData.personId) {
+                        const personalDataResponse = await fetch(`/user/data?id=${userData.personalData.personId}`);
                         var personalData = await personalDataResponse.json();
-                        const personalAddressResponse = await fetch(`/user/address?id=${userData.person.personId}`);
-                        var personalAddress = await personalAddressResponse.json();
                         setUserData(prevUserData => ({...prevUserData,
-                            person: {
-                                username: userData.person.username,
-                                personId: userData.person.personId,
-                                addressId: personalData[0].address_id,
+                            personalData: {
+                                username: userData.personalData.username,
+                                personId: userData.personalData.personId,
                                 chineseName: personalData[0].chinese_name,
                                 englishFirstName: personalData[0].english_first_name,
                                 englishLastName: personalData[0].english_last_name,
@@ -96,13 +92,6 @@ export default function EditPersonalDetailsPage() {
                                 birthMonth: personalData[0].birth_month,
                                 birthYear: personalData[0].birth_year,
                                 nativeLanguage: personalData[0].native_language,
-                                street: personalAddress[0].street,
-                                city: personalAddress[0].city,
-                                state: personalAddress[0].state,
-                                zipcode: personalAddress[0].zipcode,
-                                homePhone: personalAddress[0].home_phone,
-                                cellPhone: personalAddress[0].cell_phone,
-                                email: personalAddress[0].email
                             },
                         }))
                     }
@@ -125,18 +114,18 @@ export default function EditPersonalDetailsPage() {
             <h1>Edit Personal Details for {personDetails.chinese_name} ({personDetails.english_first_name} {personDetails.english_last_name})</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />
+                    English First Name: <input type="text" name="english_first_name" value={changes.english_first_name} onChange={handleInputChange} />
                     <br></br>
-                    English Last Name: <input type="text" value={englishLastName} onChange={(e) => setEnglishLastName(e.target.value)} />
+                    English Last Name: <input type="text" name="english_last_name" value={changes.english_last_name} onChange={handleInputChange} />
                     <br></br>
-                    Chinese Name: <input type="text" value={chineseName} onChange={(e) => setChineseName(e.target.value)} />
+                    Chinese Name: <input type="text" name="chinese_name" value={changes.chinese_name} onChange={handleInputChange} />
                     <br></br>
-                    Gender: <select id="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)}> 
+                    Gender: <select id="gender" name="gender" value={changes.gender} onChange={handleInputChange}> 
                                 <option value="F">F</option>
                                 <option value="M">M</option>
                             </select>
                     <br></br>
-                    Birth Month: <select id="month" name="month" value={birthMonth} onChange={(e) => setBirthMonth(e.target.value)}>
+                    Birth Month: <select id="month" name="birth_month" value={changes.birth_month} onChange={handleInputChange}>
                                     <option value=""></option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -152,9 +141,9 @@ export default function EditPersonalDetailsPage() {
                                     <option value="12">12</option>
                                 </select>
                     <br></br>
-                    Birth Year: <input type="text" value={birthYear} onChange={(e) => setBirthYear(e.target.value)} />
+                    Birth Year: <input type="text" name="birth_year" value={changes.birth_year} onChange={handleInputChange} />
                     <br></br>
-                    Native Language: <select id="language" name="language" value={nativeLanguage} onChange={(e) => setNativeLanguage(e.target.value)} >
+                    Native Language: <select id="language" name="native_language" value={changes.native_language} onChange={handleInputChange} >
                                         <option value="Mandarin">Mandarin</option>
                                         <option value="English">English</option>
                                         <option value="Cantonese">Cantonese</option>

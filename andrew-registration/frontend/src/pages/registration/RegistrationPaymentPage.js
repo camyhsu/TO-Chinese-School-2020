@@ -14,9 +14,7 @@ export default function RegistrationWaiverPage() {
     const instructorDiscountInCents = 6000;
     var tuitionFeeInCents = 53500;
     var totalPaymentInCents = 0;
-    const staffStatus = 1;
     const date = new Date();
-    date.setMonth(6);
 
     function convertCentsToDollar(amountInCents) {
         var amountInDollars = amountInCents/100;
@@ -84,7 +82,7 @@ export default function RegistrationWaiverPage() {
             totalPaymentInCents += tuitionForStudentInCents;
         }
         totalPaymentInCents += registerInfo.numStudentsRegistered.registered >= 2 ? PVAFeeInCents * 2 : PVAFeeInCents;
-        totalPaymentInCents += userData.family.cccaLifetimeMember ? 0 : CCCAFeeInCents;
+        totalPaymentInCents += userData.familyAddress.cccaLifetimeMember ? 0 : CCCAFeeInCents;
     }
     calculatePayment();
 
@@ -103,7 +101,7 @@ export default function RegistrationWaiverPage() {
             ))}
             <div>
                 <p><b>PVA Annual Membership Fee: </b> ${registerInfo.numStudentsRegistered.registered >= 2 ? convertCentsToDollar(PVAFeeInCents * 2): convertCentsToDollar(PVAFeeInCents)}</p>
-                <p><b>CCCA Annual Membership Fee: </b> ${userData.family.cccaLifetimeMember ? 0 : convertCentsToDollar(CCCAFeeInCents)}</p>
+                <p><b>CCCA Annual Membership Fee: </b> ${userData.familyAddress.cccaLifetimeMember ? 0 : convertCentsToDollar(CCCAFeeInCents)}</p>
                 <hr></hr>
                 <p><b>Grand Total: </b> ${convertCentsToDollar(totalPaymentInCents)}</p>
             </div>

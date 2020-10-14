@@ -10,31 +10,29 @@ export default function EditStudentDetailsPage() {
     // get the index of the student in the student array
     const url = window.location.href.split("/");
     const studentIndex = url[url.length-1];
-    
-    const [englishFirstName, setEnglishFirstName] = useState(userData.students[studentIndex].english_first_name);
-    const [englishLastName, setEnglishLastName] = useState(userData.students[studentIndex].english_last_name);
-    const [chineseName, setChineseName] = useState(userData.students[studentIndex].chinese_name);
-    const [gender, setGender] = useState(userData.students[studentIndex].gender);
-    const [birthYear, setBirthYear] = useState(userData.students[studentIndex].birth_year);
-    const [birthMonth, setBirthMonth] = useState(userData.students[studentIndex].birth_month);
-    const [nativeLanguage, setNativeLanguage] = useState(userData.students[studentIndex].native_language);
+    const [changes, setChanges] = useState({
+        english_first_name: userData.students[studentIndex].english_first_name,
+        english_last_name: userData.students[studentIndex].english_last_name,
+        chinese_name: userData.students[studentIndex].chinese_name,
+        gender: userData.students[studentIndex].gender,
+        birth_year: userData.students[studentIndex].birth_year,
+        birth_month: userData.students[studentIndex].birth_month,
+        native_language: userData.students[studentIndex].native_language,
+    });
+
+    const handleInputChange = (e) => {
+        setChanges({
+            ...changes,
+            [e.target.name]: e.target.value
+        });
+    };
 
     function validateForm() {
-        return englishFirstName.length > 0 && englishLastName.length > 0 && gender.length > 0;
+        return changes.english_first_name.length > 0 && changes.english_last_name.length > 0 && changes.gender.length > 0;
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-
-        // create body for patch request
-        var body = {};
-        body.englishFirstName = englishFirstName;
-        body.englishLastName = englishLastName;
-        body.chineseName = chineseName;
-        body.birthYear = birthYear === '' ? null : birthYear;
-        body.birthMonth = birthMonth === '' ? null : birthMonth;
-        body.gender = gender;
-        body.nativeLanguage = nativeLanguage;
 
         const fetch = require("node-fetch");
         const patchData = async () => {
@@ -45,31 +43,19 @@ export default function EditStudentDetailsPage() {
                         'Content-Type': 'application/json'
                     },
                     method: 'PATCH',                                                              
-                    body: JSON.stringify( body )                                        
+                    body: JSON.stringify( changes )                                        
                 });
 
                 if( patchResponse.status === 200 ) {
                     // re-fetch data to update in display
-                    const studentDataResponse = await fetch(`/user/student/data?id=${userData.family.familyId}`);
+                    const studentDataResponse = await fetch(`/user/student/data?id=${userData.familyAddress.familyId}`);
                     var studentData = await studentDataResponse.json();
                     // create a children array for easier display
                     var children = [];
                     studentData.forEach(student => children.push(`${student.chinese_name} (${student.english_first_name} ${student.english_last_name})`));
                     setUserData(prevUserData => ({...prevUserData,
-                        family: {
-                            familyId: userData.family.familyId,
-                            addressId: userData.family.addressId,
-                            cccaLifetimeMember: userData.family.cccaLifetimeMember,
-                            children: children,
-                            street: userData.family.street,
-                            city: userData.family.city,
-                            state: userData.family.state,
-                            zipcode: userData.family.zipcode,
-                            homePhone: userData.family.homePhone,
-                            cellPhone: userData.family.cellPhone,
-                            email: userData.family.email
-                        },
-                        students: studentData
+                        students: studentData,
+                        children: children
                     }))
                     setStatus('Student Details Successfully Updated.');
                     history.goBack();
@@ -89,18 +75,18 @@ export default function EditStudentDetailsPage() {
             <h1>Edit Students Details for {userData.students[studentIndex].chinese_name} ({userData.students[studentIndex].english_first_name} {userData.students[studentIndex].english_last_name})</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    English First Name: <input type="text" value={englishFirstName} onChange={(e) => setEnglishFirstName(e.target.value)} />
+                    English First Name: <input type="text" name="english_first_name" value={changes.english_first_name} onChange={handleInputChange} />
                     <br></br>
-                    English Last Name: <input type="text" value={englishLastName} onChange={(e) => setEnglishLastName(e.target.value)} />
+                    English Last Name: <input type="text" name="english_last_name" value={changes.english_last_name} onChange={handleInputChange} />
                     <br></br>
-                    Chinese Name: <input type="text" value={chineseName} onChange={(e) => setChineseName(e.target.value)} />
+                    Chinese Name: <input type="text" name="chinese_name" value={changes.chinese_name} onChange={handleInputChange} />
                     <br></br>
-                    Gender: <select id="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)}> 
+                    Gender: <select id="gender" name="gender" value={changes.gender} onChange={handleInputChange}> 
                                 <option value="F">F</option>
                                 <option value="M">M</option>
                             </select>
                     <br></br>
-                    Birth Month: <select id="month" name="month" value={birthMonth} onChange={(e) => setBirthMonth(e.target.value)}>
+                    Birth Month: <select id="month" name="birth_month" value={changes.birth_month} onChange={handleInputChange}>
                                     <option value=""></option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -116,9 +102,9 @@ export default function EditStudentDetailsPage() {
                                     <option value="12">12</option>
                                 </select>
                     <br></br>
-                    Birth Year: <input type="text" value={birthYear} onChange={(e) => setBirthYear(e.target.value)} />
+                    Birth Year: <input type="text" name="birth_year" value={changes.birth_year} onChange={handleInputChange} />
                     <br></br>
-                    Native Language: <select id="language" name="language" value={nativeLanguage} onChange={(e) => setNativeLanguage(e.target.value)} >
+                    Native Language: <select id="language" name="native_language" value={changes.native_language} onChange={handleInputChange} >
                                         <option value="Mandarin">Mandarin</option>
                                         <option value="English">English</option>
                                         <option value="Cantonese">Cantonese</option>
