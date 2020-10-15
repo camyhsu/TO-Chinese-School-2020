@@ -7,7 +7,7 @@ export default function RegistrationWaiverPage() {
     const { registerInfo, userData } = useAppContext();
     const history = useHistory();
     const studentNames = [];
-
+    
     registerInfo.studentsToRegister.forEach(function(student) {
         studentNames.push(' ' + student.chinese_name + '(' + student.english_first_name + ' ' + student.english_last_name + ')');
     });

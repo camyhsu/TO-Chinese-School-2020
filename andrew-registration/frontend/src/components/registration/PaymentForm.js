@@ -22,7 +22,7 @@ export default function PaymentForm() {
 
     function createSelectItems() {
         var items = [];
-        var year = schoolYear.threshYear;
+        var year = schoolYear.start_date.split('-')[0];
         var i = 0;
         items.push(<option key={i++} value={""}></option>)
         for(; i < 11; i++) {

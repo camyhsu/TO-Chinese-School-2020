@@ -36,6 +36,23 @@ const verifyUserSignIn = async (request, response, next) => {
     }
 }
 
+const getSchoolYear = async (request, response, next) => {
+    const schoolYearId = request.query.id;
+    if( !schoolYearId )
+        return response.status(400).json({message: 'School year id is required'});
+
+    try {
+        const res = await pool.query('SELECT sy.*, sy2.name AS prev FROM school_years AS sy, school_years AS sy2 \
+                    WHERE sy.id = $1 AND sy2.id = sy.previous_school_year_id;', [schoolYearId]);
+        if(res.rows.length === 0)
+            return response.status(404).json({message: `No school year found with id: ${schoolYearId}`});
+        return response.status(200).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
 const changePassword = async (request, response, next) => {
     const body = await readBody(request);
     const username = request.params.username;
@@ -113,6 +130,7 @@ const changeClassActiveStatus = async (request, response, next) => {
 
 const adminRouter = express.Router();
 adminRouter.get('/signin', verifyUserSignIn);
+adminRouter.get('/schoolYear', getSchoolYear);
 adminRouter.patch('/password/edit/:username', changePassword);
 adminRouter.post('/people/add', addPerson);
 adminRouter.post('/address/add', addAddress);

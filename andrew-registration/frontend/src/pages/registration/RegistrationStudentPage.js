@@ -17,6 +17,7 @@ export default function RegistrationStudentPage() {
     const [studentRegistrationInfo, setStudentRegistrationInfo] = useState([]);
     const [electiveAvailability, setElectiveAvailability] = useState([]);
     const [grades, setGrades] = useState([]);
+    const [books, setBooks] = useState();
     const [discountsAvailable, setDiscountsAvailable] = useState();
     const [numStudentsRegistered, setNumStudentsRegistered] = useState();
     const studentsToRegister = [];
@@ -44,6 +45,14 @@ export default function RegistrationStudentPage() {
                 if(gradesResponse.status === 200) {
                     var gradesJson = await gradesResponse.json();
                     setGrades(gradesJson);
+                }
+                else {
+                    alert('Failed to get grades. Please try again.');
+                }
+                const bookResponse = await fetch(`/registration/books?id=${schoolYear.id}`);
+                if(bookResponse.status === 200) {
+                    var bookJson = await bookResponse.json();
+                    setBooks(bookJson);
                 }
                 else {
                     alert('Failed to get grades. Please try again.');
@@ -95,11 +104,11 @@ export default function RegistrationStudentPage() {
         var index = studentsToRegister.indexOf(eligibleStudents[key]);
         if(index !== -1) {
             studentsToRegister.splice(index, 1);
-            eligibleStudents[key].class_type = value;
+            eligibleStudents[key].school_class_type = value;
             studentsToRegister.push(eligibleStudents[key]);
         }
         else {
-            eligibleStudents[key].class_type = value;
+            eligibleStudents[key].school_class_type = value;
         }
     }
 
@@ -107,13 +116,35 @@ export default function RegistrationStudentPage() {
         var index = studentsToRegister.indexOf(eligibleStudents[key]);
         if(index !== -1) {
             studentsToRegister.splice(index, 1);
-            eligibleStudents[key].elective = value;
+            eligibleStudents[key].elective_id = parseInt(value, 10);
             studentsToRegister.push(eligibleStudents[key]);
         }
         else {
-            eligibleStudents[key].elective = value;
+            eligibleStudents[key].elective_id = parseInt(value, 10);
         }
     }
+
+    function ageEligible(student) {
+        var threshYear = schoolYear.start_date.split('-')[0];
+        var threshMonth = 9;
+        var birthYear = student.birth_year;
+        var birthMonth = student.birth_month;
+        if(threshYear - birthYear > 16 || threshYear - birthYear < 4)
+            return false;
+        else if(threshYear - birthYear === 16 || threshYear - birthYear === 4)
+            return birthMonth < threshMonth;
+        return true;
+    }
+
+    function createSelectItems() {
+        var items = [];
+        var i = 0;
+        items.push(<option key={i++} value={""}></option>)
+        electiveAvailability.forEach(function(elective) {
+            items.push(<option key={i++} value={elective.id}>{elective.chinese_name} ({elective.english_name})</option>);  
+        })       
+        return items;
+    };
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -125,57 +156,41 @@ export default function RegistrationStudentPage() {
             setStatus('');
             setRegisterInfo(registerInfo => ({ 
                 ...registerInfo,
+                bookCharges: books,
                 studentsToRegister: studentsToRegister,
                 numStudentsRegistered: numStudentsRegistered,
                 discountsAvailable: discountsAvailable
             }));
             history.push('/registration/register/waiver');
         }
-    }
-
-    function ageEligible(student) {
-        var threshYear = schoolYear.threshYear;
-        var threshMonth = 9;
-        var birthYear = student.birth_year;
-        var birthMonth = student.birth_month;
-        if(threshYear - birthYear > 16 || threshYear - birthYear < 4)
-            return false;
-        else if(threshYear - birthYear === 16 || threshYear - birthYear === 4)
-            return birthMonth < threshMonth;
-        return true;
-    }
+    };
 
     var eligibleStudents = studentRegistrationInfo.filter(ageEligible);
     eligibleStudents.forEach(function(student) {
+        student.entered_by_id = userData.personalData.personId;
+        student.student_id = student.id;
+        student.school_year_id = schoolYear.id;
+
         var grade = null;
-        if(student.prev_grade == null) {
-            grade = grades.find(g => g.id === ageGradeAssignment[schoolYear.threshYear - student.birth_year]);
+        if(student.prev_grade_id == null) {
+            grade = grades.find(g => g.id === ageGradeAssignment[schoolYear.start_date.split('-')[0] - student.birth_year]);
             if(grade) {
-                student.curr_grade = grade.id;
-                student.curr_grade_name = grade.chinese_name + '(' + grade.english_name + ')';
+                student.grade_id = grade.id;
+                student.grade_name = grade.chinese_name + '(' + grade.english_name + ')';
+                student.prev_grade_name = null;
             }
         } else {
-            var prev_grade = grades.find(g => g.id === student.prev_grade);
+            var prev_grade = grades.find(g => g.id === student.prev_grade_id);
             if(prev_grade) {
                 student.prev_grade_name = prev_grade.chinese_name + '(' + prev_grade.english_name + ')';
                 grade = grades.find(g => g.id === prev_grade.next_grade);
-                student.curr_grade = grade.id;
-                student.curr_grade_name = grade.chinese_name + '(' + grade.english_name + ')';
+                student.grade_id = grade.id;
+                student.grade_name = grade.chinese_name + '(' + grade.english_name + ')';
             }
         }
-        student.class_type = 'S';
-        student.elective = '';
+        student.school_class_type = 'S';
+        student.elective_id = '';
     });
-    
-    function createSelectItems() {
-        var items = [];
-        var i = 0;
-        items.push(<option key={i++} value={""}></option>)
-        electiveAvailability.forEach(function(elective) {
-            items.push(<option key={i++} value={elective.id}>{elective.chinese_name} ({elective.english_name})</option>);  
-        })       
-        return items;
-    };
 
     return (
         eligibleStudents.length === 0 ? 
@@ -207,8 +222,8 @@ export default function RegistrationStudentPage() {
                                     <tr>
                                         <td><input type="checkbox" id={key} value={key} onChange={(e) => updateRegisterList(e.target.checked, key)}></input></td>
                                         <td>{entry.chinese_name} ({entry.english_first_name} {entry.english_last_name})</td>
-                                        <td>{entry.prev_grade === null ? 'Not in Record' : entry.prev_grade_name}</td>
-                                        <td>{entry.curr_grade_name}</td>
+                                        <td>{entry.prev_grade_name === null ? 'Not in Record' : entry.prev_grade_name}</td>
+                                        <td>{entry.grade_name}</td>
                                         <td>
                                             <select id="class-type" name="class-type" defaultValue={"S"} onChange={(e) => setClassType(e.target.value, key)}>
                                                     <option key='S' value="S">S(簡)</option>

@@ -4,7 +4,7 @@ import { useAppContext } from '../libs/contextLib';
 import { Button } from 'reactstrap';
 
 export default function SignIn() {
-    const { userHasAuthenticated, setUserData } = useAppContext();
+    const { userHasAuthenticated, setUserData, schoolYear, setSchoolYear } = useAppContext();
     const history = useHistory();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -23,6 +23,15 @@ export default function SignIn() {
                 const signInResponse = await fetch(`/admin/signin?username=${username}&&password=${password}`);
                 if( signInResponse.status === 200 ) {
                     var person_id = await signInResponse.json();
+
+                    const schoolYearResponse = await fetch(`/admin/schoolYear?id=${schoolYear.id}`);
+                    if(schoolYearResponse.status === 200) {
+                        var schoolYearData = await schoolYearResponse.json();
+                        setSchoolYear(schoolYearData[0]);
+                    }
+                    else {
+                        alert('Failed to get school year data. Please try again.');
+                    }
 
                     const personalDataResponse = await fetch(`/user/data?id=${person_id}`);
                     if(personalDataResponse.status === 200) {

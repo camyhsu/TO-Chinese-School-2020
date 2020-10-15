@@ -17,8 +17,8 @@ const getStudentRegistrationData = async (request, response, next) => {
         return response.status(400).json({message: 'Family id is required'});
 
     try {
-        const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, birth_month, birth_year, prev_grade FROM people \
-                    FULL JOIN (SELECT people.id, MAX(grade_id) as prev_grade FROM people FULL JOIN student_class_assignments AS sca ON people.id = sca.student_id \
+        const res = await pool.query('SELECT people.id, english_first_name, english_last_name, chinese_name, birth_month, birth_year, prev_grade_id FROM people \
+                    FULL JOIN (SELECT people.id, MAX(grade_id) as prev_grade_id FROM people FULL JOIN student_class_assignments AS sca ON people.id = sca.student_id \
                     GROUP BY people.id) as grades ON grades.id = people.id WHERE people.id IN (SELECT child_id FROM families_children WHERE families_children.family_id = $1);', [id]);
         return response.status(200).json(res.rows);
     }
@@ -48,6 +48,20 @@ const getGrades = async (request, response, next) => {
         const res = await pool.query('SELECT id, chinese_name, english_name, next_grade FROM grades;');
         if (res.rows.length === 0)
             return response.status(404).json({message: `No grades found.`});
+        return response.status(200).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
+const getBooks = async (request, response, next) => {
+    const id = request.query.id;
+
+    if( !id )
+        return response.status(400).json({message: 'School year id is required'});
+    try {
+        const res = await pool.query('SELECT id, grade_id, book_charge_in_cents FROM book_charges WHERE school_year_id = $1;', [id]);
         return response.status(200).json(res.rows);
     }
     catch (error) {
@@ -99,7 +113,8 @@ const getNumStudentsRegistered = async (request, response, next) => {
 const registrationRouter = express.Router();
 registrationRouter.get('/student/info', getStudentRegistrationData);
 registrationRouter.get('/elective/available', getElectiveAvailability);
-registrationRouter.get('/grades/', getGrades);
+registrationRouter.get('/grades', getGrades);
+registrationRouter.get('/books', getBooks);
 registrationRouter.get('/staff/status', getStaffStatus);
 registrationRouter.get('/registered/count', getNumStudentsRegistered);
 

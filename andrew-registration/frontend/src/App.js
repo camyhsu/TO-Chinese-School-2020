@@ -30,7 +30,7 @@ import RegistrationWaiverPage from './pages/registration/RegistrationWaiverPage'
 import RegistrationPaymentPage from './pages/registration/RegistrationPaymentPage';
 
 export default function App() {
-    const [schoolYear] = useState({'id': 14, 'name': '2020-2021', 'threshYear': 2020, 'prev' : '2019-2020'})
+    const [schoolYear, setSchoolYear] = useState({id: 14});
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         personalData: {},
@@ -45,7 +45,7 @@ export default function App() {
     const [registerInfo, setRegisterInfo] = useState([]);
 
     return(
-        <AppContext.Provider value={{ registerInfo, setRegisterInfo, schoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
+        <AppContext.Provider value={{ registerInfo, setRegisterInfo, schoolYear, setSchoolYear, status, setStatus, userData, setUserData, isAuthenticated, userHasAuthenticated}}>
             <Router>
                 <div className="App">
                     { // only show Registration NavBar and SideBar if user is authenticated
