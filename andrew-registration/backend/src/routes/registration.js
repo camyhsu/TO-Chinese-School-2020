@@ -110,6 +110,34 @@ const getNumStudentsRegistered = async (request, response, next) => {
     }
 }
 
+const addStudentPreference = async (request, response, next) => {
+    const body = await readBody(request);
+    const { school_year_id, student_id, entered_by_id, previous_grade_id, grade_id, school_class_type, elective_id } = JSON.parse(body);
+
+    try {
+        const res = await pool.query('INSERT INTO registration_preferences (school_year_id, student_id, entered_by_id, previous_grade_id, grade_id, school_class_type, \
+                    elective_class_id) VALUES ($1, $2, $3, $4, $5, $6, $7);', [school_year_id, student_id, entered_by_id, previous_grade_id, grade_id, school_class_type, elective_id]);
+        return response.status(201).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
+const addRegistrationPayment = async (request, response, next) => {
+    const body = await readBody(request);
+    const { school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, request_in_person } = JSON.parse(body);
+
+    try {
+        const res = await pool.query('INSERT INTO registration_payments (school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, \
+                    request_in_person) VALUES ($1, $2, $3, $4, $5, $6, $7);', [school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, request_in_person]);
+        return response.status(201).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
 const registrationRouter = express.Router();
 registrationRouter.get('/student/info', getStudentRegistrationData);
 registrationRouter.get('/elective/available', getElectiveAvailability);
@@ -117,5 +145,7 @@ registrationRouter.get('/grades', getGrades);
 registrationRouter.get('/books', getBooks);
 registrationRouter.get('/staff/status', getStaffStatus);
 registrationRouter.get('/registered/count', getNumStudentsRegistered);
+registrationRouter.post('/preference/add', addStudentPreference);
+registrationRouter.post('/payment/add', addRegistrationPayment);
 
 module.exports = registrationRouter;

@@ -21,6 +21,10 @@ export default function RegistrationStudentPage() {
     const [discountsAvailable, setDiscountsAvailable] = useState();
     const [numStudentsRegistered, setNumStudentsRegistered] = useState();
     const studentsToRegister = [];
+    const studentPreferences = [];
+    const registrationStartDate = new Date(schoolYear.registration_start_date);
+    const registrationEndDate = new Date(schoolYear.registration_end_date);
+    const date = new Date();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -93,34 +97,33 @@ export default function RegistrationStudentPage() {
     function updateRegisterList(checked, key) {
         if(checked) {
             studentsToRegister.push(eligibleStudents[key]);
+            studentPreferences.push(eligibleStudentPreferences[key]);
         }
         else {
             var index = studentsToRegister.indexOf(eligibleStudents[key]);
             studentsToRegister.splice(index, 1);
+            studentPreferences.splice(index, 1);
         }
+        console.log(studentPreferences);
     }
 
     function setClassType(value, key) {
         var index = studentsToRegister.indexOf(eligibleStudents[key]);
         if(index !== -1) {
-            studentsToRegister.splice(index, 1);
-            eligibleStudents[key].school_class_type = value;
-            studentsToRegister.push(eligibleStudents[key]);
+            studentPreferences[index].school_class_type = value;
         }
         else {
-            eligibleStudents[key].school_class_type = value;
+            eligibleStudentPreferences[key].school_class_type = value;
         }
     }
 
     function setElective(value, key) {
         var index = studentsToRegister.indexOf(eligibleStudents[key]);
         if(index !== -1) {
-            studentsToRegister.splice(index, 1);
-            eligibleStudents[key].elective_id = parseInt(value, 10);
-            studentsToRegister.push(eligibleStudents[key]);
+            studentPreferences[index].elective_id = value ? parseInt(value, 10) : null;
         }
         else {
-            eligibleStudents[key].elective_id = parseInt(value, 10);
+            eligibleStudentPreferences[key].elective_id = value ? parseInt(value, 10) : null;
         }
     }
 
@@ -139,7 +142,7 @@ export default function RegistrationStudentPage() {
     function createSelectItems() {
         var items = [];
         var i = 0;
-        items.push(<option key={i++} value={""}></option>)
+        items.push(<option key={i++} value={null}></option>)
         electiveAvailability.forEach(function(elective) {
             items.push(<option key={i++} value={elective.id}>{elective.chinese_name} ({elective.english_name})</option>);  
         })       
@@ -158,19 +161,17 @@ export default function RegistrationStudentPage() {
                 ...registerInfo,
                 bookCharges: books,
                 studentsToRegister: studentsToRegister,
-                numStudentsRegistered: numStudentsRegistered,
+                studentPreferences: studentPreferences,
+                completedRegistration: numStudentsRegistered,
                 discountsAvailable: discountsAvailable
             }));
             history.push('/registration/register/waiver');
         }
     };
 
+    var eligibleStudentPreferences = [];
     var eligibleStudents = studentRegistrationInfo.filter(ageEligible);
     eligibleStudents.forEach(function(student) {
-        student.entered_by_id = userData.personalData.personId;
-        student.student_id = student.id;
-        student.school_year_id = schoolYear.id;
-
         var grade = null;
         if(student.prev_grade_id == null) {
             grade = grades.find(g => g.id === ageGradeAssignment[schoolYear.start_date.split('-')[0] - student.birth_year]);
@@ -188,11 +189,24 @@ export default function RegistrationStudentPage() {
                 student.grade_name = grade.chinese_name + '(' + grade.english_name + ')';
             }
         }
-        student.school_class_type = 'S';
-        student.elective_id = '';
+
+        var preferences = {};
+        preferences.entered_by_id = userData.personalData.personId;
+        preferences.student_id = student.id;
+        preferences.school_year_id = schoolYear.id;
+        preferences.prev_grade_id = student.prev_grade_id;
+        preferences.grade_id = student.grade_id;
+        preferences.school_class_type = 'S';
+        preferences.elective_id = null;
+        eligibleStudentPreferences.push(preferences);
     });
 
     return (
+        date.getTime() < registrationStartDate || date.getTime() > registrationEndDate ?
+            <>
+                <h4>Registration is not open. Please check registration window here.</h4>
+            </>
+        :
         eligibleStudents.length === 0 ? 
         <>
             <div className="registration-info" dangerouslySetInnerHTML={{__html: registrationInfo}}></div>
