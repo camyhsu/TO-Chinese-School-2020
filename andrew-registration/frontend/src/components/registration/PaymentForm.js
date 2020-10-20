@@ -43,11 +43,46 @@ export default function PaymentForm(props) {
             pva_due_in_cents: props.pvaMembershipDueInCents,
             ccca_due_in_cents: props.cccaMembershipDueInCents,
             grand_total_in_cents: props.totalPaymentInCents,
-            paid: false,
-            request_in_person: false
+            paid: false, // will set to false if pay-by-check is chosen
+            request_in_person: false // will set this to true if pay-by-check is chosen
         }
         try {
-            const postResponse = await fetch('/registration/payment/add', {
+            const postResponse = await fetch('/registration/payment/registration/add', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',                                                              
+                body: JSON.stringify( body )                                        
+            })
+            if(postResponse.status === 201) {
+               var registrationPaymentID = await postResponse.json();
+               return registrationPaymentID[0].id;
+            }
+            else {
+                alert('Failed to add registration payment. Please try again.');
+            }
+        }
+        catch(error) {
+            console.log(error);
+        }
+    }
+
+    const createStudentFeePayment = async (student, registrationPaymentID) => {
+        var body = {
+            registration_payment_id: registrationPaymentID,
+            student_id: student.id,
+            registration_fee_in_cents: student.registration_fee_in_cents,
+            tuition_in_cents: student.tuition_in_cents,
+            book_charge_in_cents: student.book_charge_in_cents,
+            early_registration: student.early_registration,
+            multiple_child_discount: student.multiple_child_discount,
+            instructor_discount: student.instructor_discount,
+            staff_discount: student.staff_discount,
+            prorate_75: student.prorate_75,
+        }
+        try {
+            const postResponse = await fetch('/registration/payment/student/add', {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -56,13 +91,18 @@ export default function PaymentForm(props) {
                 body: JSON.stringify( body )                                        
             })
             if(postResponse.status !== 201) {
-                alert('Failed to add registration payment. Please try again.');
+                alert('Failed to add student fee payment. Please try again.');
             }
         }
         catch(error) {
             console.log(error);
         }
-    } 
+    }
+
+    const createPaymentInfo = async () => {
+        const registrationPaymentID = await createRegistrationPayment();
+        registerInfo.studentsToRegister.forEach((student) => createStudentFeePayment(student, registrationPaymentID));
+    }
 
     const handleInputChange = (e) => {
         setCardInfo({
@@ -95,16 +135,16 @@ export default function PaymentForm(props) {
             // var transactionGatewayResult = processTransaction(cardInfo);
             // if(transactionGatewayResult.status === 'Accept') {
             //      create gateway transaction entry
-            //      create student fee payment entry
-            //      create registration payment entry
+            //      create student fee payment entry X
+            //      create registration payment entry X
+            //      create registration preference entry X
             //      send confirmation email
             // }
             // else {
             //      create gateway transaction entry
             // }
+            createPaymentInfo();
             registerInfo.studentPreferences.forEach((pref) => createRegistrationPreferences(pref));
-            registerInfo.studentsToRegiser.forEach((student) => createStudentFeePayment(student));
-            createRegistrationPayment();
             
             console.log(cardInfo.cvc, cardInfo.expiryMonth, cardInfo.expiryYear, cardInfo.number);
         }

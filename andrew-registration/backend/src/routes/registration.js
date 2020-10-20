@@ -130,7 +130,24 @@ const addRegistrationPayment = async (request, response, next) => {
 
     try {
         const res = await pool.query('INSERT INTO registration_payments (school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, \
-                    request_in_person) VALUES ($1, $2, $3, $4, $5, $6, $7);', [school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, request_in_person]);
+                    request_in_person) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;', [school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, request_in_person]);
+        return response.status(201).json(res.rows);
+    }
+    catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
+const addStudentFeePayment = async (request, response, next) => {
+    const body = await readBody(request);
+    const { registration_payment_id, student_id, registration_fee_in_cents, tuition_in_cents, book_charge_in_cents, early_registration,
+            multiple_child_discount, instructor_discount, staff_discount, prorate_75 } = JSON.parse(body);
+
+    try {
+        const res = await pool.query('INSERT INTO student_fee_payments (registration_payment_id, student_id, registration_fee_in_cents, tuition_in_cents, book_charge_in_cents, \
+                    early_registration, multiple_child_discount, instructor_discount, staff_discount, prorate_75) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);', 
+                    [registration_payment_id, student_id, registration_fee_in_cents, tuition_in_cents, book_charge_in_cents, early_registration,
+                        multiple_child_discount, instructor_discount, staff_discount, prorate_75]);
         return response.status(201).json(res.rows);
     }
     catch (error) {
@@ -146,6 +163,7 @@ registrationRouter.get('/books', getBooks);
 registrationRouter.get('/staff/status', getStaffStatus);
 registrationRouter.get('/registered/count', getNumStudentsRegistered);
 registrationRouter.post('/preference/add', addStudentPreference);
-registrationRouter.post('/payment/add', addRegistrationPayment);
+registrationRouter.post('/payment/registration/add', addRegistrationPayment);
+registrationRouter.post('/payment/student/add', addStudentFeePayment);
 
 module.exports = registrationRouter;

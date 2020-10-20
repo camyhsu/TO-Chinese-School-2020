@@ -104,7 +104,6 @@ export default function RegistrationStudentPage() {
             studentsToRegister.splice(index, 1);
             studentPreferences.splice(index, 1);
         }
-        console.log(studentPreferences);
     }
 
     function setClassType(value, key) {

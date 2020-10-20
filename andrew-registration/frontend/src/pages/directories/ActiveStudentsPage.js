@@ -41,7 +41,7 @@ export default function ActiveStudentsPage() {
                             <th>姓名</th>
                             <th>班級</th>
                             <th>教室</th>
-                            <th colspan="2">第三堂選修課</th>
+                            <th colSpan="2">第三堂選修課</th>
                         </tr>
                     </thead>
                     {results.map((entry, key) => (
