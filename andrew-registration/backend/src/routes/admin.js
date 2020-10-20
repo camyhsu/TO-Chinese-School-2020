@@ -73,7 +73,7 @@ const changePassword = async (request, response, next) => {
     var password_hash = sha256(password + password_salt);
 
     try {
-        const res = await pool.query('UPDATE users SET password_hash = $1, password_salt = $2 WHERE username = $3',[password_hash, password_salt, username]);
+        const res = await pool.query('UPDATE users SET password_hash = $1, password_salt = $2, updated_at = NOW() WHERE username = $3',[password_hash, password_salt, username]);
         return response.status(200).json(res);
     }
     catch (error) {
@@ -86,8 +86,9 @@ const addPerson = async (request, response, next) => {
     const { english_first_name, english_last_name, chinese_name, birth_year, birth_month, gender, native_language } = JSON.parse(body);
 
     try {
-        const res = await pool.query('INSERT INTO people (english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, native_language) \
-                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, native_language]);
+        const res = await pool.query('INSERT INTO people (english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, native_language, created_at, updated_at) \
+                                        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW());', 
+                                        [english_first_name, english_last_name, chinese_name, gender, birth_year, birth_month, native_language]);
         return response.status(201).json(res.rows);
     }
     catch (error) {
@@ -100,8 +101,8 @@ const addAddress = async (request, response, next) => {
     const { street, city, state, zipcode, home_phone, cell_phone, email } = JSON.parse(body);
 
     try {
-        const res = await pool.query('INSERT INTO addresses (street, city, state, zipcode, home_phone, cell_phone, email) \
-                                        VALUES ($1, $2, $3, $4, $5, $6, $7);', [street, city, state, zipcode, home_phone, cell_phone, email]);
+        const res = await pool.query('INSERT INTO addresses (street, city, state, zipcode, home_phone, cell_phone, email, created_at, updated_at) \
+                                        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW());', [street, city, state, zipcode, home_phone, cell_phone, email]);
         return response.status(201).json(res.rows);
     }
     catch (error) {
@@ -120,7 +121,7 @@ const changeClassActiveStatus = async (request, response, next) => {
     const { active } = JSON.parse(body);
 
     try {
-        const res = await pool.query('UPDATE school_class_active_flags SET active = $1 WHERE school_class_id = $2 AND school_year_id = $3;', [active, class_id, year_id]);
+        const res = await pool.query('UPDATE school_class_active_flags SET active = $1, updated_at = NOW() WHERE school_class_id = $2 AND school_year_id = $3;', [active, class_id, year_id]);
         return response.status(200).json(res.rows);
     }
     catch (error) {

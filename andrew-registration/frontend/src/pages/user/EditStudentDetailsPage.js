@@ -102,7 +102,7 @@ export default function EditStudentDetailsPage() {
                                     <option value="12">12</option>
                                 </select>
                     <br></br>
-                    Birth Year: <input type="text" name="birth_year" value={changes.birth_year} onChange={handleInputChange} />
+                    Birth Year: <input type="text" name="birth_year" maxLength='4' size='5' value={changes.birth_year} onChange={handleInputChange} />
                     <br></br>
                     Native Language: <select id="language" name="native_language" value={changes.native_language} onChange={handleInputChange} >
                                         <option value="Mandarin">Mandarin</option>

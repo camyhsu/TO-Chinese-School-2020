@@ -116,7 +116,8 @@ const addStudentPreference = async (request, response, next) => {
 
     try {
         const res = await pool.query('INSERT INTO registration_preferences (school_year_id, student_id, entered_by_id, previous_grade_id, grade_id, school_class_type, \
-                    elective_class_id) VALUES ($1, $2, $3, $4, $5, $6, $7);', [school_year_id, student_id, entered_by_id, previous_grade_id, grade_id, school_class_type, elective_id]);
+                    elective_class_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW());', 
+                    [school_year_id, student_id, entered_by_id, previous_grade_id, grade_id, school_class_type, elective_id]);
         return response.status(201).json(res.rows);
     }
     catch (error) {
@@ -130,7 +131,8 @@ const addRegistrationPayment = async (request, response, next) => {
 
     try {
         const res = await pool.query('INSERT INTO registration_payments (school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, \
-                    request_in_person) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;', [school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, request_in_person]);
+                    request_in_person, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW()) RETURNING id;', 
+                    [school_year_id, paid_by_id, pva_due_in_cents, ccca_due_in_cents, grand_total_in_cents, paid, request_in_person]);
         return response.status(201).json(res.rows);
     }
     catch (error) {
@@ -145,7 +147,7 @@ const addStudentFeePayment = async (request, response, next) => {
 
     try {
         const res = await pool.query('INSERT INTO student_fee_payments (registration_payment_id, student_id, registration_fee_in_cents, tuition_in_cents, book_charge_in_cents, \
-                    early_registration, multiple_child_discount, instructor_discount, staff_discount, prorate_75) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);', 
+                    early_registration, multiple_child_discount, instructor_discount, staff_discount, prorate_75, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,NOW(),NOW());', 
                     [registration_payment_id, student_id, registration_fee_in_cents, tuition_in_cents, book_charge_in_cents, early_registration,
                         multiple_child_discount, instructor_discount, staff_discount, prorate_75]);
         return response.status(201).json(res.rows);
