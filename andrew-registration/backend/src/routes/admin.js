@@ -1,6 +1,7 @@
 const {sha256} = require('js-sha256');
 const express = require('express');
 const readBody = require('../lib/read-body');
+const crypto = require('crypto');
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -25,8 +26,7 @@ const verifyUserSignIn = async (request, response, next) => {
         if(res.rows.length === 0)
             return response.status(404).json({message: `No user found with username: ${username}`});
         var user = res.rows[0];
-        var saltedPass = password + user.password_salt;
-        if(sha256(saltedPass) === user.password_hash)
+        if(sha256(password + user.password_salt) === user.password_hash)
             return response.status(200).json(user.person_id);
         else
             return response.status(401).json({message: `Sign in failed`});
@@ -63,14 +63,8 @@ const changePassword = async (request, response, next) => {
     if( !password )
         return response.status(400).json({message: 'Password is required'});
     
-    const crypto = require('crypto');
-    var generateSalt = function(length) {
-        return crypto.randomBytes(Math.ceil(length/2))
-            .toString('hex')
-            .slice(0,length); 
-    }
-    var password_salt = generateSalt(8);
-    var password_hash = sha256(password + password_salt);
+    var password_salt = crypto.randomBytes(6).toString('base64');
+    var password_hash = sha256(password.password + password_salt);
 
     try {
         const res = await pool.query('UPDATE users SET password_hash = $1, password_salt = $2, updated_at = NOW() WHERE username = $3',[password_hash, password_salt, username]);

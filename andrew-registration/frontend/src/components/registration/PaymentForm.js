@@ -43,7 +43,7 @@ export default function PaymentForm(props) {
             pva_due_in_cents: props.pvaMembershipDueInCents,
             ccca_due_in_cents: props.cccaMembershipDueInCents,
             grand_total_in_cents: props.totalPaymentInCents,
-            paid: false, // will set to false if pay-by-check is chosen
+            paid: true, // will set to false if pay-by-check is chosen
             request_in_person: false // will set this to true if pay-by-check is chosen
         }
         try {
