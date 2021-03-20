@@ -1,0 +1,111 @@
+$primary-color-dark:   #388E3C;
+$primary-color:        #4CAF50;
+$primary-color-light:  #C8E6C9;
+$primary-color-text:   #FFFFFF;
+$accent-color:         #795548;
+$primary-text-color:   #212121;
+$secondary-text-color: #757575;
+$divider-color:        #BDBDBD;
+
+// Override default variables before the import
+$primary:       $primary-color;
+$secondary:     $accent-color;
+// $success:       $green !default;
+// $info:          $cyan !default;
+// $warning:       $yellow !default;
+// $danger:        $red !default;
+$light:         $primary-color-light;
+$dark:          $primary-color-dark;
+
+$body-bg: #006636;
+$body-color: $primary-text-color;
+// $dark-bg: #813901;
+// $footer-bg: #f9f9f9;
+
+// .bg-dark {
+//   background-color: $dark-bg;
+//   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from($dark-bg), to($dark-bg));
+// }
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+/* For sticky footer */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer--sticky {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: $primary-color-light;
+  margin-top: 20px;
+}
+
+/* For fixed nav and sticky footer */
+.container-main {
+  padding: 60px 15px 80px;
+}
+
+.card {
+  padding: 0px 10px 10px 10px;
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .card {
+    background-color: #f7f7f7;
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  
+    &.card-container {
+      max-width: 360px !important;
+  
+      &--medium {
+        min-width: 520px !important;
+        max-width: 520px !important;
+        padding: 20px 20px;
+      }
+
+      &--large {
+        max-width: 720px !important;
+        padding: 40px 40px;
+      }
+    }
+  }
+}
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-icons/font/bootstrap-icons';
+
+@import './border.scss';
