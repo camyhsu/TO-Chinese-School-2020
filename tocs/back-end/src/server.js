@@ -15,8 +15,6 @@ rolePermissionRouter.use(rolePermission.isActionPermitted);
 const PORT = process.env.PORT || 3001;
 const corsOptions = { origin: 'http://localhost:3000' };
 
-const wrapAsync = (fn) => (req, res, next) => fn(req, res, next).catch(next);
-
 const app = express();
 
 app.use(cors(corsOptions));
@@ -37,11 +35,6 @@ routes.authRoutes(publicRouter);
 routes.userRoutes(apiRouter);
 routes.instructorRoutes(rolePermissionRouter);
 routes.studentRoutes(rolePermissionRouter);
-
-app.get('*', wrapAsync(async (req, _res) => {
-  await new Promise((resolve) => setTimeout(() => resolve(), 50));
-  throw new Error(`Error${req.originalUrl}`);
-}));
 
 // Common response header
 app.use((_req, res, next) => {

@@ -9,8 +9,8 @@ import {
   
   import AuthService from "../services/auth.service";
   
-  export const register = (obj) => (dispatch) => {
-    return AuthService.register(obj).then(
+  export const register = (obj) => (dispatch) => AuthService.register(obj)
+    .then(
       (response) => {
         dispatch({
           type: REGISTER_SUCCESS,
@@ -43,11 +43,9 @@ import {
         return Promise.reject();
       }
     );
-  };
   
-  export const login = (username, password) => (dispatch) => {
-    return AuthService.login(username, password).then(
-      (data) => {
+  export const login = (username, password) => (dispatch) => AuthService.login(username, password)
+    .then((data) => {
         dispatch({
           type: LOGIN_SUCCESS,
           payload: { user: data },
@@ -75,7 +73,6 @@ import {
         return Promise.reject();
       }
     );
-  };
   
   export const logout = () => (dispatch) => {
     AuthService.logout();

@@ -34,6 +34,10 @@ const randAddress = () => ({
   email: chance.email(),
 });
 
+const toNumeric = (s) => s && s.replace(/\D/g, '');
+
+const formatPhoneNumber = (s) => (s && toNumeric(s).replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')) || '';
+
 export {
-  randAddress, randObj, randPerson, randSalt, randUser, sha256Hex, uuid,
+  formatPhoneNumber, randAddress, randObj, randPerson, randSalt, randUser, sha256Hex, toNumeric, uuid,
 };

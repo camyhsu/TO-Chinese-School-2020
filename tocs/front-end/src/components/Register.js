@@ -6,59 +6,8 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
-
+import { required, validEmail, vpassword, vrepassword, vusername } from '../utils/utilities';
 import { register } from "../actions/auth.action";
-
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
-
-const validEmail = (value) => {
-  if (!isEmail(value)) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This is not a valid email.
-      </div>
-    );
-  }
-};
-
-const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The username must be between 3 and 20 characters.
-      </div>
-    );
-  }
-};
-
-const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
-      </div>
-    );
-  }
-};
-
-const vrepassword = (value, _props, components) => {
-  if (value !== components['password'][0].value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The passwords does not match.
-      </div>
-    );
-  }
-};
 
 const Register = () => {
   useEffect(() => { document.title = "TOCS - Register"; }, []);
@@ -76,7 +25,7 @@ const Register = () => {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
-  const [zip, setZip] = useState('');
+  const [zipcode, setZipcode] = useState('');
   const [homePhone, setHomePhone] = useState('');
   const [cellPhone, setCellPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -102,7 +51,7 @@ const Register = () => {
       'street': setStreet,
       'city': setCity,
       'state': setState,
-      'zip': setZip,
+      'zipcode': setZipcode,
       'home-phone': setHomePhone,
       'cell-phone': setCellPhone,
       'email': setEmail,
@@ -123,7 +72,7 @@ const Register = () => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(register({
         lastName, firstName, chineseName, nativeLanguage, gender, 
-        birthYear, birthMonth, street, city, state, zip, homePhone, 
+        birthYear, birthMonth, street, city, state, zipcode, homePhone, 
         cellPhone, email, username, password
       })).then(() => {
           setSuccessful(true);
@@ -292,12 +241,12 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-4 mb-3">
-                  <label htmlFor="zip">Zipcode</label>
+                  <label htmlFor="zipcode">Zipcode</label>
                   <Input
                     type="text"
                     className="form-control"
-                    name="zip"
-                    value={zip}
+                    name="zipcode"
+                    value={zipcode}
                     onChange={onChangeField}
                     validations={[required]}
                   />

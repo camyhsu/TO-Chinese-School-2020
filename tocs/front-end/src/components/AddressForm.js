@@ -5,27 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
 
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
-
-const validEmail = (value) => {
-    if (!isEmail(value)) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This is not a valid email.
-            </div>
-        );
-    }
-};
+import { required, validEmail } from '../utils/utilities';
 
 
 const PersonForm = ({ location } = {}) => {
@@ -35,7 +16,7 @@ const PersonForm = ({ location } = {}) => {
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
-    const [zip, setZip] = useState('');
+    const [zipcode, setZipcode] = useState('');
     const [homePhone, setHomePhone] = useState('');
     const [cellPhone, setCellPhone] = useState('');
     const [email, setEmail] = useState('');
@@ -54,7 +35,7 @@ const PersonForm = ({ location } = {}) => {
         fn(params.street, setStreet);
         fn(params.city, setCity)
         fn(params.state, setState)
-        fn(params.zip, setZip)
+        fn(params.zipcode, setZipcode)
         fn(params.homePhone, setHomePhone)
         fn(params.cellPhone, setCellPhone)
         fn(params.email, setEmail)
@@ -69,12 +50,11 @@ const PersonForm = ({ location } = {}) => {
             'street': setStreet,
             'city': setCity,
             'state': setState,
-            'zip': setZip,
+            'zipcode': setZipcode,
             'home-phone': setHomePhone,
             'cell-phone': setCellPhone,
             'email': setEmail
         };
-        console.log(name, value)
         fns[name](value);
     };
 
@@ -87,7 +67,7 @@ const PersonForm = ({ location } = {}) => {
 
         if (checkBtn.current.context._errors.length === 0) {
             dispatch(callback.current({
-                street, city, state, zip, homePhone, cellPhone, email
+                street, city, state, zipcode, homePhone, cellPhone, email
             })).then(() => {
                 setSuccessful(true);
             }).catch(() => {
@@ -148,12 +128,12 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-4 mb-3">
-                                            <label htmlFor="zip">Zipcode</label>
+                                            <label htmlFor="zipcode">Zipcode</label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="zip"
-                                                value={zip}
+                                                name="zipcode"
+                                                value={zipcode}
                                                 onChange={onChangeField}
                                                 validations={[required]}
                                             />

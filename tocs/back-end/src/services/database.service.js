@@ -33,7 +33,8 @@ const runLiquibase = (cmd, cfg) => {
 };
 
 const databaseName = dbConfig.database;
-const generateChangeLog = (diffTypes) => runLiquibase('generateChangeLog', { changeLogFile: `${DIR}/dbchangelog-${Date.now()}.xml`, ...(diffTypes && { diffTypes }) });
+const generateChangeLog = (diffTypes) => runLiquibase('generateChangeLog',
+  { changeLogFile: `${DIR}/dbchangelog-${Date.now()}.xml`, ...(diffTypes && { diffTypes }) });
 const snapshot = () => runLiquibase('snapshot', { overwriteOutputFile: 'true', outputFile: snapshotOutputFile });
 const sync = () => runLiquibase('changelogSync', { changeLogFile });
 const update = () => runLiquibase('update', { changeLogFile });

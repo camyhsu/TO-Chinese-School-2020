@@ -24,12 +24,12 @@ export default {
     };
   },
   signUp: async ({
-    username, email, password, firstName, lastName, gender, street, city, state,
+    username, email, password, firstName, lastName, gender, street, city, state, zipcode, homePhone, cellPhone,
   }) => {
     const family = await Family.createWith({
       parentOne: { firstName, lastName, gender },
       address: {
-        street, city, state, email,
+        street, city, state, email, zipcode, homePhone, cellPhone,
       },
     });
     const user = User.build({ username });

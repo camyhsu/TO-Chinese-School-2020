@@ -7,16 +7,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import { login } from "../actions/auth.action";
-
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
+import { required } from '../utils/utilities';
 
 const Login = (props) => {
   useEffect(() => { document.title = "TOCS - Sign In"; }, []);

@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import db from '../../src/models/index.js';
 import { modelTests } from './model-test-utils.js';
 import { randAddress, randPerson } from '../../src/utils/utilities.js';
-import familyModel from '../../src/models/family.model.js';
 
 const { Person, Address, Family } = db;
 const testChineseName = '黄鹤楼';

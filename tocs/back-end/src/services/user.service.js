@@ -1,17 +1,34 @@
 import db from '../models/index.js';
+import { formatAddressPhoneNumbers } from '../utils/mutator.js';
+import { badRequest } from '../utils/response-factory.js';
 
 const {
   Address, Person, User,
 } = db;
 
 export default {
+  changePassword: async (userId, {
+    currentPassword, newPassword, newPasswordConfirmation,
+  }) => {
+    if (!userId || !currentPassword || !newPassword || !newPasswordConfirmation
+      || newPassword !== newPasswordConfirmation) {
+      throw badRequest('Invalid password');
+    }
+    const user = await User.getById(userId);
+    if (!user.passwordCorrect(currentPassword)) {
+      throw badRequest('Invalid password');
+    }
+    user.setPassword(newPassword);
+    await user.save();
+    return 'Password changed successfully.';
+  },
   studentParentBoard: async (userId) => {
     const user = await User.getById(userId);
     const person = await user.getPerson();
     const dbFamilies = await person.families();
 
     if (person.addressId) {
-      person.address = await Address.getById(person.addressId);
+      person.dataValues.address = await person.getAddress();
     }
 
     const families = dbFamilies.map((family) => ({
@@ -22,6 +39,7 @@ export default {
       parentOne: family.parent_one_id === person.id ? person : null,
       parent_two_id: family.parent_two_id,
       parentTwo: family.parent_two_id === person.id ? person : null,
+      getStudents: () => family.getChildren({ raw: true }),
     }));
 
     const promises = families.map((family) => {
@@ -36,6 +54,7 @@ export default {
         if (family.parent_two_id && !family.parentTwo) {
           obj.parentTwo = await Person.getById(family.parent_two_id);
         }
+        obj.students = await family.getStudents();
         return { ...family, ...obj };
       };
       return fn();
@@ -43,8 +62,8 @@ export default {
 
     const allFamilies = await Promise.all(promises);
 
-    return {
+    return formatAddressPhoneNumbers({
       person, families: allFamilies,
-    };
+    });
   },
 };

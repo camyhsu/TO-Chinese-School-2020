@@ -15,6 +15,7 @@ import Waiver from "./components/Waiver";
 import Contact from "./components/Contact";
 import PersonForm from "./components/PersonForm";
 import AddressForm from "./components/AddressForm";
+import ChangePasswordForm from "./components/ChangePasswordForm";
 
 import { logout } from "./actions/auth.action";
 import { clearMessage } from "./actions/message.action";
@@ -78,6 +79,7 @@ const App = () => {
             <Route exact path="/contact-us" component={Contact} />
             <Route exact path="/person-form" component={PersonForm} />
             <Route exact path="/address-form" component={AddressForm} />
+            <Route exact path="/change-password-form" component={ChangePasswordForm} />
           </Switch>
         </div>
       </div>

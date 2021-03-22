@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import UserService from "../../services/user.service";
 import Address from "../Address";
 import Person from "../Person";
-import { savePerson, addParent, addChild } from "../../actions/user.action"
+import { savePerson, savePersonAddress, addParent, addChild, saveFamilyAddress } from "../../actions/user.action"
+import { formatPersonName }from '../../utils/utilities';
 
 const Home = () => {
     const [content, setContent] = useState("");
@@ -42,7 +43,7 @@ const Home = () => {
                     <div className="card-body">
                         <h4>Person</h4>
                         <Person {...content.person} />
-                        <Address {...content.address} />
+                        <Address {...(content.person && content.person.address)} />
                     </div>
                     <div className="card-footer">
                         <div className="row text-truncate">
@@ -53,7 +54,7 @@ const Home = () => {
                                         title: 'Edit Person Details',
                                         ...content.person,
                                         callback: (obj) => {
-                                            return savePerson(content.person.personId, obj);
+                                            return savePerson(content.person.id, obj);
                                         }
                                     }
                                 }} className="btn btn-light"><i className="bi-pencil"></i> Person Details</Link>
@@ -63,8 +64,9 @@ const Home = () => {
                                     pathname: '/address-form',
                                     params: {
                                         title: 'Edit Personal Address',
-                                        ...content.person,
+                                        ...(content.person && content.person.address),
                                         callback: (obj) => {
+                                            return savePersonAddress(content.person.id, obj);
                                         }
                                     }
                                 }} className="btn btn-light"><i className="bi-pencil"></i> Personal Address</Link>
@@ -82,9 +84,9 @@ const Home = () => {
                                     <h4>Family for <br className="d-md-none" />{family.name}</h4>
                                     <dl className="row">
                                         <dt className="col-12 col-md-6 text-left text-md-right">Parent One:</dt>
-                                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{family.parentOne}</dd>
+                                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentOne)}</dd>
                                         <dt className="col-12 col-md-6 text-left text-md-right">Parent Two:</dt>
-                                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{family.parentTwo}</dd>
+                                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentTwo)}</dd>
                                         <dt className="col-12 col-md-6 text-left text-md-right">Children:</dt>
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0"></dd>
                                     </dl>
@@ -92,7 +94,18 @@ const Home = () => {
                                 </div>
                                 <div className="card-footer">
                                     <div className="row text-truncate">
-                                        <div className="col-md-5 mb-3 mb-md-0"><a href="#123" className="btn btn-light"><i className="bi-pencil"></i> Family Address</a></div>
+                                        <div className="col-md-5 mb-3 mb-md-0">
+                                            <Link to={{
+                                                pathname: '/address-form',
+                                                params: {
+                                                    title: 'Edit Family Address',
+                                                    ...(family && family.address),
+                                                    callback: (obj) => {
+                                                        return saveFamilyAddress(family.familyId, obj);
+                                                    }
+                                                }
+                                            }} className="btn btn-light"><i className="bi-pencil"></i> Family Address</Link>
+                                    </div>
                                         <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right"><i className="person-plus"></i>
                                             {!family.parentTwo && <Link to={{
                                                 pathname: '/person-form',
@@ -110,7 +123,6 @@ const Home = () => {
                                                 params: {
                                                     title: 'Add Child',
                                                     callback: (obj) => {
-                                                        console.log('b4', family.familyId)
                                                         return addChild(family.familyId, obj);
                                                     }
                                                 }
@@ -120,7 +132,7 @@ const Home = () => {
                                 </div>
                             </div>
 
-                            {family.students.map((student, sindex) => {
+                            {family.students && family.students.map((student, sindex) => {
                                 return (
                                     <React.Fragment key={'student-' + sindex}>
                                         <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
@@ -138,7 +150,7 @@ const Home = () => {
                                                                 title: 'Edit Student Details',
                                                                 ...student,
                                                                 callback: (obj) => {
-                                                                    return savePerson(student.personId, obj);
+                                                                    return savePerson(student.id, obj);
                                                                 }
                                                             }
                                                         }} className="btn btn-light"><i className="bi-pencil"></i> Student Details</Link>

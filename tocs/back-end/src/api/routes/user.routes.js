@@ -13,4 +13,10 @@ export default (router) => {
     [rolePermission.isInstructor],
     controller.instructorBoard,
   );
+
+  router.put(
+    '/change-password',
+    [],
+    controller.changePassword,
+  );
 };
