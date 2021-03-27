@@ -38,6 +38,11 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       validate: { max: 12, min: 1 },
     },
     newChild: Sequelize.VIRTUAL,
+  }, {
+    hooks: {
+      beforeValidate: (obj) => ['birthYear', 'birthMonth']
+        .reduce((r, current) => Object.assign(r, { [current]: r[current] || null }), obj),
+    },
   });
 
   /* Prototype */

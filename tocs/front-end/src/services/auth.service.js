@@ -2,12 +2,9 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3001/";
 
-const register = (obj) => {
-  return axios.post(API_URL + "signup", obj);
-};
+const register = (obj) => axios.post(API_URL + "signup", obj);
 
-const login = (username, password) => {
-  return axios
+const login = (username, password) => axios
     .post(API_URL + "signin", {
       username,
       password,
@@ -19,11 +16,8 @@ const login = (username, password) => {
 
       return response.data;
     });
-};
 
-const logout = () => {
-  localStorage.removeItem("user");
-};
+const logout = () => localStorage.removeItem("user");
 
 const obj = {
   register,

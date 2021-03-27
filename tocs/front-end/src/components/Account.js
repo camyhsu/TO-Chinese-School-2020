@@ -1,6 +1,7 @@
 import React from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { changePassword } from "../actions/user.action"
 
 const Profile = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -15,20 +16,27 @@ const Profile = () => {
         <div className="card card-container--medium">
           <div className="card-body">
             <p>
-              <strong>Id:</strong> {currentUser.userId}
+              <strong>Username:</strong> {currentUser.username}
             </p>
-            <p>
-              <strong>Email:</strong> {currentUser.email}
-            </p>
-            <strong>Authorities:</strong>
+            <strong>Roles:</strong>
             <ul>
               {currentUser.roles &&
                 currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
             </ul>
-            <p>
-              <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
-              {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-            </p>
+          </div>
+          <div className="card-footer">
+            <div className="row text-truncate">
+              <div className="col-md-5 mb-md-0">
+                <Link to={{
+                  pathname: '/change-password-form',
+                  params: {
+                    callback: (obj) => {
+                      return changePassword(obj);
+                    }
+                  }
+                }} className="btn btn-light"><i className="bi-pencil"></i> Change Password</Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

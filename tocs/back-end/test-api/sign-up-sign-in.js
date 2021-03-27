@@ -1,14 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* global describe, it */
 import chai from 'chai';
-import axios from 'axios';
 import { Chance } from 'chance';
+import apiFn from '../src/utils/api.js';
 
 const chance = new Chance();
 const { expect } = chai;
-const API_URL = 'http://localhost:3001/';
 const username = chance.first();
 const password = '123456';
+
+const api = apiFn();
 
 describe('Test SignUp/SignIn', () => {
   describe('SignUp', () => {
@@ -25,15 +26,13 @@ describe('Test SignUp/SignIn', () => {
         state: chance.state(),
         zipcode: chance.zip(),
       };
-      let r = await axios.post(`${API_URL}signup`, formData);
+      let r = await api.signUp(formData);
       expect(r.data.message).eq('Account successfully created');
 
-      r = await axios.post(`${API_URL}signin`, { username, password });
-      console.log(JSON.stringify(r.data, null, 2));
-      r = await axios.get(`${API_URL}api/board/student-parent`, {
-        headers: { 'x-access-token': r.data.accessToken },
-      });
-      console.log(JSON.stringify(r.data, null, 2));
+      r = await api.signIn(username, password);
+      console.log(JSON.stringify(r, null, 2));
+      r = await api.getStudentBoard();
+      console.log(JSON.stringify(r, null, 2));
     });
   });
 });

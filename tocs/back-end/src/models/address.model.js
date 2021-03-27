@@ -1,16 +1,32 @@
+import { formatPhoneNumber, toNumeric } from '../utils/utilities.js';
+
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({
     withId: true,
-    // eslint-disable-next-line no-sparse-arrays
-    withStrings: [
-      'street', 'city', 'state', 'email',
-      ['homePhone', 'home_phone'], ['cellPhone', 'cell_phone']],
+    withStrings: ['street', 'city', 'state', 'email'],
   });
   const Address = sequelize.define('address', {
     ...fields,
+    homePhone: {
+      type: Sequelize.STRING,
+      field: 'home_phone',
+      allowNull: true,
+      validate: { len: 10 },
+    },
+    cellPhone: {
+      type: Sequelize.STRING,
+      field: 'cell_phone',
+      allowNull: true,
+      validate: { len: 10 },
+    },
     zipcode: {
       type: Sequelize.INTEGER,
       validate: { max: 99999 },
+    },
+  }, {
+    hooks: {
+      beforeValidate: (obj) => ['homePhone', 'cellPhone']
+        .reduce((r, current) => Object.assign(r, { [current]: r[current] ? toNumeric(r[current]) : null }), obj),
     },
   });
 
@@ -23,8 +39,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
   /* Non-prototype */
   Object.assign(Address, {
-    formatPhoneNumber: (phone) => (phone && phone.replace(/\D+/g, '')
-      .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')) || '',
+    formatPhoneNumber: (phone) => formatPhoneNumber(phone),
     emailAlreadyExists: async (email) => !!(await Address.findFirstBy({ email })),
   });
 
