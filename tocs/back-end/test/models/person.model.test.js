@@ -117,5 +117,17 @@ describe('Test Person', () => {
       families = await person.families();
       expect(families.length).eq(3);
     });
+
+    it('isAParentOf', async () => {
+      const person = await Person.createWith(createRandPerson());
+      const family1 = await Family.create();
+      await family1.setParentOne(person.id);
+
+      const child = await Person.createWith(createRandPerson());
+      expect(await person.isAParentOf(child.id)).to.eq(false);
+
+      await family1.addChildren(child.id);
+      expect(await person.isAParentOf(child.id)).to.eq(true);
+    });
   });
 });

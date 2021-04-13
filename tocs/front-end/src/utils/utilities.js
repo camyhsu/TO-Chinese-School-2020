@@ -2,7 +2,13 @@ import { isEmail } from "validator";
 
 const d = (s) => s || '';
 
+const dollar = (s) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'USD' }).format(s);
+
+const decimal = (s) => new Intl.NumberFormat('en-IN', { style: 'decimal', minimumFractionDigits: 2 }).format(s);
+
 const formatPersonName = (person) => (person && (person.firstName + ' ' + person.lastName)) || '';
+
+const formatPersonNames = (person) => (person && (`${person.chineseName}(${person.firstName} ${person.lastName})`)) || '';
 
 const formatAddress = (address) =>
     (address && `${d(address.street)} ${d(address.city)}${d(address.city) && ','} ${d(address.state)} ${d(address.zipcode)}`)
@@ -58,6 +64,11 @@ const vrepassword = (value, _props, components) => {
     }
 };
 
+const yesOrNo = (b) => b ? 'Yes' : 'No';
+
+const today = () => new Date().toISOString().split('T')[0];
+
 export {
-    formatAddress, formatPersonName, required, validEmail, vusername, vpassword, vrepassword
+    decimal, dollar, formatAddress, formatPersonName, formatPersonNames,
+    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo
 }

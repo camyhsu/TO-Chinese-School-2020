@@ -2,12 +2,15 @@ import React, { useEffect } from "react";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
-import StudentParent from "./boards/StudentParent";
+import {
+  AcademicVicePrincipal, AccountingOfficer, ActivityOfficer, CommunicationOfficer,
+  InstructionOfficer, Instructor, Librarian, Principal, RegistrationOfficer, StudentParent
+} from "./boards/index";
 
 const Home = () => {
 
   useEffect(() => {
-    document.title = "TOCS - Home";
+    document.title = 'TOCS - Home';
   });
 
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -15,16 +18,31 @@ const Home = () => {
   if (!currentUser) {
     return <Redirect to="/login" />;
   }
-  
-  const currentRole = currentUser.roles && currentUser.roles[0];
+
+  const hasRole = (role) => currentUser.roles && (currentUser.roles.includes(role) || currentUser.roles.includes('Super User'));
 
   function GetBoard() {
-    if (currentRole === 'Student Parent') {
-      return <StudentParent/>;
-    }
+    return (
+      <>
+        <div className="container">
+          <div className="card-deck justify-content-center justify-content-xl-start">
+            {hasRole('Principal') && (<Principal />)}
+            {hasRole('Academic Vice Principal') && (<AcademicVicePrincipal />)}
+            {hasRole('Registration Officer') && (<RegistrationOfficer />)}
+            {hasRole('Accounting Officer') && (<AccountingOfficer />)}
+            {hasRole('Activity Officer') && (<ActivityOfficer />)}
+            {hasRole('Communication Officer') && (<CommunicationOfficer />)}
+            {hasRole('Instruction Officer') && (<InstructionOfficer />)}
+            {hasRole('Librarian') && (<Librarian />)}
+            {hasRole('Instructor') && (<Instructor />)}
+          </div>
+        </div>
+        { hasRole('Student Parent') && (<StudentParent />)}
+      </>
+    );
   }
 
-  return (<GetBoard/>);
+  return (<GetBoard />);
 };
 
 export default Home;

@@ -678,1128 +678,1134 @@
             <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="dev (generated)" id="1614316110897-1">
+    <changeSet author="dev (generated)" id="1617775136629-1">
         <insert tableName="rights">
-            <column name="id" valueNumeric="1"/>
+            <column name="id" valueNumeric="4883"/>
             <column name="name" value="List School Years with Staff Assignments"/>
             <column name="controller" value="admin/staff_assignments"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.053915"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.053915"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.581353"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.581353"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="2"/>
+            <column name="id" valueNumeric="4884"/>
             <column name="name" value="Show Staff Assignments for School Year"/>
             <column name="controller" value="admin/staff_assignments"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.056221"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.056221"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.605745"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.605745"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="3"/>
+            <column name="id" valueNumeric="4885"/>
             <column name="name" value="Accounting Registration Report Payments By Date"/>
             <column name="controller" value="accounting/registration_report"/>
             <column name="action" value="registration_payments_by_date"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.05773"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.05773"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.608732"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.608732"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="4"/>
+            <column name="id" valueNumeric="4886"/>
             <column name="name" value="Accounting Charges Collected Report"/>
             <column name="controller" value="accounting/registration_report"/>
             <column name="action" value="charges_collected_report"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.059215"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.059215"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.611101"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.611101"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="5"/>
+            <column name="id" valueNumeric="4887"/>
             <column name="name" value="List Manual Transaction"/>
             <column name="controller" value="accounting/manual_transactions"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.06092"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.06092"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.613176"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.613176"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="6"/>
+            <column name="id" valueNumeric="4888"/>
             <column name="name" value="Show Manual Transaction"/>
             <column name="controller" value="accounting/manual_transactions"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.062359"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.062359"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.615506"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.615506"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="7"/>
+            <column name="id" valueNumeric="4889"/>
             <column name="name" value="Create Manual Transaction"/>
             <column name="controller" value="accounting/manual_transactions"/>
             <column name="action" value="new"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.064087"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.064087"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.617931"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.617931"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="8"/>
+            <column name="id" valueNumeric="4890"/>
             <column name="name" value="List Instructor Discount"/>
             <column name="controller" value="accounting/instructors"/>
             <column name="action" value="discount"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.06582"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.06582"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.620189"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.620189"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="9"/>
+            <column name="id" valueNumeric="4891"/>
             <column name="name" value="List Pending In-person Registration Payments"/>
             <column name="controller" value="accounting/in_person_registration_payments"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.067187"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.067187"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.622207"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.622207"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="10"/>
+            <column name="id" valueNumeric="4892"/>
             <column name="name" value="Record In-person Registration Payment"/>
             <column name="controller" value="accounting/in_person_registration_payments"/>
             <column name="action" value="payment_entry"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.068839"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.068839"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.624218"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.624218"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="11"/>
+            <column name="id" valueNumeric="4893"/>
             <column name="name" value="Remove Pending In-person Registration Payment"/>
             <column name="controller" value="accounting/in_person_registration_payments"/>
             <column name="action" value="remove_pending_registration_payment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.070163"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.070163"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.627131"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.627131"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="12"/>
+            <column name="id" valueNumeric="4894"/>
             <column name="name" value="List Grades"/>
             <column name="controller" value="admin/grades"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.07162"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.07162"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.629723"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.629723"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="13"/>
+            <column name="id" valueNumeric="4895"/>
             <column name="name" value="List School Years"/>
             <column name="controller" value="admin/school_years"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.073153"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.073153"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.631828"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.631828"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="14"/>
+            <column name="id" valueNumeric="4896"/>
             <column name="name" value="Show School Year Details"/>
             <column name="controller" value="admin/school_years"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.074644"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.074644"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.633908"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.633908"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="15"/>
+            <column name="id" valueNumeric="4897"/>
             <column name="name" value="Create School Year"/>
             <column name="controller" value="admin/school_years"/>
             <column name="action" value="new"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.076087"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.076087"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.636075"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.636075"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="16"/>
+            <column name="id" valueNumeric="4898"/>
             <column name="name" value="Edit School Year Details"/>
             <column name="controller" value="admin/school_years"/>
             <column name="action" value="edit"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.07772"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.07772"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.638078"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.638078"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="17"/>
+            <column name="id" valueNumeric="4899"/>
             <column name="name" value="Edit School Year Book Charges"/>
             <column name="controller" value="admin/school_years"/>
             <column name="action" value="edit_book_charge"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.079278"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.079278"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.640086"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.640086"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="18"/>
+            <column name="id" valueNumeric="4900"/>
             <column name="name" value="Toggle Automatic Class Assignment"/>
             <column name="controller" value="admin/school_years"/>
             <column name="action" value="toggle_auto_class_assignment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.080928"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.080928"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.6458"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.6458"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="19"/>
+            <column name="id" valueNumeric="4901"/>
             <column name="name" value="List School Classes"/>
             <column name="controller" value="admin/school_classes"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.082423"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.082423"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.649882"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.649882"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="20"/>
+            <column name="id" valueNumeric="4902"/>
             <column name="name" value="Create New School Class"/>
             <column name="controller" value="admin/school_classes"/>
             <column name="action" value="new"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.083807"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.083807"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.653113"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.653113"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="21"/>
+            <column name="id" valueNumeric="4903"/>
             <column name="name" value="Edit School Class"/>
             <column name="controller" value="admin/school_classes"/>
             <column name="action" value="edit"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.085337"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.085337"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.655346"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.655346"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="22"/>
+            <column name="id" valueNumeric="4904"/>
             <column name="name" value="Toggle School Class Active Status"/>
             <column name="controller" value="admin/school_classes"/>
             <column name="action" value="toggle_active"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.086743"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.086743"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.657904"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.657904"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="23"/>
+            <column name="id" valueNumeric="4905"/>
             <column name="name" value="Activity Forms Fire Drill Form"/>
             <column name="controller" value="activity/forms"/>
             <column name="action" value="fire_drill_form"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.088179"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.088179"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.660539"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.660539"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="24"/>
+            <column name="id" valueNumeric="4906"/>
             <column name="name" value="Activity Forms Students By Class"/>
             <column name="controller" value="activity/forms"/>
             <column name="action" value="students_by_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.089575"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.089575"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.663094"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.663094"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="25"/>
+            <column name="id" valueNumeric="4907"/>
             <column name="name" value="Activity Forms Grade Class Information"/>
             <column name="controller" value="activity/forms"/>
             <column name="action" value="grade_class_information"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.09096"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.09096"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.674644"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.674644"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="26"/>
+            <column name="id" valueNumeric="4908"/>
             <column name="name" value="Activity Forms Elective Class Information"/>
             <column name="controller" value="activity/forms"/>
             <column name="action" value="elective_class_information"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.092339"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.092339"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.678203"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.678203"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="27"/>
+            <column name="id" valueNumeric="4909"/>
             <column name="name" value="Manage Track Events"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.094138"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.094138"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.680782"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.680782"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="28"/>
+            <column name="id" valueNumeric="4910"/>
             <column name="name" value="Sign Up Track Events Index"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="sign_up_index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.09559"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.09559"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.68317"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.68317"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="29"/>
+            <column name="id" valueNumeric="4911"/>
             <column name="name" value="Sign Up Track Events"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="sign_up"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.096989"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.096989"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.685676"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.685676"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="30"/>
+            <column name="id" valueNumeric="4912"/>
             <column name="name" value="Sign Up Student Track Event By Check Box"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="select_program"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.098815"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.098815"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.687867"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.687867"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="31"/>
+            <column name="id" valueNumeric="4913"/>
             <column name="name" value="Sign Up Parent Track Event By Check Box"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="select_parent"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.100443"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.100443"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.690335"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.690335"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="32"/>
+            <column name="id" valueNumeric="4914"/>
             <column name="name" value="Assign Student Track Event Team Main Page"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="assign_student_team_index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.10203"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.10203"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.692525"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.692525"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="33"/>
+            <column name="id" valueNumeric="4915"/>
             <column name="name" value="Assign Parent Track Event Team Main Page"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="assign_parent_team_index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.103401"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.103401"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.695049"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.695049"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="34"/>
+            <column name="id" valueNumeric="4916"/>
             <column name="name" value="Create Track Event Team"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="create_team"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.104895"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.104895"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.697309"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.697309"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="35"/>
+            <column name="id" valueNumeric="4917"/>
             <column name="name" value="Assign Track Event Team"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="select_team"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.106306"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.106306"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.699441"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.699441"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="36"/>
+            <column name="id" valueNumeric="4918"/>
             <column name="name" value="Delete Track Event Team"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="delete_team"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.107754"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.107754"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.701503"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.701503"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="37"/>
+            <column name="id" valueNumeric="4919"/>
             <column name="name" value="Change Filler Team for Team Program"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="change_filler_team"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.1093"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.1093"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.703499"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.703499"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="38"/>
+            <column name="id" valueNumeric="4920"/>
             <column name="name" value="Create Filler Sign-up for Team Program"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="create_filler_signup"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.110967"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.110967"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.706315"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.706315"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="39"/>
+            <column name="id" valueNumeric="4921"/>
             <column name="name" value="Delete Filler Sign-up for Team Program"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="delete_filler_signup"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.112447"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.112447"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.712528"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.712528"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="40"/>
+            <column name="id" valueNumeric="4922"/>
             <column name="name" value="Calculate Lane Assignments"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="calculate_lane_assignments"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.113924"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.113924"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.714638"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.714638"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="41"/>
+            <column name="id" valueNumeric="4923"/>
             <column name="name" value="View Lane Assignments"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="lane_assignment_index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.115388"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.115388"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.717345"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.717345"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="42"/>
+            <column name="id" valueNumeric="4924"/>
             <column name="name" value="View Heat"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="heat_view"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.11705"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.11705"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.719175"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.719175"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="43"/>
+            <column name="id" valueNumeric="4925"/>
             <column name="name" value="Save Track Time"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="save_track_time"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.118674"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.118674"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.72099"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.72099"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="44"/>
+            <column name="id" valueNumeric="4926"/>
             <column name="name" value="Save Tug of War Winner"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="save_winner_tug_of_war"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.120439"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.120439"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.723043"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.723043"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="45"/>
+            <column name="id" valueNumeric="4927"/>
             <column name="name" value="View Track Events Scores"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="view_scores"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.12189"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.12189"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.725202"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.725202"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="46"/>
+            <column name="id" valueNumeric="4928"/>
             <column name="name" value="Calculate Track Events Scores"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="calculate_scores"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.123323"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.123323"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.727717"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.727717"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="47"/>
+            <column name="id" valueNumeric="4929"/>
             <column name="name" value="View Track Events Class Scores"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="view_class_scores"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.125258"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.125258"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.72971"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.72971"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="48"/>
+            <column name="id" valueNumeric="4930"/>
             <column name="name" value="Sign Up Track Events Result"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="sign_up_result"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.126838"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.126838"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.731562"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.731562"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="49"/>
+            <column name="id" valueNumeric="4931"/>
             <column name="name" value="TOCS Track Event Assign Jersey Numbers"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="assign_jersey_numbers"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.12877"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.12877"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.733507"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.733507"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="50"/>
+            <column name="id" valueNumeric="4932"/>
             <column name="name" value="TOCS Track Event Lane Assignment Form"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="tocs_lane_assignment_form"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.130533"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.130533"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.735438"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.735438"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="51"/>
+            <column name="id" valueNumeric="4933"/>
             <column name="name" value="TOCS Track Event Data"/>
             <column name="controller" value="activity/track_events"/>
             <column name="action" value="tocs_track_event_data"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.132156"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.132156"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.737432"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.737432"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="52"/>
+            <column name="id" valueNumeric="4934"/>
             <column name="name" value="List Active School Classes"/>
             <column name="controller" value="registration/active_school_classes"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.133691"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.133691"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.739285"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.739285"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="53"/>
+            <column name="id" valueNumeric="4935"/>
             <column name="name" value="班級人數清單"/>
             <column name="controller" value="registration/active_school_classes"/>
             <column name="action" value="grade_class_student_count"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.135237"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.135237"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.74111"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.74111"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="54"/>
+            <column name="id" valueNumeric="4936"/>
             <column name="name" value="Elective Class 人數清單"/>
             <column name="controller" value="registration/active_school_classes"/>
             <column name="action" value="elective_class_student_count"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.13672"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.13672"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.742929"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.742929"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="55"/>
+            <column name="id" valueNumeric="4937"/>
             <column name="name" value="年級人數清單"/>
             <column name="controller" value="registration/active_school_classes"/>
             <column name="action" value="grade_student_count"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.13815"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.13815"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.744783"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.744783"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="56"/>
+            <column name="id" valueNumeric="4938"/>
             <column name="name" value="List People"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.139603"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.139603"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.746734"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.746734"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="57"/>
+            <column name="id" valueNumeric="4939"/>
             <column name="name" value="Show Person Details"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.141135"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.141135"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.748626"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.748626"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="58"/>
+            <column name="id" valueNumeric="4940"/>
             <column name="name" value="Edit Person Basic Data"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="edit"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.1426"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.1426"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.75066"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.75066"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="59"/>
+            <column name="id" valueNumeric="4941"/>
             <column name="name" value="Edit Personal Address"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="edit_address"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.147946"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.147946"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.767815"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.767815"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="60"/>
+            <column name="id" valueNumeric="4942"/>
             <column name="name" value="Create Personal Address"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="new_address"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.149387"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.149387"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.776019"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.776019"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="61"/>
+            <column name="id" valueNumeric="4943"/>
             <column name="name" value="Select Grade On Person Details"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="select_grade"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.150774"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.150774"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.778082"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.778082"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="62"/>
+            <column name="id" valueNumeric="4944"/>
             <column name="name" value="Select School Class On Person Details"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="select_school_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.152238"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.152238"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.780052"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.780052"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="63"/>
+            <column name="id" valueNumeric="4945"/>
             <column name="name" value="Select Elective Class On Person Details"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="select_elective_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.153706"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.153706"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.781874"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.781874"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="64"/>
+            <column name="id" valueNumeric="4946"/>
             <column name="name" value="Add Instructor Assignment On Person Details"/>
             <column name="controller" value="registration/people"/>
             <column name="action" value="add_instructor_assignment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.155089"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.155089"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.783831"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.783831"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="65"/>
+            <column name="id" valueNumeric="4947"/>
             <column name="name" value="Show Family Details"/>
             <column name="controller" value="registration/families"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.156465"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.156465"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.785786"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.785786"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="66"/>
+            <column name="id" valueNumeric="4948"/>
             <column name="name" value="Create New Family"/>
             <column name="controller" value="registration/families"/>
             <column name="action" value="new"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.157899"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.157899"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.787698"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.787698"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="67"/>
+            <column name="id" valueNumeric="4949"/>
             <column name="name" value="Edit Family Address"/>
             <column name="controller" value="registration/families"/>
             <column name="action" value="edit_address"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.159507"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.159507"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.789871"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.789871"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="68"/>
+            <column name="id" valueNumeric="4950"/>
             <column name="name" value="Add Parent To Family"/>
             <column name="controller" value="registration/families"/>
             <column name="action" value="add_parent"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.160921"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.160921"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.791745"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.791745"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="69"/>
+            <column name="id" valueNumeric="4951"/>
             <column name="name" value="Add Child To Family"/>
             <column name="controller" value="registration/families"/>
             <column name="action" value="add_child"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.162357"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.162357"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.793706"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.793706"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="70"/>
+            <column name="id" valueNumeric="4952"/>
             <column name="name" value="Manage Students By Grade"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="list_by_grade"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.163794"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.163794"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.795755"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.795755"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="71"/>
+            <column name="id" valueNumeric="4953"/>
             <column name="name" value="List Active Students By Name"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="list_active_students_by_name"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.165311"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.165311"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.797734"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.797734"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="72"/>
+            <column name="id" valueNumeric="4954"/>
             <column name="name" value="Select School Class On Manage Students By Grade"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="select_school_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.1667"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.1667"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.801117"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.801117"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="73"/>
+            <column name="id" valueNumeric="4955"/>
             <column name="name" value="Select Elective Class On Manage Students By Grade"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="select_elective_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.168418"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.168418"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.80336"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.80336"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="74"/>
+            <column name="id" valueNumeric="4956"/>
             <column name="name" value="Remove Student From Grade On Manage Students By Grade"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="destroy"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.169967"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.169967"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.805535"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.805535"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="75"/>
+            <column name="id" valueNumeric="4957"/>
             <column name="name" value="Randomly Assign Students To Grade Class"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="random_assign_grade_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.171405"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.171405"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.807799"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.807799"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="76"/>
+            <column name="id" valueNumeric="4958"/>
             <column name="name" value="Randomly Assign Students To Grade Class"/>
             <column name="controller" value="registration/student_class_assignments"/>
             <column name="action" value="student_list_by_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.172814"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.172814"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.809866"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.809866"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="77"/>
+            <column name="id" valueNumeric="4959"/>
             <column name="name" value="Select School Class For Instructor Assignment"/>
             <column name="controller" value="registration/instructor_assignments"/>
             <column name="action" value="select_school_class"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.174264"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.174264"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.812466"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.812466"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="78"/>
+            <column name="id" valueNumeric="4960"/>
             <column name="name" value="Select Start Date For Instructor Assignment"/>
             <column name="controller" value="registration/instructor_assignments"/>
             <column name="action" value="select_start_date"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.175714"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.175714"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.815076"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.815076"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="79"/>
+            <column name="id" valueNumeric="4961"/>
             <column name="name" value="Select End Date For Instructor Assignment"/>
             <column name="controller" value="registration/instructor_assignments"/>
             <column name="action" value="select_end_date"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.177241"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.177241"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.81717"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.81717"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="80"/>
+            <column name="id" valueNumeric="4962"/>
             <column name="name" value="Select Role For Instructor Assignment"/>
             <column name="controller" value="registration/instructor_assignments"/>
             <column name="action" value="select_role"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.178634"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.178634"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.819437"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.819437"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="81"/>
+            <column name="id" valueNumeric="4963"/>
             <column name="name" value="Destroy Instructor Assignment"/>
             <column name="controller" value="registration/instructor_assignments"/>
             <column name="action" value="destroy"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.180136"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.180136"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.821452"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.821452"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="82"/>
+            <column name="id" valueNumeric="4964"/>
             <column name="name" value="Daily Online Registration Summary Report"/>
             <column name="controller" value="registration/report"/>
             <column name="action" value="daily_online_registration_summary"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.18166"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.18166"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.823571"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.823571"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="83"/>
+            <column name="id" valueNumeric="4965"/>
             <column name="name" value="Registration Integrity Report"/>
             <column name="controller" value="registration/report"/>
             <column name="action" value="registration_integrity"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.183114"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.183114"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.825575"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.825575"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="84"/>
+            <column name="id" valueNumeric="4966"/>
             <column name="name" value="Sibling in Same Grade Report"/>
             <column name="controller" value="registration/report"/>
             <column name="action" value="sibling_in_same_grade"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.184789"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.184789"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.827633"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.827633"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="85"/>
+            <column name="id" valueNumeric="4967"/>
             <column name="name" value="Student List For One School Class"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.186156"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.186156"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.829587"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.829587"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="86"/>
+            <column name="id" valueNumeric="4968"/>
             <column name="name" value="Enter Student Final Mark For One School Class"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="enter_student_final_mark"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.188425"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.188425"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.831557"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.831557"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="87"/>
+            <column name="id" valueNumeric="4969"/>
             <column name="name" value="Show Student Final Mark For One School Class"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="show_student_final_mark"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.189927"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.189927"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.833603"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.833603"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="88"/>
+            <column name="id" valueNumeric="4970"/>
             <column name="name" value="Download Student Final Marks CSV"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="download_student_final_marks"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.191303"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.191303"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.835796"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.835796"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="89"/>
+            <column name="id" valueNumeric="4971"/>
             <column name="name" value="Display Room Parent Selection"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="display_room_parent_selection"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.192725"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.192725"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.83777"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.83777"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="90"/>
+            <column name="id" valueNumeric="4972"/>
             <column name="name" value="Save Room Parent Selection"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="save_room_parent_selection"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.194257"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.194257"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.839806"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.839806"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="91"/>
+            <column name="id" valueNumeric="4973"/>
             <column name="name" value="Cancel Room Parent Selection"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="cancel_room_parent_selection"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.195712"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.195712"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.841794"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.841794"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="92"/>
+            <column name="id" valueNumeric="4974"/>
             <column name="name" value="View Last 4 Years Student Final Marks"/>
             <column name="controller" value="instruction/school_classes"/>
             <column name="action" value="previous_student_final_marks"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.197712"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.197712"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.844203"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.844203"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="93"/>
+            <column name="id" valueNumeric="4975"/>
             <column name="name" value="List Active School Classes For Instruction Officer"/>
             <column name="controller" value="instruction/active_school_classes"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.199948"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.199948"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.84621"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.84621"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="94"/>
+            <column name="id" valueNumeric="4976"/>
             <column name="name" value="Add Parent To Family By Parent"/>
             <column name="controller" value="student/families"/>
             <column name="action" value="add_parent"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.202312"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.202312"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.848267"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.848267"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="95"/>
+            <column name="id" valueNumeric="4977"/>
             <column name="name" value="Add Child To Family By Parent"/>
             <column name="controller" value="student/families"/>
             <column name="action" value="add_child"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.204735"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.204735"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.850227"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.850227"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="96"/>
+            <column name="id" valueNumeric="4978"/>
             <column name="name" value="Edit Family Address By Parent"/>
             <column name="controller" value="student/families"/>
             <column name="action" value="edit_address"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.206421"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.206421"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.852185"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.852185"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="97"/>
+            <column name="id" valueNumeric="4979"/>
             <column name="name" value="Edit Person Basic Data By Parent"/>
             <column name="controller" value="student/people"/>
             <column name="action" value="edit"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.207876"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.207876"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.854083"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.854083"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="98"/>
+            <column name="id" valueNumeric="4980"/>
             <column name="name" value="Create Personal Address By Parent"/>
             <column name="controller" value="student/people"/>
             <column name="action" value="new_address"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.209727"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.209727"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.856072"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.856072"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="99"/>
+            <column name="id" valueNumeric="4981"/>
             <column name="name" value="Edit Personal Address By Parent"/>
             <column name="controller" value="student/people"/>
             <column name="action" value="edit_address"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.211414"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.211414"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.858009"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.858009"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="100"/>
+            <column name="id" valueNumeric="4982"/>
             <column name="name" value="Display Registration Options"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="display_options"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.212894"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.212894"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.859871"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.859871"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="101"/>
+            <column name="id" valueNumeric="4983"/>
             <column name="name" value="Save Registration Preferences"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="save_registration_preferences"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.214324"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.214324"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.861971"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.861971"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="102"/>
+            <column name="id" valueNumeric="4984"/>
             <column name="name" value="Payment Entry"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="payment_entry"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.215907"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.215907"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.863835"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.863835"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="103"/>
+            <column name="id" valueNumeric="4985"/>
             <column name="name" value="Remove Pending Registration Payment"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="remove_pending_registration_payment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.217555"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.217555"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.865773"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.865773"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="104"/>
+            <column name="id" valueNumeric="4986"/>
             <column name="name" value="Request In-person Registration Payment"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="request_in_person_payment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.219035"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.219035"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.867658"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.867658"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="105"/>
+            <column name="id" valueNumeric="4987"/>
             <column name="name" value="Submit Payment"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="submit_payment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.220466"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.220466"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.869764"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.869764"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="106"/>
+            <column name="id" valueNumeric="4988"/>
             <column name="name" value="Show Payment Confirmation"/>
             <column name="controller" value="student/registration"/>
             <column name="action" value="payment_confirmation"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.221899"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.221899"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.871797"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.871797"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="107"/>
+            <column name="id" valueNumeric="4989"/>
             <column name="name" value="List Transaction History"/>
             <column name="controller" value="student/transaction_history"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.223316"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.223316"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.873902"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.873902"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="108"/>
+            <column name="id" valueNumeric="4990"/>
             <column name="name" value="Show Registration Payment Detail"/>
             <column name="controller" value="student/transaction_history"/>
             <column name="action" value="show_registration_payment"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.224861"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.224861"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.876057"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.876057"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="109"/>
+            <column name="id" valueNumeric="4991"/>
             <column name="name" value="Show Registration Payment Detail For Staff"/>
             <column name="controller" value="student/transaction_history"/>
             <column name="action" value="show_registration_payment_for_staff"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.226401"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.226401"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.87802"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.87802"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="110"/>
+            <column name="id" valueNumeric="4992"/>
             <column name="name" value="Show Manual Transaction Detail"/>
             <column name="controller" value="student/transaction_history"/>
             <column name="action" value="show_manual_transaction"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.227835"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.227835"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.880033"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.880033"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="111"/>
+            <column name="id" valueNumeric="4993"/>
             <column name="name" value="Withdraw Entry"/>
             <column name="controller" value="student/withdraw"/>
             <column name="action" value="withdraw_entry"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.229251"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.229251"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.88203"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.88203"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="112"/>
+            <column name="id" valueNumeric="4994"/>
             <column name="name" value="Refund Detail Preview"/>
             <column name="controller" value="student/withdraw"/>
             <column name="action" value="refund_detail_preview"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.230745"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.230745"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.884096"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.884096"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="113"/>
+            <column name="id" valueNumeric="4995"/>
             <column name="name" value="Save Withdraw Request"/>
             <column name="controller" value="student/withdraw"/>
             <column name="action" value="save_withdraw_request"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.232191"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.232191"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.886216"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.886216"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="114"/>
+            <column name="id" valueNumeric="4996"/>
             <column name="name" value="Cancel Withdraw Request Entry"/>
             <column name="controller" value="student/withdraw"/>
             <column name="action" value="cancel_withdraw_entry"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.233615"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.233615"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.888369"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.888369"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="115"/>
+            <column name="id" valueNumeric="4997"/>
             <column name="name" value="Submit Cancel Withdraw"/>
             <column name="controller" value="student/withdraw"/>
             <column name="action" value="submit_cancel_withdraw"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.235025"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.235025"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.890526"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.890526"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="116"/>
+            <column name="id" valueNumeric="4998"/>
             <column name="name" value="Active Family Home Phone Numbers"/>
             <column name="controller" value="ccca/report"/>
             <column name="action" value="active_family_home_phone_numbers"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.236437"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.236437"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.892649"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.892649"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="117"/>
+            <column name="id" valueNumeric="4999"/>
             <column name="name" value="List Library Books"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.237941"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.237941"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.894605"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.894605"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="118"/>
+            <column name="id" valueNumeric="5000"/>
             <column name="name" value="Create Library Book"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="new"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.239551"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.239551"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.896618"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.896618"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="119"/>
+            <column name="id" valueNumeric="5001"/>
             <column name="name" value="Change Library Books"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="edit"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.241175"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.241175"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.89862"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.89862"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="120"/>
+            <column name="id" valueNumeric="5002"/>
             <column name="name" value="Library Book Checkout History"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="checkout_history"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.243297"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.243297"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.900635"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.900635"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="121"/>
+            <column name="id" valueNumeric="5003"/>
             <column name="name" value="Library Book Check Out"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="check_out_library_book"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.24524"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.24524"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.902633"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.902633"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="122"/>
+            <column name="id" valueNumeric="5004"/>
             <column name="name" value="Library Book Return"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="return_library_book"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.246677"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.246677"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.904715"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.904715"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="123"/>
+            <column name="id" valueNumeric="5005"/>
             <column name="name" value="Library Book Read Only View"/>
             <column name="controller" value="librarian/library_books"/>
             <column name="action" value="read_only_view"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.248056"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.248056"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.90702"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.90702"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="124"/>
+            <column name="id" valueNumeric="5006"/>
             <column name="name" value="Librarian search students"/>
             <column name="controller" value="librarian/search_students"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.249899"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.249899"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.910795"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.910795"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="125"/>
+            <column name="id" valueNumeric="5007"/>
             <column name="name" value="Librarian search students result"/>
             <column name="controller" value="librarian/search_students"/>
             <column name="action" value="search_result"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.251326"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.251326"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.912656"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.912656"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="126"/>
+            <column name="id" valueNumeric="5008"/>
             <column name="name" value="Picture Taking Form"/>
             <column name="controller" value="communication/forms"/>
             <column name="action" value="picture_taking_form"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.2529"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.2529"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.914655"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.914655"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="127"/>
+            <column name="id" valueNumeric="5009"/>
             <column name="name" value="Student List For Yearbook"/>
             <column name="controller" value="communication/forms"/>
             <column name="action" value="student_list_for_yearbook"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.254458"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.254458"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.916669"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.916669"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="128"/>
+            <column name="id" valueNumeric="5010"/>
             <column name="name" value="Manage Withdraw Requests"/>
             <column name="controller" value="admin/withdraw_requests"/>
             <column name="action" value="index"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.255854"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.255854"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.918812"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.918812"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="129"/>
+            <column name="id" valueNumeric="5011"/>
             <column name="name" value="Show Withdraw Request Detail"/>
             <column name="controller" value="admin/withdraw_requests"/>
             <column name="action" value="show"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.257292"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.257292"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.920818"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.920818"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="130"/>
+            <column name="id" valueNumeric="5012"/>
             <column name="name" value="Approve Withdraw Request"/>
             <column name="controller" value="admin/withdraw_requests"/>
             <column name="action" value="approve"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.258709"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.258709"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.922781"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.922781"/>
         </insert>
         <insert tableName="rights">
-            <column name="id" valueNumeric="131"/>
+            <column name="id" valueNumeric="5013"/>
             <column name="name" value="Decline Withdraw Request"/>
             <column name="controller" value="admin/withdraw_requests"/>
             <column name="action" value="decline"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.260088"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.260088"/>
+            <column name="created_at" valueDate="2020-05-31T01:39:27.924662"/>
+            <column name="updated_at" valueDate="2020-05-31T01:39:27.924662"/>
         </insert>
     </changeSet>
-    <changeSet author="dev (generated)" id="1614316110897-2">
+    <changeSet author="dev (generated)" id="1617775136629-2">
         <insert tableName="roles">
             <column name="id" valueNumeric="1"/>
-            <column name="name" value="Principal"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.014464"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.014464"/>
+            <column name="name" value="Super User"/>
+            <column name="created_at" valueDate="2009-10-24T15:56:34"/>
+            <column name="updated_at" valueDate="2009-10-24T15:56:34"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="2"/>
-            <column name="name" value="Academic Vice Principal"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.018394"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.018394"/>
+            <column name="name" value="Registration Officer"/>
+            <column name="created_at" valueDate="2009-11-01T00:24:05"/>
+            <column name="updated_at" valueDate="2009-11-01T00:24:05"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="3"/>
-            <column name="name" value="Registration Officer"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.021256"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.021256"/>
+            <column name="name" value="Instructor"/>
+            <column name="created_at" valueDate="2009-11-01T00:24:16"/>
+            <column name="updated_at" valueDate="2009-11-01T00:24:16"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="4"/>
-            <column name="name" value="Accounting Officer"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.023717"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.023717"/>
+            <column name="name" value="Room Parent"/>
+            <column name="created_at" valueDate="2010-09-25T05:57:13"/>
+            <column name="updated_at" valueDate="2010-09-25T05:57:13"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="5"/>
-            <column name="name" value="Activity Officer"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.026525"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.026525"/>
+            <column name="name" value="Student Parent"/>
+            <column name="created_at" valueDate="2011-03-15T05:41:31"/>
+            <column name="updated_at" valueDate="2011-03-15T05:41:31"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="6"/>
-            <column name="name" value="Communication Officer"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.029421"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.029421"/>
+            <column name="name" value="Principal"/>
+            <column name="created_at" valueDate="2011-07-08T05:56:09"/>
+            <column name="updated_at" valueDate="2011-07-08T05:56:09"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="7"/>
-            <column name="name" value="Instruction Officer"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.032099"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.032099"/>
+            <column name="name" value="Accounting Officer"/>
+            <column name="created_at" valueDate="2011-07-08T05:56:10"/>
+            <column name="updated_at" valueDate="2011-07-08T05:56:10"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="8"/>
-            <column name="name" value="Librarian"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.034687"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.034687"/>
+            <column name="name" value="Instruction Officer"/>
+            <column name="created_at" valueDate="2011-08-29T05:27:47"/>
+            <column name="updated_at" valueDate="2011-08-29T05:27:47"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="9"/>
-            <column name="name" value="Instructor"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.037501"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.037501"/>
+            <column name="name" value="Activity Officer"/>
+            <column name="created_at" valueDate="2011-09-23T06:56:52"/>
+            <column name="updated_at" valueDate="2011-09-23T06:56:52"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="10"/>
-            <column name="name" value="Room Parent"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.040143"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.040143"/>
+            <column name="name" value="CCCA Staff"/>
+            <column name="created_at" valueDate="2012-01-30T14:47:07"/>
+            <column name="updated_at" valueDate="2012-01-30T14:47:07"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="11"/>
-            <column name="name" value="Student Parent"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.042689"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.042689"/>
+            <column name="name" value="Librarian"/>
+            <column name="created_at" valueDate="2012-10-20T04:06:59"/>
+            <column name="updated_at" valueDate="2012-10-20T04:06:59"/>
         </insert>
         <insert tableName="roles">
             <column name="id" valueNumeric="12"/>
-            <column name="name" value="CCCA Staff"/>
-            <column name="created_at" valueDate="2021-02-26T04:51:07.045638"/>
-            <column name="updated_at" valueDate="2021-02-26T04:51:07.045638"/>
+            <column name="name" value="Communication Officer"/>
+            <column name="created_at" valueDate="2012-11-19T14:55:09"/>
+            <column name="updated_at" valueDate="2012-11-19T14:55:09"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" valueNumeric="13"/>
+            <column name="name" value="Academic Vice Principal"/>
+            <column name="created_at" valueDate="2015-07-30T15:05:32"/>
+            <column name="updated_at" valueDate="2015-07-30T15:05:32"/>
         </insert>
     </changeSet>
     <changeSet author="dev (generated)" id="1614316110897-3">
@@ -1855,1101 +1861,1244 @@
             <column name="version" value="20150307181858"/>
         </insert>
     </changeSet>
-    <changeSet author="dev (generated)" id="1614316110897-4">
+    <changeSet author="dev (generated)" id="1617775136629-3">
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="93"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="1"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="2"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="82"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="123"/>
-            <column name="role_id" valueNumeric="1"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
-            <column name="role_id" valueNumeric="2"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
-            <column name="role_id" valueNumeric="2"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="93"/>
-            <column name="role_id" valueNumeric="2"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
-            <column name="role_id" valueNumeric="2"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="123"/>
-            <column name="role_id" valueNumeric="2"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="12"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="13"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="14"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="15"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="16"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="17"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="18"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="19"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="20"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="21"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="22"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="52"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="55"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="56"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="57"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="58"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="59"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="60"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="61"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="62"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="63"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="64"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="65"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="66"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="67"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="68"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="69"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="70"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="71"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="72"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="73"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="74"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="75"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="76"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="77"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="78"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="79"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="80"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="81"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="82"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="83"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="84"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="109"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="5"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="7"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="6"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="9"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="10"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="11"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="128"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="129"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="130"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="131"/>
-            <column name="role_id" valueNumeric="3"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="82"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="3"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="4"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="109"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="5"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="6"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="8"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="128"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="129"/>
-            <column name="role_id" valueNumeric="4"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="23"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="93"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="24"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="25"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="26"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="27"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="28"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="29"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="30"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="31"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="32"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="33"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="34"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="35"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="36"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="37"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="38"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="39"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="40"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="41"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="42"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="43"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="44"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="45"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="46"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="47"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="49"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="50"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="51"/>
-            <column name="role_id" valueNumeric="5"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
+            <column name="right_id" valueNumeric="4935"/>
             <column name="role_id" valueNumeric="6"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
+            <column name="right_id" valueNumeric="4936"/>
             <column name="role_id" valueNumeric="6"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="126"/>
+            <column name="right_id" valueNumeric="4975"/>
             <column name="role_id" valueNumeric="6"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="127"/>
+            <column name="right_id" valueNumeric="4967"/>
             <column name="role_id" valueNumeric="6"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
+            <column name="right_id" valueNumeric="4883"/>
+            <column name="role_id" valueNumeric="6"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4884"/>
+            <column name="role_id" valueNumeric="6"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4964"/>
+            <column name="role_id" valueNumeric="6"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5005"/>
+            <column name="role_id" valueNumeric="6"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4935"/>
+            <column name="role_id" valueNumeric="13"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4936"/>
+            <column name="role_id" valueNumeric="13"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4975"/>
+            <column name="role_id" valueNumeric="13"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4967"/>
+            <column name="role_id" valueNumeric="13"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5005"/>
+            <column name="role_id" valueNumeric="13"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4894"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4895"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4896"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4897"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4898"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4899"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4900"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4901"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4902"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4903"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4904"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4934"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4935"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4936"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4937"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4938"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4939"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4940"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4941"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4942"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4943"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4944"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4945"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4946"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4947"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4948"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4949"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4950"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4951"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4952"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4953"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4954"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4955"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4956"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4957"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4958"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4959"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4960"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4961"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4962"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4963"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4967"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4964"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4965"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4966"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4991"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4887"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4889"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4888"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4891"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4892"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4893"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5010"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5011"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5012"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5013"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4935"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
+            <column name="right_id" valueNumeric="4936"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="55"/>
+            <column name="right_id" valueNumeric="4964"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="93"/>
+            <column name="right_id" valueNumeric="4885"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
+            <column name="right_id" valueNumeric="4886"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="86"/>
+            <column name="right_id" valueNumeric="4991"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="88"/>
+            <column name="right_id" valueNumeric="4887"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="92"/>
+            <column name="right_id" valueNumeric="4888"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="123"/>
+            <column name="right_id" valueNumeric="4890"/>
             <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="53"/>
-            <column name="role_id" valueNumeric="8"/>
+            <column name="right_id" valueNumeric="5010"/>
+            <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="54"/>
-            <column name="role_id" valueNumeric="8"/>
+            <column name="right_id" valueNumeric="5011"/>
+            <column name="role_id" valueNumeric="7"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="76"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="93"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="117"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="118"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="119"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="120"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="121"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="122"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="124"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="125"/>
-            <column name="role_id" valueNumeric="8"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
+            <column name="right_id" valueNumeric="4935"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="86"/>
+            <column name="right_id" valueNumeric="4936"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="87"/>
+            <column name="right_id" valueNumeric="4905"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="89"/>
+            <column name="right_id" valueNumeric="4975"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="90"/>
+            <column name="right_id" valueNumeric="4967"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="91"/>
+            <column name="right_id" valueNumeric="4906"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="29"/>
+            <column name="right_id" valueNumeric="4907"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="30"/>
+            <column name="right_id" valueNumeric="4908"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="31"/>
+            <column name="right_id" valueNumeric="4909"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="48"/>
+            <column name="right_id" valueNumeric="4910"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="123"/>
+            <column name="right_id" valueNumeric="4911"/>
             <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="85"/>
-            <column name="role_id" valueNumeric="10"/>
+            <column name="right_id" valueNumeric="4912"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="29"/>
-            <column name="role_id" valueNumeric="10"/>
+            <column name="right_id" valueNumeric="4913"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="30"/>
-            <column name="role_id" valueNumeric="10"/>
+            <column name="right_id" valueNumeric="4914"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="31"/>
-            <column name="role_id" valueNumeric="10"/>
+            <column name="right_id" valueNumeric="4915"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="48"/>
-            <column name="role_id" valueNumeric="10"/>
+            <column name="right_id" valueNumeric="4916"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="94"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4917"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="95"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4918"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="96"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4919"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="97"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4920"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="98"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4921"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="99"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4922"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="100"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4923"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="101"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4924"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="102"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4925"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="103"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4926"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="104"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4927"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="105"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4928"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="106"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4929"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="107"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4931"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="108"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4932"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="110"/>
-            <column name="role_id" valueNumeric="11"/>
+            <column name="right_id" valueNumeric="4933"/>
+            <column name="role_id" valueNumeric="9"/>
             <column name="created_at"/>
             <column name="updated_at"/>
         </insert>
         <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="111"/>
-            <column name="role_id" valueNumeric="11"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="113"/>
-            <column name="role_id" valueNumeric="11"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="112"/>
-            <column name="role_id" valueNumeric="11"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="114"/>
-            <column name="role_id" valueNumeric="11"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="115"/>
-            <column name="role_id" valueNumeric="11"/>
-            <column name="created_at"/>
-            <column name="updated_at"/>
-        </insert>
-        <insert tableName="rights_roles">
-            <column name="right_id" valueNumeric="116"/>
+            <column name="right_id" valueNumeric="4935"/>
             <column name="role_id" valueNumeric="12"/>
             <column name="created_at"/>
             <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4936"/>
+            <column name="role_id" valueNumeric="12"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5008"/>
+            <column name="role_id" valueNumeric="12"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5009"/>
+            <column name="role_id" valueNumeric="12"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4935"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4936"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4937"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4975"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4967"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4968"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4970"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4974"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5005"/>
+            <column name="role_id" valueNumeric="8"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4935"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4936"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4958"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4975"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4967"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4999"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5000"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5001"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5002"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5003"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5004"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5006"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5007"/>
+            <column name="role_id" valueNumeric="11"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4967"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4968"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4969"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4971"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4972"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4973"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4911"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4912"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4913"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4930"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="5005"/>
+            <column name="role_id" valueNumeric="3"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4967"/>
+            <column name="role_id" valueNumeric="4"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4911"/>
+            <column name="role_id" valueNumeric="4"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4912"/>
+            <column name="role_id" valueNumeric="4"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4913"/>
+            <column name="role_id" valueNumeric="4"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4930"/>
+            <column name="role_id" valueNumeric="4"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4976"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4977"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4978"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4979"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4980"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4981"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4982"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4983"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4984"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4985"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4986"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4987"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4988"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4989"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4990"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4992"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4993"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4995"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4994"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4996"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4997"/>
+            <column name="role_id" valueNumeric="5"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+        <insert tableName="rights_roles">
+            <column name="right_id" valueNumeric="4998"/>
+            <column name="role_id" valueNumeric="10"/>
+            <column name="created_at"/>
+            <column name="updated_at"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="dev (generated)" id="1618200816109-1">
+        <insert tableName="grades">
+            <column name="id" valueNumeric="1"/>
+            <column name="chinese_name" value="學前班"/>
+            <column name="english_name" value="Preschool"/>
+            <column name="short_name" value="Pre"/>
+            <column name="next_grade" valueNumeric="2"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="A"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="2"/>
+            <column name="chinese_name" value="幼稚園"/>
+            <column name="english_name" value="Kindergarden"/>
+            <column name="short_name" value="K"/>
+            <column name="next_grade" valueNumeric="3"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="B"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="3"/>
+            <column name="chinese_name" value="一年級"/>
+            <column name="english_name" value="1st Grade"/>
+            <column name="short_name" value="1"/>
+            <column name="next_grade" valueNumeric="4"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="C"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="4"/>
+            <column name="chinese_name" value="二年級"/>
+            <column name="english_name" value="2nd Grade"/>
+            <column name="short_name" value="2"/>
+            <column name="next_grade" valueNumeric="5"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="D"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="5"/>
+            <column name="chinese_name" value="三年級"/>
+            <column name="english_name" value="3rd Grade"/>
+            <column name="short_name" value="3"/>
+            <column name="next_grade" valueNumeric="6"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="E"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="6"/>
+            <column name="chinese_name" value="四年級"/>
+            <column name="english_name" value="4th Grade"/>
+            <column name="short_name" value="4"/>
+            <column name="next_grade" valueNumeric="7"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="F"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="7"/>
+            <column name="chinese_name" value="五年級"/>
+            <column name="english_name" value="5th Grade"/>
+            <column name="short_name" value="5"/>
+            <column name="next_grade" valueNumeric="8"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="G"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="8"/>
+            <column name="chinese_name" value="六年級"/>
+            <column name="english_name" value="6th Grade"/>
+            <column name="short_name" value="6"/>
+            <column name="next_grade" valueNumeric="9"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="H"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="9"/>
+            <column name="chinese_name" value="七年級"/>
+            <column name="english_name" value="7th Grade"/>
+            <column name="short_name" value="7"/>
+            <column name="next_grade" valueNumeric="10"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="I"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="10"/>
+            <column name="chinese_name" value="八年級"/>
+            <column name="english_name" value="8th Grade"/>
+            <column name="short_name" value="8"/>
+            <column name="next_grade" valueNumeric="11"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="J"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="11"/>
+            <column name="chinese_name" value="九年級"/>
+            <column name="english_name" value="9th Grade"/>
+            <column name="short_name" value="9"/>
+            <column name="next_grade" valueNumeric="12"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="K"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="12"/>
+            <column name="chinese_name" value="十年級"/>
+            <column name="english_name" value="10th Grade"/>
+            <column name="short_name" value="10"/>
+            <column name="next_grade" valueNumeric="13"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="L"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="13"/>
+            <column name="chinese_name" value="十一年級"/>
+            <column name="english_name" value="11th Grade"/>
+            <column name="short_name" value="11"/>
+            <column name="next_grade" valueNumeric="14"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="M"/>
+        </insert>
+        <insert tableName="grades">
+            <column name="id" valueNumeric="14"/>
+            <column name="chinese_name" value="十二年級"/>
+            <column name="english_name" value="12th Grade"/>
+            <column name="short_name" value="12"/>
+            <column name="next_grade"/>
+            <column name="created_at" valueDate="2009-10-07T07:15:19"/>
+            <column name="updated_at" valueDate="2013-05-12T09:23:58"/>
+            <column name="jersey_number_prefix" value="N"/>
         </insert>
     </changeSet>
 
     <changeSet author="ec" id="ec-2021-03-03">
     <comment>Fixing Sequences</comment>
     <sql>
-        SELECT SETVAL('public.addresses_id_seq', COALESCE(MAX(id), 1) ) FROM public.addresses;
-        SELECT SETVAL('public.book_charges_id_seq', COALESCE(MAX(id), 1) ) FROM public.book_charges;
-        SELECT SETVAL('public.families_id_seq', COALESCE(MAX(id), 1) ) FROM public.families;
-        SELECT SETVAL('public.gateway_transactions_id_seq', COALESCE(MAX(id), 1) ) FROM public.gateway_transactions;
-        SELECT SETVAL('public.grades_id_seq', COALESCE(MAX(id), 1) ) FROM public.grades;
-        SELECT SETVAL('public.in_person_registration_transactions_id_seq', COALESCE(MAX(id), 1) ) FROM public.in_person_registration_transactions;
-        SELECT SETVAL('public.instructor_assignments_id_seq', COALESCE(MAX(id), 1) ) FROM public.instructor_assignments;
-        SELECT SETVAL('public.jersey_numbers_id_seq', COALESCE(MAX(id), 1) ) FROM public.jersey_numbers;
-        SELECT SETVAL('public.library_book_checkouts_id_seq', COALESCE(MAX(id), 1) ) FROM public.library_book_checkouts;
-        SELECT SETVAL('public.library_books_id_seq', COALESCE(MAX(id), 1) ) FROM public.library_books;
-        SELECT SETVAL('public.manual_transactions_id_seq', COALESCE(MAX(id), 1) ) FROM public.manual_transactions;
-        SELECT SETVAL('public.people_id_seq', COALESCE(MAX(id), 1) ) FROM public.people;
-        SELECT SETVAL('public.registration_payments_id_seq', COALESCE(MAX(id), 1) ) FROM public.registration_payments;
-        SELECT SETVAL('public.registration_preferences_id_seq', COALESCE(MAX(id), 1) ) FROM public.registration_preferences;
-        SELECT SETVAL('public.rights_id_seq', COALESCE(MAX(id), 1) ) FROM public.rights;
-        SELECT SETVAL('public.roles_id_seq', COALESCE(MAX(id), 1) ) FROM public.roles;
-        SELECT SETVAL('public.school_class_active_flags_id_seq', COALESCE(MAX(id), 1) ) FROM public.school_class_active_flags;
-        SELECT SETVAL('public.school_classes_id_seq', COALESCE(MAX(id), 1) ) FROM public.school_classes;
-        SELECT SETVAL('public.school_years_id_seq', COALESCE(MAX(id), 1) ) FROM public.school_years;
-        SELECT SETVAL('public.staff_assignments_id_seq', COALESCE(MAX(id), 1) ) FROM public.staff_assignments;
-        SELECT SETVAL('public.student_class_assignments_id_seq', COALESCE(MAX(id), 1) ) FROM public.student_class_assignments;
-        SELECT SETVAL('public.student_fee_payments_id_seq', COALESCE(MAX(id), 1) ) FROM public.student_fee_payments;
-        SELECT SETVAL('public.student_final_marks_id_seq', COALESCE(MAX(id), 1) ) FROM public.student_final_marks;
-        SELECT SETVAL('public.student_status_flags_id_seq', COALESCE(MAX(id), 1) ) FROM public.student_status_flags;
-        SELECT SETVAL('public.timed_tokens_id_seq', COALESCE(MAX(id), 1) ) FROM public.timed_tokens;
-        SELECT SETVAL('public.track_event_heats_id_seq', COALESCE(MAX(id), 1) ) FROM public.track_event_heats;
-        SELECT SETVAL('public.track_event_programs_id_seq', COALESCE(MAX(id), 1) ) FROM public.track_event_programs;
-        SELECT SETVAL('public.track_event_signups_id_seq', COALESCE(MAX(id), 1) ) FROM public.track_event_signups;
-        SELECT SETVAL('public.track_event_teams_id_seq', COALESCE(MAX(id), 1) ) FROM public.track_event_teams;
-        SELECT SETVAL('public.users_id_seq', COALESCE(MAX(id), 1) ) FROM public.users;
-        SELECT SETVAL('public.withdraw_request_details_id_seq', COALESCE(MAX(id), 1) ) FROM public.withdraw_request_details;
-        SELECT SETVAL('public.withdraw_requests_id_seq', COALESCE(MAX(id), 1) ) FROM public.withdraw_requests;
-        SELECT SETVAL('public.withdrawal_records_id_seq', COALESCE(MAX(id), 1) ) FROM public.withdrawal_records;
+        SELECT SETVAL('public.addresses_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.addresses;
+        SELECT SETVAL('public.book_charges_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.book_charges;
+        SELECT SETVAL('public.families_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.families;
+        SELECT SETVAL('public.gateway_transactions_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.gateway_transactions;
+        SELECT SETVAL('public.grades_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.grades;
+        SELECT SETVAL('public.in_person_registration_transactions_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.in_person_registration_transactions;
+        SELECT SETVAL('public.instructor_assignments_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.instructor_assignments;
+        SELECT SETVAL('public.jersey_numbers_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.jersey_numbers;
+        SELECT SETVAL('public.library_book_checkouts_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.library_book_checkouts;
+        SELECT SETVAL('public.library_books_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.library_books;
+        SELECT SETVAL('public.manual_transactions_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.manual_transactions;
+        SELECT SETVAL('public.people_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.people;
+        SELECT SETVAL('public.registration_payments_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.registration_payments;
+        SELECT SETVAL('public.registration_preferences_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.registration_preferences;
+        SELECT SETVAL('public.rights_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.rights;
+        SELECT SETVAL('public.roles_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.roles;
+        SELECT SETVAL('public.school_class_active_flags_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.school_class_active_flags;
+        SELECT SETVAL('public.school_classes_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.school_classes;
+        SELECT SETVAL('public.school_years_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.school_years;
+        SELECT SETVAL('public.staff_assignments_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.staff_assignments;
+        SELECT SETVAL('public.student_class_assignments_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.student_class_assignments;
+        SELECT SETVAL('public.student_fee_payments_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.student_fee_payments;
+        SELECT SETVAL('public.student_final_marks_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.student_final_marks;
+        SELECT SETVAL('public.student_status_flags_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.student_status_flags;
+        SELECT SETVAL('public.timed_tokens_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.timed_tokens;
+        SELECT SETVAL('public.track_event_heats_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.track_event_heats;
+        SELECT SETVAL('public.track_event_programs_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.track_event_programs;
+        SELECT SETVAL('public.track_event_signups_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.track_event_signups;
+        SELECT SETVAL('public.track_event_teams_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.track_event_teams;
+        SELECT SETVAL('public.users_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.users;
+        SELECT SETVAL('public.withdraw_request_details_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.withdraw_request_details;
+        SELECT SETVAL('public.withdraw_requests_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.withdraw_requests;
+        SELECT SETVAL('public.withdrawal_records_id_seq', COALESCE(MAX(id), 0)+1, false ) FROM public.withdrawal_records;
     </sql>
     </changeSet>
 

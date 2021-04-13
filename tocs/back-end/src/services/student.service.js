@@ -15,35 +15,36 @@ export default {
     const child = await Person.create(obj);
     await family.addChild(child.id);
   },
-  saveFamilyAddress: async (familyId, _obj) => {
-    const obj = _obj;
-    const family = await Family.getById(familyId);
-    const { addressId } = family;
-    if (addressId) {
-      const address = await Address.getById(addressId);
-      Object.assign(address, obj);
-      await address.save();
-    } else {
-      const savedAddress = await Address.create(obj);
-      await family.setAddress(savedAddress.id);
-    }
-  },
+  getPerson: async (personId) => Person.getById(personId),
   savePerson: async (personId, obj) => {
     const person = await Person.getById(personId);
     Object.assign(person, obj);
     await person.save();
   },
-  savePersonAddress: async (personId, _obj) => {
-    const obj = _obj;
+  // Addresses
+  getFamilyAddress: async (familyId) => {
+    const family = await Family.getById(familyId);
+    return family.getAddress();
+  },
+  getPersonalAddress: async (personId) => {
     const person = await Person.getById(personId);
-    const { addressId } = person;
-    if (addressId) {
-      const address = await Address.getById(addressId);
-      Object.assign(address, obj);
-      await address.save();
-    } else {
-      const savedAddress = await Address.create(obj);
-      await person.setAddress(savedAddress.id);
-    }
+    return person.getAddress();
+  },
+  saveFamilyAddress: async (familyId, obj) => {
+    const family = await Family.getById(familyId);
+    const address = await family.getAddress();
+    Object.assign(address, obj);
+    await address.save();
+  },
+  savePersonalAddress: async (personId, obj) => {
+    const person = await Person.getById(personId);
+    const address = await person.getAddress();
+    Object.assign(address, obj);
+    await address.save();
+  },
+  addPersonalAddress: async (personId, obj) => {
+    const person = await Person.getById(personId);
+    const savedAddress = await Address.create(obj);
+    await person.setAddress(savedAddress.id);
   },
 };

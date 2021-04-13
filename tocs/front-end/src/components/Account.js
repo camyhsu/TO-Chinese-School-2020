@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect, Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { changePassword } from "../actions/user.action"
+import { changePassword } from "../actions/user.action";
+import { Card, CardBody, CardFooter } from "./Cards";
 
 const Profile = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -11,10 +12,8 @@ const Profile = () => {
   }
 
   return (
-    <div className="container">
-      <div className="col-md-12">
-        <div className="card card-container--medium">
-          <div className="card-body">
+      <Card size="medium">
+          <CardBody>
             <p>
               <strong>Username:</strong> {currentUser.username}
             </p>
@@ -23,24 +22,15 @@ const Profile = () => {
               {currentUser.roles &&
                 currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
             </ul>
-          </div>
-          <div className="card-footer">
+          </CardBody>
+          <CardFooter>
             <div className="row text-truncate">
               <div className="col-md-5 mb-md-0">
-                <Link to={{
-                  pathname: '/change-password-form',
-                  params: {
-                    callback: (obj) => {
-                      return changePassword(obj);
-                    }
-                  }
-                }} className="btn btn-light"><i className="bi-pencil"></i> Change Password</Link>
+                <Link to="/change-password-form" className="btn btn-light"><i className="bi-pencil"></i> Change Password</Link>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CardFooter>
+      </Card>
   );
 };
 

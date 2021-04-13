@@ -8,11 +8,13 @@ export default (sequelize, _Sequelize, fieldsFactory) => {
       const children = await this.getChildren();
       return children.map((child) => child.name());
     },
-    isParentOne(person) {
-      return !!(this.parentOne && person && this.parentOne.id === person.id);
+    async isParentOne(person) {
+      const p = await this.getParentOne();
+      return !!(p && person && p.id === person.id);
     },
-    isParentTwo(person) {
-      return !!(this.parentTwo && person && this.parentTwo.id === person.id);
+    async isParentTwo(person) {
+      const p = await this.getParentTwo();
+      return !!(p && person && p.id === person.id);
     },
     /* TODO Not yet implemented
       def has_staff_for?(school_year)

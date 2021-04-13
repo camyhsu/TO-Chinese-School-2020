@@ -5,15 +5,14 @@ import { useSelector } from "react-redux";
 import UserService from "../../services/user.service";
 import Address from "../Address";
 import Person from "../Person";
-import { savePerson, savePersonAddress, addParent, addChild, saveFamilyAddress } from "../../actions/user.action"
 import { formatPersonName }from '../../utils/utilities';
+import { Card, CardBody, CardFooter } from "../Cards";
 
 const Home = () => {
     const [content, setContent] = useState("");
 
     useEffect(() => {
-        document.title = "TOCS - Home";
-        console.log('Landed Student Parent');
+        document.title = 'TOCS - Home';
 
         UserService.getStudentParentBoard().then(
           (response) => {
@@ -39,48 +38,31 @@ const Home = () => {
     return (
         <div className="container">
             <div className="card-deck justify-content-center justify-content-xl-start">
-                <div className="card card-container--medium">
-                    <div className="card-body">
+                <Card size="medium" plain="true">
+                    <CardBody>
                         <h4>Person</h4>
                         <Person {...content.person} />
                         <Address {...(content.person && content.person.address)} />
-                    </div>
-                    <div className="card-footer">
+                    </CardBody>
+                    <CardFooter>
                         <div className="row text-truncate">
                             <div className="col-md-5 mb-3 mb-md-0">
-                                <Link to={{
-                                    pathname: '/person-form',
-                                    params: {
-                                        title: 'Edit Person Details',
-                                        ...content.person,
-                                        callback: (obj) => {
-                                            return savePerson(content.person.id, obj);
-                                        }
-                                    }
-                                }} className="btn btn-light"><i className="bi-pencil"></i> Person Details</Link>
+                                {content.person && <Link to={`/person-form?id=${content.person.id}`} className="btn btn-light"><i className="bi-pencil"></i> Person Details</Link>}
                             </div>
                             <div className="col-md-7 text-md-right">
-                                <Link to={{
-                                    pathname: '/address-form',
-                                    params: {
-                                        title: 'Edit Personal Address',
-                                        ...(content.person && content.person.address),
-                                        callback: (obj) => {
-                                            return savePersonAddress(content.person.id, obj);
-                                        }
-                                    }
-                                }} className="btn btn-light"><i className="bi-pencil"></i> Personal Address</Link>
+                                {content.person && !content.person.addressId && <Link to={`/address-form?personId=${content.person.id}`} className="btn btn-light"><i className="bi-plus"></i> Personal Address</Link>}
+                                {content.person && content.person.addressId && <Link to={`/address-form?id=${content.person.addressId}&personId=${content.person.id}`} className="btn btn-light"><i className="bi-pencil"></i> Personal Address</Link>}
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </CardFooter>
+                </Card>
 
                 {content.families && content.families.map((family, findex) => {
                     return (
                         <React.Fragment key={'family-' + findex}>
                             <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
-                            <div className="card card-container--medium">
-                                <div className="card-body">
+                            <Card size="medium" plain="true">
+                                <CardBody>
                                     <h4>Family for <br className="d-md-none" />{family.name}</h4>
                                     <dl className="row">
                                         <dt className="col-12 col-md-6 text-left text-md-right">Parent One:</dt>
@@ -91,73 +73,39 @@ const Home = () => {
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0"></dd>
                                     </dl>
                                     <Address {...family.address} />
-                                </div>
-                                <div className="card-footer">
+                                </CardBody>
+                                <CardFooter>
                                     <div className="row text-truncate">
                                         <div className="col-md-5 mb-3 mb-md-0">
-                                            <Link to={{
-                                                pathname: '/address-form',
-                                                params: {
-                                                    title: 'Edit Family Address',
-                                                    ...(family && family.address),
-                                                    callback: (obj) => {
-                                                        return saveFamilyAddress(family.familyId, obj);
-                                                    }
-                                                }
-                                            }} className="btn btn-light"><i className="bi-pencil"></i> Family Address</Link>
+                                        <Link to={`/address-form?id=${family.addressId}&familyId=${family.familyId}`} className="btn btn-light"><i className="bi-pencil"></i> Family Address</Link>
                                     </div>
                                         <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right"><i className="person-plus"></i>
-                                            {!family.parentTwo && <Link to={{
-                                                pathname: '/person-form',
-                                                params: {
-                                                    title: 'Add Parent',
-                                                    callback: (obj) => {
-                                                        return addParent(family.familyId, obj);
-                                                    }
-                                                }
-                                            }} className="btn btn-light"><i className="bi-person-plus"></i> Parent</Link>}
+                                            {!family.parentTwo && <Link to={`/person-form?familyId=${family.familyId}&isParentTwo=true`} className="btn btn-light"><i className="bi-person-plus"></i> Parent</Link>}
                                         </div>
                                         <div className="col-md-3 text-md-right">
-                                            <Link to={{
-                                                pathname: '/person-form',
-                                                params: {
-                                                    title: 'Add Child',
-                                                    callback: (obj) => {
-                                                        return addChild(family.familyId, obj);
-                                                    }
-                                                }
-                                            }} className="btn btn-light"><i className="bi-person-plus"></i> Child</Link>
+                                            <Link to={`/person-form?familyId=${family.familyId}`} className="btn btn-light"><i className="bi-person-plus"></i> Child</Link>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </CardFooter>
+                            </Card>
 
                             {family.students && family.students.map((student, sindex) => {
                                 return (
                                     <React.Fragment key={'student-' + sindex}>
                                         <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
-                                        <div className="card card-container--medium">
-                                            <div className="card-body">
+                                        <Card size="medium" plain="true">
+                                            <CardBody>
                                                 <h4>Student Information</h4>
                                                 <Person {...student} />
-                                            </div>
-                                            <div className="card-footer">
+                                            </CardBody>
+                                            <CardFooter>
                                                 <div className="row text-truncate">
                                                     <div className="col-md-5 mb-md-0">
-                                                        <Link to={{
-                                                            pathname: '/person-form',
-                                                            params: {
-                                                                title: 'Edit Student Details',
-                                                                ...student,
-                                                                callback: (obj) => {
-                                                                    return savePerson(student.id, obj);
-                                                                }
-                                                            }
-                                                        }} className="btn btn-light"><i className="bi-pencil"></i> Student Details</Link>
+                                                    <Link to={`/person-form?id=${student.id}`} className="btn btn-light"><i className="bi-pencil"></i> Student Details</Link>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </CardFooter>
+                                        </Card>
                                     </React.Fragment>
                                 );
                             })}

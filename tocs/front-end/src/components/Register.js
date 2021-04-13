@@ -6,6 +6,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
+import { Card, CardBody, CardFooter } from "./Cards";
 import { required, validEmail, vpassword, vrepassword, vusername } from '../utils/utilities';
 import { register } from "../actions/auth.action";
 
@@ -37,7 +38,7 @@ const Register = () => {
 
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
-  
+
   const onChangeField = (e) => {
     const { name, value } = e.target;
     const fns = {
@@ -71,11 +72,11 @@ const Register = () => {
 
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(register({
-        lastName, firstName, chineseName, nativeLanguage, gender, 
-        birthYear, birthMonth, street, city, state, zipcode, homePhone, 
+        lastName, firstName, chineseName, nativeLanguage, gender,
+        birthYear, birthMonth, street, city, state, zipcode, homePhone,
         cellPhone, email, username, password
       })).then(() => {
-          setSuccessful(true);
+        setSuccessful(true);
       }).catch(() => {
         setSuccessful(false);
       });
@@ -83,9 +84,8 @@ const Register = () => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container--large">
-        <div className="card-body">
+    <Card size="large">
+      <CardBody>
         <img
           src="transparent-tree.png"
           alt="profile-img"
@@ -182,19 +182,19 @@ const Register = () => {
                     name="birth-month"
                     value={birthMonth}
                     onChange={onChangeField}>
-                      <option value=''></option>
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                      <option value='3'>3</option>
-                      <option value='4'>4</option>
-                      <option value='5'>5</option>
-                      <option value='6'>6</option>
-                      <option value='7'>7</option>
-                      <option value='8'>8</option>
-                      <option value='9'>9</option>
-                      <option value='10'>10</option>
-                      <option value='11'>11</option>
-                      <option value='12'>12</option>
+                    <option value=''></option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                    <option value='12'>12</option>
                   </Select>
                 </div>
               </div>
@@ -293,7 +293,7 @@ const Register = () => {
               </div>
 
               <h4 className="mt-4">Create Account</h4>
-              
+
               <div className="row">
                 <div className="form-group col-md-12 mb-3">
                   <label htmlFor="username">Username</label>
@@ -344,19 +344,18 @@ const Register = () => {
 
           {message && (
             <div className="form-group">
-              <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
+              <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
                 {message}
               </div>
             </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-        </div>
-        <div className="card-footer">
-            Back to <Link to={"/login"}>Sign In</Link>
-        </div>
-      </div>
-    </div>
+      </CardBody>
+      <CardFooter>
+        Back to <Link to={"/login"}>Sign In</Link>
+      </CardFooter>
+    </Card>
   );
 };
 

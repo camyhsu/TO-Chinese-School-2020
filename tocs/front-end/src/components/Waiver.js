@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
+import { Card, CardBody } from "./Cards";
 
 const Waiver = () => {
     useEffect(() => { document.title = "TOCS - Waiver"; }, []);
 
     return (
-        <div className="container">
-            <div className="card card-container--large">
-                <div className="card-body">
+        <Card size="large">
+            <CardBody>
                     <h5 className="card-title">Consent, Release, Indemnification and Assumption of Risk</h5>
 
                     <p>
@@ -81,9 +81,8 @@ const Waiver = () => {
                         By clicking on the "Agree" button below, I, xxx, agree to
                         the legal terms outlined above.
                     </p>
-                </div>
-            </div>
-        </div>
+            </CardBody>
+        </Card>
     );
 };
 

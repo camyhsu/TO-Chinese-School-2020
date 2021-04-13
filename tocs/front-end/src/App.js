@@ -1,26 +1,27 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Router, Switch, Route, Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Router, Switch, Route, Link } from 'react-router-dom';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
-import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import './App.css';
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Account from "./components/Account";
-import Privacy from "./components/Privacy";
-import Waiver from "./components/Waiver";
-import Contact from "./components/Contact";
-import PersonForm from "./components/PersonForm";
-import AddressForm from "./components/AddressForm";
-import ChangePasswordForm from "./components/ChangePasswordForm";
+import Login from './components/Login';
+import Register from './components/Register';
+import Home from './components/Home';
+import Account from './components/Account';
+import Privacy from './components/Privacy';
+import Waiver from './components/Waiver';
+import Contact from './components/Contact';
+import { AddressForm, BookForm, CheckoutHistoryForm, PersonForm, SchoolYearForm } from './components/forms/index';
+import ChangePasswordForm from './components/ChangePasswordForm';
+import { Books } from './components/librarian/index';
+import { Grades, ManageStaffAssignments, ManageStaffAssignment, SchoolYears, SchoolYearDetails } from './components/registration/index';
 
-import { logout } from "./actions/auth.action";
-import { clearMessage } from "./actions/message.action";
+import { logout } from './actions/auth.action';
+import { clearMessage } from './actions/message.action';
 
-import { history } from "./helpers/history";
+import { history } from './helpers/history';
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -34,8 +35,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      // setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
-      // setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+
     }
   }, [currentUser]);
 
@@ -74,12 +74,26 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/account" component={Account} />
+
+            <Route exact path="/librarian/books" component={Books} />
+            <Route exact path="/admin/grades" component={Grades} />
+            <Route exact path="/admin/school-years" component={SchoolYears} />
+            <Route exact path="/admin/school-year-details" component={SchoolYearDetails} />
+            <Route exact path="/admin/manage-staff-assignments" component={ManageStaffAssignments} />
+            <Route exact path="/admin/manage-staff-assignment" component={ManageStaffAssignment} />
+
+            {/* Forms */}
+            <Route exact path="/address-form" component={AddressForm} />
+            <Route exact path="/book-form" component={BookForm} />
+            <Route exact path="/change-password-form" component={ChangePasswordForm} />
+            <Route exact path="/librarian/checkout-history" component={CheckoutHistoryForm} />
+            <Route exact path="/person-form" component={PersonForm} />
+            <Route exact path="/school-year-form" component={SchoolYearForm} />
+
+            {/* Static pages */}
+            <Route exact path="/contact-us" component={Contact} />
             <Route exact path="/privacy-policy" component={Privacy} />
             <Route exact path="/waiver" component={Waiver} />
-            <Route exact path="/contact-us" component={Contact} />
-            <Route exact path="/person-form" component={PersonForm} />
-            <Route exact path="/address-form" component={AddressForm} />
-            <Route exact path="/change-password-form" component={ChangePasswordForm} />
           </Switch>
         </div>
       </div>
