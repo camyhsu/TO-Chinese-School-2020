@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
+import { Card, CardBody } from "./Cards";
 
 const Contact = () => {
     useEffect(() => { document.title = "TOCS - Contact Us"; }, []);
 
     return (
-        <div className="container">
-            <div className="card card-container--large">
-                <div className="card-body">
+        <Card size="large">
+                <CardBody>
                 <h5 className="card-title">Thousand Oaks Chinese School could be contacted through the following ways:</h5>
                 <ul>
                     <li>Web Site: <a href="http://www.to-cs.org">http://www.to-cs.org</a></li>
@@ -28,9 +28,8 @@ const Contact = () => {
                         </ul>
                     </li>
                 </ul>
-                </div>
-            </div>
-        </div>
+                </CardBody>
+        </Card>
     );
 };
 

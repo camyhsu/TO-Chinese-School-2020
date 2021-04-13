@@ -1,5 +1,5 @@
 import React, { } from "react";
-import { formatPersonName }from '../utils/utilities';
+import { formatPersonName } from '../utils/utilities';
 
 const Person = ({ chineseName, firstName, lastName, gender, birthMonth, birthYear, nativeLanguage }) => {
 

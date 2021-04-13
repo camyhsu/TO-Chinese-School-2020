@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
+import { Card, CardBody } from "./Cards";
 
 const Privacy = () => {
     useEffect(() => { document.title = "TOCS - Privacy Policy"; }, []);
 
     return (
-        <div className="container">
-            <div className="card card-container--large">
-                <div className="card-body">
+        <Card size="large">
+                <CardBody>
                     <h3 className="card-title">Privacy Policy - Thousand Oaks Chinese School</h3>
                     <h5>What information do we collect?</h5>
                     <p>
@@ -66,9 +66,8 @@ const Privacy = () => {
                         <li>By Mail: P.O. Box 6775, Thousand Oaks, CA 91362</li>
                         <li>Email: <a href="mailto:privacy@to-cs.org">privacy@to-cs.org</a></li>
                     </ul>
-                </div>
-            </div>
-        </div>
+                </CardBody>
+        </Card>
     );
 };
 

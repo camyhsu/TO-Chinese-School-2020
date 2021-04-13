@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,13 +6,14 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { required, vpassword, vrepassword } from '../utils/utilities';
+import { Card, CardBody } from "./Cards";
+import { changePassword } from "../actions/user.action";
 
-const ChangePasswordForm = ({ location } = {}) => {
+const ChangePasswordForm = () => {
     const form = useRef();
     const checkBtn = useRef();
     const { message } = useSelector(state => state.message);
 
-    const callback = useRef();
     const dispatch = useDispatch();
 
     const [currentPassword, setCurrentPassword] = useState('');
@@ -20,11 +21,6 @@ const ChangePasswordForm = ({ location } = {}) => {
     const [repassword, setRePassword] = useState('');
     const [successful, setSuccessful] = useState(false);
 
-    useEffect(() => {
-        const { params } = location;
-        callback.current = params.callback;
-    }, [location]);
-    
   const onChangeField = (e) => {
     const { name, value } = e.target;
     const fns = {
@@ -43,7 +39,7 @@ const ChangePasswordForm = ({ location } = {}) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(callback.current({
+            dispatch(changePassword({
                 currentPassword, newPassword: password, newPasswordConfirmation: repassword
             })).then(() => {
                 setSuccessful(true);
@@ -55,9 +51,8 @@ const ChangePasswordForm = ({ location } = {}) => {
     return (
         <>
             {successful && false && (<Redirect to='/account' />)}
-            <div className="col-md-12">
-                <div className="card card-container">
-                    <div className="card-body">
+            <Card>
+                    <CardBody>
 
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
@@ -121,9 +116,8 @@ const ChangePasswordForm = ({ location } = {}) => {
                             )}
                             <CheckButton style={{ display: "none" }} ref={checkBtn} />
                         </Form>
-                    </div>
-                </div>
-            </div>
+                    </CardBody>
+            </Card>
         </>);
 };
 
