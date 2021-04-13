@@ -1,7 +1,7 @@
-import authHeader from "./auth-header";
-import axios from "axios";
+import authHeader from './auth-header';
+import axios from 'axios';
 
-const API_URL = "http://localhost:3001/api/";
+const API_URL = 'http://localhost:3001/api/';
 const headers = { headers: authHeader() };
 
 const get = async (path) => axios.get(API_URL + path, headers);

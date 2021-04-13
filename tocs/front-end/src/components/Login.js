@@ -5,7 +5,7 @@ import { Redirect, Link } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
+import { Card, CardBody, CardFooter } from "./Cards";
 import { login } from "../actions/auth.action";
 import { required } from '../utils/utilities';
 
@@ -60,9 +60,8 @@ const Login = (props) => {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-      <div className="card-body">
+    <Card>
+      <CardBody>
         <img
           src="transparent-tree.png"
           alt="profile-img"
@@ -111,17 +110,16 @@ const Login = (props) => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
+      </CardBody>
+      <CardFooter>
+        <div className="">
+          Don't have an account? <Link to={"/register"}>Register</Link>
         </div>
-        <div className="card-footer">
-          <div className="">
-            Don't have an account? <Link to={"/register"}>Register</Link>
-          </div>
-          <div className="">
-            <a href="#123">Forgot your password?</a>
-          </div>
+        <div className="">
+          <a href="#123">Forgot your password?</a>
         </div>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };
 

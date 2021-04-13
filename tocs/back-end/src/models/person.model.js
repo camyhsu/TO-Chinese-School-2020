@@ -40,8 +40,13 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     newChild: Sequelize.VIRTUAL,
   }, {
     hooks: {
-      beforeValidate: (obj) => ['birthYear', 'birthMonth']
-        .reduce((r, current) => Object.assign(r, { [current]: r[current] || null }), obj),
+      beforeValidate: (obj) => {
+        ['birthYear', 'birthMonth']
+          .reduce((r, current) => Object.assign(r, { [current]: r[current] || null }), obj);
+        if (!obj.nativeLanguage) {
+          Object.assign(obj, { nativeLanguage: Person.prototype.nativeLanguages[0] });
+        }
+      },
     },
   });
 
@@ -78,6 +83,14 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       const asParent = await this.findFamiliesAsParent();
       const asChild = await this.findFamiliesAsChild();
       return asParent.concat(asChild);
+    },
+    async isAParentOf(childId) {
+      const sql = `${'SELECT COUNT(*) FROM families,families_children WHERE '
+      + '(families.parent_one_id='}${this.id} OR families.parent_two_id=${this.id}) AND `
+      + `families.id=families_children.family_id AND families_children.child_id=${childId}`;
+
+      const [result] = await sequelize.query(sql);
+      return result[0].count > 0;
     },
     /* TODO Not yet implemented
       def school_age_for(school_year)

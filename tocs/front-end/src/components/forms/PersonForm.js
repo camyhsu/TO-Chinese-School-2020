@@ -1,17 +1,24 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import Select from "react-validation/build/select";
-import CheckButton from "react-validation/build/button";
-import { required } from '../utils/utilities';
+import { useDispatch, useSelector } from 'react-redux';
+import queryString from 'query-string';
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import Select from 'react-validation/build/select';
+import CheckButton from 'react-validation/build/button';
+import { required } from '../../utils/utilities';
+import {
+    getPersonalDetails, savePersonalDetails, addParent, addChild
+} from '../../actions/student-parent.action';
+import { Card, CardBody } from "../Cards";
 
 const PersonForm = ({ location } = {}) => {
     const form = useRef();
     const checkBtn = useRef();
 
+    const [familyId, setFamilyId] = useState(null);
+    const [isParentTwo, setIsParentTwo] = useState(false);
+    const [id, setId] = useState(null);
     const [lastName, setLastName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [chineseName, setChineseName] = useState('');
@@ -19,41 +26,46 @@ const PersonForm = ({ location } = {}) => {
     const [gender, setGender] = useState('F');
     const [birthYear, setBirthYear] = useState('');
     const [birthMonth, setBirthMonth] = useState('');
-    const [title, setTitle] = useState('');
+    const [formTitle, setFormTitle] = useState('');
     const [successful, setSuccessful] = useState(false);
 
     const { message } = useSelector(state => state.message);
     const { redirect } = useSelector(state => state.user);
 
-    const callback = useRef();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const { params } = location;
-        const fn = (v, setter) => v && setter(v);
-        fn(params.lastName, setLastName);
-        fn(params.firstName, setFirstName)
-        fn(params.chineseName, setChineseName)
-        fn(params.nativeLanguage, setNativeLanguage)
-        fn(params.gender, setGender)
-        fn(params.birthYear, setBirthYear)
-        fn(params.birthMonth, setBirthMonth)
+    const fns = useMemo(() => ({
+        'id': setId,
+        'lastName': setLastName,
+        'firstName': setFirstName,
+        'chineseName': setChineseName,
+        'nativeLanguage': setNativeLanguage,
+        'gender': setGender,
+        'birthYear': setBirthYear,
+        'birthMonth': setBirthMonth
+    }), []);
 
-        setTitle(params.title);
-        callback.current = params.callback;
-    }, [location]);
+    useEffect(() => {
+        const { id, familyId, isParentTwo } = queryString.parse(location.search);
+        if (id) {
+            setFormTitle(`Edit ${familyId ? 'Family' : 'Personal'} Details`);
+        } else {
+            setFormTitle(`Add ${isParentTwo ? 'Parent' : 'Child'}`);
+        }
+        
+        setFamilyId(familyId);
+        setIsParentTwo(!!isParentTwo);
+        if (id) {
+            dispatch(getPersonalDetails(id)).then((response) => {
+                if (response && response.data) {
+                    Object.entries(response.data).forEach(([key, value]) => fns[key] && fns[key](value || ''));
+                }
+            });
+        }
+    }, [location.search, dispatch, fns]);
 
     const onChangeField = (e) => {
         const { name, value } = e.target;
-        const fns = {
-            'last-name': setLastName,
-            'first-name': setFirstName,
-            'chinese-name': setChineseName,
-            'native-language': setNativeLanguage,
-            'gender': setGender,
-            'birth-year': setBirthYear,
-            'birth-month': setBirthMonth
-        };
         fns[name](value);
     };
 
@@ -65,10 +77,14 @@ const PersonForm = ({ location } = {}) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(callback.current({
+            const obj = {
                 lastName, firstName, chineseName, nativeLanguage, gender,
                 birthYear, birthMonth
-            })).then(() => {
+            };
+            dispatch(
+                id ? savePersonalDetails(id, obj) 
+                : (isParentTwo ? addParent(familyId, obj) : addChild(familyId, obj))
+            ).then(() => {
                 setSuccessful(true);
             }).catch(() => {
                 setSuccessful(false);
@@ -79,22 +95,21 @@ const PersonForm = ({ location } = {}) => {
     return (
         <>
             {successful && (<Redirect to={redirect} />)}
-            <div className="col-md-12">
-                <div className="card card-container--large">
-                    <div className="card-body">
+            <Card size="large">
+                    <CardBody>
 
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>{title}</h4>
+                                    <h4>{formTitle}</h4>
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="last-name">English Last Name</label>
+                                            <label htmlFor="lastName">English Last Name</label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="last-name"
+                                                name="lastName"
                                                 value={lastName}
                                                 onChange={onChangeField}
                                                 validations={[required]}
@@ -102,11 +117,11 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="first-name">English First Name</label>
+                                            <label htmlFor="firstName">English First Name</label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="first-name"
+                                                name="firstName"
                                                 value={firstName}
                                                 onChange={onChangeField}
                                                 validations={[required]}
@@ -116,21 +131,21 @@ const PersonForm = ({ location } = {}) => {
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="chinese-name">Chinese Name <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="chineseName">Chinese Name <span className="text-muted"><small>(Optional)</small></span></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="chinese-name"
+                                                name="chineseName"
                                                 value={chineseName}
                                                 onChange={onChangeField}
                                             />
                                         </div>
 
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="native-language">Native Language <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="nativeLanguage">Native Language <span className="text-muted"><small>(Optional)</small></span></label>
                                             <Select
                                                 className="form-control"
-                                                name="native-language"
+                                                name="nativeLanguage"
                                                 value={nativeLanguage}
                                                 onChange={onChangeField}>
                                                 <option value='Mandarin'>Mandarin</option>
@@ -156,21 +171,21 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-4 mb-3">
-                                            <label htmlFor="birth-year">Birth Year <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="birthYear">Birth Year <span className="text-muted"><small>(Optional)</small></span></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="birth-year"
+                                                name="birthYear"
                                                 value={birthYear}
                                                 onChange={onChangeField}
                                             />
                                         </div>
 
                                         <div className="form-group col-md-4 mb-3">
-                                            <label htmlFor="birth-month">Birth Month <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="birthMonth">Birth Month <span className="text-muted"><small>(Optional)</small></span></label>
                                             <Select
                                                 className="form-control"
-                                                name="birth-month"
+                                                name="birthMonth"
                                                 value={birthMonth}
                                                 onChange={onChangeField}>
                                                 <option value=''></option>
@@ -207,9 +222,8 @@ const PersonForm = ({ location } = {}) => {
                             )}
                             <CheckButton style={{ display: "none" }} ref={checkBtn} />
                         </Form>
-                    </div>
-                </div>
-            </div>
+                    </CardBody>
+            </Card>
         </>
     );
 };

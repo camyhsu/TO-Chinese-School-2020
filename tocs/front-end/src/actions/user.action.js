@@ -1,14 +1,14 @@
 import {
-    SAVE_PERSON_SUCCESS,
+    ACTION_SUCCESS,
     SET_MESSAGE,
-  } from "./types";
+  } from './types';
 
-import UserService from "../services/user.service";
+import UserService from '../services/user.service';
 
 const commonFn = (p, dispatch) => p.then(
     (response) => {
       dispatch({
-        type: SAVE_PERSON_SUCCESS,
+        type: ACTION_SUCCESS,
         payload: '/home'
       });
       console.log(response && ((response.data && response.data.message) || response.data));
@@ -37,14 +37,10 @@ const commonFn = (p, dispatch) => p.then(
 
 const savePerson = (personId, obj) => (dispatch) => commonFn(UserService.savePerson(personId, obj), dispatch);
 
-const savePersonAddress = (personId, obj) => (dispatch) => commonFn(UserService.savePersonAddress(personId, obj), dispatch);
-
-const saveFamilyAddress = (familyId, obj) => (dispatch) => commonFn(UserService.saveFamilyAddress(familyId, obj), dispatch);
-
 const addParent = (familyId, obj) => (dispatch) => commonFn(UserService.addParent(familyId, obj), dispatch);
 
 const addChild = (familyId, obj) => (dispatch) => commonFn(UserService.addChild(familyId, obj), dispatch);
 
 const changePassword = (obj) => (dispatch) => commonFn(UserService.changePassword(obj), dispatch);
 
-export { savePerson, savePersonAddress, saveFamilyAddress, addParent, addChild, changePassword }
+export { savePerson, addParent, addChild, changePassword }
