@@ -32,7 +32,6 @@ is done continuously, the first step does not have to be repeated.
       ```shell
       apt-get update
       apt-get upgrade
-      apt autoremove
       ```
 
 2. Install the Ubuntu package for Apache web server:
@@ -84,7 +83,6 @@ is done continuously, the first step does not have to be repeated.
        ```shell
        apt-get update
        apt-get upgrade
-       apt autoremove
        ```
 
 2. Install the Ubuntu package for PostgreSQL:
@@ -147,7 +145,6 @@ Ubuntu role user the same on the new server so that we can import the backup dum
        ```shell
        apt-get update
        apt-get upgrade
-       apt autoremove
        ```
 
 2. Add the Ubuntu user with default settings:
@@ -276,7 +273,6 @@ Ubuntu 20.04 LTS.
       ```shell
       apt-get update
       apt-get upgrade
-      apt autoremove
       ```
 
 2. Install RVM and Ruby:
@@ -387,9 +383,14 @@ Ubuntu 20.04 LTS.
       cd /opt
       cp /root/backup/passenger-6.0.8.tar.gz .
       tar zxvf passenger-6.0.8.tar.gz
+      chown -R root:root passenger-6.0.8
+      chmod -R g-w passenger-6.0.8
       rm passenger-6.0.8.tar.gz
       ```
       Note that your home directory could be different.
+      Also note that changing the ownership and permissions for the passenger directory as described in the commands 
+      is important.  Passenger will refuse to run if the permissions are not tied down due to the security risks of 
+      allowing non-root users to access / modify the passenger binary.
    4. Add Passenger binaries to shell PATH by editing **/etc/bash.bashrc** and add the following lines at the end of 
       the file:
       ```shell
@@ -448,12 +449,12 @@ Ubuntu 20.04 LTS.
 
 1. Create the application directory under **/var/www**:
    1. Connect as your user then change to the root user:
-      `gcloud compute ssh registration-wp-west1-b-1`
-   2. After connected, change to root user:
-      ```shell
-      sudo -u root -H bash --login
-      cd
-      ```
+      1. `gcloud compute ssh registration-wp-west1-b-1`
+      2. After connected, change to root user:
+         ```shell
+         sudo -u root -H bash --login
+         cd
+         ```
    3. Create the directory **/var/www/registration** and change the ownership to tocsorg_registration:
       ```shell
       mkdir /var/www/registration
@@ -514,14 +515,117 @@ Ubuntu 20.04 LTS.
             cp authorize.net.root.ca.20180307.pem /var/www/registration/vendor/bundle/ruby/1.9.1/gems/active_utils-2.2.3/lib/certs/cacert.pem
             mv authorize.net.root.ca.20180307.pem production/
             ```
-   6. (Continue in the tocsorg_registration user session) update database config to put in the new production database 
-      credential and keep a backup of it:
+   6. (Continue in the tocsorg_registration user session) update gems to fix the compatibility issue between old Rails 
+      version and the newer PostgreSQL 12.  Edit the file 
+      **/var/www/registration/vendor/bundle/ruby/1.9.1/gems/activerecord-3.2.13/lib/active_record/connection_adapters/postgresql_adapter.rb**
+      and replace *panic* with *warning* at line 384.
+   7. Update database config to put in the new production database credential and keep a backup of it:
       ```shell
       vi /var/www/registration/config/database.yml
       cp /var/www/registration/config/database.yml /home/tocsorg_registration/backup/production/
       ```
-   7. Update SMTP config for the production environment to use the Google Workspace
-   
+   8. Update SMTP config for the production environment to use the Google Workspace relay service:
+      ```shell
+      vi /var/www/registration/config/environments/production.rb
+      cp /var/www/registration/config/environments/production.rb /home/tocsorg_registration/backup/production/
+      ```
+   9. Update the following files to change hardcoded URL parts from **https://www.to-cs.org/chineseschool/** to 
+      **https://register.to-cs.org/**:
+      ```text
+      /var/www/registration/app/mailers/signin_mailer.rb
+      /var/www/registration/app/views/signin_mailer/forgot_password.text.erb
+      /var/www/registration/app/views/signin_mailer/account_invitation.text.erb
+      /var/www/registration/app/views/withdrawal_mailer/registration_notification.html.erb
+      /var/www/registration/app/views/withdrawal_mailer/accounting_notification.html.erb
+      /var/www/registration/app/views/withdrawal_mailer/student_parent_notification.html.erb
+      /var/www/registration/app/views/receipt_mailer/payment_confirmation.html.erb
+      ```
+      These changes should be committed to the code repo after the server cut-over so that the changes become permenant.
+
+3. Setup the Apache configuration for the site, including SSL certificates:
+   1. Connect as your user then change to the root user:
+      1. `gcloud compute ssh registration-wp-west1-b-1`
+      2. After connected, change to root user:
+         ```shell
+         sudo -u root -H bash --login
+         cd
+         ```
+   2. Create the file **/etc/apache2/sites-available/registration.conf** with the following content:
+      ```text
+      <VirtualHost *:80>
+          ServerName register.to-cs.org
+
+          ServerAdmin engineering@to-cs.org
+
+          # Tell Apache and Passenger where your app's 'public' directory is
+          DocumentRoot /var/www/registration/public
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+          PassengerRuby /home/tocsorg_registration/.rvm/gems/ruby-1.9.3-p551/wrappers/ruby
+
+          # Relax Apache security settings
+          <Directory /var/www/registration/public>
+              Allow from all
+              Options -MultiViews
+              Require all granted
+          </Directory>
+      </VirtualHost>
+      ```
+      This is this based on the instructions from Passenger installation guide and contains the minimum configuration 
+      of a plain HTTP site mapped to the registration system code.
+   3. Enable this new site configuration:
+      ```shell
+      a2ensite registration
+      apache2ctl restart
+      ```
+   4. Install *snap* and *certbot* and enable secured site with valid SSL certificates:
+      1. Install *snap*, which is a cross-platform app packaging and delivery mechanism:
+         ```shell
+         snap install core
+         snap refresh core
+         ```
+         Note that the *snapd* daemon, which is required, is already part of the base Ubuntu 20.04 LTS.
+      2. Install *certbot*:
+         ```shell
+         snap install --classic certbot
+         ln -s /snap/bin/certbot /usr/bin/certbot
+         ```
+         *Certbot* is an app to automatically create and manage renewal of valid SSL certificates with
+         the *Let's Encrypt* project.  See <https://letsencrypt.org/> for more information on the *Let's Encrypt* 
+         project, and <https://certbot.eff.org/> for more information about *certbot* from the *Electronic Frontier 
+         Foundation*.
+      3. Run *certbot* to setup the secured site:
+         ```shell
+         certbot --apache
+         ```
+         This command runs through a text-based interactive session to collect information and other legal stuffs, 
+         during which I agreed to the Terms of Service at 
+         <https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf> and registered the email address 
+         *engineering@to-cs.org* with the *Electronic Frontier Foundation*.  Then the command modified the site config 
+         **/etc/apache2/sites-enabled/registration.conf** and then generated a new secured site config 
+         **/etc/apache2/sites-available/registration-le-ssl.conf** and enabled them.  It also setup a system timer 
+         task to check and automatically renew the certificates when needed.  This timer task can be seen with the 
+         command `systemctl list-timers` and a renewal dry-run can be emulated with `certbot renew --dry-run`.
+   5. Backup the generated Apache site config:
+      ```shell
+      cd /root/backup
+      mkdir apache-config
+      cp /etc/apache2/sites-available/registration* apache-config/
+      ```
+      
+4. Test the registration system on the new server.  Everything should work at this point, including plain HTTP 
+      connection attempts would be forced redirect to HTTPS connections.
+         
+
+
+
+
+
+
+
+
 
 
 
