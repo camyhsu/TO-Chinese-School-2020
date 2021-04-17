@@ -127,7 +127,7 @@ is done continuously, the first step does not have to be repeated.
       `\q`
       
 
-## Registration system setup
+## Registration application setup
 
 ### Role users in Ubuntu and PostgreSQL
 
@@ -207,14 +207,16 @@ Before we import the backup dump from the old server, we have to create the data
 5. Disconnect from the PostgreSQL server:
    `q`
 
-### Importing database backup for the registration system
+### Importing database backup for the registration application
 
 The old server on bluehost was running PostgreSQL 9.2.24 on CentOS 7.  The new server is running PostgreSQL 12.6 on 
 Ubuntu 20.04 LTS.
 
 1. In the local client session, scp a registration database backup to the new server from the local client session
    (example command):
-   `gcloud compute scp registration202104010400.sql.gz registration-wp-west1-b-1:~/`
+   ```shell
+   gcloud compute scp registration202104010400.sql.gz registration-wp-west1-b-1:~/
+   ```
 
 2. Connect as your user then change to the tocsorg_registration user:
    1. `gcloud compute ssh registration-wp-west1-b-1`
@@ -464,7 +466,9 @@ Ubuntu 20.04 LTS.
 2. Setup a copy of the registration application code:
    1. In the local client session, scp a tarball backup of the registration application code to the new server from 
       the local client session (example command):
-      `gcloud compute scp chineseschool20210407.tar.gz registration-wp-west1-b-1:~/`
+      ```shell
+      gcloud compute scp chineseschool20210407.tar.gz registration-wp-west1-b-1:~/
+      ```
    2. In the root user session, move the tarball to the user tocsorg_registration:
       ```shell
       cd /root/backup
@@ -540,7 +544,7 @@ Ubuntu 20.04 LTS.
       /var/www/registration/app/views/withdrawal_mailer/student_parent_notification.html.erb
       /var/www/registration/app/views/receipt_mailer/payment_confirmation.html.erb
       ```
-      These changes should be committed to the code repo after the server cut-over so that the changes become permenant.
+      These changes have been committed to the code repo so that the changes are now permanent.
 
 3. Setup the Apache configuration for the site, including SSL certificates:
    1. Connect as your user then change to the root user:
@@ -574,7 +578,7 @@ Ubuntu 20.04 LTS.
       </VirtualHost>
       ```
       This is this based on the instructions from Passenger installation guide and contains the minimum configuration 
-      of a plain HTTP site mapped to the registration system code.
+      of a plain HTTP site mapped to the registration application code.
    3. Enable this new site configuration:
       ```shell
       a2ensite registration
@@ -614,19 +618,193 @@ Ubuntu 20.04 LTS.
       mkdir apache-config
       cp /etc/apache2/sites-available/registration* apache-config/
       ```
+   6. Disable the default sites in Apache and leave only the registration sites active:
+      ```shell
+      a2dissite 000-default
+      a2dissite default-ssl
+      apache2ctl restsart
+      ```
       
-4. Test the registration system on the new server.  Everything should work at this point, including plain HTTP 
-      connection attempts would be forced redirect to HTTPS connections.
-         
+4. Test the registration application on the new server.  Everything should work at this point, including plain HTTP 
+   connection attempts would be forced redirect to HTTPS connections.
 
+## Registration application live production cut-over
 
+### Setup the splash site on the new server
 
+1. Connect as your user then change to the root user:
+   1. `gcloud compute ssh registration-wp-west1-b-1`
+   2. After connected, change to root user:
+      ```shell
+      sudo -u root -H bash --login
+      cd
+      ```
+   3. Run system update (this should be done periodically):
+      ```shell
+      apt-get update
+      apt-get upgrade
+      ```
 
+2. Create the splash site for the registration application on the new server and activate it.  This can be used in the 
+   future when we update the registration application on the new server.
+   1. Make a copy of the needed files from the default site content to a new directory:
+      ```shell
+      cd /var/www
+      mkdir registration-splash
+      cp html/index.html registration-splash/
+      cp html/*.png registration-splash/
+      ```
+   2. Copy the site config from the registration pair and modify them to change the *DocumentRoot* to the new 
+      directory and remove Passenger related lines:
+      ```shell
+      cd /etc/apache2/sites-available/
+      cp registration.conf registration-splash.conf
+      cp registration-le-ssl.conf registration-splash-ssl.conf
+      vi registration-splash.conf
+      vi registration-splash-ssl.conf
+      cp registration-splash* /root/backup/apache-config/
+      ```
+      The last line is to backup the new config files to the root home directory.
+   3. Disable the registration application sites and enable the splash sites:
+      ```shell
+      a2dissite registration
+      a2dissite registration-le-ssl
+      a2ensite registration-splash
+      a2ensite registration-splash-ssl
+      apache2ctl restart
+      ```
 
+### Turn on the splash site on the old server and grab a copy of the latest data
 
+1. Connect to the old server and activate the splash site there:
+   ```shell
+   ssh tocsorg@to-cs.org
+   rm /home/tocsorg/public_html/chineseschool
+   ln -s /home/tocsorg/public_html/chineseschool-splash /home/tocsorg/public_html/chineseschool
+   ```
 
+2. Because there is no changes in the application code since I grab a copy on 2021-04-07 to setup the first copy on 
+   the new server, we don't have to update the application code again.  This can be verified by the following commands:
+   ```shell
+   cd /home/tocsorg/chineseschool
+   find . -type f -mtime -10
+   ```
+   The command would output the list of files modified within the last 10 days (it is 2021-04-16 now when I perform 
+   the production cut-over.)  We can see that only the production log file has been modified, due to the production 
+   traffic.
+   
+3. Make a final backup of the production log:
+   ```shell
+   cp /home/tocsorg/chineseschool/log/production.log /home/tocsorg/camyhsu_backup/prod_log/production.log.20210416
+   ```
 
+4. Generate a new database backup of the registration application:
+   ```shell
+   cd /home/tocsorg/prod_db_dump
+   ./dump_prod_db.sh
+   ```
+   The script will generate database backups for both the registration application and the WordPress site.
+   
+5. In the local client session, scp the database backup for the registration application to the local machine:
+   ```shell
+   scp tocsorg@to-cs.org:/home/tocsorg/prod_db_dump/registration202104162147.sql.gz .
+   ```
 
+### Update the data and turn off the splash sites on the new server
+
+1. In the local client session, scp the latest database backup to the new server from the local client session:
+   ```shell
+   gcloud compute scp registration202104162147.sql.gz registration-wp-west1-b-1:~/
+   ```
+
+2. Connect as your user then change to the tocsorg_registration user:
+   1. `gcloud compute ssh registration-wp-west1-b-1`
+   2. After connected, change to tocsorg_registration user:
+      ```shell
+      sudo -u tocsorg_registration -H bash --login
+      cd
+      ```
+
+3. Copy over the backup and unpack it:
+   ```shell
+   cd backup
+   cp /home/engineering1/registration202104162147.sql.gz .
+   gunzip registration202104162147.sql.gz
+   ```
+   Note that your home directory and the backup file name could be different.
+
+4. Replace the data in the database with the latest backup:
+   1. Connect to the PostgreSQL server:
+      `psql template1`
+   2. Drop the existing database:
+      ```sql
+      DROP DATABASE registration;
+      ```
+   3. Create a new empty database:
+      ```sql
+      CREATE DATABASE registration OWNER tocsorg_registration TEMPLATE template0 
+      ENCODING 'UTF8' LC_COLLATE 'en_US.UTF8' LC_CTYPE 'en_US.UTF8';
+      ```
+   4. Connect to the new (currently empty) registration database:
+      ```sql
+      \c registration;
+      ```
+   5. Import the latest backup:
+      ```sql
+      \i /home/tocsorg_registration/backup/registration202104162147.sql;
+      ```
+      Note that there will be a bunch of error messages complaining about role *tocsorg_dump* does not exist like this:
+      ```text
+      psql:/home/tocsorg_registration/backup/registration202104010400.sql:76674: ERROR:  role "tocsorg_dump" does not exist
+      ```
+      It is safe to ignore these error messages about the role *tocsorg_dump*.  It was a database role on the old server
+      specifically setup to take a daily backup dump.  The PostgreSQL authentication security is setup differently on
+      the new server (since we have more freedom here and I followed a more typical default settings allowing local
+      UNIX peer authentication) so that this dump role is no longer needed on the new server.
+   6. Poke around and see expected data in the database.
+   7. Disconnect from the PostgreSQL server:
+      `\q`
+
+5. Clean up the backup file in the home directory:
+   ```shell
+   exit
+   cd
+   rm registration202104162147.sql.gz
+   ```
+
+6. Change to root user and turn off the splash sites:
+   ```shell
+   sudo -u root -H bash --login
+   cd
+   a2dissite registration-splash
+   a2dissite registration-splash-ssl
+   a2ensite registration
+   a2ensite registration-le-ssl
+   apache2ctl restart
+   ```
+   At this point, the registration application is up and running on the new server with the latest data.
+
+### Setup redirect on the old server to point to the new server
+
+1. Connect to the old server and kill the splash site there:
+   ```shell
+   ssh tocsorg@to-cs.org
+   rm /home/tocsorg/public_html
+   rm chineseschool
+   ```
+
+2. Create a new *chineseschool* directory and put a redirect config in the **.htaccess** file:
+   ```shell
+   mkdir chineseschool
+   cd chineseschool
+   vi .htaccess
+   ```
+   The **.htaccess** file should contain the following line:
+   ```text
+   Redirect 301 /chineseschool https://register.to-cs.org
+   ```
+
+3. Test in the browser to make sure it works.  Then we can leave the old server: `exit`
 
 
 
