@@ -8,6 +8,42 @@ export default (router) => {
   );
 
   router.get(
+    '/admin/school_classes/index',
+    [],
+    controller.getSchoolClasses,
+  );
+
+  router.get(
+    '/admin/school_classes/active',
+    [],
+    controller.getActiveSchoolClassesForCurrentNextSchoolYear,
+  );
+
+  router.get(
+    '/admin/school_classes/edit',
+    [],
+    controller.getSchoolClass,
+  );
+
+  router.put(
+    '/admin/school_classes/edit',
+    [],
+    controller.saveSchoolClass,
+  );
+
+  router.post(
+    '/admin/school_classes/new',
+    [],
+    controller.addSchoolClass,
+  );
+
+  router.put(
+    '/admin/school_classes/toggle_active',
+    [],
+    controller.toggleActiveSchoolClass,
+  );
+
+  router.get(
     '/admin/school_years/index',
     [],
     controller.getSchoolYears,

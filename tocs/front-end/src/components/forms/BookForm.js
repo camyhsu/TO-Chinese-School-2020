@@ -8,9 +8,9 @@ import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
 import Textarea from 'react-validation/build/textarea';
 import CheckButton from 'react-validation/build/button';
-import { Card, CardBody } from "../Cards";
+import { Card, CardBody, CardTitle } from "../Cards";
 
-import { required } from '../../utils/utilities';
+import { required, OptionalField } from '../../utils/utilities';
 import { addLibraryBook, saveLibraryBook, getLibraryBook } from '../../actions/librarian.action';
 
 const BookForm = ({ location } = {}) => {
@@ -84,7 +84,7 @@ const BookForm = ({ location } = {}) => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>{formTitle}</h4>
+                                    <CardTitle>{formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">
@@ -102,7 +102,7 @@ const BookForm = ({ location } = {}) => {
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">
-                                            <label htmlFor="description">Description <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="description">Description <OptionalField/></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
@@ -142,7 +142,7 @@ const BookForm = ({ location } = {}) => {
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">
-                                            <label htmlFor="note">Note <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="note">Note <OptionalField/></label>
                                             <Textarea
                                                 className="form-control"
                                                 name="note"

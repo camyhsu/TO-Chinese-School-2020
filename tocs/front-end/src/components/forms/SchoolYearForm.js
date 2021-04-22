@@ -8,8 +8,8 @@ import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
 import { addSchoolYear, saveSchoolYear, getSchoolYear } from '../../actions/registration.action';
 
-import { decimal, required } from '../../utils/utilities';
-import { Card, CardBody } from "../Cards";
+import { decimal, required, OptionalField } from '../../utils/utilities';
+import { Card, CardBody, CardTitle } from "../Cards";
 
 const SchoolYearForm = ({ location } = {}) => {
     const form = useRef();
@@ -123,7 +123,7 @@ const SchoolYearForm = ({ location } = {}) => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>{formTitle}</h4>
+                                    <CardTitle>{formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">
@@ -138,7 +138,7 @@ const SchoolYearForm = ({ location } = {}) => {
                                             />
                                         </div>
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="description">Description <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="description">Description <OptionalField/></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"

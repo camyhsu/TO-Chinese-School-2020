@@ -3,7 +3,7 @@ import Table from '../Table';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
 import { formatPersonNames } from '../../utils/utilities';
-import { Card, CardBody } from "../Cards";
+import { Card, CardBody, CardTitle } from "../Cards";
 
 const ManageStaffAssignment = ({ location } = {}) => {
     const [content, setContent] = useState({ error: null, isLoaded: false, items: [] });
@@ -36,7 +36,7 @@ const ManageStaffAssignment = ({ location } = {}) => {
     return (
         <Card size="flex">
             <CardBody>
-                {content.schoolYear && (<h4>Staff Assignments for {content.schoolYear.name}</h4>)}
+                {content.schoolYear && (<CardTitle>Staff Assignments for {content.schoolYear.name}</CardTitle>)}
                 <Table header={header} items={content.items} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
             </CardBody>
         </Card>

@@ -3,7 +3,7 @@ import db from '../models/index.js';
 
 const { Op } = Sequelize;
 const {
-  Grade, SchoolYear, StaffAssignment, Person,
+  Grade, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, Person,
 } = db;
 
 const dollarFields = [
@@ -19,6 +19,45 @@ const dollarFields = [
 
 export default {
   getGrades: async () => Grade.findAll(),
+  getSchoolClasses: async () => SchoolClass.findAll({ include: [{ model: Grade, as: 'grade' }] }),
+  getSchoolClass: async (id) => SchoolClass.getById(id),
+  getActiveSchoolClassesForCurrentNextSchoolYear:
+    async () => SchoolClass.getActiveSchoolClassesForCurrentNextSchoolYear(),
+  saveSchoolClass: async (id, obj) => {
+    const schoolClass = await SchoolClass.getById(id);
+    if (!obj.minAge) {
+      Object.assign(obj, { minAge: null });
+    }
+    if (!obj.maxAge) {
+      Object.assign(obj, { maxAge: null });
+    }
+    Object.assign(schoolClass, obj);
+    await schoolClass.save();
+  },
+  toggleActiveSchoolClass: async (id, schoolYearId, active) => {
+    const schoolClass = await SchoolClass.getById(id);
+    await schoolClass.flipActiveTo(schoolYearId, active);
+    return `ActiveSchoolClass updated ${id} ${schoolYearId}`;
+  },
+  addSchoolClass: async (obj) => {
+    if (!obj.minAge) {
+      Object.assign(obj, { minAge: null });
+    }
+    if (!obj.maxAge) {
+      Object.assign(obj, { maxAge: null });
+    }
+    if (!obj.gradeId) {
+      Object.assign(obj, { gradeId: null });
+    }
+    const schoolClass = await SchoolClass.create(obj);
+    const schoolYears = await SchoolYear.findCurrentAndFutureSchoolYears();
+    const promises = schoolYears.map(async (schoolYear) => {
+      const s = await SchoolClassActiveFlag.create();
+      await s.setSchoolClass(schoolClass.id);
+      await s.setSchoolYear(schoolYear.id);
+    });
+    Promise.all(promises);
+  },
   getSchoolYears: async () => SchoolYear.findAll(),
   getSchoolYear: async (id) => {
     const schoolYear = await SchoolYear.getById(id);
@@ -30,9 +69,7 @@ export default {
   saveSchoolYear: async (id, obj) => {
     const schoolYear = await SchoolYear.getById(id);
     Object.assign(schoolYear, obj);
-    dollarFields.forEach((s) => {
-      schoolYear[s] = obj[s.replace('InCents', '')] * 100;
-    });
+    dollarFields.forEach((s) => { schoolYear[s] = obj[s.replace('InCents', '')] * 100; });
     await schoolYear.save();
   },
   toggleAutoClassAssignment: async (id) => {
@@ -45,10 +82,7 @@ export default {
   getStaffAssignment: async (id) => {
     const schoolYear = await SchoolYear.getById(id);
     const staffAssignments = await StaffAssignment.findAll({
-      include: [{
-        model: Person,
-        as: 'person',
-      }],
+      include: [{ model: Person, as: 'person' }],
       where: { schoolYearId: { [Op.eq]: id } },
     });
     return { schoolYear, staffAssignments };

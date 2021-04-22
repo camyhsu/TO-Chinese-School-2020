@@ -2,7 +2,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({
     withId: true,
     withStrings: ['role'],
-    withDates: [['startDate', 'start_date'], ['endDate', 'end_date']],
+    withDates: [['startDate', 'start_date', true], ['endDate', 'end_date', true]],
   });
   const StaffAssignment = sequelize.define('staff_assignment', {
     ...fields,

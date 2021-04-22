@@ -2,6 +2,18 @@ import dataService from './data.service';
 
 const getGrades = () => dataService.get('admin/grades/index');
 
+const getSchoolClasses = () => dataService.get('admin/school_classes/index');
+
+const getActiveSchoolClassesForCurrentNextSchoolYear = () => dataService.get('admin/school_classes/active');
+
+const getSchoolClass = (schoolYearId) => dataService.get('admin/school_classes/edit?id=' + schoolYearId);
+
+const saveSchoolClass = (schoolYearId, obj) => dataService.put('admin/school_classes/edit?id=' + schoolYearId, obj);
+
+const addSchoolClass = (obj) => dataService.post('admin/school_classes/new', obj);
+
+const toggleActiveSchoolClass = (id, schoolYearId, active) => dataService.put(`admin/school_classes/toggle_active?id=${id}&schoolYearId=${schoolYearId}&active=${active}`);
+
 const getSchoolYears = () => dataService.get('admin/school_years/index');
 
 const getSchoolYear = (schoolYearId) => dataService.get('admin/school_years/edit?id=' + schoolYearId);
@@ -17,8 +29,10 @@ const getManageStaffAssignments = () => dataService.get('admin/staff_assignments
 const getManageStaffAssignment = (id) => dataService.get('admin/staff_assignments/show?id=' + id);
 
 const obj = {
-    getGrades, getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment,
-    getManageStaffAssignments, getManageStaffAssignment
+    getGrades, 
+    getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass,
+    getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment,
+    getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear
 };
 
 export default obj;

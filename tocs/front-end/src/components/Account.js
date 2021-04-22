@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { changePassword } from "../actions/user.action";
+import { BiPencil } from "../utils/utilities";
 import { Card, CardBody, CardFooter } from "./Cards";
 
 const Profile = () => {
@@ -26,7 +26,7 @@ const Profile = () => {
           <CardFooter>
             <div className="row text-truncate">
               <div className="col-md-5 mb-md-0">
-                <Link to="/change-password-form" className="btn btn-light"><i className="bi-pencil"></i> Change Password</Link>
+                <Link to="/change-password-form" className="btn btn-light"><BiPencil/> Change Password</Link>
               </div>
             </div>
           </CardFooter>

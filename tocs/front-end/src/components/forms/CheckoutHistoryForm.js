@@ -10,8 +10,8 @@ import CheckButton from 'react-validation/build/button';
 import Table from '../Table';
 import LibrarianService from '../../services/librarian.service';
 import { checkOutLibraryBook, returnLibraryBook } from '../../actions/librarian.action';
-import { formatPersonNames, yesOrNo, required, today } from '../../utils/utilities';
-import { Card, CardBody } from "../Cards";
+import { formatPersonNames, yesOrNo, required, today, OptionalField } from '../../utils/utilities';
+import { Card, CardBody, CardTitle } from "../Cards";
 
 const CheckoutHistoryForm = ({ location } = {}) => {
     const form = useRef();
@@ -116,7 +116,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
                 <>
                     <Card size="large">
                         <CardBody>
-                            <h4>Library Book Checkout History</h4>
+                            <CardTitle>Library Book Checkout History</CardTitle>
                             <dl className="row">
                                 <dt className="col-12 col-md-4 text-left text-md-right">Book Id:</dt>
                                 <dd className="col-12 col-md-8 text-left border-bottom border-md-bottom-0">{book.id}</dd>
@@ -147,7 +147,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
                             <Form onSubmit={handleSave} ref={form}>
                                 {!successful && (
                                     <div>
-                                        <h4>{book.checkedOut ? 'Returning' : 'Checking Out'} This Book</h4>
+                                        <CardTitle>{book.checkedOut ? 'Returning' : 'Checking Out'} This Book</CardTitle>
                                         {!book.checkedOut && (<div className="row">
                                             <div className="form-group col-md-12 mb-3">
                                                 <Select
@@ -155,7 +155,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
                                                     name="checkedOutBy"
                                                     value={checkedOutBy}
                                                     onChange={onChangeField}>
-                                                    {eligibleCheckoutPeople.map(p => (<option key={`p-${p.id}`} value={p.id}>{p.name}</option>))}
+                                                    {eligibleCheckoutPeople.map(p => (<option key={`p-${p.id}`} value={p.id}>{formatPersonNames(p)}</option>))}
                                                 </Select>
                                             </div>
                                         </div>)}
@@ -175,7 +175,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
 
                                         <div className="row">
                                             <div className="form-group col-md-12 mb-3">
-                                                <label htmlFor="note">Note <span className="text-muted"><small>(Optional)</small></span></label>
+                                                <label htmlFor="note">Note <OptionalField/></label>
                                                 <Textarea
                                                     className="form-control"
                                                     name="note"
@@ -206,7 +206,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
                     </Card>
                     <Card size="large">
                         <CardBody>
-                            <h4>Checkout History</h4>
+                            <CardTitle>Checkout History</CardTitle>
                             <Table header={header} items={checkouts} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
                         </CardBody>
                     </Card>

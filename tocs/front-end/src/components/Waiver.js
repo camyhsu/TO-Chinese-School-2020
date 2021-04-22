@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, CardBody } from "./Cards";
+import { Card, CardBody, CardTitle } from "./Cards";
 
 const Waiver = () => {
     useEffect(() => { document.title = "TOCS - Waiver"; }, []);
@@ -7,7 +7,7 @@ const Waiver = () => {
     return (
         <Card size="large">
             <CardBody>
-                    <h5 className="card-title">Consent, Release, Indemnification and Assumption of Risk</h5>
+                    <CardTitle>Consent, Release, Indemnification and Assumption of Risk</CardTitle>
 
                     <p>
                         I(we), the parent(s) of xxx request that our child/children,

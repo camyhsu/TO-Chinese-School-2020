@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, CardBody } from "./Cards";
+import { Card, CardBody, CardTitle } from "./Cards";
 
 const Contact = () => {
     useEffect(() => { document.title = "TOCS - Contact Us"; }, []);
@@ -7,7 +7,7 @@ const Contact = () => {
     return (
         <Card size="large">
                 <CardBody>
-                <h5 className="card-title">Thousand Oaks Chinese School could be contacted through the following ways:</h5>
+                <CardTitle>Thousand Oaks Chinese School could be contacted through the following ways:</CardTitle>
                 <ul>
                     <li>Web Site: <a href="http://www.to-cs.org">http://www.to-cs.org</a></li>
                     <li>By Mail: P.O. Box 6775, Thousand Oaks, CA 91362</li>

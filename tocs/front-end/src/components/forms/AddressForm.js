@@ -6,9 +6,9 @@ import queryString from 'query-string';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
-import { Card, CardBody } from "../Cards";
+import { Card, CardBody, CardTitle } from "../Cards";
 
-import { required, validEmail } from '../../utils/utilities';
+import { required, validEmail, OptionalField } from '../../utils/utilities';
 import {
     getPersonalAddress, getFamilyAddress, saveFamilyAddress, savePersonalAddress, addPersonalAddress
 } from '../../actions/student-parent.action';
@@ -98,7 +98,7 @@ const PersonForm = ({ location } = {}) => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>{formTitle}</h4>
+                                    <CardTitle>{formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">
@@ -166,7 +166,7 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="cellPhone">Cell Phone <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="cellPhone">Cell Phone <OptionalField/></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"

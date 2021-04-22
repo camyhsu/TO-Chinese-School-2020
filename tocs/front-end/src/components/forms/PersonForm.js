@@ -6,11 +6,11 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
-import { required } from '../../utils/utilities';
+import { required, OptionalField } from '../../utils/utilities';
 import {
     getPersonalDetails, savePersonalDetails, addParent, addChild
 } from '../../actions/student-parent.action';
-import { Card, CardBody } from "../Cards";
+import { Card, CardBody, CardTitle } from "../Cards";
 
 const PersonForm = ({ location } = {}) => {
     const form = useRef();
@@ -101,7 +101,7 @@ const PersonForm = ({ location } = {}) => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>{formTitle}</h4>
+                                    <CardTitle>{formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">
@@ -131,7 +131,7 @@ const PersonForm = ({ location } = {}) => {
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="chineseName">Chinese Name <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="chineseName">Chinese Name <OptionalField/></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
@@ -142,7 +142,7 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="nativeLanguage">Native Language <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="nativeLanguage">Native Language <OptionalField/></label>
                                             <Select
                                                 className="form-control"
                                                 name="nativeLanguage"
@@ -171,7 +171,7 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-4 mb-3">
-                                            <label htmlFor="birthYear">Birth Year <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="birthYear">Birth Year <OptionalField/></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
@@ -182,7 +182,7 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-4 mb-3">
-                                            <label htmlFor="birthMonth">Birth Month <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="birthMonth">Birth Month <OptionalField/></label>
                                             <Select
                                                 className="form-control"
                                                 name="birthMonth"
