@@ -9,10 +9,12 @@ const ViewLibraryBooks = () => <Link to={{
     }
 }}>View Library Books</Link>;
 
-const ListAllGrades = () => <Link to={'/admin/grades'}>List All Grades</Link>
+const ListAllGrades = () => <Link to={'/admin/grades'}>List All Grades</Link>;
 
-const ManageSchoolYears = () => <Link to={'/admin/school-years'}>Manage School Years</Link>
+const ListAllSchoolClasses = () => <Link to={'/admin/school-classes'}>List All School Classes</Link>;
 
-const ManageStaffAssignments = () => <Link to={'/admin/manage-staff-assignments'}>Manage Staff Assignments</Link>
+const ManageSchoolYears = () => <Link to={'/admin/school-years'}>Manage School Years</Link>;
 
-export { ListAllGrades, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks };
+const ManageStaffAssignments = () => <Link to={'/admin/manage-staff-assignments'}>Manage Staff Assignments</Link>;
+
+export { ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks };

@@ -39,5 +39,21 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     },
   });
 
+  /* Non-prototype */
+  Object.assign(LibraryBook, {
+    async findEligibleCheckoutPeople() {
+      const instructors = await sequelize.models.InstructorAssignment.findInstructors();
+      const {
+        ROLE_NAME_PRINCIPAL, ROLE_NAME_INSTRUCTION_OFFICER, ROLE_NAME_LIBRARIAN,
+      } = sequelize.models.Role.prototype.roleNames;
+      const promises = [ROLE_NAME_PRINCIPAL, ROLE_NAME_INSTRUCTION_OFFICER, ROLE_NAME_LIBRARIAN]
+        .map((n) => sequelize.models.Role.findPeopleWithRole(n));
+      const people = await Promise.all(promises);
+      const obj = {};
+      [instructors].concat(people).forEach((collection) => collection.forEach((p) => { obj[p.id] = p; }));
+      return Object.values(obj);
+    },
+  });
+
   return LibraryBook;
 };

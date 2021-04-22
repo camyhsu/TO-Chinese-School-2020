@@ -5,11 +5,11 @@ import {
 
 import RegistrationService from '../services/registration.service';
 
-const commonFn = (p, dispatch) => p.then(
+const commonFn = (p, dispatch, isSchoolClass) => p.then(
     (response) => {
       dispatch({
         type: ACTION_SUCCESS,
-        payload: '/admin/school-years'
+        payload: '/admin/school-' + (isSchoolClass ? 'classes' : 'years')
       });
       dispatch({
         type: SET_MESSAGE,
@@ -34,10 +34,16 @@ const commonFn = (p, dispatch) => p.then(
     }
   );
 
+const addSchoolClass = (obj) => (dispatch) => commonFn(RegistrationService.addSchoolClass(obj), dispatch, true);
+
+const saveSchoolClass = (schoolClassId, obj) => (dispatch) => commonFn(RegistrationService.saveSchoolClass(schoolClassId, obj), dispatch, true);
+  
+const getSchoolClass = (schoolClassId) => (_dispatch) => RegistrationService.getSchoolClass(schoolClassId);
+
 const addSchoolYear = (obj) => (dispatch) => commonFn(RegistrationService.addSchoolYear(obj), dispatch);
 
 const saveSchoolYear = (schoolYearId, obj) => (dispatch) => commonFn(RegistrationService.saveSchoolYear(schoolYearId, obj), dispatch);
 
-const getSchoolYear = (schoolYearId) => (dispatch) => RegistrationService.getSchoolYear(schoolYearId);
+const getSchoolYear = (schoolYearId) => (_dispatch) => RegistrationService.getSchoolYear(schoolYearId);
 
-export { addSchoolYear, saveSchoolYear, getSchoolYear }
+export { addSchoolClass, saveSchoolClass, getSchoolClass, addSchoolYear, saveSchoolYear, getSchoolYear }

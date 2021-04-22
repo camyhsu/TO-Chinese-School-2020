@@ -6,7 +6,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { required, vpassword, vrepassword } from '../utils/utilities';
-import { Card, CardBody } from "./Cards";
+import { Card, CardBody, CardTitle } from "./Cards";
 import { changePassword } from "../actions/user.action";
 
 const ChangePasswordForm = () => {
@@ -57,7 +57,7 @@ const ChangePasswordForm = () => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>Change Password</h4>
+                                    <CardTitle>Change Password</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">

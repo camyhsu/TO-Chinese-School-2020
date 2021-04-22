@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, CardBody } from "./Cards";
+import { Card, CardBody, CardTitle } from "./Cards";
 
 const Privacy = () => {
     useEffect(() => { document.title = "TOCS - Privacy Policy"; }, []);
@@ -7,15 +7,15 @@ const Privacy = () => {
     return (
         <Card size="large">
                 <CardBody>
-                    <h3 className="card-title">Privacy Policy - Thousand Oaks Chinese School</h3>
-                    <h5>What information do we collect?</h5>
+                    <CardTitle>Privacy Policy - Thousand Oaks Chinese School</CardTitle>
+                    <strong>What information do we collect?</strong>
                     <p>
                         We collect information from you when you register on our site or fill
                         out a form.  When registering or making payment on our site, as appropriate,
                         you may be asked to enter your name, email, address, phone number or other
                         information.
                     </p>
-                    <h5>What do we use your information for?</h5>
+                    <strong>What do we use your information for?</strong>
                     <p>
                         Any of the information we collect from you may be used in one of the following ways:
                     </p>
@@ -23,7 +23,7 @@ const Privacy = () => {
                         <li>To process registrations</li>
                         <li>To communication with parents</li>
                     </ul>
-                    <h5>How do we protect your information?</h5>
+                    <strong>How do we protect your information?</strong>
                     <p>
                         We implement a variety of security measures to maintain the safety of your
                         personal information when you make payment, or enter, submit, or access your
@@ -38,7 +38,7 @@ const Privacy = () => {
                         After a payment transaction, your credit card information will not be
                         stored on our servers.
                     </p>
-                    <h5>Do we disclose any information to outside parties?</h5>
+                    <strong>Do we disclose any information to outside parties?</strong>
                     <p>
                         Your information will not be sold, exchanged, transferred, or given to
                         any other company for any reason whatsoever, other than for the express
@@ -47,16 +47,16 @@ const Privacy = () => {
                         law, enforce our site policies, or protect ours or others' rights, property,
                         or safety.
                     </p>
-                    <h5>Your Consent</h5>
+                    <strong>Your Consent</strong>
                     <p>
                         By using our site, you consent to our privacy policy.
                     </p>
-                    <h5>Changes to our Privacy Policy</h5>
+                    <strong>Changes to our Privacy Policy</strong>
                     <p>
                         If we decide to change our privacy policy, we will post these changes on
                         this page.
                     </p>
-                    <h5>Contacting Us</h5>
+                    <strong>Contacting Us</strong>
                     <p>
                         If there are any questions regarding this privacy policy, you may contact
                         us using the information below:

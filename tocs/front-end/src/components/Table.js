@@ -1,7 +1,7 @@
 import Datatable from "react-bs-datatable";
 import { css } from '@emotion/css'
 
-const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll }) => {
+const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll, wrapHeader, rowsPerPage }) => {
     const customLabels = {
         first: '<<',
         last: '>>',
@@ -14,7 +14,7 @@ const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll }) =>
 
     const classes = {
         table: 'table-striped',
-        theadCol: css`white-space: nowrap;`,
+        theadCol: !wrapHeader && css`white-space: nowrap;`,
         tbodyRow: css`
           &:nth-of-type(even) {
             background: #EAEAEA;
@@ -36,7 +36,7 @@ const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll }) =>
         return <div>Loading...</div>;
     } else {
         const optional = {
-          rowsPerPage: 10
+          rowsPerPage: rowsPerPage || 10
         };
         if (showAll === 'true') {
           delete optional.rowsPerPage;

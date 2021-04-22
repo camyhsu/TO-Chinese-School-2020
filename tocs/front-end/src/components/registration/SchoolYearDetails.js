@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
-import { dollar } from '../../utils/utilities';
+import { dollar, BiPencil } from '../../utils/utilities';
 import { Card, CardBody } from "../Cards";
 
 const Home = ({ location } = {}) => {
@@ -86,7 +86,7 @@ const Home = ({ location } = {}) => {
                     </dl>
                     <div className="card-footer row">
                         <div className="col-md-4">
-                            <Link to={`/school-year-form?id=${id}`} className="btn btn-light"><i className="bi-pencil"></i> School Year</Link>
+                            <Link to={`/school-year-form?id=${id}`} className="btn btn-light"><BiPencil/> School Year</Link>
                         </div>
                         <div className="col-md-6">
                             <Link to="/admin/school-years" className="btn btn-light">Back to School Year List</Link>

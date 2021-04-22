@@ -1,8 +1,10 @@
+import { today } from '../utils/utilities.js';
+
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({
     withId: true,
     withStrings: ['description'],
-    withIntegers: [['previousSchoolYearId', 'previous_school_year_id']],
+    withDates: [['startDate', 'start_date', true], ['endDate', 'end_date', true]],
   });
   const SchoolYear = sequelize.define('school_year', {
     ...fields,
@@ -14,8 +16,6 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         notEmpty: true,
       },
     },
-    startDate: { type: Sequelize.DATE, field: 'start_date', allowNull: false },
-    endDate: { type: Sequelize.DATE, field: 'end_date', allowNull: false },
     registrationStartDate: { type: Sequelize.DATE, field: 'registration_start_date', allowNull: false },
     registration75PercentDate: { type: Sequelize.DATE, field: 'registration_75_percent_date', allowNull: false },
     registrationEndDate: { type: Sequelize.DATE, field: 'registration_end_date', allowNull: false },
@@ -105,7 +105,20 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
   /* Non-prototype */
   Object.assign(SchoolYear, {
-
+    async findCurrentAndFutureSchoolYears() {
+      return SchoolYear.findAll({
+        where: { endDate: { [Sequelize.Op.gte]: today() } },
+        order: [['startDate', 'ASC']],
+      });
+    },
+    async currentSchoolYear() {
+      const r = await SchoolYear.findCurrentAndFutureSchoolYears();
+      return r[0];
+    },
+    async nextSchoolYear() {
+      const r = await SchoolYear.findCurrentAndFutureSchoolYears();
+      return r[1];
+    },
   });
 
   return SchoolYear;
