@@ -68,7 +68,22 @@ const yesOrNo = (b) => b ? 'Yes' : 'No';
 
 const today = () => new Date().toISOString().split('T')[0];
 
+const BiPencil = () => <i className="bi-pencil"></i>;
+
+const BiPlus = () => <i className="bi-plus"></i>;
+
+const BiPersonPlus = () => <i className="bi-person-plus"></i>;
+
+const BiClockHistory = () => <i className="bi-clock-history"></i>;
+
+const BiInfoCircle  = () => <i className="bi-info-circle"></i>;
+
+const BiToggle = ({ on }) => <i className={on ? 'bi-toggle-on' : 'bi-toggle-off'}></i>;
+
+const OptionalField = () => <span className="text-muted"><small>(Optional)</small></span>;
+
 export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames,
-    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo
+    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo,
+    BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField
 }

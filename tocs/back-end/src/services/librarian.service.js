@@ -22,13 +22,12 @@ export default {
       }],
       where: { id: { [Op.eq]: id } },
     });
-    const obj = books && books[0];
-    obj.dataValues.eligibleCheckoutPeople = [{
-      id: 2190, name: 'Person 1',
-    }, {
-      id: 2196, name: 'Person 2',
-    }];
-    return obj;
+    const book = books && books[0];
+    // Find eligibleCheckoutPeople only when the book is not checkedOut
+    if (book && !book.checkedOut) {
+      book.dataValues.eligibleCheckoutPeople = await LibraryBook.findEligibleCheckoutPeople();
+    }
+    return book;
   },
   getLibraryBooks: async () => {
     const books = await LibraryBook.findAll();

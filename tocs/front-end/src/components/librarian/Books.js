@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Table from '../Table';
 import LibrarianService from '../../services/librarian.service';
-import { formatPersonNames } from '../../utils/utilities';
+import { formatPersonNames, BiPlus, BiPencil, BiClockHistory } from '../../utils/utilities';
 import { Card, CardBody } from "../Cards";
 
 const Books = ({ location } = {}) => {
@@ -19,9 +19,9 @@ const Books = ({ location } = {}) => {
 
   const allHeaders = [
     {
-      cell: (row) => <Link to={'/book-form?id=' + row.id} className='btn btn-light'><i className='bi-pencil'></i></Link>
+      cell: (row) => <Link to={'/book-form?id=' + row.id} className='btn btn-light'><BiPencil/></Link>
     }, {
-      cell: (row) => <Link to={'/librarian/checkout-history?id=' + row.id} className='btn btn-light'><i className='bi-clock-history'></i></Link>
+      cell: (row) => <Link to={'/librarian/checkout-history?id=' + row.id} className='btn btn-light'><BiClockHistory/></Link>
     }].concat(header);
 
   const [readOnly, setReadOnly] = useState('');
@@ -66,7 +66,7 @@ const Books = ({ location } = {}) => {
         <CardBody>
           <div className="row">
             <div className="col-md-3">
-              {!readOnly && <Link to="/book-form" className="btn btn-light"><i className="bi-plus"></i> Book</Link>}
+              {!readOnly && <Link to="/book-form" className="btn btn-light"><BiPlus/> Book</Link>}
             </div>
           </div>
           <Table header={readOnly ? header : allHeaders} items={content.items} isLoaded={content.isLoaded} error={content.error} sortKey="id" />

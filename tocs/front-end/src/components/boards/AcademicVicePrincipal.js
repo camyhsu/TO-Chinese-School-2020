@@ -1,11 +1,11 @@
 import { ViewLibraryBooks } from '../Links';
-import { Card, CardBody } from "../Cards";
+import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
     return (
         <Card size="medium" plain="true">
             <CardBody>
-                <h4 className="card-title">Academic Vice Principal Resources</h4>
+                <CardTitle>Academic Vice Principal Resources</CardTitle>
                 <ViewLibraryBooks/>
             </CardBody>
         </Card>

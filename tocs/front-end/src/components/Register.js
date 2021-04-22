@@ -6,8 +6,8 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
-import { Card, CardBody, CardFooter } from "./Cards";
-import { required, validEmail, vpassword, vrepassword, vusername } from '../utils/utilities';
+import { Card, CardBody, CardFooter, CardTitle } from "./Cards";
+import { required, validEmail, vpassword, vrepassword, vusername, OptionalField } from '../utils/utilities';
 import { register } from "../actions/auth.action";
 
 const Register = () => {
@@ -95,7 +95,7 @@ const Register = () => {
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
-              <h4>Parent One</h4>
+              <CardTitle>Parent One</CardTitle>
 
               <div className="row">
                 <div className="form-group col-md-6 mb-3">
@@ -125,7 +125,7 @@ const Register = () => {
 
               <div className="row">
                 <div className="form-group col-md-6 mb-3">
-                  <label htmlFor="chinese-name">Chinese Name <span className="text-muted"><small>(Optional)</small></span></label>
+                  <label htmlFor="chinese-name">Chinese Name <OptionalField/></label>
                   <Input
                     type="text"
                     className="form-control"
@@ -136,7 +136,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-6 mb-3">
-                  <label htmlFor="native-language">Native Language <span className="text-muted"><small>(Optional)</small></span></label>
+                  <label htmlFor="native-language">Native Language <OptionalField/></label>
                   <Select
                     className="form-control"
                     name="native-language"
@@ -165,7 +165,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-4 mb-3">
-                  <label htmlFor="birth-year">Birth Year <span className="text-muted"><small>(Optional)</small></span></label>
+                  <label htmlFor="birth-year">Birth Year <OptionalField/></label>
                   <Input
                     type="text"
                     className="form-control"
@@ -176,7 +176,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-4 mb-3">
-                  <label htmlFor="birth-month">Birth Month <span className="text-muted"><small>(Optional)</small></span></label>
+                  <label htmlFor="birth-month">Birth Month <OptionalField/></label>
                   <Select
                     className="form-control"
                     name="birth-month"
@@ -199,7 +199,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <h4 className="mt-4">Family Address</h4>
+              <CardTitle clazz="mt-5">Family Address</CardTitle>
 
               <div className="row">
                 <div className="form-group col-md-12 mb-3">
@@ -267,7 +267,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-6 mb-3">
-                  <label htmlFor="cell-phone">Cell Phone <span className="text-muted"><small>(Optional)</small></span></label>
+                  <label htmlFor="cell-phone">Cell Phone <OptionalField/></label>
                   <Input
                     type="text"
                     className="form-control"
@@ -292,7 +292,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <h4 className="mt-4">Create Account</h4>
+              <CardTitle clazz="mt-5">Create Account</CardTitle>
 
               <div className="row">
                 <div className="form-group col-md-12 mb-3">

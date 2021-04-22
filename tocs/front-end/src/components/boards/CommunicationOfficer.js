@@ -1,10 +1,10 @@
-import { Card, CardBody } from "../Cards";
+import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
     return (
         <Card size="medium" plain="true">
             <CardBody>
-                <h4 className="card-title">Communication Officer Resources</h4>
+                <CardTitle>Communication Officer Resources</CardTitle>
             </CardBody>
         </Card>
     );

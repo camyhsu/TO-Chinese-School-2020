@@ -1,6 +1,8 @@
 /* global describe, it */
 import { expect } from 'chai';
-import { formatPhoneNumber, randSalt, sha256Hex } from '../../src/utils/utilities.js';
+import {
+  dateBetween, formatPhoneNumber, randSalt, sha256Hex,
+} from '../../src/utils/utilities.js';
 
 describe('Utilities', () => {
   describe('sha256Hex', () => {
@@ -26,6 +28,23 @@ describe('Utilities', () => {
 
       expect(randSalt(12).length).eq(16);
       expect(randSalt(12, true).length).eq(24);
+    });
+  });
+
+  describe('dateBetween', () => {
+    it('dateBetween', async () => {
+      expect(dateBetween('2021-04-14', { startDate: '2021-04-14', endDate: '2021-04-14' })).to.be.true;
+      expect(dateBetween('2021-04-14', { startDate: '2021-04-13', endDate: '2021-04-14' })).to.be.true;
+      expect(dateBetween('2021-04-14', { startDate: '2021-04-14', endDate: '2021-04-15' })).to.be.true;
+      expect(dateBetween('2021-04-14', { startDate: '2021-04-13', endDate: '2021-04-15' })).to.be.true;
+      expect(dateBetween('2021-04-14', { startDate: '2021-04-15', endDate: '2021-04-16' })).to.be.false;
+
+      const s = '2021-04-14T06:50:22.274Z';
+      expect(dateBetween(s, { startDate: '2021-04-14', endDate: '2021-04-14' })).to.be.true;
+      expect(dateBetween(s, { startDate: '2021-04-13', endDate: '2021-04-14' })).to.be.true;
+      expect(dateBetween(s, { startDate: '2021-04-14', endDate: '2021-04-15' })).to.be.true;
+      expect(dateBetween(s, { startDate: '2021-04-13', endDate: '2021-04-15' })).to.be.true;
+      expect(dateBetween(s, { startDate: '2021-04-15', endDate: '2021-04-16' })).to.be.false;
     });
   });
 });

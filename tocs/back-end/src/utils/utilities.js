@@ -53,8 +53,22 @@ const toObj = (obj) => JSON.parse(JSON.stringify(obj));
 const collectionToObj = (collection) => collection
   .reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {});
 
+const datePart = (_s) => {
+  const s = (_s.toISOString && _s.toISOString()) || _s;
+  return s.split('T')[0];
+};
+
+const today = () => datePart(new Date().toISOString());
+
+const dateBetween = (_date, duration) => {
+  const date = datePart(_date);
+  return date >= duration.startDate && date <= duration.endDate;
+};
+
+const datePlus = (n) => new Date(new Date().getTime() + n * 1000 * 60 * 60 * 24);
+
 export {
-  formatPhoneNumber, randAddress, randObj, randBook,
-  randPerson, randSalt, randUser, sha256Hex,
+  dateBetween, datePlus, formatPhoneNumber, randAddress, randObj, randBook,
+  randPerson, randSalt, randUser, sha256Hex, today,
   toNumeric, uuid, randString, pick, toObj, collectionToObj,
 };

@@ -13,10 +13,12 @@ import Account from './components/Account';
 import Privacy from './components/Privacy';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
-import { AddressForm, BookForm, CheckoutHistoryForm, PersonForm, SchoolYearForm } from './components/forms/index';
+import { AddressForm, BookForm, CheckoutHistoryForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
-import { Grades, ManageStaffAssignments, ManageStaffAssignment, SchoolYears, SchoolYearDetails } from './components/registration/index';
+import {
+  Grades, ManageStaffAssignments, ManageStaffAssignment, SchoolClasses, SchoolYears, SchoolYearDetails
+} from './components/registration/index';
 
 import { logout } from './actions/auth.action';
 import { clearMessage } from './actions/message.action';
@@ -77,6 +79,7 @@ const App = () => {
 
             <Route exact path="/librarian/books" component={Books} />
             <Route exact path="/admin/grades" component={Grades} />
+            <Route exact path="/admin/school-classes" component={SchoolClasses} />
             <Route exact path="/admin/school-years" component={SchoolYears} />
             <Route exact path="/admin/school-year-details" component={SchoolYearDetails} />
             <Route exact path="/admin/manage-staff-assignments" component={ManageStaffAssignments} />
@@ -88,6 +91,7 @@ const App = () => {
             <Route exact path="/change-password-form" component={ChangePasswordForm} />
             <Route exact path="/librarian/checkout-history" component={CheckoutHistoryForm} />
             <Route exact path="/person-form" component={PersonForm} />
+            <Route exact path="/school-class-form" component={SchoolClassForm} />
             <Route exact path="/school-year-form" component={SchoolYearForm} />
 
             {/* Static pages */}

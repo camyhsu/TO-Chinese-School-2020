@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import UserService from "../../services/user.service";
 import Address from "../Address";
 import Person from "../Person";
-import { formatPersonName }from '../../utils/utilities';
-import { Card, CardBody, CardFooter } from "../Cards";
+import { formatPersonName, BiPencil, BiPlus, BiPersonPlus }from '../../utils/utilities';
+import { Card, CardBody, CardFooter, CardTitle } from "../Cards";
 
 const Home = () => {
     const [content, setContent] = useState("");
@@ -40,18 +40,18 @@ const Home = () => {
             <div className="card-deck justify-content-center justify-content-xl-start">
                 <Card size="medium" plain="true">
                     <CardBody>
-                        <h4>Person</h4>
+                        <CardTitle>Person</CardTitle>
                         <Person {...content.person} />
                         <Address {...(content.person && content.person.address)} />
                     </CardBody>
                     <CardFooter>
                         <div className="row text-truncate">
                             <div className="col-md-5 mb-3 mb-md-0">
-                                {content.person && <Link to={`/person-form?id=${content.person.id}`} className="btn btn-light"><i className="bi-pencil"></i> Person Details</Link>}
+                                {content.person && <Link to={`/person-form?id=${content.person.id}`} className="btn btn-light"><BiPencil/> Person Details</Link>}
                             </div>
                             <div className="col-md-7 text-md-right">
-                                {content.person && !content.person.addressId && <Link to={`/address-form?personId=${content.person.id}`} className="btn btn-light"><i className="bi-plus"></i> Personal Address</Link>}
-                                {content.person && content.person.addressId && <Link to={`/address-form?id=${content.person.addressId}&personId=${content.person.id}`} className="btn btn-light"><i className="bi-pencil"></i> Personal Address</Link>}
+                                {content.person && !content.person.addressId && <Link to={`/address-form?personId=${content.person.id}`} className="btn btn-light"><BiPlus/> Personal Address</Link>}
+                                {content.person && content.person.addressId && <Link to={`/address-form?id=${content.person.addressId}&personId=${content.person.id}`} className="btn btn-light"><BiPencil/> Personal Address</Link>}
                             </div>
                         </div>
                     </CardFooter>
@@ -63,7 +63,7 @@ const Home = () => {
                             <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
                             <Card size="medium" plain="true">
                                 <CardBody>
-                                    <h4>Family for <br className="d-md-none" />{family.name}</h4>
+                                    <CardTitle>Family for <br className="d-md-none" />{family.name}</CardTitle>
                                     <dl className="row">
                                         <dt className="col-12 col-md-6 text-left text-md-right">Parent One:</dt>
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentOne)}</dd>
@@ -77,13 +77,13 @@ const Home = () => {
                                 <CardFooter>
                                     <div className="row text-truncate">
                                         <div className="col-md-5 mb-3 mb-md-0">
-                                        <Link to={`/address-form?id=${family.addressId}&familyId=${family.familyId}`} className="btn btn-light"><i className="bi-pencil"></i> Family Address</Link>
+                                        <Link to={`/address-form?id=${family.addressId}&familyId=${family.familyId}`} className="btn btn-light"><BiPencil/> Family Address</Link>
                                     </div>
-                                        <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right"><i className="person-plus"></i>
-                                            {!family.parentTwo && <Link to={`/person-form?familyId=${family.familyId}&isParentTwo=true`} className="btn btn-light"><i className="bi-person-plus"></i> Parent</Link>}
+                                        <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right">
+                                            {!family.parentTwo && <Link to={`/person-form?familyId=${family.familyId}&isParentTwo=true`} className="btn btn-light"><BiPersonPlus/> Parent</Link>}
                                         </div>
                                         <div className="col-md-3 text-md-right">
-                                            <Link to={`/person-form?familyId=${family.familyId}`} className="btn btn-light"><i className="bi-person-plus"></i> Child</Link>
+                                            <Link to={`/person-form?familyId=${family.familyId}`} className="btn btn-light"><BiPersonPlus/> Child</Link>
                                         </div>
                                     </div>
                                 </CardFooter>
@@ -95,13 +95,13 @@ const Home = () => {
                                         <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
                                         <Card size="medium" plain="true">
                                             <CardBody>
-                                                <h4>Student Information</h4>
+                                                <CardTitle>Student Information</CardTitle>
                                                 <Person {...student} />
                                             </CardBody>
                                             <CardFooter>
                                                 <div className="row text-truncate">
                                                     <div className="col-md-5 mb-md-0">
-                                                    <Link to={`/person-form?id=${student.id}`} className="btn btn-light"><i className="bi-pencil"></i> Student Details</Link>
+                                                    <Link to={`/person-form?id=${student.id}`} className="btn btn-light"><BiPencil/> Student Details</Link>
                                                     </div>
                                                 </div>
                                             </CardFooter>

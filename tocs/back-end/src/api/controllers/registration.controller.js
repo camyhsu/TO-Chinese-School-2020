@@ -6,6 +6,27 @@ export default {
   getGrades: asyncWrapper(async (_req, _res, next) => {
     next(response(await registrationService.getGrades()));
   }),
+  getSchoolClasses: asyncWrapper(async (_req, _res, next) => {
+    next(response(await registrationService.getSchoolClasses()));
+  }),
+  getSchoolClass: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.query;
+    next(response(await registrationService.getSchoolClass(id)));
+  }),
+  getActiveSchoolClassesForCurrentNextSchoolYear: asyncWrapper(async (req, _res, next) => {
+    next(response(await registrationService.getActiveSchoolClassesForCurrentNextSchoolYear()));
+  }),
+  addSchoolClass: asyncWrapper(async (req, _res, next) => {
+    next(response(await registrationService.addSchoolClass(req.body)));
+  }),
+  saveSchoolClass: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.query;
+    next(response(await registrationService.saveSchoolClass(id, req.body)));
+  }),
+  toggleActiveSchoolClass: asyncWrapper(async (req, _res, next) => {
+    const { id, schoolYearId, active } = req.query;
+    next(response(await registrationService.toggleActiveSchoolClass(id, schoolYearId, active)));
+  }),
   getSchoolYears: asyncWrapper(async (_req, _res, next) => {
     next(response(await registrationService.getSchoolYears()));
   }),

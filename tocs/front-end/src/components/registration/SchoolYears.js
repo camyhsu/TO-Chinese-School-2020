@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Table from '../Table';
 import RegistrationService from '../../services/registration.service';
-import { yesOrNo } from '../../utils/utilities';
+import { yesOrNo, BiInfoCircle, BiPlus, BiToggle } from '../../utils/utilities';
 import { Card, CardBody } from "../Cards";
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
   const [reload, setReload] = useState(null);
   const header = [
     {
-      cell: (row) => <Link to={'/admin/school-year-details?id=' + row.id} className='btn btn-light'><i className='bi-info-circle'></i></Link>
+      cell: (row) => <Link to={'/admin/school-year-details?id=' + row.id} className='btn btn-light'><BiInfoCircle/></Link>
     },
     { title: 'Name', prop: 'name', sortable: true, },
     { title: 'Description', prop: 'description' },
@@ -19,7 +19,7 @@ const Home = () => {
     { title: 'Assign Class Upon Registration', cell: (row) => {
       return (
         <>
-          <button className='btn btn-light' onClick={() => toggleAutoClassAssignment(row.id)}><i className={row.autoClassAssignment ? 'bi-toggle-on' : 'bi-toggle-off'}></i></button>
+          <button className='btn btn-light' onClick={() => toggleAutoClassAssignment(row.id)}><BiToggle on={row.autoClassAssignment}/></button>
           &nbsp;&nbsp;{yesOrNo(row.autoClassAssignment)}
         </>
       );
@@ -76,7 +76,7 @@ const Home = () => {
         <CardBody>
           <div className="row">
             <div className="col-md-3">
-              <Link to="/school-year-form" className="btn btn-light"><i className="bi-plus"></i> School Year</Link>
+              <Link to="/school-year-form" className="btn btn-light"><BiPlus/> School Year</Link>
             </div>
           </div>
           <Table header={header} items={content.items} isLoaded={content.isLoaded} error={content.error} sortKey="name" showAll="true" />
