@@ -10,10 +10,11 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
+import Family from './components/registration/Family';
 import Privacy from './components/Privacy';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
-import { AddressForm, BookForm, CheckoutHistoryForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
+import { AddressForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
 import {
@@ -84,12 +85,14 @@ const App = () => {
             <Route exact path="/admin/school-year-details" component={SchoolYearDetails} />
             <Route exact path="/admin/manage-staff-assignments" component={ManageStaffAssignments} />
             <Route exact path="/admin/manage-staff-assignment" component={ManageStaffAssignment} />
+            <Route exact path="/registration/family" component={Family} />
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />
             <Route exact path="/book-form" component={BookForm} />
             <Route exact path="/change-password-form" component={ChangePasswordForm} />
             <Route exact path="/librarian/checkout-history" component={CheckoutHistoryForm} />
+            <Route exact path="/new-family-form" component={NewFamilyForm} />
             <Route exact path="/person-form" component={PersonForm} />
             <Route exact path="/school-class-form" component={SchoolClassForm} />
             <Route exact path="/school-year-form" component={SchoolYearForm} />

@@ -21,7 +21,7 @@ const CardFooter = ({ children }) => (
     </div>
 );
 
-const CardTitle = ({ children, hSize, clazz }) => hSize === 4 ?
+const CardTitle = ({ children, hSize, clazz }) => hSize === '4' ?
     <h4 className={`card-title ${clazz}`}>{children}</h4>
   : <h5 className={`card-title ${clazz}`}>{children}</h5>;
 

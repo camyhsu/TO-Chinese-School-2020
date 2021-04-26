@@ -17,4 +17,9 @@ const ManageSchoolYears = () => <Link to={'/admin/school-years'}>Manage School Y
 
 const ManageStaffAssignments = () => <Link to={'/admin/manage-staff-assignments'}>Manage Staff Assignments</Link>;
 
-export { ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks };
+const CreateANewFamily = () => <Link to={'/new-family-form'}>Create A New Family</Link>;
+
+export {
+    ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
+    CreateANewFamily
+};
