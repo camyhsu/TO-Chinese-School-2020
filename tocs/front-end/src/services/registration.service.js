@@ -28,8 +28,12 @@ const getManageStaffAssignments = () => dataService.get('admin/staff_assignments
 
 const getManageStaffAssignment = (id) => dataService.get('admin/staff_assignments/show?id=' + id);
 
+const addNewFamily = (obj) => dataService.post('registration/families/new', obj);
+
+const getFamily = (id) => dataService.get('registration/families/show?id=' + id);
+
 const obj = {
-    getGrades, 
+    addNewFamily, getFamily, getGrades, 
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear

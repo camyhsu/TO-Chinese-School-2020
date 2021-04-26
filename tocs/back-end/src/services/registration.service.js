@@ -3,7 +3,7 @@ import db from '../models/index.js';
 
 const { Op } = Sequelize;
 const {
-  Grade, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, Person,
+  Address, Family, Grade, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, Person,
 } = db;
 
 const dollarFields = [
@@ -86,5 +86,30 @@ export default {
       where: { schoolYearId: { [Op.eq]: id } },
     });
     return { schoolYear, staffAssignments };
+  },
+  addFamily: async ({
+    email, firstName, lastName, gender, street, city, state, zipcode, homePhone, cellPhone,
+  }) => {
+    const family = await Family.createWith({
+      parentOne: { firstName, lastName, gender },
+      address: {
+        street, city, state, email, zipcode, homePhone, cellPhone,
+      },
+    });
+    return family;
+  },
+  getFamily: async (id) => {
+    const families = await Family.findAll({
+      include: [
+        { model: Person, as: 'parentOne' },
+        { model: Person, as: 'parentTwo' },
+        { model: Address, as: 'address' },
+      ],
+      where: { id: { [Op.eq]: id } },
+    });
+    if (families && families.length) {
+      return families[0];
+    }
+    return null;
   },
 };

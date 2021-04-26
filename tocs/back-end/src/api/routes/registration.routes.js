@@ -84,4 +84,16 @@ export default (router) => {
     [],
     controller.getStaffAssignment,
   );
+
+  router.post(
+    '/registration/families/new',
+    [],
+    controller.addFamily,
+  );
+
+  router.get(
+    '/registration/families/show',
+    [],
+    controller.getFamily,
+  );
 };

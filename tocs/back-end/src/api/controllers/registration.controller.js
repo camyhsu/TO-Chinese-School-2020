@@ -52,4 +52,11 @@ export default {
     const { id } = req.query;
     next(response(await registrationService.getStaffAssignment(id)));
   }),
+  addFamily: asyncWrapper(async (req, _res, next) => {
+    next(response(await registrationService.addFamily(req.body)));
+  }),
+  getFamily: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.query;
+    next(response(await registrationService.getFamily(id)));
+  }),
 };
