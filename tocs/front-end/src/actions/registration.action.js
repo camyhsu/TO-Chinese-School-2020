@@ -34,10 +34,10 @@ const commonFn = (p, dispatch, isSchoolClass) => p.then(
   }
 );
 
-const commonFamilyFn = (p, dispatch) => p.then(
+const commonFamilyFn = (p, dispatch, familyId) => p.then(
   (response) => {
     console.log(response.data)
-    const id = response.data.id;
+    const id = familyId || response.data.id;
     dispatch({
       type: ACTION_SUCCESS,
       payload: '/registration/family?id=' + id
@@ -65,6 +65,24 @@ const commonFamilyFn = (p, dispatch) => p.then(
   }
 );
 
+const commonFn3 = (p, dispatch) => p.then(
+  (response) => response,
+  (error) => {
+      const message =
+          (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+      dispatch({
+          type: SET_MESSAGE,
+          payload: message,
+      });
+      return Promise.reject();
+  }
+);
+
 const addSchoolClass = (obj) => (dispatch) => commonFn(RegistrationService.addSchoolClass(obj), dispatch, true);
 
 const saveSchoolClass = (schoolClassId, obj) => (dispatch) => commonFn(RegistrationService.saveSchoolClass(schoolClassId, obj), dispatch, true);
@@ -79,7 +97,15 @@ const getSchoolYear = (schoolYearId) => (_dispatch) => RegistrationService.getSc
 
 const addNewFamily = (obj) => (dispatch) => commonFamilyFn(RegistrationService.addNewFamily(obj), dispatch);
 
+const getFamilyAddress = (familyId) => (dispatch) => commonFn3(RegistrationService.getFamilyAddress(familyId), dispatch);
+
+const saveFamilyAddress = (familyId, obj) => (dispatch) => commonFamilyFn(RegistrationService.saveFamilyAddress(familyId, obj), dispatch, familyId);
+
+const addParent = (familyId, obj) => (dispatch) => commonFamilyFn(RegistrationService.addParent(familyId, obj), dispatch, familyId);
+
+const addChild = (familyId, obj) => (dispatch) => commonFamilyFn(RegistrationService.addChild(familyId, obj), dispatch, familyId);
+
 export {
   addSchoolClass, saveSchoolClass, getSchoolClass, addSchoolYear, saveSchoolYear, getSchoolYear,
-  addNewFamily
+  addNewFamily, getFamilyAddress, saveFamilyAddress, addParent, addChild
 }

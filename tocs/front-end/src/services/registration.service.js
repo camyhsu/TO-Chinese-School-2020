@@ -32,8 +32,16 @@ const addNewFamily = (obj) => dataService.post('registration/families/new', obj)
 
 const getFamily = (id) => dataService.get('registration/families/show?id=' + id);
 
+const getFamilyAddress = (familyId) => dataService.get(`registration/families/edit_address?id=${familyId}`);
+
+const saveFamilyAddress = (familyId, obj) => dataService.put(`registration/families/edit_address?id=${familyId}`, obj);
+
+const addParent = (familyId, obj) => dataService.post('registration/families/add_parent?id=' + familyId, obj);
+
+const addChild = (familyId, obj) => dataService.post('registration/families/add_child?id=' + familyId, obj);
+
 const obj = {
-    addNewFamily, getFamily, getGrades, 
+    addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild,
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear

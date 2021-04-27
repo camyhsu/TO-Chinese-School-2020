@@ -1,4 +1,5 @@
 import controller from '../controllers/registration.controller.js';
+import studentController from '../controllers/student.controller.js';
 
 export default (router) => {
   router.get(
@@ -95,5 +96,29 @@ export default (router) => {
     '/registration/families/show',
     [],
     controller.getFamily,
+  );
+
+  router.get(
+    '/registration/families/edit_address',
+    [],
+    studentController.getFamilyAddress,
+  );
+
+  router.put(
+    '/registration/families/edit_address',
+    [],
+    studentController.editFamilyAddress,
+  );
+
+  router.post(
+    '/registration/families/add_parent',
+    [],
+    studentController.addParent,
+  );
+
+  router.post(
+    '/registration/families/add_child',
+    [],
+    studentController.addChild,
   );
 };

@@ -8,8 +8,11 @@ import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
 import { required, OptionalField } from '../../utils/utilities';
 import {
-    getPersonalDetails, savePersonalDetails, addParent, addChild
+    getPersonalDetails, savePersonalDetails, addParent as spAddParent, addChild as spAddChild
 } from '../../actions/student-parent.action';
+import {
+    addChild as rgAddChild, addParent as rgAddParent
+} from '../../actions/registration.action';
 import { Card, CardBody, CardTitle } from "../Cards";
 
 const PersonForm = ({ location } = {}) => {
@@ -17,6 +20,7 @@ const PersonForm = ({ location } = {}) => {
     const checkBtn = useRef();
 
     const [familyId, setFamilyId] = useState(null);
+    const [registration,  setRegistration] = useState(null);
     const [isParentTwo, setIsParentTwo] = useState(false);
     const [id, setId] = useState(null);
     const [lastName, setLastName] = useState('');
@@ -46,7 +50,7 @@ const PersonForm = ({ location } = {}) => {
     }), []);
 
     useEffect(() => {
-        const { id, familyId, isParentTwo } = queryString.parse(location.search);
+        const { id, familyId, isParentTwo, registration } = queryString.parse(location.search);
         if (id) {
             setFormTitle(`Edit ${familyId ? 'Family' : 'Personal'} Details`);
         } else {
@@ -55,6 +59,7 @@ const PersonForm = ({ location } = {}) => {
         
         setFamilyId(familyId);
         setIsParentTwo(!!isParentTwo);
+        setRegistration(registration);
         if (id) {
             dispatch(getPersonalDetails(id)).then((response) => {
                 if (response && response.data) {
@@ -81,10 +86,22 @@ const PersonForm = ({ location } = {}) => {
                 lastName, firstName, chineseName, nativeLanguage, gender,
                 birthYear, birthMonth
             };
-            dispatch(
-                id ? savePersonalDetails(id, obj) 
-                : (isParentTwo ? addParent(familyId, obj) : addChild(familyId, obj))
-            ).then(() => {
+            const fn = () => {
+                if (registration && familyId) {
+                    if (isParentTwo) {
+                        return rgAddParent(familyId, obj);
+                    }
+                    return rgAddChild(familyId, obj);
+                }
+                if (id) {
+                    return savePersonalDetails(id, obj);
+                }
+                if (isParentTwo) {
+                    return spAddParent(familyId, obj);
+                }
+                return spAddChild(familyId, obj);
+            };
+            dispatch(fn()).then(() => {
                 setSuccessful(true);
             }).catch(() => {
                 setSuccessful(false);
