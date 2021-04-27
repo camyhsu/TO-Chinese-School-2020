@@ -103,6 +103,7 @@ export default {
       include: [
         { model: Person, as: 'parentOne' },
         { model: Person, as: 'parentTwo' },
+        { model: Person, as: 'children' },
         { model: Address, as: 'address' },
       ],
       where: { id: { [Op.eq]: id } },

@@ -10,8 +10,12 @@ import { Card, CardBody, CardTitle } from "../Cards";
 
 import { required, validEmail, OptionalField } from '../../utils/utilities';
 import {
-    getPersonalAddress, getFamilyAddress, saveFamilyAddress, savePersonalAddress, addPersonalAddress
+    getPersonalAddress as spGetPersonalAddress, getFamilyAddress as spGetFamilyAddress, saveFamilyAddress as spSaveFamilyAddress, savePersonalAddress, addPersonalAddress
 } from '../../actions/student-parent.action';
+
+import {
+    getFamilyAddress as rgGetFamilyAddress, saveFamilyAddress as rgSaveFamilyAddress
+} from '../../actions/registration.action';
 
 const PersonForm = ({ location } = {}) => {
     const form = useRef();
@@ -19,6 +23,7 @@ const PersonForm = ({ location } = {}) => {
 
     const [personId, setPersonId] = useState(null);
     const [familyId, setFamilyId] = useState(null);
+    const [registration,  setRegistration] = useState(null);
     const [id, setId] = useState(null);
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
@@ -48,12 +53,22 @@ const PersonForm = ({ location } = {}) => {
     }), []);
 
     useEffect(() => {
-        const { id, personId, familyId } = queryString.parse(location.search);
+        const { id, personId, familyId, registration } = queryString.parse(location.search);
         setFormTitle(`${id ? 'Edit' : 'Add'} ${familyId ? 'Family' : 'Personal'} Address`);
         setPersonId(personId);
         setFamilyId(familyId);
+        setRegistration(registration);
         if (id) {
-            dispatch(familyId ? getFamilyAddress(familyId) : getPersonalAddress(personId)).then((response) => {
+            const fn = () => {
+                if (registration && familyId) {
+                    return rgGetFamilyAddress(familyId);
+                }
+                if (familyId) {
+                    return spGetFamilyAddress(familyId);
+                }
+                return spGetPersonalAddress(personId);
+            };
+            dispatch(fn()).then((response) => {
                 if (response && response.data) {
                     Object.entries(response.data).forEach(([key, value]) => fns[key] && fns[key](value || ''));
                 }
@@ -77,11 +92,19 @@ const PersonForm = ({ location } = {}) => {
             const obj = {
                 street, city, state, zipcode, homePhone, cellPhone, email
             };
-            dispatch(
-                id ? 
-                (familyId ? saveFamilyAddress(familyId, obj) : savePersonalAddress(personId, obj))
-                : addPersonalAddress(personId, obj)
-            ).then(() => {
+            const fn = () => {
+                if (registration && familyId) {
+                    return rgSaveFamilyAddress(familyId, obj);
+                }
+                if (id) {
+                    if (familyId) {
+                        return spSaveFamilyAddress(familyId, obj);
+                    }
+                    return savePersonalAddress(personId, obj);
+                }
+                return addPersonalAddress(personId, obj);
+            };
+            dispatch(fn()).then(() => {
                 setSuccessful(true);
             }).catch(() => {
                 setSuccessful(false);
