@@ -113,4 +113,17 @@ export default {
     }
     return null;
   },
+  getPeople: async ({ limit, offset, searchText }) => {
+    const obj = { limit, offset };
+    if (searchText) {
+      obj.where = {
+        [Op.or]: [
+          { lastName: { [Op.iLike]: `%${searchText}%` } },
+          { firstName: { [Op.iLike]: `%${searchText}%` } },
+          { chineseName: { [Op.iLike]: `%${searchText}%` } },
+        ],
+      };
+    }
+    return Person.findAndCountAll(obj);
+  },
 };

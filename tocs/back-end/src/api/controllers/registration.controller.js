@@ -59,4 +59,8 @@ export default {
     const { id } = req.query;
     next(response(await registrationService.getFamily(id)));
   }),
+  getPeople: asyncWrapper(async (req, _res, next) => {
+    const { limit, offset, searchText } = req.query;
+    next(response(await registrationService.getPeople({ limit, offset, searchText })));
+  }),
 };

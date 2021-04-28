@@ -40,8 +40,11 @@ const addParent = (familyId, obj) => dataService.post('registration/families/add
 
 const addChild = (familyId, obj) => dataService.post('registration/families/add_child?id=' + familyId, obj);
 
+const getPeople = (currentPage, rowsPerPage, filter, sortedProp) => 
+  dataService.get(`registration/people/index?limit=${rowsPerPage}&offset=${Math.trunc((currentPage - 1) * rowsPerPage)}&searchText=${filter}`);
+
 const obj = {
-    addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild,
+    addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild, getPeople,
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear

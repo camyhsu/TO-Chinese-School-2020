@@ -11,6 +11,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
 import Family from './components/registration/Family';
+import People from './components/registration/People';
 import Privacy from './components/Privacy';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
@@ -86,6 +87,7 @@ const App = () => {
             <Route exact path="/admin/manage-staff-assignments" component={ManageStaffAssignments} />
             <Route exact path="/admin/manage-staff-assignment" component={ManageStaffAssignment} />
             <Route exact path="/registration/family" component={Family} />
+            <Route exact path="/registration/people" component={People} />
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />

@@ -13,6 +13,8 @@ const ListAllGrades = () => <Link to={'/admin/grades'}>List All Grades</Link>;
 
 const ListAllSchoolClasses = () => <Link to={'/admin/school-classes'}>List All School Classes</Link>;
 
+const ListAllPeople = () => <Link to={'/registration/people'}>List All People</Link>;
+
 const ManageSchoolYears = () => <Link to={'/admin/school-years'}>Manage School Years</Link>;
 
 const ManageStaffAssignments = () => <Link to={'/admin/manage-staff-assignments'}>Manage Staff Assignments</Link>;
@@ -21,5 +23,5 @@ const CreateANewFamily = () => <Link to={'/new-family-form'}>Create A New Family
 
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
-    CreateANewFamily
+    CreateANewFamily, ListAllPeople
 };
