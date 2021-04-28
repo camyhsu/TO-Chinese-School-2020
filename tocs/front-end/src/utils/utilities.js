@@ -82,8 +82,14 @@ const BiToggle = ({ on }) => <i className={on ? 'bi-toggle-on' : 'bi-toggle-off'
 
 const OptionalField = () => <span className="text-muted"><small>(Optional)</small></span>;
 
+const pagingDataToContent = (response, rowsPerPage) => ({
+    isLoaded: true,
+    items: response.data.rows,
+    maxPage: Math.trunc(response.data.count / rowsPerPage) + (response.data.count % rowsPerPage === 0 ? 0 : 1)
+});
+
 export {
-    decimal, dollar, formatAddress, formatPersonName, formatPersonNames,
+    decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent,
     required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo,
     BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField
 }

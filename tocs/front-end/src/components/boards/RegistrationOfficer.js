@@ -1,4 +1,4 @@
-import { ListAllGrades, ListAllSchoolClasses, ManageSchoolYears, CreateANewFamily } from '../Links';
+import { ListAllGrades, ListAllSchoolClasses, ManageSchoolYears, CreateANewFamily, ListAllPeople } from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
@@ -11,6 +11,7 @@ const Home = () => {
                     <div className="col-md-6"><ListAllSchoolClasses /></div>
                     <div className="col-md-6"><ManageSchoolYears /></div>
                     <div className="col-md-6"><CreateANewFamily /></div>
+                    <div className="col-md-6"><ListAllPeople /></div>
                 </div>
             </CardBody>
         </Card>
