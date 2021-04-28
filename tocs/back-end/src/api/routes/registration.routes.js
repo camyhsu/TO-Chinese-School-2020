@@ -121,4 +121,10 @@ export default (router) => {
     [],
     studentController.addChild,
   );
+
+  router.get(
+    '/registration/people/index',
+    [],
+    controller.getPeople,
+  );
 };
