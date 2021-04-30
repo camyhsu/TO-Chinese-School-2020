@@ -36,7 +36,6 @@ const commonFn = (p, dispatch, isSchoolClass) => p.then(
 
 const commonFamilyFn = (p, dispatch, familyId) => p.then(
   (response) => {
-    console.log(response.data)
     const id = familyId || response.data.id;
     dispatch({
       type: ACTION_SUCCESS,
@@ -83,6 +82,35 @@ const commonFn3 = (p, dispatch) => p.then(
   }
 );
 
+const commonPersonFn = (p, dispatch, personId) => p.then(
+  (response) => {
+    dispatch({
+      type: ACTION_SUCCESS,
+      payload: '/registration/show-person?id=' + personId
+    });
+    dispatch({
+      type: SET_MESSAGE,
+      payload: response && 'Success',
+    });
+    return Promise.resolve();
+  },
+  (error) => {
+    const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    dispatch({
+      type: SET_MESSAGE,
+      payload: message,
+    });
+
+    return Promise.reject();
+  }
+);
+
 const addSchoolClass = (obj) => (dispatch) => commonFn(RegistrationService.addSchoolClass(obj), dispatch, true);
 
 const saveSchoolClass = (schoolClassId, obj) => (dispatch) => commonFn(RegistrationService.saveSchoolClass(schoolClassId, obj), dispatch, true);
@@ -105,7 +133,16 @@ const addParent = (familyId, obj) => (dispatch) => commonFamilyFn(RegistrationSe
 
 const addChild = (familyId, obj) => (dispatch) => commonFamilyFn(RegistrationService.addChild(familyId, obj), dispatch, familyId);
 
+const getPersonalDetails = (personId) => (dispatch) => commonFn3(RegistrationService.getPersonalDetails(personId), dispatch);
+
+const savePersonalDetails = (personId, obj) => (dispatch) => commonPersonFn(RegistrationService.savePersonalDetails(personId, obj), dispatch, personId);
+
+const addPersonalAddress = (personId, obj) => (dispatch) => commonPersonFn(RegistrationService.addPersonalAddress(personId, obj), dispatch, personId);
+
+const savePersonalAddress = (personId, obj) => (dispatch) => commonPersonFn(RegistrationService.savePersonalAddress(personId, obj), dispatch, personId);
+
 export {
   addSchoolClass, saveSchoolClass, getSchoolClass, addSchoolYear, saveSchoolYear, getSchoolYear,
-  addNewFamily, getFamilyAddress, saveFamilyAddress, addParent, addChild
+  addNewFamily, getFamilyAddress, saveFamilyAddress, addParent, addChild, savePersonalDetails,
+  addPersonalAddress, savePersonalAddress, getPersonalDetails
 }

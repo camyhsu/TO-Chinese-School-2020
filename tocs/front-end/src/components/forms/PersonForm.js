@@ -8,10 +8,10 @@ import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
 import { required, OptionalField } from '../../utils/utilities';
 import {
-    getPersonalDetails, savePersonalDetails, addParent as spAddParent, addChild as spAddChild
+    getPersonalDetails as spGetPersonalDetails, savePersonalDetails, addParent as spAddParent, addChild as spAddChild
 } from '../../actions/student-parent.action';
 import {
-    addChild as rgAddChild, addParent as rgAddParent
+    addChild as rgAddChild, addParent as rgAddParent, savePersonalDetails as rgSavePersonalDetails, getPersonalDetails as rgGetPersonalDetails
 } from '../../actions/registration.action';
 import { Card, CardBody, CardTitle } from "../Cards";
 
@@ -61,7 +61,13 @@ const PersonForm = ({ location } = {}) => {
         setIsParentTwo(!!isParentTwo);
         setRegistration(registration);
         if (id) {
-            dispatch(getPersonalDetails(id)).then((response) => {
+            const fn = () => {
+                if (registration) {
+                    return rgGetPersonalDetails(id);
+                }
+                return spGetPersonalDetails(id);
+            };
+            dispatch(fn()).then((response) => {
                 if (response && response.data) {
                     Object.entries(response.data).forEach(([key, value]) => fns[key] && fns[key](value || ''));
                 }
@@ -94,6 +100,9 @@ const PersonForm = ({ location } = {}) => {
                     return rgAddChild(familyId, obj);
                 }
                 if (id) {
+                    if (registration) {
+                        return rgSavePersonalDetails(id, obj);
+                    }
                     return savePersonalDetails(id, obj);
                 }
                 if (isParentTwo) {

@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import db from '../models/index.js';
+import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 
 const { Op } = Sequelize;
 const {
@@ -109,7 +110,7 @@ export default {
       where: { id: { [Op.eq]: id } },
     });
     if (families && families.length) {
-      return families[0];
+      return formatAddressPhoneNumbers(JSON.parse(JSON.stringify(families[0])));
     }
     return null;
   },
@@ -125,5 +126,32 @@ export default {
       };
     }
     return Person.findAndCountAll(obj);
+  },
+  getPerson: async (id) => {
+    const list = await Person.findAll({
+      where: { id },
+      include: [
+        { model: Address, as: 'address' },
+      ],
+    });
+    const person = list && list.length && list[0];
+    let allFamilies = [];
+    if (person) {
+      const dbFamilies = await person.families();
+      if (dbFamilies && dbFamilies.length > 0) {
+        allFamilies = await Family.findAll({
+          include: [
+            { model: Person, as: 'parentOne' },
+            { model: Person, as: 'parentTwo' },
+            { model: Person, as: 'children' },
+            { model: Address, as: 'address' },
+          ],
+          where: { id: { [Op.in]: dbFamilies.map((f) => f.id) } },
+        });
+      }
+    }
+    return formatAddressPhoneNumbers(JSON.parse(JSON.stringify({
+      person, families: allFamilies,
+    })));
   },
 };

@@ -63,4 +63,8 @@ export default {
     const { limit, offset, searchText } = req.query;
     next(response(await registrationService.getPeople({ limit, offset, searchText })));
   }),
+  getPerson: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.query;
+    next(response(await registrationService.getPerson(id)));
+  }),
 };

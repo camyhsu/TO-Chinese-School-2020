@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import Table from '../Table';
 import RegistrationService from '../../services/registration.service';
 import { Card, CardBody } from "../Cards";
-import { formatPersonName, pagingDataToContent } from '../../utils/utilities';
+import { formatPersonName, pagingDataToContent, BiInfoCircle } from '../../utils/utilities';
 
 const People = () => {
     const [content, setContent] = useState({ error: null, isLoaded: false, items: [], maxPage: 1 });
@@ -14,6 +15,9 @@ const People = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 25;
     const header = [
+        {
+            cell: (row) => <Link to={'/registration/show-person?id=' + row.id} className='btn btn-light'><BiInfoCircle/></Link>
+        },
         { title: 'Chinese Name', prop: 'chineseName', sortable: true, },
         { title: 'English Name', cell: (row) => formatPersonName(row) },
         { title: 'Gender', prop: 'gender' },

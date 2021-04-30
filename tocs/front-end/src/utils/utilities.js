@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { isEmail } from "validator";
 
 const d = (s) => s || '';
@@ -9,6 +11,10 @@ const decimal = (s) => new Intl.NumberFormat('en-IN', { style: 'decimal', minimu
 const formatPersonName = (person) => (person && (person.firstName + ' ' + person.lastName)) || '';
 
 const formatPersonNames = (person) => (person && (`${person.chineseName || ''}(${person.firstName} ${person.lastName})`)) || '';
+
+const formatPersonNamesWithLink = (person) => (<>
+    {person && <Link to={'/registration/show-person?id=' + person.id}>{formatPersonNames(person)}</Link>}
+</>);
 
 const formatAddress = (address) =>
     (address && `${d(address.street)} ${d(address.city)}${d(address.city) && ','} ${d(address.state)} ${d(address.zipcode)}`)
@@ -88,8 +94,15 @@ const pagingDataToContent = (response, rowsPerPage) => ({
     maxPage: Math.trunc(response.data.count / rowsPerPage) + (response.data.count % rowsPerPage === 0 ? 0 : 1)
 });
 
+const Children = ({ children = [], link } = {}) => children.map((c, i) => (
+    <React.Fragment key={'child-' + i}>
+        {link ? formatPersonNamesWithLink(c) : formatPersonNames(c)}{i !== children.length - 1 ? (<br />) : ''}
+    </React.Fragment>)
+);
+    
 export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent,
-    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo,
-    BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField
+    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children,
+    BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField,
+    formatPersonNamesWithLink
 }
