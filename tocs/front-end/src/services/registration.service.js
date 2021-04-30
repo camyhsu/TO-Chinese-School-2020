@@ -43,11 +43,22 @@ const addChild = (familyId, obj) => dataService.post('registration/families/add_
 const getPeople = (currentPage, rowsPerPage, filter, sortedProp) => 
   dataService.get(`registration/people/index?limit=${rowsPerPage}&offset=${Math.trunc((currentPage - 1) * rowsPerPage)}&searchText=${filter}`);
 
+const getPerson= (id) => dataService.get(`registration/people/show?id=${id}`);
+
+const getPersonalDetails = (personId, obj) => dataService.get('registration/people/edit?id=' + personId);
+
+const savePersonalDetails = (personId, obj) => dataService.put('registration/people/edit?id=' + personId, obj);
+
+const addPersonalAddress = (personId, obj) => dataService.post('registration/people/new_address?id=' + personId, obj);
+
+const savePersonalAddress = (personId, obj) => dataService.put(`registration/people/edit_address?id=${personId}`, obj);
+
 const obj = {
     addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild, getPeople,
-    getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass,
-    getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment,
-    getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear
+    getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass, getPerson,
+    getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment, savePersonalDetails,
+    getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear,
+    addPersonalAddress, savePersonalAddress, getPersonalDetails
 };
 
 export default obj;
