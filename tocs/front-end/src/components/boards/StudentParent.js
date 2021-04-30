@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import UserService from "../../services/user.service";
 import Address from "../Address";
 import Person from "../Person";
-import { formatPersonName, BiPencil, BiPlus, BiPersonPlus }from '../../utils/utilities';
+import { formatPersonName, BiPencil, BiPlus, BiPersonPlus, Children }from '../../utils/utilities';
 import { Card, CardBody, CardFooter, CardTitle } from "../Cards";
 
 const Home = () => {
@@ -63,14 +63,16 @@ const Home = () => {
                             <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
                             <Card size="medium" plain="true">
                                 <CardBody>
-                                    <CardTitle>Family for <br className="d-md-none" />{family.name}</CardTitle>
+                                    <CardTitle>Family for <br className="d-md-none" />{formatPersonName(family.parentOne)}</CardTitle>
                                     <dl className="row">
                                         <dt className="col-12 col-md-6 text-left text-md-right">Parent One:</dt>
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentOne)}</dd>
                                         <dt className="col-12 col-md-6 text-left text-md-right">Parent Two:</dt>
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentTwo)}</dd>
                                         <dt className="col-12 col-md-6 text-left text-md-right">Children:</dt>
-                                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0"></dd>
+                                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
+                                        <Children children={family.students}/>
+                                        </dd>
                                     </dl>
                                     <Address {...family.address} />
                                 </CardBody>

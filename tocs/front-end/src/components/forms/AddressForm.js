@@ -10,11 +10,14 @@ import { Card, CardBody, CardTitle } from "../Cards";
 
 import { required, validEmail, OptionalField } from '../../utils/utilities';
 import {
-    getPersonalAddress as spGetPersonalAddress, getFamilyAddress as spGetFamilyAddress, saveFamilyAddress as spSaveFamilyAddress, savePersonalAddress, addPersonalAddress
+    getPersonalAddress as spGetPersonalAddress, getFamilyAddress as spGetFamilyAddress,
+    saveFamilyAddress as spSaveFamilyAddress, savePersonalAddress as spSavePersonalAddress,
+    addPersonalAddress as spAddPersonalAddress
 } from '../../actions/student-parent.action';
 
 import {
-    getFamilyAddress as rgGetFamilyAddress, saveFamilyAddress as rgSaveFamilyAddress
+    getFamilyAddress as rgGetFamilyAddress, saveFamilyAddress as rgSaveFamilyAddress,
+    addPersonalAddress as rgAddPersonalAddress, savePersonalAddress as rgSavePersonalAddress,
 } from '../../actions/registration.action';
 
 const PersonForm = ({ location } = {}) => {
@@ -100,9 +103,15 @@ const PersonForm = ({ location } = {}) => {
                     if (familyId) {
                         return spSaveFamilyAddress(familyId, obj);
                     }
-                    return savePersonalAddress(personId, obj);
+                    if (registration) {
+                        return rgSavePersonalAddress(personId, obj);
+                    }
+                    return spSavePersonalAddress(personId, obj);
                 }
-                return addPersonalAddress(personId, obj);
+                if (registration) {
+                    return rgAddPersonalAddress(personId, obj);
+                }
+                return spAddPersonalAddress(personId, obj);
             };
             dispatch(fn()).then(() => {
                 setSuccessful(true);

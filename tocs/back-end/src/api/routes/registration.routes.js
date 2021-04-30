@@ -127,4 +127,34 @@ export default (router) => {
     [],
     controller.getPeople,
   );
+
+  router.get(
+    '/registration/people/show',
+    [],
+    controller.getPerson,
+  );
+
+  router.get(
+    '/registration/people/edit',
+    [],
+    studentController.getPerson,
+  );
+
+  router.put(
+    '/registration/people/edit',
+    [],
+    studentController.editPerson,
+  );
+
+  router.post(
+    '/registration/people/new_address',
+    [],
+    studentController.addPersonalAddress,
+  );
+
+  router.put(
+    '/registration/people/edit_address',
+    [],
+    studentController.editPersonalAddress,
+  );
 };

@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
-import { formatPersonNames, formatAddress, BiPencil, BiPersonPlus } from '../../utils/utilities';
-import { Card, CardBody, CardFooter } from "../Cards";
+import { formatPersonName, formatPersonNames, BiPencil, BiPersonPlus, Children, formatPersonNamesWithLink } from '../../utils/utilities';
+import { Card, CardTitle, CardBody, CardFooter } from "../Cards";
+import Address from "../Address";
 
 const Family = ({ location } = {}) => {
     const [content, setContent] = useState({ error: null, isLoaded: false, item: [] });
@@ -27,28 +28,23 @@ const Family = ({ location } = {}) => {
     const family = content.item;
     return (
         <Card size="medium">
+            <CardTitle>Family for <br className="d-md-none" />{formatPersonName(family.parentOne)}</CardTitle>
             <CardBody>
                 <dl className="row">
                     <dt className="col-12 col-md-6 text-left text-md-right">Parent One:</dt>
-                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonNames(family.parentOne)}</dd>
+                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonNamesWithLink(family.parentOne)}</dd>
                 </dl>
                 <dl className="row">
                     <dt className="col-12 col-md-6 text-left text-md-right">Parent Two:</dt>
-                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonNames(family.parentTwo)}</dd>
+                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonNamesWithLink(family.parentTwo)}</dd>
                 </dl>
                 <dl className="row">
                     <dt className="col-12 col-md-6 text-left text-md-right">Children:</dt>
                     <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
-                        {family.children && family.children.map((c, i) => (
-                            <React.Fragment key={'child-' + i}>
-                                {formatPersonNames(c)}{i !== family.children.length - 1 ? (<br />) : ''}
-                            </React.Fragment>))}
+                        <Children children={family.children} link="true"/>
                     </dd>
                 </dl>
-                <dl className="row">
-                    <dt className="col-12 col-md-6 text-left text-md-right">Address:</dt>
-                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatAddress(family.address)}</dd>
-                </dl>
+                <Address {...family.address} />
             </CardBody>
             <CardFooter>
                 <div className="row text-truncate">
