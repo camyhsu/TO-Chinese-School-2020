@@ -1,18 +1,33 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+import queryString from 'query-string';
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import CheckButton from 'react-validation/build/button';
+import { Card, CardBody, CardTitle } from "../Cards";
 
-import { required, validEmail } from '../utils/utilities';
+import { required, validEmail, OptionalField } from '../../utils/utilities';
+import {
+    getPersonalAddress as spGetPersonalAddress, getFamilyAddress as spGetFamilyAddress,
+    saveFamilyAddress as spSaveFamilyAddress, savePersonalAddress as spSavePersonalAddress,
+    addPersonalAddress as spAddPersonalAddress
+} from '../../actions/student-parent.action';
 
+import {
+    getFamilyAddress as rgGetFamilyAddress, saveFamilyAddress as rgSaveFamilyAddress,
+    addPersonalAddress as rgAddPersonalAddress, savePersonalAddress as rgSavePersonalAddress,
+} from '../../actions/registration.action';
 
 const PersonForm = ({ location } = {}) => {
     const form = useRef();
     const checkBtn = useRef();
 
+    const [personId, setPersonId] = useState(null);
+    const [familyId, setFamilyId] = useState(null);
+    const [registration,  setRegistration] = useState(null);
+    const [id, setId] = useState(null);
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -20,41 +35,52 @@ const PersonForm = ({ location } = {}) => {
     const [homePhone, setHomePhone] = useState('');
     const [cellPhone, setCellPhone] = useState('');
     const [email, setEmail] = useState('');
-    const [title, setTitle] = useState('');
+
+    const [formTitle, setFormTitle] = useState('');
     const [successful, setSuccessful] = useState(false);
 
     const { message } = useSelector(state => state.message);
     const { redirect } = useSelector(state => state.user);
 
-    const callback = useRef();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const { params } = location;
-        const fn = (v, setter) => v && setter(v);
-        fn(params.street, setStreet);
-        fn(params.city, setCity)
-        fn(params.state, setState)
-        fn(params.zipcode, setZipcode)
-        fn(params.homePhone, setHomePhone)
-        fn(params.cellPhone, setCellPhone)
-        fn(params.email, setEmail)
+    const fns = useMemo(() => ({
+        'id': setId,
+        'street': setStreet,
+        'city': setCity,
+        'state': setState,
+        'zipcode': setZipcode,
+        'homePhone': setHomePhone,
+        'cellPhone': setCellPhone,
+        'email': setEmail
+    }), []);
 
-        setTitle(params.title);
-        callback.current = params.callback;
-    }, [location]);
+    useEffect(() => {
+        const { id, personId, familyId, registration } = queryString.parse(location.search);
+        setFormTitle(`${id ? 'Edit' : 'Add'} ${familyId ? 'Family' : 'Personal'} Address`);
+        setPersonId(personId);
+        setFamilyId(familyId);
+        setRegistration(registration);
+        if (id) {
+            const fn = () => {
+                if (registration && familyId) {
+                    return rgGetFamilyAddress(familyId);
+                }
+                if (familyId) {
+                    return spGetFamilyAddress(familyId);
+                }
+                return spGetPersonalAddress(personId);
+            };
+            dispatch(fn()).then((response) => {
+                if (response && response.data) {
+                    Object.entries(response.data).forEach(([key, value]) => fns[key] && fns[key](value || ''));
+                }
+            });
+        }
+    }, [location, fns, dispatch]);
 
     const onChangeField = (e) => {
         const { name, value } = e.target;
-        const fns = {
-            'street': setStreet,
-            'city': setCity,
-            'state': setState,
-            'zipcode': setZipcode,
-            'home-phone': setHomePhone,
-            'cell-phone': setCellPhone,
-            'email': setEmail
-        };
         fns[name](value);
     };
 
@@ -66,9 +92,28 @@ const PersonForm = ({ location } = {}) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(callback.current({
+            const obj = {
                 street, city, state, zipcode, homePhone, cellPhone, email
-            })).then(() => {
+            };
+            const fn = () => {
+                if (registration && familyId) {
+                    return rgSaveFamilyAddress(familyId, obj);
+                }
+                if (id) {
+                    if (familyId) {
+                        return spSaveFamilyAddress(familyId, obj);
+                    }
+                    if (registration) {
+                        return rgSavePersonalAddress(personId, obj);
+                    }
+                    return spSavePersonalAddress(personId, obj);
+                }
+                if (registration) {
+                    return rgAddPersonalAddress(personId, obj);
+                }
+                return spAddPersonalAddress(personId, obj);
+            };
+            dispatch(fn()).then(() => {
                 setSuccessful(true);
             }).catch(() => {
                 setSuccessful(false);
@@ -79,14 +124,13 @@ const PersonForm = ({ location } = {}) => {
     return (
         <>
             {successful && (<Redirect to={redirect} />)}
-            <div className="col-md-12">
-                <div className="card card-container--large">
-                    <div className="card-body">
+            <Card size="large">
+                    <CardBody>
 
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <h4>{title}</h4>
+                                    <CardTitle>{formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">
@@ -142,11 +186,11 @@ const PersonForm = ({ location } = {}) => {
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="home-phone">Home Phone</label>
+                                            <label htmlFor="homePhone">Home Phone</label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="home-phone"
+                                                name="homePhone"
                                                 value={homePhone}
                                                 onChange={onChangeField}
                                                 validations={[required]}
@@ -154,11 +198,11 @@ const PersonForm = ({ location } = {}) => {
                                         </div>
 
                                         <div className="form-group col-md-6 mb-3">
-                                            <label htmlFor="cell-phone">Cell Phone <span className="text-muted"><small>(Optional)</small></span></label>
+                                            <label htmlFor="cellPhone">Cell Phone <OptionalField/></label>
                                             <Input
                                                 type="text"
                                                 className="form-control"
-                                                name="cell-phone"
+                                                name="cellPhone"
                                                 value={cellPhone}
                                                 onChange={onChangeField}
                                             />
@@ -196,9 +240,8 @@ const PersonForm = ({ location } = {}) => {
                             )}
                             <CheckButton style={{ display: "none" }} ref={checkBtn} />
                         </Form>
-                    </div>
-                </div>
-            </div>
+                    </CardBody>
+            </Card>
         </>
     );
 };

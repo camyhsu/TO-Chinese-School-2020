@@ -4,9 +4,17 @@ import config from 'config';
 // Models
 import address from './address.model.js';
 import family from './family.model.js';
+import grade from './grade.model.js';
+import instructorAssignment from './instructor-assignment.model.js';
+import libraryBook from './library-book.model.js';
+import libraryBookCheckout from './library-book-checkout.model.js';
 import person from './person.model.js';
 import right from './right.model.js';
 import role from './role.model.js';
+import schoolClass from './school-class.model.js';
+import schoolClassActiveFlag from './school-class-active-flag.model.js';
+import schoolYear from './school-year.model.js';
+import staffAssignment from './staff-assignment.model.js';
 import user from './user.model.js';
 
 const dbConfig = config.get('dbConfig');
@@ -44,22 +52,33 @@ const createDeleteByIdFn = (model) => async (id) => model.destroy({ where: { id 
 /*
  * withStrings: [[fieldName, columnName], 'fieldName', ...]
  */
-const fieldsFactory = ({ withId, withStrings } = {}) => {
+const fieldsFactory = ({
+  withId, withStrings, withIntegers, withDates,
+} = {}) => {
   const fields = {};
   fields.id = (withId && {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   }) || undefined;
-  withStrings && withStrings.map((obj) => (Array.isArray(obj) && obj) || [obj, obj.toLowerCase()])
-    .forEach(([field, column] = {}) => Object.assign(fields,
-      { [field]: { type: Sequelize.STRING, field: column } }));
+
+  [[withStrings, Sequelize.STRING], [withIntegers, Sequelize.INTEGER], [withDates, Sequelize.DATE]]
+    .forEach(([collection, sequelizeType]) => {
+      collection && collection.map((obj) => (Array.isArray(obj) && obj) || [obj, obj.toLowerCase()])
+        .forEach(([field, column, presence] = {}) => Object.assign(fields,
+          { [field]: { type: sequelizeType, field: column, allowNull: !presence } }));
+    });
   return fields;
 };
 
 /* Mapping */
 const mappings = [
-  ['Address', address], ['Family', family], ['Person', person], ['Right', right], ['Role', role], ['User', user],
+  ['Address', address], ['Family', family], ['Grade', grade],
+  ['Instructor', person], ['InstructorAssignment', instructorAssignment],
+  ['LibraryBook', libraryBook], ['LibraryBookCheckOut', libraryBookCheckout], ['LibraryBookCheckedOutBy', person],
+  ['Person', person], ['Right', right], ['Role', role],
+  ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
+  ['StaffAssignment', staffAssignment], ['User', user],
   ['Children', person], ['ParentOne', person], ['ParentTwo', person],
 ];
 mappings.forEach((mapping) => {
@@ -75,7 +94,9 @@ mappings.forEach((mapping) => {
 
 /* Associations */
 const {
-  Address, Family, Person, Right, Role, User,
+  Address, Family, Grade, InstructorAssignment,
+  LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy,
+  Person, Right, Role, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, User,
   Children, ParentOne, ParentTwo,
 } = db;
 
@@ -94,6 +115,23 @@ Object.assign(Family, {
     }),
 });
 
+Object.assign(InstructorAssignment, {
+  Instructor: InstructorAssignment.belongsTo(Person, { foreignKey: { allowNull: false }, as: 'instructor' }),
+  SchoolClass: InstructorAssignment.belongsTo(SchoolClass, { foreignKey: { allowNull: false } }),
+  SchoolYear: InstructorAssignment.belongsTo(SchoolYear, { foreignKey: { allowNull: false } }),
+});
+
+Object.assign(LibraryBook, {
+  LibraryBookCheckOut: LibraryBook.hasMany(LibraryBookCheckOut, { as: 'checkOuts' }),
+});
+
+Object.assign(LibraryBookCheckOut, {
+  LibraryBook: LibraryBookCheckOut.belongsTo(LibraryBook,
+    { foreignKey: 'library_book_id', as: 'libraryBook' }),
+  LibraryBookCheckedOutBy: LibraryBookCheckOut.belongsTo(LibraryBookCheckedOutBy,
+    { foreignKey: 'checked_out_by_id', as: 'checkedOutBy' }),
+});
+
 Object.assign(Person, {
   User: Person.hasOne(User),
   Address: Person.belongsTo(Address),
@@ -106,6 +144,21 @@ Object.assign(Right, {
 Object.assign(Role, {
   Right: Role.belongsToMany(Right, { through: 'rights_roles', foreignKey: 'role_id', otherKey: 'right_id' }),
   User: Role.belongsToMany(User, { through: 'roles_users', foreignKey: 'role_id', otherKey: 'user_id' }),
+});
+
+Object.assign(SchoolClass, {
+  Grade: SchoolClass.belongsTo(Grade),
+  SchoolClassActiveFlag: SchoolClass.hasMany(SchoolClassActiveFlag, { as: 'schoolClassActiveFlags' }),
+});
+
+Object.assign(SchoolClassActiveFlag, {
+  SchoolClass: SchoolClassActiveFlag.belongsTo(SchoolClass, { as: 'schoolClass' }),
+  SchoolYear: SchoolClassActiveFlag.belongsTo(SchoolYear, { as: 'schoolYear' }),
+});
+
+Object.assign(StaffAssignment, {
+  Person: StaffAssignment.belongsTo(Person),
+  SchoolYear: StaffAssignment.belongsTo(SchoolYear),
 });
 
 Object.assign(User, {

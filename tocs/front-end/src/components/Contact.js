@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
+import { Card, CardBody, CardTitle } from "./Cards";
 
 const Contact = () => {
     useEffect(() => { document.title = "TOCS - Contact Us"; }, []);
 
     return (
-        <div className="container">
-            <div className="card card-container--large">
-                <div className="card-body">
-                <h5 className="card-title">Thousand Oaks Chinese School could be contacted through the following ways:</h5>
+        <Card size="large">
+                <CardBody>
+                <CardTitle>Thousand Oaks Chinese School could be contacted through the following ways:</CardTitle>
                 <ul>
                     <li>Web Site: <a href="http://www.to-cs.org">http://www.to-cs.org</a></li>
                     <li>By Mail: P.O. Box 6775, Thousand Oaks, CA 91362</li>
@@ -28,9 +28,8 @@ const Contact = () => {
                         </ul>
                     </li>
                 </ul>
-                </div>
-            </div>
-        </div>
+                </CardBody>
+        </Card>
     );
 };
 

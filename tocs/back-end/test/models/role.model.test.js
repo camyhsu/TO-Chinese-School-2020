@@ -60,9 +60,9 @@ describe('Test Role', () => {
       await expect(Role.create({ name: ROLE_NAME_STUDENT_PARENT })).to.eventually.be.rejectedWith('Validation error');
     });
 
-    it('should not find Super User', async () => {
+    it('should find Super User', async () => {
       const role = await Role.findFirstBy({ name: ROLE_NAME_SUPER_USER });
-      expect(role).to.be.null;
+      expect(role).to.be.not.null;
     });
 
     it('should be able to find by role name and check authorized', async () => {

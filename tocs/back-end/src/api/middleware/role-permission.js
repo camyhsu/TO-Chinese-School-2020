@@ -22,16 +22,15 @@ const isActionPermitted = async (req, _res, next) => {
 
   const user = await User.getById(req.userId);
   const userRoleNames = (await user.getRoles()).map((role) => role.name);
-
-  if (!actionsXRoles.get(str)) {
-    await fetchActionsXRoles();
-  }
-
-  const found = (actionsXRoles.get(str) || []).filter((rs) => userRoleNames.includes(rs));
-
-  if (!found.length) {
-    next(unauthorized(str));
-    return;
+  if (!userRoleNames.includes('Super User')) {
+    if (!actionsXRoles.get(str)) {
+      await fetchActionsXRoles();
+    }
+    const found = (actionsXRoles.get(str) || []).filter((rs) => userRoleNames.includes(rs));
+    if (!found.length) {
+      next(unauthorized(str));
+      return;
+    }
   }
   next();
 };

@@ -48,13 +48,19 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       * Not searching for student parent since that will return too many people
       */
       if (name !== this.ROLE_NAME_SUPER_USER && name !== this.ROLE_NAME_STUDENT_PARENT) {
-        const role = await Role.findFirstBy({ name });
-        if (role) {
-          const users = await role.getUsers();
-          if (users) {
-            return Promise.all(users.map((user) => user.getPerson()));
-          }
-        }
+        const roles = await Role.findAll({
+          where: { name: { [Sequelize.Op.eq]: name } },
+          include: [
+            {
+              model: sequelize.models.User,
+              as: 'users',
+              include: [{ model: sequelize.models.Person, as: 'person' }],
+            },
+          ],
+        });
+        const obj = {};
+        roles.forEach((role) => role.users.forEach((user) => { obj[user.person.id] = user.person; }));
+        return Object.values(obj);
       }
 
       return [];
