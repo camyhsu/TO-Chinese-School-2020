@@ -45,7 +45,9 @@ const Home = ({ location } = {}) => {
                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{dollar(sy.tuitionDiscountForInstructor)}</dd>
 
                         <dt className="col-12 col-md-6 text-left text-md-right">Book / Material Charge:</dt>
-                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0"></dd>
+                        <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
+                            <Link to={'/book-charge-form?schoolYearId=' + sy.id} className='btn btn-light'><BiPencil/> Book Charge</Link>    
+                        </dd>
 
                         <dt className="col-12 col-md-6 text-left text-md-right">PVA Membership Due:</dt>
                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{dollar(sy.pvaMembershipDue)}</dd>

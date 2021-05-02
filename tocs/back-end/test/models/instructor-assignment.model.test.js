@@ -3,7 +3,9 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import db from '../../src/models/index.js';
 import { modelTests } from './model-test-utils.js';
-import { datePlus, randPerson, randString } from '../../src/utils/utilities.js';
+import {
+  datePlus, randPerson, createRandSchoolClass, createRandSchoolYear,
+} from '../../src/utils/utilities.js';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -20,29 +22,6 @@ const createRandInstructorAssignment = (c) => ({
   instructorId: 1,
   startDate: new Date(),
   endDate: new Date(),
-});
-
-const createRandSchoolClass = (c) => ({
-  startDate: new Date(),
-  endDate: new Date(),
-  englishName: randString(),
-  chineseName: randString(),
-  schoolClassType: c || SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_MIXED,
-  maxSize: 10,
-});
-
-const createRandSchoolYear = () => ({
-  name: randString(),
-  startDate: new Date(),
-  endDate: new Date(),
-  registrationStartDate: new Date(),
-  registration75PercentDate: new Date(),
-  registrationEndDate: new Date(),
-  refundEndDate: new Date(),
-  refund50PercentDate: new Date(),
-  earlyRegistrationStartDate: new Date(),
-  earlyRegistrationEndDate: new Date(),
-  ageCutoffMonth: 12,
 });
 
 describe('Test InstructorAssignment', () => {
