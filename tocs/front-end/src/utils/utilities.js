@@ -30,6 +30,16 @@ const required = (value) => {
     }
 };
 
+const requiredZeroAccepted = (value) => {
+    if (!value && value !== 0) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                This field is required!
+            </div>
+        );
+    }
+};
+
 const validEmail = (value) => {
     if (!isEmail(value)) {
         return (
@@ -104,5 +114,5 @@ export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent,
     required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children,
     BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField,
-    formatPersonNamesWithLink
+    formatPersonNamesWithLink, requiredZeroAccepted
 }

@@ -53,12 +53,16 @@ const addPersonalAddress = (personId, obj) => dataService.post('registration/peo
 
 const savePersonalAddress = (personId, obj) => dataService.put(`registration/people/edit_address?id=${personId}`, obj);
 
+const saveBookCharges = (schoolYearId, obj) => dataService.put(`admin/school_years/edit_book_charge?schoolYearId=${schoolYearId}`, obj);
+
+const getBookCharges = (schoolYearId) => dataService.get(`admin/school_years/edit_book_charge?schoolYearId=${schoolYearId}`);
+
 const obj = {
     addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild, getPeople,
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass, getPerson,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment, savePersonalDetails,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear,
-    addPersonalAddress, savePersonalAddress, getPersonalDetails
+    addPersonalAddress, savePersonalAddress, getPersonalDetails, saveBookCharges, getBookCharges,
 };
 
 export default obj;

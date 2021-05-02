@@ -16,7 +16,7 @@ import PersonDetails from './components/registration/PersonDetails';
 import Privacy from './components/Privacy';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
-import { AddressForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
+import { AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
 import {
@@ -93,6 +93,7 @@ const App = () => {
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />
+            <Route exact path="/book-charge-form" component={BookChargeForm} />
             <Route exact path="/book-form" component={BookForm} />
             <Route exact path="/change-password-form" component={ChangePasswordForm} />
             <Route exact path="/librarian/checkout-history" component={CheckoutHistoryForm} />

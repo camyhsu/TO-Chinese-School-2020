@@ -2,7 +2,12 @@
 import { expect } from 'chai';
 import RegistrationService from '../../src/services/registration.service.js';
 import StudentService from '../../src/services/student.service.js';
-import { randAddress, randPerson } from '../../src/utils/utilities.js';
+import {
+  randAddress, randPerson, createRandSchoolYear, createRandSchoolClass,
+} from '../../src/utils/utilities.js';
+import db from '../../src/models/index.js';
+
+const { SchoolClass, BookCharge, Grade } = db;
 
 describe('Test Registration', () => {
   describe('addFamily/getFamily', () => {
@@ -30,6 +35,17 @@ describe('Test Registration', () => {
       familyWithChildren = await RegistrationService.getFamily(savedFamily.id);
       expect(familyWithChildren.children.length).to.eq(2);
       expect(familyWithChildren.children[1].firstName).to.eq(child2.firstName);
+    });
+  });
+
+  describe('addSchoolYear', () => {
+    it('should add SchoolYear', async () => {
+      const schoolClass = await SchoolClass.create(createRandSchoolClass());
+      const schoolYear = await RegistrationService.addSchoolYear(createRandSchoolYear());
+      expect(await schoolClass.activeIn(schoolYear.id)).to.be.true;
+      const bookCharges = await BookCharge.findAllForSchoolYear(schoolYear.id);
+      const grades = await Grade.findAll();
+      expect(bookCharges.length).to.eq(grades.length);
     });
   });
 });

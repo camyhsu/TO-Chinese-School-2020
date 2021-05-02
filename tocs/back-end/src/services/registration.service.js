@@ -4,7 +4,7 @@ import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 
 const { Op } = Sequelize;
 const {
-  Address, Family, Grade, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, Person,
+  Address, BookCharge, Family, Grade, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, Person,
 } = db;
 
 const dollarFields = [
@@ -17,6 +17,27 @@ const dollarFields = [
   'tuitionDiscountForPreKInCents',
   'tuitionDiscountForInstructorInCents',
 ];
+
+const initializeSchoolClassActiveFlags = async (schoolYear) => {
+  const schoolClasses = await SchoolClass.findAll();
+  const promises = schoolClasses.map(async (schoolClass) => {
+    const s = await SchoolClassActiveFlag.create({
+      schoolClassId: schoolClass.id,
+      schoolYearId: schoolYear.id,
+    });
+    return s;
+  });
+  return Promise.all(promises);
+};
+
+const initializeBookCharges = async (schoolYear) => {
+  const grades = await Grade.findAll();
+  const promises = grades.map(async (grade) => BookCharge.create({
+    gradeId: grade.id,
+    schoolYearId: schoolYear.id,
+  }));
+  return Promise.all(promises);
+};
 
 export default {
   getGrades: async () => Grade.findAll(),
@@ -73,12 +94,32 @@ export default {
     dollarFields.forEach((s) => { schoolYear[s] = obj[s.replace('InCents', '')] * 100; });
     await schoolYear.save();
   },
+  getBookCharges: async (schoolYearId) => {
+    const bookCharges = await BookCharge.findAllForSchoolYear(schoolYearId);
+    bookCharges.forEach((bookCharge) => ['bookChargeInCents']
+      .forEach((s) => Object.assign(bookCharge.dataValues, { [s.replace('InCents', '')]: bookCharge[s] / 100 })));
+    return bookCharges;
+  },
+  saveBookCharges: async (schoolYearId, obj) => {
+    const bookCharges = await BookCharge.findAllForSchoolYear(schoolYearId);
+    const bcObj = bookCharges.reduce((result, current) => Object.assign(result, { [current.id]: current }), {});
+    const promises = Object.entries(obj).map(async ([key, value]) => {
+      bcObj[key].bookChargeInCents = value * 100;
+      await bcObj[key].save();
+    });
+    return Promise.all(promises);
+  },
   toggleAutoClassAssignment: async (id) => {
     const schoolYear = await SchoolYear.getById(id);
     schoolYear.autoClassAssignment = !schoolYear.autoClassAssignment;
     return schoolYear.save();
   },
-  addSchoolYear: async (obj) => SchoolYear.create(obj),
+  addSchoolYear: async (obj) => {
+    const schoolYear = await SchoolYear.create(obj);
+    await initializeSchoolClassActiveFlags(schoolYear);
+    await initializeBookCharges(schoolYear);
+    return schoolYear;
+  },
   getStaffAssignments: async () => SchoolYear.findAll({ where: { id: { [Op.gt]: 8 } } }),
   getStaffAssignment: async (id) => {
     const schoolYear = await SchoolYear.getById(id);

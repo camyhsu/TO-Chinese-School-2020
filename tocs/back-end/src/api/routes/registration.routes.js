@@ -68,6 +68,18 @@ export default (router) => {
     controller.addSchoolYear,
   );
 
+  router.get(
+    '/admin/school_years/edit_book_charge',
+    [],
+    controller.getBookCharges,
+  );
+
+  router.put(
+    '/admin/school_years/edit_book_charge',
+    [],
+    controller.saveBookCharges,
+  );
+
   router.put(
     '/admin/school_years/toggle_auto_class_assignment',
     [],
