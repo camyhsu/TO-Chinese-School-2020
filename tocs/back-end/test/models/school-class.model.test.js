@@ -1,20 +1,12 @@
 /* global describe, it */
 import chai from 'chai';
 import db from '../../src/models/index.js';
-import { randString } from '../../src/utils/utilities.js';
+import { createRandSchoolClass } from '../../src/utils/utilities.js';
 import { modelTests } from './model-test-utils.js';
 
 const { expect } = chai;
 
 const { SchoolClass, SchoolClassActiveFlag, SchoolYear } = db;
-const createRandSchoolClass = (c) => ({
-  startDate: new Date(),
-  endDate: new Date(),
-  englishName: randString(),
-  chineseName: randString(),
-  schoolClassType: c || SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_MIXED,
-  maxSize: 10,
-});
 
 describe('Test SchoolClass', () => {
   describe('SchoolClass - CRUD', modelTests(SchoolClass, {
@@ -27,7 +19,7 @@ describe('Test SchoolClass', () => {
       expect(c1.name()).to.be.not.null;
       expect(c1.elective()).to.eq(false);
       const c2 = await SchoolClass.create(
-        createRandSchoolClass(SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_ELECTIVE)
+        createRandSchoolClass(SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_ELECTIVE),
       );
       expect(c2.name()).to.be.not.null;
       expect(c2.elective()).to.eq(true);

@@ -1,34 +1,11 @@
 /* global describe, it */
 import chai from 'chai';
 import db from '../../src/models/index.js';
-import { randString } from '../../src/utils/utilities.js';
+import { createRandSchoolYear, createRandSchoolClass } from '../../src/utils/utilities.js';
 
 const { expect } = chai;
 
 const { SchoolClass, SchoolClassActiveFlag, SchoolYear } = db;
-const createRandSchoolClass = (c) => ({
-  startDate: new Date(),
-  endDate: new Date(),
-  englishName: randString(),
-  chineseName: randString(),
-  schoolClassType: c || SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_MIXED,
-  maxSize: 10,
-});
-
-const createRandSchoolYear = (obj) => ({
-  name: randString(),
-  startDate: new Date(),
-  endDate: new Date(),
-  registrationStartDate: new Date(),
-  registration75PercentDate: new Date(),
-  registrationEndDate: new Date(),
-  refundEndDate: new Date(),
-  refund50PercentDate: new Date(),
-  earlyRegistrationStartDate: new Date(),
-  earlyRegistrationEndDate: new Date(),
-  ageCutoffMonth: 12,
-  ...obj,
-});
 
 describe('Test SchoolClassActiveFlag', () => {
   describe('SchoolClassActiveFlag', async () => {

@@ -1,24 +1,11 @@
 /* global describe, it */
 import chai from 'chai';
 import db from '../../src/models/index.js';
-import { datePlus, randString } from '../../src/utils/utilities.js';
+import { datePlus, createRandSchoolYear } from '../../src/utils/utilities.js';
 import { modelTests } from './model-test-utils.js';
 
 const { expect } = chai;
 const { SchoolYear } = db;
-const createRandSchoolYear = () => ({
-  name: randString(),
-  startDate: new Date(),
-  endDate: new Date(),
-  registrationStartDate: new Date(),
-  registration75PercentDate: new Date(),
-  registrationEndDate: new Date(),
-  refundEndDate: new Date(),
-  refund50PercentDate: new Date(),
-  earlyRegistrationStartDate: new Date(),
-  earlyRegistrationEndDate: new Date(),
-  ageCutoffMonth: 12,
-});
 
 describe('Test SchoolYear', () => {
   describe('SchoolYear - CRUD', modelTests(SchoolYear, { object: createRandSchoolYear() }));

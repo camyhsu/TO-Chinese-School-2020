@@ -67,8 +67,31 @@ const dateBetween = (_date, duration) => {
 
 const datePlus = (n) => new Date(new Date().getTime() + n * 1000 * 60 * 60 * 24);
 
+const createRandSchoolYear = () => ({
+  name: randString(),
+  startDate: new Date(),
+  endDate: new Date(),
+  registrationStartDate: new Date(),
+  registration75PercentDate: new Date(),
+  registrationEndDate: new Date(),
+  refundEndDate: new Date(),
+  refund50PercentDate: new Date(),
+  earlyRegistrationStartDate: new Date(),
+  earlyRegistrationEndDate: new Date(),
+  ageCutoffMonth: 12,
+});
+
+const createRandSchoolClass = (c) => ({
+  startDate: new Date(),
+  endDate: new Date(),
+  englishName: randString(),
+  chineseName: randString(),
+  schoolClassType: c || 'M',
+  maxSize: 10,
+});
+
 export {
   dateBetween, datePlus, formatPhoneNumber, randAddress, randObj, randBook,
-  randPerson, randSalt, randUser, sha256Hex, today,
-  toNumeric, uuid, randString, pick, toObj, collectionToObj,
+  randPerson, randSalt, randUser, sha256Hex, today, createRandSchoolYear,
+  toNumeric, uuid, randString, pick, toObj, collectionToObj, createRandSchoolClass,
 };

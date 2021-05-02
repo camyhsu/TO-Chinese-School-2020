@@ -3,6 +3,7 @@ import config from 'config';
 
 // Models
 import address from './address.model.js';
+import bookCharge from './book-charge.model.js';
 import family from './family.model.js';
 import grade from './grade.model.js';
 import instructorAssignment from './instructor-assignment.model.js';
@@ -73,7 +74,7 @@ const fieldsFactory = ({
 
 /* Mapping */
 const mappings = [
-  ['Address', address], ['Family', family], ['Grade', grade],
+  ['Address', address], ['BookCharge', bookCharge], ['Family', family], ['Grade', grade],
   ['Instructor', person], ['InstructorAssignment', instructorAssignment],
   ['LibraryBook', libraryBook], ['LibraryBookCheckOut', libraryBookCheckout], ['LibraryBookCheckedOutBy', person],
   ['Person', person], ['Right', right], ['Role', role],
@@ -94,7 +95,7 @@ mappings.forEach((mapping) => {
 
 /* Associations */
 const {
-  Address, Family, Grade, InstructorAssignment,
+  Address, BookCharge, Family, Grade, InstructorAssignment,
   LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy,
   Person, Right, Role, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, User,
   Children, ParentOne, ParentTwo,
@@ -103,6 +104,11 @@ const {
 Object.assign(Address, {
   Family: Address.hasOne(Family),
   Person: Address.hasOne(Person),
+});
+
+Object.assign(BookCharge, {
+  Grade: BookCharge.belongsTo(Grade, { foreignKey: { allowNull: false }, as: 'grade' }),
+  SchoolYear: BookCharge.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
 });
 
 Object.assign(Family, {

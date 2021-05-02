@@ -41,6 +41,14 @@ export default {
     const { id } = req.query;
     next(response(await registrationService.saveSchoolYear(id, req.body)));
   }),
+  getBookCharges: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.query;
+    next(response(await registrationService.getBookCharges(schoolYearId)));
+  }),
+  saveBookCharges: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.query;
+    next(response(await registrationService.saveBookCharges(schoolYearId, req.body)));
+  }),
   toggleAutoClassAssignment: asyncWrapper(async (req, _res, next) => {
     const { id } = req.query;
     next(response(await registrationService.toggleAutoClassAssignment(id)));
