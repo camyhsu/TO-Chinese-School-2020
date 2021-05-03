@@ -57,8 +57,8 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return InstructorAssignment.findAll({
         where: { role: { [Sequelize.Op.eq]: this.role }, id: { [Sequelize.Op.ne]: this.id } },
         include: [
-          { model: sequelize.models.SchoolYear, where: { id: this.schoolYearId } },
-          { model: sequelize.models.SchoolClass, where: { id: this.schoolClassId } },
+          { model: sequelize.models.SchoolYear, as: 'schoolYear', where: { id: this.schoolYearId } },
+          { model: sequelize.models.SchoolClass, as: 'schoolClass', where: { id: this.schoolClassId } },
           { model: sequelize.models.Instructor, as: 'instructor' },
         ],
       });
@@ -83,7 +83,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
           },
         },
         include: [
-          { model: sequelize.models.SchoolYear, where: { id: schoolYearId } },
+          { model: sequelize.models.SchoolYear, as: 'schoolYear', where: { id: schoolYearId } },
           { model: sequelize.models.Instructor, as: 'instructor' },
         ],
       });

@@ -21,7 +21,9 @@ const ManageStaffAssignments = () => <Link to={'/admin/manage-staff-assignments'
 
 const CreateANewFamily = () => <Link to={'/new-family-form'}>Create A New Family</Link>;
 
+const ListInstructorDiscountInformation = () => <Link to={'/accounting/instructor-discount'}>List Instructor Discount Information</Link>;
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
-    CreateANewFamily, ListAllPeople
+    CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation
 };
