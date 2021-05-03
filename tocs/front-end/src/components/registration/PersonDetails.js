@@ -3,19 +3,17 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
-import { BiPlus, BiPencil, formatPersonNames, formatPersonName, Children } from '../../utils/utilities';
+import { BiPlus, BiPencil, formatPersonName, Children } from '../../utils/utilities';
 import { Card, CardBody, CardTitle, CardFooter } from "../Cards";
 import Address from "../Address";
 import Person from "../Person";
 
 const Home = ({ location } = {}) => {
-    const [id, setId] = useState(null);
     const [content, setContent] = useState({ error: null, isLoaded: false, item: [] });
     const dispatch = useDispatch();
 
     useEffect(() => {
         const { id } = queryString.parse(location.search);
-        setId(id);
         if (id) {
             RegistrationService.getPerson(id).then((response) => {
                 if (response && response.data) {
