@@ -92,6 +92,12 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       const [result] = await sequelize.query(sql);
       return result[0].count > 0;
     },
+    async findChildren() {
+      const families = await this.findFamiliesAsParent();
+      const fPromises = families.map(async (family) => family.getChildren());
+      const childrenInFamilies = await Promise.all(fPromises);
+      return childrenInFamilies.reduce((r, c) => r.concat(c), []);
+    },
     /* TODO Not yet implemented
       def school_age_for(school_year)
       def age_in_range_for_track_event?(grade)

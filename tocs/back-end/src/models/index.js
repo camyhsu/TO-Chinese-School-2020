@@ -123,8 +123,8 @@ Object.assign(Family, {
 
 Object.assign(InstructorAssignment, {
   Instructor: InstructorAssignment.belongsTo(Person, { foreignKey: { allowNull: false }, as: 'instructor' }),
-  SchoolClass: InstructorAssignment.belongsTo(SchoolClass, { foreignKey: { allowNull: false } }),
-  SchoolYear: InstructorAssignment.belongsTo(SchoolYear, { foreignKey: { allowNull: false } }),
+  SchoolClass: InstructorAssignment.belongsTo(SchoolClass, { foreignKey: { allowNull: false }, as: 'schoolClass' }),
+  SchoolYear: InstructorAssignment.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
 });
 
 Object.assign(LibraryBook, {

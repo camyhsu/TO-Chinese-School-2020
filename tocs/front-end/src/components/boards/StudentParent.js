@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from '../../actions/auth.action';
 import UserService from "../../services/user.service";
 import Address from "../Address";
 import Person from "../Person";
@@ -10,6 +10,7 @@ import { Card, CardBody, CardFooter, CardTitle } from "../Cards";
 
 const Home = () => {
     const [content, setContent] = useState("");
+    const dispatch = useDispatch();
 
     useEffect(() => {
         document.title = 'TOCS - Home';
@@ -25,6 +26,9 @@ const Home = () => {
               error.toString();
 
             setContent(_content);
+            if (_content && _content.message && _content.message === 'Unauthorized!') {
+                dispatch(logout());
+            }
           }
         );
     }, []);

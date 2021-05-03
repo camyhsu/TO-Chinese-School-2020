@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
+import InstructorDiscount from './components/accounting/InstructorDiscount';
 import Family from './components/registration/Family';
 import People from './components/registration/People';
 import PersonDetails from './components/registration/PersonDetails';
@@ -81,6 +82,7 @@ const App = () => {
             <Route exact path="/account" component={Account} />
 
             <Route exact path="/librarian/books" component={Books} />
+            <Route exact path="/accounting/instructor-discount" component={InstructorDiscount} />
             <Route exact path="/admin/grades" component={Grades} />
             <Route exact path="/admin/school-classes" component={SchoolClasses} />
             <Route exact path="/admin/school-years" component={SchoolYears} />

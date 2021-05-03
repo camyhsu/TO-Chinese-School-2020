@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
-import { formatPersonName, formatPersonNames, BiPencil, BiPersonPlus, Children, formatPersonNamesWithLink } from '../../utils/utilities';
+import { formatPersonName, BiPencil, BiPersonPlus, Children, formatPersonNamesWithLink } from '../../utils/utilities';
 import { Card, CardTitle, CardBody, CardFooter } from "../Cards";
 import Address from "../Address";
 
