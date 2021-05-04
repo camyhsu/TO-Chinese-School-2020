@@ -25,7 +25,9 @@ const CreateANewFamily = () => <Link to={'/new-family-form'}>Create A New Family
 
 const ListInstructorDiscountInformation = () => <Link to={'/accounting/instructor-discount'}>List Instructor Discount Information</Link>;
 
+const ListAvtiveSchoolClassGradeCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_student_count?schoolYearId=${schoolYear.id}`}>{schoolYear.name} 年級人數清單</Link>
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
-    CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses
+    CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses,
+    ListAvtiveSchoolClassGradeCount
 };

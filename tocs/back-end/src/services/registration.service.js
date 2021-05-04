@@ -4,7 +4,8 @@ import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 
 const { Op } = Sequelize;
 const {
-  Address, BookCharge, Family, Grade, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, Person,
+  Address, BookCharge, Family, Grade, SchoolClass, SchoolClassActiveFlag,
+  SchoolYear, StaffAssignment, StudentClassAssignment, Person,
 } = db;
 
 const dollarFields = [
@@ -200,5 +201,29 @@ export default {
     return formatAddressPhoneNumbers(JSON.parse(JSON.stringify({
       person, families: allFamilies,
     })));
+  },
+  getGradeStudentCount: async (schoolYearId) => {
+    const sca = await StudentClassAssignment.getGradeStudentCount(schoolYearId);
+    const xsca = JSON.parse(JSON.stringify(sca));
+    console.log(xsca);
+    const obj = xsca.reduce((r, c) => Object.assign(r, {
+      [c.grade.id]: {
+        cnt: c.cnt, grade: c.grade, maxSize: 0,
+      },
+    }), {});
+
+    const schoolClasses = await SchoolClass.getActiveSchoolClasses(schoolYearId);
+    schoolClasses.forEach((schoolClass) => {
+      if (schoolClass.gradeId && schoolClass.maxSize) {
+        const x = obj[schoolClass.gradeId];
+        if (x) {
+          x.maxSize += schoolClass.maxSize;
+        }
+      }
+    });
+    const title = (await SchoolYear.getById(schoolYearId)).name;
+    return {
+      title, items: Object.keys(obj).sort((a, b) => a - b).reduce((result, key) => result.concat(obj[key]), []),
+    };
   },
 };

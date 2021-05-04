@@ -8,21 +8,6 @@ export default (sequelize, Sequelize, fieldsFactory) => {
   });
   const InstructorAssignment = sequelize.define('instructor_assignment', {
     ...fields,
-    schoolYearId: {
-      type: Sequelize.INTEGER,
-      field: 'school_year_id',
-      allowNull: false,
-    },
-    schoolClassId: {
-      type: Sequelize.INTEGER,
-      field: 'school_class_id',
-      allowNull: false,
-    },
-    instructorId: {
-      type: Sequelize.INTEGER,
-      field: 'instructor_id',
-      allowNull: false,
-    },
   }, {
     validate: {
       startEndDateOrder() {
