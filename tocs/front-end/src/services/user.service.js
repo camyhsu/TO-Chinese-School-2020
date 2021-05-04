@@ -6,8 +6,10 @@ const getStudentParentBoard = () => dataService.get('board/student-parent');
 
 const changePassword = (obj) => dataService.put('change-password', obj);
 
+const getRegistrationOfficerBoard = () => dataService.get('/board/registration-officer');
+
 const obj = {
-  getAdminBoard, getStudentParentBoard, changePassword
+  getAdminBoard, getStudentParentBoard, changePassword, getRegistrationOfficerBoard
 };
 
 export default obj;

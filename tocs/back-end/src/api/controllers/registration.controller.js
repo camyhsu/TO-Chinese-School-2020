@@ -13,6 +13,10 @@ export default {
     const { id } = req.query;
     next(response(await registrationService.getSchoolClass(id)));
   }),
+  getActiveSchoolClasses: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.query;
+    next(response(await registrationService.getActiveSchoolClasses(schoolYearId)));
+  }),
   getActiveSchoolClassesForCurrentNextSchoolYear: asyncWrapper(async (req, _res, next) => {
     next(response(await registrationService.getActiveSchoolClassesForCurrentNextSchoolYear()));
   }),

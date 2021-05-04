@@ -31,7 +31,7 @@ const Home = () => {
             }
           }
         );
-    }, []);
+    }, [dispatch]);
 
     const { user: currentUser } = useSelector((state) => state.auth);
 

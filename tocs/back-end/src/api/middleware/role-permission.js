@@ -22,7 +22,7 @@ const isActionPermitted = async (req, _res, next) => {
 
   const user = await User.getById(req.userId);
   const userRoleNames = (await user.getRoles()).map((role) => role.name);
-  if (!userRoleNames.includes('Super User')) {
+  if (!userRoleNames.includes(roleNames.ROLE_NAME_SUPER_USER)) {
     if (!actionsXRoles.get(str)) {
       await fetchActionsXRoles();
     }
@@ -37,7 +37,7 @@ const isActionPermitted = async (req, _res, next) => {
 
 const hasRole = async (req, next, roleName) => {
   const user = await User.getById(req.userId);
-  if (await user.hasRole(roleName)) {
+  if (await user.hasRole(roleName) || await user.hasRole(roleNames.ROLE_NAME_SUPER_USER)) {
     next();
     return;
   }
@@ -48,4 +48,8 @@ const isStudentParent = (req, _res, next) => hasRole(req, next, roleNames.ROLE_N
 
 const isInstructor = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_INSTRUCTOR);
 
-export default { isActionPermitted, isInstructor, isStudentParent };
+const isRegistrationOfficer = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_REGISTRATION_OFFICER);
+
+export default {
+  isActionPermitted, isInstructor, isStudentParent, isRegistrationOfficer,
+};
