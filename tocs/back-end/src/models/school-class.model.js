@@ -88,10 +88,63 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         s.setSchoolYear(schoolYearId);
       }
     },
+    async instructorAssignments(_schoolYearId) {
+      let schoolYearId = _schoolYearId;
+      if (!_schoolYearId) {
+        const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
+        schoolYearId = currentSchoolYear.id;
+      }
+      const instructorAssignments = await sequelize.models.InstructorAssignment.findAll({
+        where: {
+          schoolYearId,
+          schoolClassId: this.id,
+        },
+        include: [
+          { model: sequelize.models.Instructor, as: 'instructor' },
+        ],
+      });
+      return instructorAssignments.reduce((r, c) => {
+        const { role } = c;
+        if (!r[role]) {
+          Object.assign(r, { [role]: [] });
+        }
+        r[role].push(c);
+        return r;
+      }, {});
+    },
   });
 
   /* Non-prototype */
   Object.assign(SchoolClass, {
+    async getActiveSchoolClasses(_schoolYearId) {
+      let schoolYearId = _schoolYearId;
+      if (!_schoolYearId) {
+        const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
+        schoolYearId = currentSchoolYear.id;
+      }
+
+      const schoolClasses = await SchoolClass.findAll({
+        include: [
+          {
+            model: sequelize.models.SchoolClassActiveFlag,
+            where: {
+              schoolYearId,
+              active: true,
+            },
+            as: 'schoolClassActiveFlags',
+          },
+        ],
+        order: [['chineseName', 'asc']],
+      });
+
+      const promises = schoolClasses.map(async (sc) => {
+        const instructorAssignments = await sc.instructorAssignments(schoolYearId);
+        Object.assign(sc.dataValues, { instructorAssignments });
+        return sc;
+      });
+      await Promise.all(promises);
+      return schoolClasses;
+    },
     async getActiveSchoolClassesForCurrentNextSchoolYear() {
       const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
       const nextSchoolYear = await sequelize.models.SchoolYear.nextSchoolYear();

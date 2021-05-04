@@ -1,7 +1,7 @@
 import Datatable from "react-bs-datatable";
 import { css } from '@emotion/css'
 
-const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll, wrapHeader, rowsPerPage, async }) => {
+const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll, wrapHeader, wrapCell, rowsPerPage, async }) => {
     const customLabels = {
         first: '<<',
         last: '>>',
@@ -27,7 +27,8 @@ const Table = ({ header, items, isLoaded, error, keyName, sortKey, showAll, wrap
           &:last-of-type {
             margin-left: 8px;
           }
-        `
+        `,
+        tbodyCol: !wrapCell && css`white-space: nowrap;`,
     };
 
     if (error) {

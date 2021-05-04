@@ -14,6 +14,12 @@ export default (router) => {
     controller.instructorBoard,
   );
 
+  router.get(
+    '/board/registration-officer',
+    [rolePermission.isRegistrationOfficer],
+    controller.registrationOfficerBoard,
+  );
+
   router.put(
     '/change-password',
     [],
