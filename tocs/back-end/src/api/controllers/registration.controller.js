@@ -79,4 +79,8 @@ export default {
     const { id } = req.query;
     next(response(await registrationService.getPerson(id)));
   }),
+  getGradeStudentCount: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.query;
+    next(response(await registrationService.getGradeStudentCount(schoolYearId)));
+  }),
 };
