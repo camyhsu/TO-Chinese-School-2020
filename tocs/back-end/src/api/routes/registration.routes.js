@@ -169,4 +169,10 @@ export default (router) => {
     [],
     studentController.editPersonalAddress,
   );
+
+  router.get(
+    '/registration/active_school_classes',
+    [],
+    controller.getActiveSchoolClasses,
+  );
 };

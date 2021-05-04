@@ -40,9 +40,15 @@ const initializeBookCharges = async (schoolYear) => {
 };
 
 export default {
+  getBoard: async () => {
+    const currentSchoolYear = await SchoolYear.currentSchoolYear();
+    const nextSchoolYear = await SchoolYear.nextSchoolYear();
+    return { currentSchoolYear, nextSchoolYear };
+  },
   getGrades: async () => Grade.findAll(),
   getSchoolClasses: async () => SchoolClass.findAll({ include: [{ model: Grade, as: 'grade' }] }),
   getSchoolClass: async (id) => SchoolClass.getById(id),
+  getActiveSchoolClasses: async (schoolYearId) => SchoolClass.getActiveSchoolClasses(schoolYearId),
   getActiveSchoolClassesForCurrentNextSchoolYear:
     async () => SchoolClass.getActiveSchoolClassesForCurrentNextSchoolYear(),
   saveSchoolClass: async (id, obj) => {
