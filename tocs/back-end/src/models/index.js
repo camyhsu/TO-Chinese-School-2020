@@ -16,6 +16,7 @@ import schoolClass from './school-class.model.js';
 import schoolClassActiveFlag from './school-class-active-flag.model.js';
 import schoolYear from './school-year.model.js';
 import staffAssignment from './staff-assignment.model.js';
+import studentClassAssignment from './student-class-assignment.model.js';
 import user from './user.model.js';
 
 const dbConfig = config.get('dbConfig');
@@ -79,8 +80,8 @@ const mappings = [
   ['LibraryBook', libraryBook], ['LibraryBookCheckOut', libraryBookCheckout], ['LibraryBookCheckedOutBy', person],
   ['Person', person], ['Right', right], ['Role', role],
   ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
-  ['StaffAssignment', staffAssignment], ['User', user],
-  ['Children', person], ['ParentOne', person], ['ParentTwo', person],
+  ['StaffAssignment', staffAssignment], ['StudentClassAssignment', studentClassAssignment], ['User', user],
+  ['Children', person], ['ParentOne', person], ['ParentTwo', person], ['Student', person],
 ];
 mappings.forEach((mapping) => {
   db[mapping[0]] = mapping[1](sequelize, Sequelize, fieldsFactory);
@@ -97,8 +98,9 @@ mappings.forEach((mapping) => {
 const {
   Address, BookCharge, Family, Grade, InstructorAssignment,
   LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy,
-  Person, Right, Role, SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, User,
-  Children, ParentOne, ParentTwo,
+  Person, Right, Role, SchoolClass, SchoolClassActiveFlag,
+  SchoolYear, StaffAssignment, StudentClassAssignment, User,
+  Children, ParentOne, ParentTwo, Student,
 } = db;
 
 Object.assign(Address, {
@@ -165,6 +167,15 @@ Object.assign(SchoolClassActiveFlag, {
 Object.assign(StaffAssignment, {
   Person: StaffAssignment.belongsTo(Person),
   SchoolYear: StaffAssignment.belongsTo(SchoolYear),
+});
+
+Object.assign(StudentClassAssignment, {
+  Student: StudentClassAssignment.belongsTo(Student, { foreignKey: { allowNull: false }, as: 'student' }),
+  Grade: StudentClassAssignment.belongsTo(Grade),
+  SchoolClass: StudentClassAssignment.belongsTo(SchoolClass, { foreignKey: { allowNull: false }, as: 'schoolClass' }),
+  SchoolYear: StudentClassAssignment.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
+  ElectiveClass: StudentClassAssignment.belongsTo(SchoolClass,
+    { foreignKey: { name: 'elective_class_id' }, as: 'electiveClass' }),
 });
 
 Object.assign(User, {

@@ -175,4 +175,10 @@ export default (router) => {
     [],
     controller.getActiveSchoolClasses,
   );
+
+  router.get(
+    '/registration/active_school_classes/grade_student_count',
+    [],
+    controller.getGradeStudentCount,
+  );
 };

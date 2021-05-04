@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
-import { formatPersonNames } from '../../utils/utilities';
+import { formatPersonNamesWithLink } from '../../utils/utilities';
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from '../Table';
 
@@ -16,7 +16,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
                 if (row.instructorAssignments) {
                     const instructors = row.instructorAssignments['Primary Instructor'];
                     if (instructors && instructors.length) {
-                        return formatPersonNames(instructors[0].instructor);
+                        return formatPersonNamesWithLink(instructors[0].instructor);
                     }
                 }
             }
@@ -26,7 +26,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
                 if (row.instructorAssignments) {
                     const instructors = row.instructorAssignments['Room Parent'];
                     if (instructors && instructors.length) {
-                        return formatPersonNames(instructors[0].instructor);
+                        return formatPersonNamesWithLink(instructors[0].instructor);
                     }
                 }
             }
@@ -36,7 +36,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
                 if (row.instructorAssignments) {
                     const instructors = row.instructorAssignments['Secondary Instructor'];
                     if (instructors && instructors.length) {
-                        return formatPersonNames(instructors[0].instructor);
+                        return formatPersonNamesWithLink(instructors[0].instructor);
                     }
                 }
             }
@@ -45,7 +45,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
             if (row.instructorAssignments) {
                 const instructors = row.instructorAssignments['Teaching Assistant'];
                 if (instructors && instructors.length) {
-                    return formatPersonNames(instructors[0].instructor);
+                    return formatPersonNamesWithLink(instructors[0].instructor);
                 }
             }
         } },
@@ -76,7 +76,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
                 });
             }
         );
-    }, []);
+    }, [location.search]);
 
     return (
         <Card size="no-max-width">

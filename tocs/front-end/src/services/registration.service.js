@@ -59,12 +59,14 @@ const getBookCharges = (schoolYearId) => dataService.get(`admin/school_years/edi
 
 const getActiveSchoolClasses = (schoolYearId) => dataService.get(`registration/active_school_classes?schoolYearId=${schoolYearId}`);
 
+const getAvtiveSchoolClassGradeCount = (schoolYearId) => dataService.get(`registration/active_school_classes/grade_student_count?schoolYearId=${schoolYearId}`);
 const obj = {
     addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild, getPeople,
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass, getPerson,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment, savePersonalDetails,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear,
-    addPersonalAddress, savePersonalAddress, getPersonalDetails, saveBookCharges, getBookCharges, getActiveSchoolClasses
+    addPersonalAddress, savePersonalAddress, getPersonalDetails, saveBookCharges, getBookCharges, getActiveSchoolClasses,
+    getAvtiveSchoolClassGradeCount
 };
 
 export default obj;
