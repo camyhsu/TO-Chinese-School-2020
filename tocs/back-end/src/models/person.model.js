@@ -66,6 +66,12 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     async findFamiliesAsParent() {
       const fs = await sequelize.models.Family.findAll({
         where: { [Sequelize.Op.or]: [{ parent_one_id: this.id }, { parent_two_id: this.id }] },
+        include: [
+          { model: Person, as: 'parentOne' },
+          { model: Person, as: 'parentTwo' },
+          { model: Person, as: 'children' },
+          { model: sequelize.models.Address, as: 'address' },
+        ],
       });
       return fs;
     },
@@ -75,7 +81,10 @@ export default (sequelize, Sequelize, fieldsFactory) => {
           model: sequelize.models.Children,
           as: 'children',
           where: { id: this.id },
-        }],
+        },
+        { model: Person, as: 'parentOne' },
+        { model: Person, as: 'parentTwo' },
+        { model: sequelize.models.Address, as: 'address' }],
       });
       return fs;
     },

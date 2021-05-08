@@ -75,7 +75,7 @@ const Home = () => {
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentTwo)}</dd>
                                         <dt className="col-12 col-md-6 text-left text-md-right">Children:</dt>
                                         <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
-                                        <Children children={family.students}/>
+                                        <Children children={family.children}/>
                                         </dd>
                                     </dl>
                                     <Address {...family.address} />
@@ -83,19 +83,19 @@ const Home = () => {
                                 <CardFooter>
                                     <div className="row text-truncate">
                                         <div className="col-md-5 mb-3 mb-md-0">
-                                        <Link to={`/address-form?id=${family.addressId}&familyId=${family.familyId}`} className="btn btn-light"><BiPencil/> Family Address</Link>
+                                        <Link to={`/address-form?id=${family.addressId}&familyId=${family.id}`} className="btn btn-light"><BiPencil/> Family Address</Link>
                                     </div>
                                         <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right">
-                                            {!family.parentTwo && <Link to={`/person-form?familyId=${family.familyId}&isParentTwo=true`} className="btn btn-light"><BiPersonPlus/> Parent</Link>}
+                                            {!family.parentTwo && <Link to={`/person-form?familyId=${family.id}&isParentTwo=true`} className="btn btn-light"><BiPersonPlus/> Parent</Link>}
                                         </div>
                                         <div className="col-md-3 text-md-right">
-                                            <Link to={`/person-form?familyId=${family.familyId}`} className="btn btn-light"><BiPersonPlus/> Child</Link>
+                                            <Link to={`/person-form?familyId=${family.id}`} className="btn btn-light"><BiPersonPlus/> Child</Link>
                                         </div>
                                     </div>
                                 </CardFooter>
                             </Card>
 
-                            {family.students && family.students.map((student, sindex) => {
+                            {family.children && family.children.map((student, sindex) => {
                                 return (
                                     <React.Fragment key={'student-' + sindex}>
                                         <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
