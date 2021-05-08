@@ -181,4 +181,10 @@ export default (router) => {
     [],
     controller.getGradeStudentCount,
   );
+
+  router.get(
+    '/registration/report/sibling_in_same_grade',
+    [],
+    controller.getSiblingInSameGrade,
+  );
 };

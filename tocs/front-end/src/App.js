@@ -17,6 +17,7 @@ import Family from './components/registration/Family';
 import People from './components/registration/People';
 import PersonDetails from './components/registration/PersonDetails';
 import Privacy from './components/Privacy';
+import SiblingInSameGrade from './components/registration/SiblingInSameGrade';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
 import { AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
@@ -96,6 +97,7 @@ const App = () => {
             <Route exact path="/registration/family" component={Family} />
             <Route exact path="/registration/people" component={People} />
             <Route exact path="/registration/show-person" component={PersonDetails} />
+            <Route exact path="/registration/sibling-in-same-grade" component={SiblingInSameGrade} />
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />

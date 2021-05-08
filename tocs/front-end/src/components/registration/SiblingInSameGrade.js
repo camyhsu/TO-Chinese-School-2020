@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
+import { formatPersonNames } from '../../utils/utilities';
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from '../Table';
 
-const ActiveSchoolClassGradeCount = ({ location } = {}) => {
+const SiblingInSameGrade = ({ location } = {}) => {
     const [content, setContent] = useState({ error: null, isLoaded: false, item: [] });
-    const [total, setTotal] = useState(0);
-    const [title, setTitle] = useState('');
-    
-    const now = new Date().toLocaleString('en-US');
+
     const header = [
-        { title: '年級', cell: (row) => `${row.grade.chinese_name}(${row.grade.english_name})` },
-        { title: '人數', prop: 'cnt' },
-        { title: 'Maximum Size', prop: 'maxSize' }
+        { title: 'Student Name', cell: (row) => formatPersonNames(row.student) },
+        { title: 'Parent One', cell: (row) => formatPersonNames(row.family.parentOne) },
+        { title: 'Parent Two', cell: (row) => formatPersonNames(row.family.parentTwo) },
+        { title: 'Family Phone Number', cell: (row) => row.family.address.homePhone },
+        { title: 'Family Email', cell: (row) => row.family.address.email },
+        { title: 'Grade', cell: (row) => row.grade.shortName },
+        { title: 'School Class Assigned', cell: (row) => row.schoolClass.shortName },
     ];
 
     useEffect(() => {
@@ -21,16 +23,12 @@ const ActiveSchoolClassGradeCount = ({ location } = {}) => {
 
         document.title = 'TOCS - Home';
 
-        RegistrationService.getAvtiveSchoolClassGradeCount(schoolYearId).then(
+        RegistrationService.getSiblingInSameGradeReport(schoolYearId).then(
             (response) => {
                 setContent({
                     isLoaded: true,
-                    items: response.data.items
+                    items: response.data
                 });
-                setTitle(response.data.title);
-                if (response.data.items) {
-                    setTotal(response.data.items.reduce((r, c) => r + +c.cnt, 0));
-                }
             },
             (error) => {
                 const _content =
@@ -48,21 +46,12 @@ const ActiveSchoolClassGradeCount = ({ location } = {}) => {
 
     return (
         <Card size="no-max-width">
-            <CardTitle>千橡中文學校  {title}學年度  年級人數清單</CardTitle>
+            <CardTitle>Sibling in Same Grade Report</CardTitle>
             <CardBody>
                 <Table header={header} items={content.items} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
             </CardBody>
-
-            <dl className="row">
-                <dt className="col-12 col-md-6 text-md-right">Total Student Count:</dt>
-                <dd className="col-12 col-md-6">{total}</dd>
-            </dl>
-            <dl className="row">
-                <dt className="col-12 col-md-6 text-md-right">Current Time:</dt>
-                <dd className="col-12 col-md-6">{now}</dd>
-            </dl>
         </Card>
     );
 };
 
-export default ActiveSchoolClassGradeCount;
+export default SiblingInSameGrade;

@@ -83,4 +83,8 @@ export default {
     const { schoolYearId } = req.query;
     next(response(await registrationService.getGradeStudentCount(schoolYearId)));
   }),
+  getSiblingInSameGrade: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.query;
+    next(response(await registrationService.getSiblingInSameGrade(schoolYearId)));
+  }),
 };
