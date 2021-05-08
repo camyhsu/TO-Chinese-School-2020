@@ -226,4 +226,71 @@ export default {
       title, items: Object.keys(obj).sort((a, b) => a - b).reduce((result, key) => result.concat(obj[key]), []),
     };
   },
+  getSiblingInSameGrade: async (schoolYearId) => {
+    let sql = 'SELECT fc.family_id, sca.grade_id, sca.student_id, sca.school_class_id';
+    sql += ' FROM student_class_assignments AS sca';
+    sql += ' INNER JOIN families_children AS fc ON sca.student_id = fc.child_id';
+    sql += ` WHERE sca.school_year_id = ${schoolYearId}`;
+    sql += ' ORDER BY sca.grade_id, sca.school_class_id, fc.family_id';
+
+    let previousResult = {};
+
+    const [rows] = await db.sequelize.query(sql);
+    const results = [];
+    const studentMap = {};
+    const familyMap = {};
+    const gradeMap = {};
+    const schoolClassMap = {};
+    const addRecord = (familyId, gradeId, studentId, schoolClassId) => {
+      studentMap[studentId] = {};
+      familyMap[familyId] = {};
+      gradeMap[gradeId] = {};
+      schoolClassMap[schoolClassId] = {};
+      results.push({
+        studentId, familyId, gradeId, schoolClassId,
+      });
+    };
+    rows.forEach((row) => {
+      if (row.family_id === previousResult.family_id && row.grade_id === previousResult.grade_id) {
+        addRecord(row.family_id, row.grade_id, row.student_id, row.school_class_id);
+        addRecord(previousResult.family_id, previousResult.grade_id, previousResult.student_id, row.school_class_id);
+      } else {
+        previousResult = row;
+      }
+    });
+
+    const families = await Family.findAll({
+      where: { id: { [Sequelize.Op.in]: Object.keys(familyMap) } },
+      include: [
+        { model: Person, as: 'parentOne' },
+        { model: Person, as: 'parentTwo' },
+        { model: Address, as: 'address' },
+      ],
+    });
+    families.forEach((f) => { familyMap[f.id] = f; });
+
+    const grades = await Grade.findAll({
+      where: { id: { [Sequelize.Op.in]: Object.keys(gradeMap) } },
+    });
+    grades.forEach((g) => { gradeMap[g.id] = g; });
+
+    const students = await Person.findAll({
+      where: { id: { [Sequelize.Op.in]: Object.keys(studentMap) } },
+    });
+    students.forEach((s) => { studentMap[s.id] = s; });
+
+    const schoolClasses = await SchoolClass.findAll({
+      where: { id: { [Sequelize.Op.in]: Object.keys(schoolClassMap) } },
+    });
+    schoolClasses.forEach((s) => { schoolClassMap[s.id] = s; });
+
+    results.forEach((result) => Object.assign(result, {
+      student: studentMap[result.studentId],
+      family: familyMap[result.familyId],
+      grade: gradeMap[result.gradeId],
+      schoolClass: schoolClassMap[result.schoolClassId],
+    }));
+
+    return formatAddressPhoneNumbers(JSON.parse(JSON.stringify(results)));
+  },
 };
