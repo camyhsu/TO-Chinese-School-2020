@@ -8,7 +8,7 @@ import {
 import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     document.title = 'TOCS - Home';

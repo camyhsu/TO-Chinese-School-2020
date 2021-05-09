@@ -10,21 +10,18 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
-import ActiveSchoolClasses from './components/registration/ActiveSchoolClasses';
-import ActiveSchoolClassGradeCount from './components/registration/ActiveSchoolClassGradeCount';
 import InstructorDiscount from './components/accounting/InstructorDiscount';
-import Family from './components/registration/Family';
-import People from './components/registration/People';
-import PersonDetails from './components/registration/PersonDetails';
 import Privacy from './components/Privacy';
-import SiblingInSameGrade from './components/registration/SiblingInSameGrade';
+import TransactionHistory from './components/TransactionHistory';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
 import { AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
 import {
-  Grades, ManageStaffAssignments, ManageStaffAssignment, SchoolClasses, SchoolYears, SchoolYearDetails
+  ActiveSchoolClasses, ActiveSchoolClassGradeCount, Family,
+  Grades, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
+  SchoolClasses, SchoolYears, SchoolYearDetails, SiblingInSameGrade
 } from './components/registration/index';
 
 import { logout } from './actions/auth.action';
@@ -67,6 +64,9 @@ const App = () => {
                   <Link to={"/home"} className="nav-link">Home</Link>
                 </li>
                 <li className="nav-item">
+                  <Link to={"/transaction-history"} className="nav-link">Transaction History</Link>
+                </li>
+                <li className="nav-item">
                   <Link to={"/account"} className="nav-link">Account</Link>
                 </li>
                 <li className="nav-item">
@@ -83,6 +83,7 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/account" component={Account} />
+            <Route exact path="/transaction-history" component={TransactionHistory} />
 
             <Route exact path="/librarian/books" component={Books} />
             <Route exact path="/accounting/instructor-discount" component={InstructorDiscount} />
