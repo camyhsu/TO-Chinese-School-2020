@@ -1,7 +1,7 @@
 import db from '../models/index.js';
 
 const {
-  Address, Family, Person,
+  Address, Family, ManualTransaction, Person, RegistrationPayment, User,
 } = db;
 
 export default {
@@ -46,5 +46,15 @@ export default {
     const person = await Person.getById(personId);
     const savedAddress = await Address.create(obj);
     await person.setAddress(savedAddress.id);
+  },
+  getTransactionHistoryByUser: async (userId) => {
+    const user = await User.getById(userId);
+    const { personId } = user;
+    const manualTransactions = await ManualTransaction.findTransactionBy(personId);
+    const registrationPayments = await RegistrationPayment.findPaidPaymentsPaidBy(personId);
+    registrationPayments.forEach((registrationPayment) => ['grandTotalInCents', 'cccaDueInCents', 'pvaDueInCents']
+      .forEach((s) => Object.assign(registrationPayment.dataValues,
+        { [s.replace('InCents', '')]: registrationPayment[s] / 100 })));
+    return { manualTransactions, registrationPayments };
   },
 };

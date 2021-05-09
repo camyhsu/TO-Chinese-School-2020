@@ -109,10 +109,12 @@ const Children = ({ children = [], link } = {}) => children.map((c, i) => (
         {link ? formatPersonNamesWithLink(c) : formatPersonNames(c)}{i !== children.length - 1 ? (<br />) : ''}
     </React.Fragment>)
 );
-    
+
+const isoToPacific = (s) => new Date(s).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
 export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent,
     required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children,
     BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField,
-    formatPersonNamesWithLink, requiredZeroAccepted
+    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific
 }

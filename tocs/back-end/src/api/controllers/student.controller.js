@@ -39,4 +39,7 @@ export default {
     const { id: personId } = req.query;
     next(response(await studentService.addPersonalAddress(personId, req.body)));
   }),
+  getTransactionHistory: asyncWrapper(async (req, _res, next) => {
+    next(response(await studentService.getTransactionHistoryByUser(req.userId)));
+  }),
 };

@@ -9,7 +9,7 @@ import { formatPersonName, BiPencil, BiPlus, BiPersonPlus, Children }from '../..
 import { Card, CardBody, CardFooter, CardTitle } from "../Cards";
 
 const Home = () => {
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState('');
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -5,11 +5,15 @@ import config from 'config';
 import address from './address.model.js';
 import bookCharge from './book-charge.model.js';
 import family from './family.model.js';
+import gatewayTransaction from './gateway-transaction.model.js';
 import grade from './grade.model.js';
+import inPersonRegistrationTransaction from './in-person-registration-transaction.model.js';
 import instructorAssignment from './instructor-assignment.model.js';
 import libraryBook from './library-book.model.js';
 import libraryBookCheckout from './library-book-checkout.model.js';
+import manualTransaction from './manual-transaction.model.js';
 import person from './person.model.js';
+import registrationPayment from './registration-payment.model.js';
 import right from './right.model.js';
 import role from './role.model.js';
 import schoolClass from './school-class.model.js';
@@ -17,6 +21,7 @@ import schoolClassActiveFlag from './school-class-active-flag.model.js';
 import schoolYear from './school-year.model.js';
 import staffAssignment from './staff-assignment.model.js';
 import studentClassAssignment from './student-class-assignment.model.js';
+import studentFeePayment from './student-fee-payment.model.js';
 import user from './user.model.js';
 
 const dbConfig = config.get('dbConfig');
@@ -75,13 +80,18 @@ const fieldsFactory = ({
 
 /* Mapping */
 const mappings = [
-  ['Address', address], ['BookCharge', bookCharge], ['Family', family], ['Grade', grade],
+  ['Address', address], ['BookCharge', bookCharge], ['Family', family],
+  ['GatewayTransaction', gatewayTransaction], ['Grade', grade],
+  ['InPersonRegistrationTransaction', inPersonRegistrationTransaction],
   ['Instructor', person], ['InstructorAssignment', instructorAssignment],
   ['LibraryBook', libraryBook], ['LibraryBookCheckOut', libraryBookCheckout], ['LibraryBookCheckedOutBy', person],
-  ['Person', person], ['Right', right], ['Role', role],
+  ['ManualTransaction', manualTransaction], ['Person', person],
+  ['RegistrationPayment', registrationPayment], ['Right', right], ['Role', role],
   ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
-  ['StaffAssignment', staffAssignment], ['StudentClassAssignment', studentClassAssignment], ['User', user],
-  ['Children', person], ['ParentOne', person], ['ParentTwo', person], ['Student', person],
+  ['StaffAssignment', staffAssignment], ['StudentClassAssignment', studentClassAssignment],
+  ['StudentFeePayment', studentFeePayment], ['User', user],
+  ['Children', person], ['PaidBy', person], ['ParentOne', person], ['ParentTwo', person],
+  ['RecordedBy', person], ['Student', person], ['TransactionBy', person],
 ];
 mappings.forEach((mapping) => {
   db[mapping[0]] = mapping[1](sequelize, Sequelize, fieldsFactory);
@@ -96,11 +106,11 @@ mappings.forEach((mapping) => {
 
 /* Associations */
 const {
-  Address, BookCharge, Family, Grade, InstructorAssignment,
-  LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy,
-  Person, Right, Role, SchoolClass, SchoolClassActiveFlag,
-  SchoolYear, StaffAssignment, StudentClassAssignment, User,
-  Children, ParentOne, ParentTwo, Student,
+  Address, BookCharge, Family, GatewayTransaction, Grade, InPersonRegistrationTransaction, InstructorAssignment,
+  LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction,
+  Person, RegistrationPayment, Right, Role, SchoolClass, SchoolClassActiveFlag,
+  SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, User,
+  Children, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
 } = db;
 
 Object.assign(Address, {
@@ -123,6 +133,17 @@ Object.assign(Family, {
     }),
 });
 
+Object.assign(GatewayTransaction, {
+  RegistrationPayment: GatewayTransaction.belongsTo(RegistrationPayment, { as: 'registrationPayment' }),
+});
+
+Object.assign(InPersonRegistrationTransaction, {
+  RegistrationPayment: InPersonRegistrationTransaction.belongsTo(RegistrationPayment,
+    { foreignKey: { allowNull: false }, as: 'registrationPayment' }),
+  RecordedBy: InPersonRegistrationTransaction.belongsTo(RecordedBy,
+    { foreignKey: { name: 'recorded_by_id', allowNull: false }, as: 'recordedBy' }),
+});
+
 Object.assign(InstructorAssignment, {
   Instructor: InstructorAssignment.belongsTo(Person, { foreignKey: { allowNull: false }, as: 'instructor' }),
   SchoolClass: InstructorAssignment.belongsTo(SchoolClass, { foreignKey: { allowNull: false }, as: 'schoolClass' }),
@@ -140,9 +161,26 @@ Object.assign(LibraryBookCheckOut, {
     { foreignKey: 'checked_out_by_id', as: 'checkedOutBy' }),
 });
 
+Object.assign(ManualTransaction, {
+  TransactionBy: ManualTransaction.belongsTo(TransactionBy,
+    { foreignKey: { name: 'transaction_by_id', allowNull: false }, as: 'transactionBy' }),
+  RecordedBy: ManualTransaction.belongsTo(RecordedBy,
+    { foreignKey: { name: 'recorded_by_id', allowNull: false }, as: 'recordedBy' }),
+  Student: ManualTransaction.belongsTo(Student, { foreignKey: { allowNull: false }, as: 'student' }),
+});
+
 Object.assign(Person, {
   User: Person.hasOne(User),
   Address: Person.belongsTo(Address),
+});
+
+Object.assign(RegistrationPayment, {
+  SchoolYear: RegistrationPayment.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
+  PaidBy: RegistrationPayment.belongsTo(PaidBy,
+    { foreignKey: { name: 'paid_by_id', allowNull: false }, as: 'paidBy' }),
+  GatewayTransaction: RegistrationPayment.hasMany(GatewayTransaction, { as: 'gatewayTransactions' }),
+  StudentFeePayment: RegistrationPayment.hasMany(StudentFeePayment, { as: 'studentFeePayments' }),
+  InPersonRegistrationTransaction: RegistrationPayment.hasOne(InPersonRegistrationTransaction),
 });
 
 Object.assign(Right, {
@@ -176,6 +214,11 @@ Object.assign(StudentClassAssignment, {
   SchoolYear: StudentClassAssignment.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
   ElectiveClass: StudentClassAssignment.belongsTo(SchoolClass,
     { foreignKey: { name: 'elective_class_id' }, as: 'electiveClass' }),
+});
+
+Object.assign(StudentFeePayment, {
+  Student: StudentFeePayment.belongsTo(Student, { foreignKey: { allowNull: false }, as: 'student' }),
+  RegistrationPayment: StudentFeePayment.belongsTo(RegistrationPayment),
 });
 
 Object.assign(User, {
