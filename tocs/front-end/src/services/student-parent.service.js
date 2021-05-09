@@ -18,11 +18,13 @@ const addParent = (familyId, obj) => dataService.post('student/families/add_pare
 
 const addChild = (familyId, obj) => dataService.post('student/families/add_child?id=' + familyId, obj);
 
+const getTransactionHistory = () => dataService.get(`student/transaction_history/index `);
+
 const obj = {
     getPersonalDetails, savePersonalDetails,
     getPersonalAddress, getFamilyAddress, addPersonalAddress,
     savePersonalAddress, saveFamilyAddress,
-    addParent, addChild
+    addParent, addChild, getTransactionHistory,
 };
 
 export default obj;

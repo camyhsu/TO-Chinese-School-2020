@@ -55,4 +55,10 @@ export default (router) => {
     [peoplePermission.isActionPermitted],
     controller.editPersonalAddress,
   );
+
+  router.get(
+    '/student/transaction_history/index',
+    [],
+    controller.getTransactionHistory,
+  );
 };
