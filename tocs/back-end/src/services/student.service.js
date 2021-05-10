@@ -1,7 +1,9 @@
 import db from '../models/index.js';
 
 const {
-  Address, Family, ManualTransaction, Person, RegistrationPayment, User,
+  Address, ElectiveClass, Family, GatewayTransaction, Grade, ManualTransaction, Person,
+  RegistrationPayment, RegistrationPreference,
+  SchoolYear, Student, StudentFeePayment, User,
 } = db;
 
 export default {
@@ -58,7 +60,35 @@ export default {
     return { manualTransactions, registrationPayments };
   },
   getRegistrationPayment: async (id) => {
-    const registrationPayment = await RegistrationPayment.getById(id);
-    return registrationPayment;
+    const registrationPayment = await RegistrationPayment.findOne({
+      where: { id },
+      include: [{
+        model: GatewayTransaction,
+        as: 'gatewayTransactions',
+        where: {
+          approvalStatus: GatewayTransaction.prototype.status.APPROVAL_STATUS_APPROVED,
+        },
+      }, {
+        model: StudentFeePayment,
+        as: 'studentFeePayments',
+        include: [{
+          model: Student,
+          as: 'student',
+        }],
+      }, { model: SchoolYear, as: 'schoolYear' }],
+    });
+
+    // Query student registrationPreferences here instead of including it in above to avoid long identifiers
+    if (registrationPayment && registrationPayment.studentFeePayments) {
+      const promises = registrationPayment.studentFeePayments
+        .map(async (studentFeePayment) => {
+          const { student } = studentFeePayment;
+          const schoolYearId = registrationPayment.schoolYear.id;
+          const registrationPreferences = await student.getRegistrationPreferenceForSchoolYear(schoolYearId);
+          student.dataValues.registrationPreferences = registrationPreferences;
+        });
+      await Promise.all(promises);
+    }
+    return { registrationPayment };
   },
 };

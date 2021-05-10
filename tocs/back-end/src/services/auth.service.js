@@ -17,7 +17,7 @@ export default {
     }
 
     // 24 hours
-    const accessToken = jwt.sign({ id: user.id }, authSecret, { expiresIn: 86400 });
+    const accessToken = jwt.sign({ id: user.id, pid: user.personId }, authSecret, { expiresIn: 86400 });
     const roles = await user.getRoles();
     return {
       username: user.username, userId: user.id, roles: roles.map((role) => role.name), accessToken,

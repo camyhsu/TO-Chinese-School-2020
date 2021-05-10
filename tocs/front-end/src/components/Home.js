@@ -22,7 +22,7 @@ const Home = () => {
   const hasRole = (role) => currentUser.roles && (currentUser.roles.includes(role) || currentUser.roles.includes('Super User'));
 
   function GetBoard() {
-    return (
+    return currentUser && (
       <>
         <div className="container">
           <div className="card-deck justify-content-center justify-content-xl-start">

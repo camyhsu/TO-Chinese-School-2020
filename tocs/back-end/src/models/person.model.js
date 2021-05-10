@@ -107,6 +107,18 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       const childrenInFamilies = await Promise.all(fPromises);
       return childrenInFamilies.reduce((r, c) => r.concat(c), []);
     },
+    async getRegistrationPreferenceForSchoolYear(schoolYearId) {
+      return sequelize.models.RegistrationPreference.findAll({
+        where: { student_id: this.id, schoolYearId },
+        include: [{
+          model: sequelize.models.Grade,
+          as: 'grade',
+        }, {
+          model: sequelize.models.SchoolClass,
+          as: 'electiveClass',
+        }],
+      });
+    },
     /* TODO Not yet implemented
       def school_age_for(school_year)
       def age_in_range_for_track_event?(grade)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AccountingService from '../../services/accounting.service';
-import { dollar, formatPersonNames } from '../../utils/utilities';
+import { dollar, formatPersonNames, bilingualName } from '../../utils/utilities';
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from '../Table';
 
@@ -11,7 +11,7 @@ const InstructorDiscount = ({ location } = {}) => {
             title: 'Class Name',
             cell: (row) => {
                 const schoolClass = row.schoolClass;
-                return `${schoolClass.chineseName}(${schoolClass.englishName})`;
+                return `${bilingualName(schoolClass)}`;
             }
         },
         {
