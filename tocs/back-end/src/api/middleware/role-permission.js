@@ -15,7 +15,7 @@ const fetchActionsXRoles = async () => {
 };
 
 const isActionPermitted = async (req, _res, next) => {
-  const sp = req.path.split('/');
+  const sp = req.path.replace(/\/\d+$/, '').split('/');
   const action = sp[sp.length - 1];
   const controller = sp.slice(1, sp.length - 1).join('/');
   const str = `${controller}/${action}`;
