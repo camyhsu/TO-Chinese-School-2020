@@ -86,6 +86,7 @@ const App = () => {
             <Route exact path="/transaction-history" component={TransactionHistory} />
 
             <Route exact path="/librarian/books" component={Books} />
+            <Route exact path="/librarian/books/read-only" component={() => <Books readOnly={true} />} />
             <Route exact path="/accounting/instructor-discount" component={InstructorDiscount} />
             <Route exact path="/admin/grades" component={Grades} />
             <Route exact path="/admin/school-classes" component={SchoolClasses} />

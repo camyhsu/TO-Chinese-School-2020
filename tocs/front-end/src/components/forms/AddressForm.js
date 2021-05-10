@@ -18,6 +18,7 @@ import {
 import {
     getFamilyAddress as rgGetFamilyAddress, saveFamilyAddress as rgSaveFamilyAddress,
     addPersonalAddress as rgAddPersonalAddress, savePersonalAddress as rgSavePersonalAddress,
+    getPersonalAddress as rgGetPersonalAddress,
 } from '../../actions/registration.action';
 
 const PersonForm = ({ location } = {}) => {
@@ -68,6 +69,9 @@ const PersonForm = ({ location } = {}) => {
                 }
                 if (familyId) {
                     return spGetFamilyAddress(familyId);
+                }
+                if (registration) {
+                    return rgGetPersonalAddress(personId);
                 }
                 return spGetPersonalAddress(personId);
             };

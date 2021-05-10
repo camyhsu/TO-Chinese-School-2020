@@ -141,6 +141,8 @@ const addPersonalAddress = (personId, obj) => (dispatch) => commonPersonFn(Regis
 
 const savePersonalAddress = (personId, obj) => (dispatch) => commonPersonFn(RegistrationService.savePersonalAddress(personId, obj), dispatch, personId);
 
+const getPersonalAddress = (personId) => (dispatch) => commonFn3(RegistrationService.getPersonalAddress(personId), dispatch);
+
 const getBookCharges = (schoolYearId) => (dispatch) => commonFn3(RegistrationService.getBookCharges(schoolYearId), dispatch);
 
 const saveBookCharges = (schoolYearId, obj) => (dispatch) => commonFn(RegistrationService.saveBookCharges(schoolYearId, obj), dispatch);
@@ -148,5 +150,6 @@ const saveBookCharges = (schoolYearId, obj) => (dispatch) => commonFn(Registrati
 export {
   addSchoolClass, saveSchoolClass, getSchoolClass, addSchoolYear, saveSchoolYear, getSchoolYear,
   addNewFamily, getFamilyAddress, saveFamilyAddress, addParent, addChild, savePersonalDetails,
-  addPersonalAddress, savePersonalAddress, getPersonalDetails, getBookCharges, saveBookCharges
+  addPersonalAddress, savePersonalAddress, getPersonalDetails, getBookCharges, saveBookCharges,
+  getPersonalAddress
 }

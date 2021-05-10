@@ -6,8 +6,8 @@ const { Family, User } = db;
 const isActionPermitted = async (req, _res, next) => {
   const user = await User.getById(req.userId);
   const person = await user.getPerson();
-  if (person && req.query.id) {
-    const family = await Family.getById(req.query.id);
+  if (person && req.params.id) {
+    const family = await Family.getById(req.params.id);
     if (family) {
       if (await family.isParentOne(person) || await family.isParentTwo(person)) {
         next();
