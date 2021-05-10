@@ -5,7 +5,7 @@ import LibrarianService from '../../services/librarian.service';
 import { formatPersonNames, BiPlus, BiPencil, BiClockHistory } from '../../utils/utilities';
 import { Card, CardBody } from "../Cards";
 
-const Books = ({ location } = {}) => {
+const Books = ({ readOnly } = {}) => {
   const [content, setContent] = useState({ error: null, isLoaded: false, items: [] });
   const header = [
     { title: 'Book Id', prop: 'id', sortable: true, filterable: true },
@@ -24,16 +24,9 @@ const Books = ({ location } = {}) => {
       cell: (row) => <Link to={'/librarian/checkout-history?id=' + row.id} className='btn btn-light'><BiClockHistory/></Link>
     }].concat(header);
 
-  const [readOnly, setReadOnly] = useState('');
-
   useEffect(() => {
     document.title = 'TOCS - Home';
-    const { params } = location;
-    if (params && params.readOnly) {
-      setReadOnly(true);
-    }
-
-    LibrarianService.getLibraryBooks().then(
+    LibrarianService.getLibraryBooks(readOnly).then(
       (response) => {
         const books = response.data;
         books.forEach(book => {
@@ -59,7 +52,7 @@ const Books = ({ location } = {}) => {
         });
       }
     );
-  }, [location]);
+  }, [readOnly]);
 
   return (
     <Card size="flex">

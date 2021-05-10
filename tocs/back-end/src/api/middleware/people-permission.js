@@ -7,7 +7,7 @@ const isActionPermitted = async (req, _res, next) => {
   const user = await User.getById(req.userId);
   const person = await user.getPerson();
   // eslint-disable-next-line eqeqeq
-  if (person.id == req.query.id || await person.isAParentOf(req.query.id)) {
+  if (person.id == req.params.id || await person.isAParentOf(req.params.id)) {
     next();
     return;
   }

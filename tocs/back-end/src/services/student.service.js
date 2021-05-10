@@ -57,4 +57,8 @@ export default {
         { [s.replace('InCents', '')]: registrationPayment[s] / 100 })));
     return { manualTransactions, registrationPayments };
   },
+  getRegistrationPayment: async (id) => {
+    const registrationPayment = await RegistrationPayment.getById(id);
+    return registrationPayment;
+  },
 };

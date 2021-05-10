@@ -39,14 +39,14 @@ const TransactionHistory = () => {
                     <p>No Transaction History</p>
                 )}
 
-                {(registrationPayments && registrationPayments.length) && (
+                {(registrationPayments && registrationPayments.length > 0) && (
                     <>
                         <CardTitle>Registration Transactions</CardTitle>
                         <Table header={rxHeader} items={registrationPayments} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
                     </>
                 )}
 
-                {(manualTransactions && manualTransactions.length) && (
+                {(manualTransactions && manualTransactions.length > 0) && (
                     <>
                         <br/><br/>
                         <CardTitle>Other Transactions</CardTitle>
