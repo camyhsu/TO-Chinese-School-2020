@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle } from "./Cards";
 import Table from './Table';
 import StudentParentService from '../services/student-parent.service';
-import { isoToPacific, dollar } from '../utils/utilities';
+import { isoToPacific, dollar, BiInfoCircle } from '../utils/utilities';
 
 const TransactionHistory = () => {
     const [content, setContent] = useState('');
     const rxHeader = [
+        {
+            cell: (row) => <Link to={'/student/registration-payment?id=' + row.id} className='btn btn-light'><BiInfoCircle /></Link>
+        },
         { title: 'Date', cell: (row) => `${isoToPacific(row.updatedAt)}` },
         { title: 'Type', cell: (row) => row.grandTotal < 0 ? 'System Adjustment' : 'Registration' },
         { title: 'Amount', cell: (row) => dollar(row.grandTotal) },
@@ -18,7 +22,7 @@ const TransactionHistory = () => {
     ];
 
     useEffect(() => {
-        document.title = "TOCS - TransactionHistory";
+        document.title = "TOCS - Transaction History";
         StudentParentService.getTransactionHistory().then(response => {
             setContent({
                 isLoaded: true,
@@ -48,7 +52,7 @@ const TransactionHistory = () => {
 
                 {(manualTransactions && manualTransactions.length > 0) && (
                     <>
-                        <br/><br/>
+                        <br /><br />
                         <CardTitle>Other Transactions</CardTitle>
                         <Table header={mxHeader} items={manualTransactions} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
                     </>

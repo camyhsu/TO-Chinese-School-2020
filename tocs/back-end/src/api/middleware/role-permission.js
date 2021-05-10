@@ -2,19 +2,21 @@ import db from '../../models/index.js';
 import { actionsXRoles } from '../../utils/caches.js';
 import { unauthorized } from '../../utils/response-factory.js';
 
-const { Role, User } = db;
+const { Right, Role, User } = db;
 const { roleNames } = db.Role.prototype;
 
 const fetchActionsXRoles = async () => {
-  const roles = await Role.findAll();
-  const ps = roles.map((role) => role.getRights().then((rights) => rights.forEach((right) => {
-    const s = `${right.controller}/${right.action}`;
-    actionsXRoles.set(s, (actionsXRoles.get(s) || []).concat(role.name));
-  })));
-  await Promise.all(ps);
+  const roles = await Role.findAll({ include: [{ model: Right, as: 'rights' }] });
+  roles.forEach((role) => {
+    role.rights.forEach((right) => {
+      const s = `${right.controller}/${right.action}`;
+      actionsXRoles.set(s, (actionsXRoles.get(s) || []).concat(role.name));
+    });
+  });
 };
 
 const isActionPermitted = async (req, _res, next) => {
+  // Remove trailing ID in path
   const sp = req.path.replace(/\/\d+$/, '').split('/');
   const action = sp[sp.length - 1];
   const controller = sp.slice(1, sp.length - 1).join('/');
