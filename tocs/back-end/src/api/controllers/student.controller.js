@@ -1,5 +1,5 @@
 import { studentService } from '../../services/index.js';
-import { response } from '../../utils/response-factory.js';
+import { response, unauthorized } from '../../utils/response-factory.js';
 import { asyncWrapper } from './utils.js';
 
 export default {
@@ -43,10 +43,13 @@ export default {
     next(response(await studentService.getTransactionHistoryByUser(req.userId)));
   }),
   getRegistrationPayment: asyncWrapper(async (req, _res, next) => {
-    const { userId } = req.query;
+    const { personId } = req;
     const { id } = req.params;
-    const registrationPayment = await studentService.getRegistrationPayment(id);
-    console.log('registrationPayment', id, userId, registrationPayment);
+    const { registrationPayment } = await studentService.getRegistrationPayment(id);
+    if (personId !== registrationPayment.paid_by_id) {
+      next(unauthorized('Access to requested payment confirmation not authorized'));
+      return;
+    }
     next(response(registrationPayment));
   }),
 };

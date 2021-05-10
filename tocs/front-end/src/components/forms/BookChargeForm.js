@@ -8,7 +8,7 @@ import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 import { Card, CardBody, CardTitle } from "../Cards";
 
-import { requiredZeroAccepted, decimal } from '../../utils/utilities';
+import { requiredZeroAccepted, decimal, bilingualName } from '../../utils/utilities';
 import { getBookCharges, saveBookCharges } from '../../actions/registration.action';
 
 const BookChargeForm = ({ location } = {}) => {
@@ -83,7 +83,7 @@ const BookChargeForm = ({ location } = {}) => {
                                         <React.Fragment key={'row-' + key}>
                                             <div className="row form-group mb-3">
                                                 <div className="col-12 col-md-6 text-md-right">
-                                                    <label htmlFor={`book-charge-${key}`}>{value.grade.chineseName}({value.grade.englishName})</label>
+                                                    <label htmlFor={`book-charge-${key}`}>{bilingualName(value.grade)}</label>
                                                 </div>
                                                 <div className="col-12 col-md-6">
                                                     <Input

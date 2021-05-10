@@ -14,6 +14,7 @@ import libraryBookCheckout from './library-book-checkout.model.js';
 import manualTransaction from './manual-transaction.model.js';
 import person from './person.model.js';
 import registrationPayment from './registration-payment.model.js';
+import registrationPreference from './registration-preference.model.js';
 import right from './right.model.js';
 import role from './role.model.js';
 import schoolClass from './school-class.model.js';
@@ -80,17 +81,18 @@ const fieldsFactory = ({
 
 /* Mapping */
 const mappings = [
-  ['Address', address], ['BookCharge', bookCharge], ['Family', family],
+  ['Address', address], ['BookCharge', bookCharge], ['ElectiveClass', schoolClass], ['Family', family],
   ['GatewayTransaction', gatewayTransaction], ['Grade', grade],
   ['InPersonRegistrationTransaction', inPersonRegistrationTransaction],
   ['Instructor', person], ['InstructorAssignment', instructorAssignment],
   ['LibraryBook', libraryBook], ['LibraryBookCheckOut', libraryBookCheckout], ['LibraryBookCheckedOutBy', person],
-  ['ManualTransaction', manualTransaction], ['Person', person],
-  ['RegistrationPayment', registrationPayment], ['Right', right], ['Role', role],
+  ['ManualTransaction', manualTransaction], ['Person', person], ['PreviousGrade', grade],
+  ['RegistrationPayment', registrationPayment], ['RegistrationPreference', registrationPreference],
+  ['Right', right], ['Role', role],
   ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
   ['StaffAssignment', staffAssignment], ['StudentClassAssignment', studentClassAssignment],
   ['StudentFeePayment', studentFeePayment], ['User', user],
-  ['Children', person], ['PaidBy', person], ['ParentOne', person], ['ParentTwo', person],
+  ['Children', person], ['EnteredBy', person], ['PaidBy', person], ['ParentOne', person], ['ParentTwo', person],
   ['RecordedBy', person], ['Student', person], ['TransactionBy', person],
 ];
 mappings.forEach((mapping) => {
@@ -106,11 +108,12 @@ mappings.forEach((mapping) => {
 
 /* Associations */
 const {
-  Address, BookCharge, Family, GatewayTransaction, Grade, InPersonRegistrationTransaction, InstructorAssignment,
+  Address, BookCharge, ElectiveClass, Family, GatewayTransaction, Grade,
+  InPersonRegistrationTransaction, InstructorAssignment,
   LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction,
-  Person, RegistrationPayment, Right, Role, SchoolClass, SchoolClassActiveFlag,
+  Person, PreviousGrade, RegistrationPayment, RegistrationPreference, Right, Role, SchoolClass, SchoolClassActiveFlag,
   SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, User,
-  Children, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
+  Children, EnteredBy, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
 } = db;
 
 Object.assign(Address, {
@@ -172,6 +175,8 @@ Object.assign(ManualTransaction, {
 Object.assign(Person, {
   User: Person.hasOne(User),
   Address: Person.belongsTo(Address),
+  RegistrationPreference: Person.hasMany(RegistrationPreference,
+    { foreignKey: 'student_id', as: 'registrationPreferences' }),
 });
 
 Object.assign(RegistrationPayment, {
@@ -183,12 +188,26 @@ Object.assign(RegistrationPayment, {
   InPersonRegistrationTransaction: RegistrationPayment.hasOne(InPersonRegistrationTransaction),
 });
 
+Object.assign(RegistrationPreference, {
+  SchoolYear: RegistrationPreference.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
+  Student: RegistrationPreference.belongsTo(Student,
+    { foreignKey: { name: 'student_id', allowNull: false }, as: 'student' }),
+  EnteredBy: RegistrationPreference.belongsTo(EnteredBy,
+    { foreignKey: { name: 'entered_by_id', allowNull: false }, as: 'enteredBy' }),
+  PreviousGrade: RegistrationPreference.belongsTo(PreviousGrade),
+  Grade: RegistrationPreference.belongsTo(Grade),
+  ElectiveClass: RegistrationPreference.belongsTo(ElectiveClass,
+    { foreignKey: 'elective_class_id', as: 'electiveClass' }),
+});
+
 Object.assign(Right, {
   Role: Right.belongsToMany(Role, { through: 'rights_roles', foreignKey: 'right_id', otherKey: 'role_id' }),
 });
 
 Object.assign(Role, {
-  Right: Role.belongsToMany(Right, { through: 'rights_roles', foreignKey: 'role_id', otherKey: 'right_id' }),
+  Right: Role.belongsToMany(Right, {
+    through: 'rights_roles', foreignKey: 'role_id', otherKey: 'right_id', as: 'rights',
+  }),
   User: Role.belongsToMany(User, { through: 'roles_users', foreignKey: 'role_id', otherKey: 'user_id' }),
 });
 

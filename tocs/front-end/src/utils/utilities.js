@@ -4,7 +4,7 @@ import { isEmail } from "validator";
 
 const d = (s) => s || '';
 
-const dollar = (s) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'USD' }).format(s);
+const dollar = (s, inCents) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'USD' }).format(inCents ? s / 100 : s);
 
 const decimal = (s) => new Intl.NumberFormat('en-IN', { style: 'decimal', minimumFractionDigits: 2 }).format(s);
 
@@ -112,9 +112,21 @@ const Children = ({ children = [], link } = {}) => children.map((c, i) => (
 
 const isoToPacific = (s) => new Date(s).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 
+const labelForTuitionDiscountApplied = (studentFeePayment) => {
+    if (studentFeePayment.staffDiscount) {
+        return ' (Staff Discount Applied)';
+    }
+    if (studentFeePayment.instructorDiscount) {
+        return ' (Instructor Discount Applied)';
+    }
+    return '';
+};
+
+const bilingualName = (obj) => (obj && `${obj.chineseName}(${obj.englishName})`) || '';
+
 export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent,
-    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children,
+    required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children, bilingualName,
     BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField,
-    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific
+    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific, labelForTuitionDiscountApplied
 }
