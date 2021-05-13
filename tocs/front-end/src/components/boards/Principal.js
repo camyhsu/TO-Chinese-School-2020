@@ -1,4 +1,4 @@
-import { ManageStaffAssignments, ViewLibraryBooks } from '../Links';
+import { ManageStaffAssignments, ViewLibraryBooks, ListActiveSchoolClasses } from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
@@ -9,6 +9,7 @@ const Home = () => {
                 <div className="row">
                     <div className="col-md-6"><ViewLibraryBooks /></div>
                     <div className="col-md-6"><ManageStaffAssignments /></div>
+                    <div className="col-md-6"><ListActiveSchoolClasses /></div>
                 </div>
             </CardBody>
         </Card>

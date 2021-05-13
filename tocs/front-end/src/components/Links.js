@@ -8,7 +8,15 @@ const ListAllGrades = () => <Link to='/admin/grades'>List All Grades</Link>;
 
 const ListAllSchoolClasses = () => <Link to='/admin/school-classes'>List All School Classes</Link>;
 
-const ListActiveSchoolClasses = ({ schoolYear }) => <Link to={`/registration/active-school-classes?schoolYearId=${schoolYear.id}`}>{schoolYear.name} Active School Classes</Link>;
+const ListActiveSchoolClasses = ({ schoolYear } = {}) => {
+    let url = '/instruction/active-school-classes';
+    let prefix = 'List';
+    if (schoolYear) {
+        url = `/registration/active-school-classes?schoolYearId=${schoolYear.id}`;
+        prefix = schoolYear.name;
+    }
+    return (<Link to={url}>{prefix} Active School Classes</Link>);
+};
 
 const ListAllPeople = () => <Link to='/registration/people'>List All People</Link>;
 
