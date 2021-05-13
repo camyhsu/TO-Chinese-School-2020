@@ -16,6 +16,7 @@ import RegistrationPayment from './components/student/RegistrationPayment';
 import TransactionHistory from './components/TransactionHistory';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
+import ActiveSchoolClassesForInstructionOfficer from './components/ActiveSchoolClassesForInstructionOfficer';
 import { AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
@@ -102,6 +103,7 @@ const App = () => {
             <Route exact path="/registration/show-person" component={PersonDetails} />
             <Route exact path="/registration/sibling-in-same-grade" component={SiblingInSameGrade} />
             <Route exact path="/student/registration-payment" component={RegistrationPayment} />
+            <Route exact path="/instruction/active-school-classes" component={ActiveSchoolClassesForInstructionOfficer} />
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />
