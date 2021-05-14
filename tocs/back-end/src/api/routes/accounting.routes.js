@@ -6,4 +6,10 @@ export default (router) => {
     [],
     controller.getInstructorDiscounts,
   );
+
+  router.get(
+    '/accounting/registration_report/charges_collected_report/:schoolYearId',
+    [],
+    controller.getChargesCollected,
+  );
 };

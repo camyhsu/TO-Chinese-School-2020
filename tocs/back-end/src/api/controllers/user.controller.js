@@ -1,4 +1,4 @@
-import { userService, registrationService } from '../../services/index.js';
+import { userService, registrationService, accountingService } from '../../services/index.js';
 import { response } from '../../utils/response-factory.js';
 import { asyncWrapper } from './utils.js';
 
@@ -15,6 +15,9 @@ export default {
   },
   registrationOfficerBoard: async (_req, _res, next) => {
     next(response(await registrationService.getBoard()));
+  },
+  accountingOfficerBoard: async (_req, _res, next) => {
+    next(response(await accountingService.getBoard()));
   },
   changePassword: asyncWrapper(async (req, _res, next) => {
     const {
