@@ -34,7 +34,7 @@ app.use('/api', rolePermissionRouter);
 routes.authRoutes(publicRouter);
 routes.userRoutes(apiRouter);
 routes.accountingRoutes(rolePermissionRouter);
-routes.instructorRoutes(rolePermissionRouter);
+routes.instructionRoutes(rolePermissionRouter);
 routes.librarianRoutes(rolePermissionRouter);
 routes.registrationRoutes(rolePermissionRouter);
 routes.studentRoutes(rolePermissionRouter);
