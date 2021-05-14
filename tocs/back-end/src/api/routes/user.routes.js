@@ -20,6 +20,12 @@ export default (router) => {
     controller.registrationOfficerBoard,
   );
 
+  router.get(
+    '/board/accounting-officer',
+    [rolePermission.isAccountingOfficer],
+    controller.accountingOfficerBoard,
+  );
+
   router.put(
     '/change-password',
     [],

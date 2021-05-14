@@ -52,6 +52,8 @@ const isInstructor = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME
 
 const isRegistrationOfficer = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_REGISTRATION_OFFICER);
 
+const isAccountingOfficer = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_ACCOUNTING_OFFICER);
+
 export default {
-  isActionPermitted, isInstructor, isStudentParent, isRegistrationOfficer,
+  isActionPermitted, isInstructor, isStudentParent, isRegistrationOfficer, isAccountingOfficer,
 };
