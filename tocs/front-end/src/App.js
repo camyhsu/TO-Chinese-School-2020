@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
+import ChargesCollected from './components/accounting/ChargesCollected';
 import InstructorDiscount from './components/accounting/InstructorDiscount';
 import Privacy from './components/Privacy';
 import RegistrationPayment from './components/student/RegistrationPayment';
@@ -90,6 +91,7 @@ const App = () => {
             <Route exact path="/librarian/books" component={Books} />
             <Route exact path="/librarian/books/read-only" component={() => <Books readOnly={true} />} />
             <Route exact path="/accounting/instructor-discount" component={InstructorDiscount} />
+            <Route exact path="/accounting/charges-collected" component={ChargesCollected} />
             <Route exact path="/admin/grades" component={Grades} />
             <Route exact path="/admin/school-classes" component={SchoolClasses} />
             <Route exact path="/admin/school-years" component={SchoolYears} />

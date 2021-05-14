@@ -30,6 +30,12 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       where: { paid_by_id: paidById, paid: true },
       order: [['updated_at', 'DESC']],
     }),
+    getPvaDueInCents: async (schoolYearId) => RegistrationPayment.sum('pva_due_in_cents', {
+      where: { school_year_id: schoolYearId, paid: true },
+    }),
+    getCccaDueInCents: async (schoolYearId) => RegistrationPayment.sum('ccca_due_in_cents', {
+      where: { school_year_id: schoolYearId, paid: true },
+    }),
   });
 
   return RegistrationPayment;

@@ -32,8 +32,10 @@ const ListAvtiveSchoolClassGradeCount = ({ schoolYear }) => <Link to={`/registra
 
 const ListSiblingInSameGradeReport = ({ schoolYear }) => <Link to={`/registration/sibling-in-same-grade?schoolYearId=${schoolYear.id}`}>Sibling in Same Grade Report</Link>
 
+const ChargesCollected = ({ schoolYear }) => <Link to={`/accounting/charges-collected?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>Tuition and Fee Collected For {schoolYear.name} School Year</Link>
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses,
-    ListAvtiveSchoolClassGradeCount, ListSiblingInSameGradeReport
+    ListAvtiveSchoolClassGradeCount, ListSiblingInSameGradeReport, ChargesCollected
 };
