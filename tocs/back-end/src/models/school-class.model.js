@@ -112,6 +112,24 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         return r;
       }, {});
     },
+    async studentClassAssignments(schoolYearId) {
+      const key = this.elective() ? 'elective_class_id' : 'school_class_id';
+      const studentClassAssignments = await await sequelize.models.StudentClassAssignment.findAll({
+        where: {
+          school_year_id: schoolYearId,
+          [key]: this.id,
+        },
+        include: [
+          { model: sequelize.models.Student, as: 'student' },
+          { model: sequelize.models.SchoolClass, as: 'schoolClass' },
+        ],
+        order: [
+          [{ model: sequelize.models.Student, as: 'student' }, 'lastName', 'asc'],
+          [{ model: sequelize.models.Student, as: 'student' }, 'firstName', 'asc'],
+        ],
+      });
+      return studentClassAssignments || [];
+    },
   });
 
   /* Non-prototype */

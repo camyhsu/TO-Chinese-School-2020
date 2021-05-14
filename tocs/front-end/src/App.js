@@ -11,6 +11,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
 import ChargesCollected from './components/accounting/ChargesCollected';
+import SchoolClassStudents from './components/instruction/SchoolClassStudents';
 import InstructorDiscount from './components/accounting/InstructorDiscount';
 import Privacy from './components/Privacy';
 import RegistrationPayment from './components/student/RegistrationPayment';
@@ -106,6 +107,7 @@ const App = () => {
             <Route exact path="/registration/sibling-in-same-grade" component={SiblingInSameGrade} />
             <Route exact path="/student/registration-payment" component={RegistrationPayment} />
             <Route exact path="/instruction/active-school-classes" component={ActiveSchoolClassesForInstructionOfficer} />
+            <Route exact path="/instruction/school-classes" component={SchoolClassStudents} />
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />

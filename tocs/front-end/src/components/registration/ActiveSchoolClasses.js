@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
 import { formatPersonNamesWithLink } from '../../utils/utilities';
@@ -7,6 +8,8 @@ import Table from '../Table';
 
 const ActiveSchoolClasses = ({ location } = {}) => {
     const [content, setContent] = useState({ error: null, isLoaded: false, item: [] });
+    const [schoolYearId, setSchoolYearId] = useState('');
+
     const header = [
         { title: 'Class Name', prop: 'chineseName' },
         { title: 'English Name', prop: 'englishName' },
@@ -41,42 +44,51 @@ const ActiveSchoolClasses = ({ location } = {}) => {
                 }
             }
         },
-        { title: 'Teaching Assistant', cell: (row) => {
-            if (row.instructorAssignments) {
-                const instructors = row.instructorAssignments['Teaching Assistant'];
-                if (instructors && instructors.length) {
-                    return formatPersonNamesWithLink(instructors[0].instructor);
+        {
+            title: 'Teaching Assistant', cell: (row) => {
+                if (row.instructorAssignments) {
+                    const instructors = row.instructorAssignments['Teaching Assistant'];
+                    if (instructors && instructors.length) {
+                        return formatPersonNamesWithLink(instructors[0].instructor);
+                    }
                 }
             }
-        } },
-
+        },
+        {
+            title: '', cell: (row) => {
+                return <Link to={`/instruction/school-classes?id=${row.id}&schoolYearId=${schoolYearId}`}>Student List</Link>
+            }
+        },
     ];
 
     useEffect(() => {
-        const { schoolYearId } = queryString.parse(location.search);
+        const { schoolYearId: _schoolYearId } = queryString.parse(location.search);
+        setSchoolYearId(_schoolYearId);
 
         document.title = 'TOCS - Home';
 
-        RegistrationService.getActiveSchoolClasses(schoolYearId).then(
-            (response) => {
-                setContent({
-                    isLoaded: true,
-                    items: response.data
-                });
-            },
-            (error) => {
-                const _content =
-                    (error.response && error.response.data) ||
-                    error.message ||
-                    error.toString();
-
-                setContent({
-                    isLoaded: true,
-                    error: { message: _content }
-                });
-            }
-        );
-    }, [location.search]);
+        if (schoolYearId) {
+            RegistrationService.getActiveSchoolClasses(schoolYearId).then(
+                (response) => {
+                    setContent({
+                        isLoaded: true,
+                        items: response.data
+                    });
+                },
+                (error) => {
+                    const _content =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+    
+                    setContent({
+                        isLoaded: true,
+                        error: { message: _content }
+                    });
+                }
+            );
+        }
+    }, [location.search, schoolYearId]);
 
     return (
         <Card size="no-max-width">
