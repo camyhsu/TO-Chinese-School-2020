@@ -165,13 +165,23 @@ export default {
   getPeople: async ({ limit, offset, searchText }) => {
     const obj = { limit, offset };
     if (searchText) {
-      obj.where = {
-        [Op.or]: [
-          { lastName: { [Op.iLike]: `%${searchText}%` } },
-          { firstName: { [Op.iLike]: `%${searchText}%` } },
-          { chineseName: { [Op.iLike]: `%${searchText}%` } },
-        ],
-      };
+      if (searchText.includes(' ')) {
+        const sp = searchText.split(' ');
+        obj.where = {
+          [Op.and]: [
+            { lastName: { [Op.iLike]: `%${sp[1]}%` } },
+            { firstName: { [Op.iLike]: `%${sp[0]}%` } },
+          ],
+        };
+      } else {
+        obj.where = {
+          [Op.or]: [
+            { lastName: { [Op.iLike]: `%${searchText}%` } },
+            { firstName: { [Op.iLike]: `%${searchText}%` } },
+            { chineseName: { [Op.iLike]: `%${searchText}%` } },
+          ],
+        };
+      }
     }
     return Person.findAndCountAll(obj);
   },

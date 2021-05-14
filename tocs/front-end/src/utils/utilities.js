@@ -8,6 +8,8 @@ const dollar = (s, inCents) => new Intl.NumberFormat('en-IN', { style: 'currency
 
 const decimal = (s) => new Intl.NumberFormat('en-IN', { style: 'decimal', minimumFractionDigits: 2 }).format(s);
 
+const formatBirthInfo = (person) => (person && (person.birthYear || person.birthMonth)) ? `${person.birthMonth}/${person.birthYear}` : '';
+
 const formatPersonName = (person) => (person && (person.firstName + ' ' + person.lastName)) || '';
 
 const formatPersonNames = (person) => (person && (`${person.chineseName || ''}(${person.firstName} ${person.lastName})`)) || '';
@@ -19,6 +21,10 @@ const formatPersonNamesWithLink = (person) => (<>
 const formatAddress = (address) =>
     (address && `${d(address.street)} ${d(address.city)}${d(address.city) && ','} ${d(address.state)} ${d(address.zipcode)}`)
     || '';
+
+const toNumeric = (s) => s && s.replace(/\D/g, '');
+
+const formatPhoneNumber = (s) => (s && toNumeric(s).replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')) || '';
 
 const required = (value) => {
     if (!value) {
@@ -124,9 +130,11 @@ const labelForTuitionDiscountApplied = (studentFeePayment) => {
 
 const bilingualName = (obj) => (obj && `${obj.chineseName}(${obj.englishName})`) || '';
 
+const now = () => new Date().toLocaleString('en-US');
+
 export {
-    decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent,
+    decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent, formatBirthInfo,
     required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children, bilingualName,
-    BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField,
-    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific, labelForTuitionDiscountApplied
+    BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField, formatPhoneNumber,
+    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific, labelForTuitionDiscountApplied, now
 }
