@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import InstructionService from '../../services/instruction.service';
 import { formatPersonNames, formatBirthInfo, formatPhoneNumber, now } from '../../utils/utilities';

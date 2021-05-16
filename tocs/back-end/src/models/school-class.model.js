@@ -193,6 +193,25 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       });
       return r;
     },
+    async getActiveSchoolClassesForCurrentAndFutureSchoolYears() {
+      const schoolYears = await sequelize.models.SchoolYear.findCurrentAndFutureSchoolYears();
+      const schoolClassActiveFlags = await sequelize.models.SchoolClassActiveFlag.findAll({
+        where: { active: true },
+        include: [
+          {
+            model: sequelize.models.SchoolYear,
+            where: {
+              id: { [Sequelize.Op.in]: schoolYears.map((schoolYear) => schoolYear.id) },
+            },
+            as: 'schoolYear',
+          },
+          { model: sequelize.models.SchoolClass, as: 'schoolClass' },
+        ],
+      });
+      const schoolClasses = schoolClassActiveFlags.map((schoolClassActiveFlag) => schoolClassActiveFlag.schoolClass);
+      return Object.values(schoolClasses.reduce((r, c) => Object.assign(r, { [c.id]: c }), {}))
+        .sort((a, b) => a.englishName.localeCompare(b.englishName));
+    },
   });
 
   return SchoolClass;
