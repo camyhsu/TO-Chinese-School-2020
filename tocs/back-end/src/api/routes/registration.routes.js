@@ -193,4 +193,28 @@ export default (router) => {
     [],
     controller.getSiblingInSameGrade,
   );
+
+  router.get(
+    '/registration/people/add_instructor_assignment/:id',
+    [],
+    controller.getInstructorAssignmentForm,
+  );
+
+  router.post(
+    '/registration/people/add_instructor_assignment',
+    [],
+    controller.addInstructorAssignment,
+  );
+
+  router.put(
+    '/registration/people/add_instructor_assignment/:id',
+    [],
+    controller.saveInstructorAssignment,
+  );
+
+  router.delete(
+    '/registration/instructor_assignments/destroy/:id',
+    [],
+    controller.deleteInstructorAssignment,
+  );
 };

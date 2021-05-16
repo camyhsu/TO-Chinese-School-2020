@@ -4,8 +4,8 @@ import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 
 const { Op } = Sequelize;
 const {
-  Address, BookCharge, Family, Grade, SchoolClass, SchoolClassActiveFlag,
-  SchoolYear, StaffAssignment, StudentClassAssignment, Person,
+  Address, BookCharge, Family, Grade, InstructorAssignment, SchoolClass, SchoolClassActiveFlag,
+  SchoolYear, StaffAssignment, StudentClassAssignment, Person, Role,
 } = db;
 
 const dollarFields = [
@@ -208,14 +208,18 @@ export default {
         });
       }
     }
+
+    const schoolYears = await SchoolYear.findCurrentAndFutureSchoolYears();
+    const promises = schoolYears.map((schoolYear) => person.getInstructorAssignmentsForSchoolYear(schoolYear.id));
+    const ias = await Promise.all(promises);
+    const instructorAssignments = ias.reduce((r, c) => r.concat(c), []);
     return formatAddressPhoneNumbers(JSON.parse(JSON.stringify({
-      person, families: allFamilies,
+      person, families: allFamilies, instructorAssignments,
     })));
   },
   getGradeStudentCount: async (schoolYearId) => {
     const sca = await StudentClassAssignment.getGradeStudentCount(schoolYearId);
     const xsca = JSON.parse(JSON.stringify(sca));
-    console.log(xsca);
     const obj = xsca.reduce((r, c) => Object.assign(r, {
       [c.grade.id]: {
         cnt: c.cnt, grade: c.grade, maxSize: 0,
@@ -302,5 +306,53 @@ export default {
     }));
 
     return formatAddressPhoneNumbers(JSON.parse(JSON.stringify(results)));
+  },
+  getInstructorAssignmentForm: async (id) => {
+    const schoolYears = await SchoolYear.findCurrentAndFutureSchoolYears();
+    const schoolClasses = await SchoolClass.getActiveSchoolClassesForCurrentAndFutureSchoolYears();
+    const roles = Object.values(InstructorAssignment.prototype.roleNames);
+    const result = {
+      schoolYears, schoolClasses, roles,
+    };
+    if (id) {
+      result.instructorAssignment = await InstructorAssignment.getById(id);
+    }
+    return result;
+  },
+  addInstructorAssignment: async (instructorId, obj) => {
+    const {
+      role, schoolYearId, schoolClassId, startDate, endDate,
+    } = obj;
+    const schoolYear = await SchoolYear.getById(schoolYearId);
+    await InstructorAssignment.create({
+      role,
+      schoolYearId,
+      schoolClassId,
+      startDate: startDate || schoolYear.startDate,
+      endDate: endDate || schoolYear.endDate,
+      instructorId,
+    });
+
+    const person = await Person.getById(instructorId);
+    await person.adjustUserRole();
+  },
+
+  saveInstructorAssignment: async (id, obj) => {
+    const instructorAssignment = await InstructorAssignment.getById(id);
+    Object.assign(instructorAssignment, obj);
+    await instructorAssignment.save();
+
+    const person = await Person.getById(instructorAssignment.instructorId);
+    await person.adjustUserRole();
+  },
+
+  deleteInstructorAssignment: async (id) => {
+    const instructorAssignment = await InstructorAssignment.getById(id);
+    const personId = instructorAssignment.instructorId;
+    await instructorAssignment.destroy();
+
+    const person = await Person.getById(personId);
+    await person.adjustUserRole();
+    return 'deleted';
   },
 };

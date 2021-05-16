@@ -88,4 +88,24 @@ export default {
     const { schoolYearId } = req.params;
     next(response(await registrationService.getSiblingInSameGrade(schoolYearId)));
   }),
+
+  getInstructorAssignmentForm: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.params;
+    next(response(await registrationService.getInstructorAssignmentForm(id)));
+  }),
+
+  addInstructorAssignment: asyncWrapper(async (req, _res, next) => {
+    const { personId } = req.query;
+    next(response(await registrationService.addInstructorAssignment(personId, req.body)));
+  }),
+
+  saveInstructorAssignment: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.params;
+    next(response(await registrationService.saveInstructorAssignment(id, req.body)));
+  }),
+
+  deleteInstructorAssignment: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.params;
+    next(response(await registrationService.deleteInstructorAssignment(id)));
+  }),
 };

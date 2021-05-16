@@ -110,14 +110,47 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     async getRegistrationPreferenceForSchoolYear(schoolYearId) {
       return sequelize.models.RegistrationPreference.findAll({
         where: { student_id: this.id, schoolYearId },
-        include: [{
-          model: sequelize.models.Grade,
-          as: 'grade',
-        }, {
-          model: sequelize.models.SchoolClass,
-          as: 'electiveClass',
-        }],
+        include: [
+          { model: sequelize.models.Grade, as: 'grade' },
+          { model: sequelize.models.SchoolClass, as: 'electiveClass' },
+        ],
       });
+    },
+    async getInstructorAssignmentsForSchoolYear(schoolYearId) {
+      return sequelize.models.InstructorAssignment.findAll({
+        where: { instructorId: this.id, schoolYearId },
+        include: [
+          { model: sequelize.models.SchoolYear, as: 'schoolYear' },
+          { model: sequelize.models.SchoolClass, as: 'schoolClass' },
+        ],
+      });
+    },
+    async adjustUserRole() {
+      const { ROLE_NAME_ROOM_PARENT, ROLE_NAME_INSTRUCTOR } = sequelize.models.Role.prototype.roleNames;
+      const {
+        ROLE_PRIMARY_INSTRUCTOR, ROLE_SECONDARY_INSTRUCTOR, ROLE_ROOM_PARENT,
+      } = sequelize.models.InstructorAssignment.prototype.roleNames;
+      const roleRoomParent = await sequelize.models.Role.findByName(ROLE_NAME_ROOM_PARENT);
+      const roleInstructor = await sequelize.models.Role.findByName(ROLE_NAME_INSTRUCTOR);
+      const user = await this.getUser();
+      let roles = await user.getRoles();
+      const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
+      const instructorAssignments = await this.getInstructorAssignmentsForSchoolYear(currentSchoolYear.id);
+      const newRoleNames = instructorAssignments.map((i) => i.role);
+
+      // Remove ROLE_NAME_INSTRUCTOR and ROLE_NAME_ROOM_PARENT
+      roles = roles
+        .filter((r) => r.name !== ROLE_NAME_INSTRUCTOR && r.name !== ROLE_NAME_ROOM_PARENT);
+
+      // Add ROLE_NAME_INSTRUCTOR
+      if (newRoleNames.includes(ROLE_PRIMARY_INSTRUCTOR) || newRoleNames.includes(ROLE_SECONDARY_INSTRUCTOR)) {
+        roles.push(roleInstructor);
+      }
+      // Add ROLE_NAME_ROOM_PARENT
+      if (newRoleNames.includes(ROLE_ROOM_PARENT)) {
+        roles.push(roleRoomParent);
+      }
+      await user.setRoles(roles);
     },
     /* TODO Not yet implemented
       def school_age_for(school_year)

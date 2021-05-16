@@ -147,9 +147,13 @@ const getBookCharges = (schoolYearId) => (dispatch) => commonFn3(RegistrationSer
 
 const saveBookCharges = (schoolYearId, obj) => (dispatch) => commonFn(RegistrationService.saveBookCharges(schoolYearId, obj), dispatch);
 
+const addInstructorAssignment = (personId, obj) => (dispatch) => commonPersonFn(RegistrationService.addInstructorAssignment(personId, obj), dispatch, personId);
+
+const saveInstructorAssignment = (id, obj, personId) => (dispatch) => commonPersonFn(RegistrationService.saveInstructorAssignment(id, obj), dispatch, personId);
+
 export {
   addSchoolClass, saveSchoolClass, getSchoolClass, addSchoolYear, saveSchoolYear, getSchoolYear,
   addNewFamily, getFamilyAddress, saveFamilyAddress, addParent, addChild, savePersonalDetails,
   addPersonalAddress, savePersonalAddress, getPersonalDetails, getBookCharges, saveBookCharges,
-  getPersonalAddress
+  getPersonalAddress, addInstructorAssignment, saveInstructorAssignment
 }
