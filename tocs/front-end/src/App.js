@@ -19,7 +19,10 @@ import TransactionHistory from './components/TransactionHistory';
 import Waiver from './components/Waiver';
 import Contact from './components/Contact';
 import ActiveSchoolClassesForInstructionOfficer from './components/ActiveSchoolClassesForInstructionOfficer';
-import { AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm } from './components/forms/index';
+import {
+  InstructorAssignmentForm, AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm,
+  NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm
+} from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
 import {
@@ -101,6 +104,7 @@ const App = () => {
             <Route exact path="/admin/manage-staff-assignment" component={ManageStaffAssignment} />
             <Route exact path="/registration/active-school-classes" component={ActiveSchoolClasses} />
             <Route exact path="/registration/active_school_classes/grade_student_count" component={ActiveSchoolClassGradeCount} />
+            <Route exact path="/registration/instructor-assignment" component={InstructorAssignmentForm} />
             <Route exact path="/registration/family" component={Family} />
             <Route exact path="/registration/people" component={People} />
             <Route exact path="/registration/show-person" component={PersonDetails} />

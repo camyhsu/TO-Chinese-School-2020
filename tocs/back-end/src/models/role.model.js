@@ -65,6 +65,11 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
       return [];
     },
+
+    async findByName(name) {
+      const roles = await Role.findAll({ where: { name } });
+      return roles && roles.length && roles[0];
+    },
   });
 
   return Role;

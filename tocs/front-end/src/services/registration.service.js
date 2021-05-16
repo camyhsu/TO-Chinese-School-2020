@@ -65,13 +65,22 @@ const getAvtiveSchoolClassGradeCount = (schoolYearId) => dataService.get(`regist
 
 const getSiblingInSameGradeReport = (schoolYearId) => dataService.get(`registration/report/sibling_in_same_grade/${schoolYearId}`);
 
+const getInstructorAssignmentForm = (id) => dataService.get(`registration/people/add_instructor_assignment/${id || 0}`);
+
+const addInstructorAssignment = (personId, obj) => dataService.post(`registration/people/add_instructor_assignment?personId=${personId}`, obj);
+
+const saveInstructorAssignment = (id, obj) => dataService.put(`registration/people/add_instructor_assignment/${id}`, obj);
+
+const deleteInstructorAssignment = (id) => dataService.delete(`registration/instructor_assignments/destroy/${id}`);
+
 const obj = {
     addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild, getPeople,
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass, getPerson,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment, savePersonalDetails,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear,
     addPersonalAddress, savePersonalAddress, getPersonalDetails, saveBookCharges, getBookCharges, getActiveSchoolClasses,
-    getAvtiveSchoolClassGradeCount, getSiblingInSameGradeReport, getPersonalAddress
+    getAvtiveSchoolClassGradeCount, getSiblingInSameGradeReport, getPersonalAddress,
+    getInstructorAssignmentForm, addInstructorAssignment, saveInstructorAssignment, deleteInstructorAssignment
 };
 
 export default obj;
