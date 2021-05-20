@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 
@@ -171,8 +171,11 @@ const InstructorAssignmentForm = ({ location } = {}) => {
                                 </div>
 
                                 <div className="row">
-                                    <div className="form-group col-md-12 mb-3">
+                                    <div className="form-group col-md-6 mb-3 order-first order-md-last">
                                         <button className="btn btn-primary btn-block">Save</button>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Link to={`/registration/show-person?id=${personId}`} className="btn btn-light btn-block">Back</Link>
                                     </div>
                                 </div>
                             </div>

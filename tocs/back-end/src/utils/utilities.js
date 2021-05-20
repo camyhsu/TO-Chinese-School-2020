@@ -67,6 +67,8 @@ const dateBetween = (_date, duration) => {
 
 const datePlus = (n) => new Date(new Date().getTime() + n * 1000 * 60 * 60 * 24);
 
+const tomorrow = () => datePart(datePlus(1).toISOString());
+
 const createRandSchoolYear = () => ({
   name: randString(),
   startDate: new Date(),
@@ -92,6 +94,6 @@ const createRandSchoolClass = (c) => ({
 
 export {
   dateBetween, datePlus, formatPhoneNumber, randAddress, randObj, randBook,
-  randPerson, randSalt, randUser, sha256Hex, today, createRandSchoolYear,
+  randPerson, randSalt, randUser, sha256Hex, today, createRandSchoolYear, tomorrow,
   toNumeric, uuid, randString, pick, toObj, collectionToObj, createRandSchoolClass,
 };

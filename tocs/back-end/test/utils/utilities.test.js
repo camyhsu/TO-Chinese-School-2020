@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 import {
-  dateBetween, formatPhoneNumber, randSalt, sha256Hex,
+  dateBetween, formatPhoneNumber, randSalt, sha256Hex, today, tomorrow,
 } from '../../src/utils/utilities.js';
 
 describe('Utilities', () => {
@@ -45,6 +45,16 @@ describe('Utilities', () => {
       expect(dateBetween(s, { startDate: '2021-04-14', endDate: '2021-04-15' })).to.be.true;
       expect(dateBetween(s, { startDate: '2021-04-13', endDate: '2021-04-15' })).to.be.true;
       expect(dateBetween(s, { startDate: '2021-04-15', endDate: '2021-04-16' })).to.be.false;
+    });
+  });
+
+  describe('today/tomorrow', () => {
+    it('today/tomorrow', async () => {
+      expect(today()).to.be.not.null;
+      expect(tomorrow()).to.be.not.null;
+      expect(new Date(today())).to.be.not.null;
+      expect(new Date(tomorrow())).to.be.not.null;
+      expect(new Date(today()) < new Date(tomorrow())).to.be.true;
     });
   });
 });

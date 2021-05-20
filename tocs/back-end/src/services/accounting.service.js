@@ -1,9 +1,12 @@
 import Sequelize from 'sequelize';
 import db from '../models/index.js';
+import { today, tomorrow } from '../utils/utilities.js';
+import { withdrawalMailer } from '../utils/mailers.js';
 
 const { Op } = Sequelize;
 const {
-  Instructor, RegistrationPayment, SchoolClass, SchoolClassActiveFlag, SchoolYear, InstructorAssignment,
+  Instructor, RegistrationPayment, SchoolClass, SchoolClassActiveFlag, SchoolYear, InstructorAssignment, Person,
+  ManualTransaction, WithdrawalRecord,
 } = db;
 
 export default {
@@ -75,5 +78,69 @@ export default {
     result.cccaDueInCents = await RegistrationPayment.getCccaDueInCents(schoolYearId);
 
     return result;
+  },
+
+  async createManualTransactionWithSideEffects(obj) {
+    if (!obj.transactionDate) {
+      Object.assign(obj, { transactionDate: today() });
+    }
+    const manualTransaction = await ManualTransaction.create(obj);
+    await this.moveStudentClassAssignmentToWithdrawalRecord(manualTransaction);
+    return manualTransaction;
+  },
+
+  async moveStudentClassAssignmentToWithdrawalRecord(manualTransaction) {
+    const schoolYear = await SchoolYear.currentSchoolYear();
+    const schoolYearId = schoolYear.id;
+    const withdrawalRecord = {
+      schoolYearId,
+      studentId: manualTransaction.studentId,
+      withdrawalDate: manualTransaction.transactionDate,
+    };
+
+    // Grab the registration time and set the student status to NOT registered
+    const student = await Person.getById(manualTransaction.studentId);
+    const studentStatusFlag = await student.studentStatusFlagFor(schoolYearId);
+    if (studentStatusFlag) {
+      withdrawalRecord.registrationDate = studentStatusFlag.lastStatusChangeDate;
+      studentStatusFlag.registered = false;
+      studentStatusFlag.lastStatusChangeDate = manualTransaction.transactionDate;
+      await studentStatusFlag.save();
+    }
+
+    // Move class assignment data to withdrawal record and destroy the class assignment
+    const studentClassAssignment = await student.getStudentClassAssignmentForSchoolYear(schoolYearId);
+    if (studentClassAssignment) {
+      withdrawalRecord.gradeId = studentClassAssignment.gradeId;
+      withdrawalRecord.schoolClassId = studentClassAssignment.schoolClassId;
+      withdrawalRecord.electiveClassId = studentClassAssignment.electiveClassId;
+      await studentClassAssignment.destroy();
+    }
+
+    await WithdrawalRecord.create(withdrawalRecord);
+
+    // Notify instructors about the withdrawal
+    if (new Date(tomorrow()) >= new Date(schoolYear.startDate)) {
+      withdrawalMailer.notifyInstructor(student, studentClassAssignment && studentClassAssignment.schoolClass);
+    }
+  },
+
+  async initializeManualTransaction(personId) {
+    const person = await Person.getById(personId);
+    const parents = await person.findParents();
+    return { person, parents };
+  },
+
+  async addManualTransaction(obj, userId) {
+    const manualTransaction = { ...obj };
+    if (manualTransaction.amount) {
+      manualTransaction.amountInCents = manualTransaction.amount * 100;
+    }
+
+    manualTransaction.transaction_by_id = manualTransaction.transactionById;
+    manualTransaction.recorded_by_id = userId;
+    console.log('manualTransaction', manualTransaction);
+    await this.createManualTransactionWithSideEffects(manualTransaction);
+    return 'Added';
   },
 };

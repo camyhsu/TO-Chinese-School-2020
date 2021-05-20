@@ -11,4 +11,13 @@ export default {
     const { schoolYearId } = req.params;
     next(response(await accountingService.getChargesCollected(schoolYearId)));
   }),
+
+  initializeManualTransaction: asyncWrapper(async (req, _res, next) => {
+    const { personId } = req.query;
+    next(response(await accountingService.initializeManualTransaction(personId)));
+  }),
+
+  addManualTransaction: asyncWrapper(async (req, _res, next) => {
+    next(response(await accountingService.addManualTransaction(req.body, req.userId)));
+  }),
 };

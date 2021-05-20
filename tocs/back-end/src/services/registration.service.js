@@ -4,8 +4,8 @@ import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 
 const { Op } = Sequelize;
 const {
-  Address, BookCharge, Family, Grade, InstructorAssignment, SchoolClass, SchoolClassActiveFlag,
-  SchoolYear, StaffAssignment, StudentClassAssignment, Person, Role,
+  Address, BookCharge, Family, Grade, InstructorAssignment, ManualTransaction,
+  SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment, Person, WithdrawalRecord,
 } = db;
 
 const dollarFields = [

@@ -23,7 +23,9 @@ import schoolYear from './school-year.model.js';
 import staffAssignment from './staff-assignment.model.js';
 import studentClassAssignment from './student-class-assignment.model.js';
 import studentFeePayment from './student-fee-payment.model.js';
+import studentStatusFlag from './student-status-flag.model.js';
 import user from './user.model.js';
+import withdrawalRecord from './withdrawal-record.model.js';
 
 const dbConfig = config.get('dbConfig');
 
@@ -61,7 +63,7 @@ const createDeleteByIdFn = (model) => async (id) => model.destroy({ where: { id 
  * withStrings: [[fieldName, columnName], 'fieldName', ...]
  */
 const fieldsFactory = ({
-  withId, withStrings, withIntegers, withDates,
+  withId, withStrings, withIntegers, withDates, withBooleans,
 } = {}) => {
   const fields = {};
   fields.id = (withId && {
@@ -70,7 +72,8 @@ const fieldsFactory = ({
     autoIncrement: true,
   }) || undefined;
 
-  [[withStrings, Sequelize.STRING], [withIntegers, Sequelize.INTEGER], [withDates, Sequelize.DATE]]
+  [[withStrings, Sequelize.STRING], [withIntegers, Sequelize.INTEGER],
+    [withDates, Sequelize.DATE], [withBooleans, Sequelize.BOOLEAN]]
     .forEach(([collection, sequelizeType]) => {
       collection && collection.map((obj) => (Array.isArray(obj) && obj) || [obj, obj.toLowerCase()])
         .forEach(([field, column, presence] = {}) => Object.assign(fields,
@@ -91,7 +94,8 @@ const mappings = [
   ['Right', right], ['Role', role],
   ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
   ['StaffAssignment', staffAssignment], ['StudentClassAssignment', studentClassAssignment],
-  ['StudentFeePayment', studentFeePayment], ['User', user],
+  ['StudentFeePayment', studentFeePayment], ['StudentStatusFlag', studentStatusFlag],
+  ['User', user], ['WithdrawalRecord', withdrawalRecord],
   ['Children', person], ['EnteredBy', person], ['PaidBy', person], ['ParentOne', person], ['ParentTwo', person],
   ['RecordedBy', person], ['Student', person], ['TransactionBy', person],
 ];
@@ -112,7 +116,7 @@ const {
   InPersonRegistrationTransaction, InstructorAssignment,
   LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction,
   Person, PreviousGrade, RegistrationPayment, RegistrationPreference, Right, Role, SchoolClass, SchoolClassActiveFlag,
-  SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, User,
+  SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, StudentStatusFlag, User, WithdrawalRecord,
   Children, EnteredBy, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
 } = db;
 
@@ -240,10 +244,24 @@ Object.assign(StudentFeePayment, {
   RegistrationPayment: StudentFeePayment.belongsTo(RegistrationPayment),
 });
 
+Object.assign(StudentStatusFlag, {
+  Student: StudentStatusFlag.belongsTo(Student, { foreignKey: { allowNull: false }, as: 'student' }),
+  SchoolYear: StudentStatusFlag.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
+});
+
 Object.assign(User, {
   Role: User.belongsToMany(Role, { through: 'roles_users', foreignKey: 'user_id', otherKey: 'role_id' }),
   Person: User.belongsTo(Person, { foreignKey: { allowNull: false } }),
   PersonAddress: Person.Address,
+});
+
+Object.assign(WithdrawalRecord, {
+  Student: WithdrawalRecord.belongsTo(Student, { as: 'student' }),
+  Grade: WithdrawalRecord.belongsTo(Grade),
+  SchoolClass: WithdrawalRecord.belongsTo(SchoolClass),
+  SchoolYear: WithdrawalRecord.belongsTo(SchoolYear),
+  ElectiveClass: WithdrawalRecord.belongsTo(SchoolClass,
+    { foreignKey: { name: 'elective_class_id' }, as: 'electiveClass' }),
 });
 
 export default db;
