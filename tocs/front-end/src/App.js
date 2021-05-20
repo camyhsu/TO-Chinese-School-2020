@@ -21,7 +21,7 @@ import Contact from './components/Contact';
 import ActiveSchoolClassesForInstructionOfficer from './components/ActiveSchoolClassesForInstructionOfficer';
 import {
   InstructorAssignmentForm, AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm,
-  NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm
+  ManualTransactionForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm
 } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
@@ -115,6 +115,7 @@ const App = () => {
 
             {/* Forms */}
             <Route exact path="/address-form" component={AddressForm} />
+            <Route exact path="/accounting/manual-transaction" component={ManualTransactionForm} />
             <Route exact path="/book-charge-form" component={BookChargeForm} />
             <Route exact path="/book-form" component={BookForm} />
             <Route exact path="/change-password-form" component={ChangePasswordForm} />

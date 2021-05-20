@@ -75,6 +75,19 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       });
       return fs;
     },
+    async findParents() {
+      const fs = await this.findFamiliesAsChild();
+      const obj = fs.reduce((r, c) => {
+        if (c.parentOne) {
+          Object.assign(r, { [c.parentOne.id]: c.parentOne });
+        }
+        if (c.parentTwo) {
+          Object.assign(r, { [c.parentTwo.id]: c.parentTwo });
+        }
+        return r;
+      }, {});
+      return Object.values(obj);
+    },
     async findFamiliesAsChild() {
       const fs = await sequelize.models.Family.findAll({
         include: [{
@@ -125,6 +138,17 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         ],
       });
     },
+    async getStudentClassAssignmentForSchoolYear(schoolYearId) {
+      return sequelize.models.StudentClassAssignment.findOne({
+        where: { studentId: this.id, schoolYearId },
+        include: [
+          { model: sequelize.models.Grade, as: 'grade' },
+          { model: sequelize.models.SchoolYear, as: 'schoolYear' },
+          { model: sequelize.models.SchoolClass, as: 'schoolClass' },
+          { model: sequelize.models.SchoolClass, as: 'electiveClass' },
+        ],
+      });
+    },
     async adjustUserRole() {
       const { ROLE_NAME_ROOM_PARENT, ROLE_NAME_INSTRUCTOR } = sequelize.models.Role.prototype.roleNames;
       const {
@@ -151,6 +175,14 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         roles.push(roleRoomParent);
       }
       await user.setRoles(roles);
+    },
+    async studentStatusFlagFor(schoolYearId) {
+      return sequelize.models.StudentStatusFlag.findOne({
+        where: {
+          studentId: this.id,
+          schoolYearId,
+        },
+      });
     },
     /* TODO Not yet implemented
       def school_age_for(school_year)

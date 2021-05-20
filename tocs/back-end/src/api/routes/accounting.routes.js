@@ -12,4 +12,16 @@ export default (router) => {
     [],
     controller.getChargesCollected,
   );
+
+  router.get(
+    '/accounting/manual_transactions/new',
+    [],
+    controller.initializeManualTransaction,
+  );
+
+  router.post(
+    '/accounting/manual_transactions/new',
+    [],
+    controller.addManualTransaction,
+  );
 };
