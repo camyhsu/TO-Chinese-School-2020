@@ -7,7 +7,9 @@ import {
 } from '../../src/utils/utilities.js';
 import db from '../../src/models/index.js';
 
-const { SchoolClass, BookCharge, Grade } = db;
+const {
+  BookCharge, Grade, SchoolClass,
+} = db;
 
 describe('Test Registration', () => {
   describe('addFamily/getFamily', () => {

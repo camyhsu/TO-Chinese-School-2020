@@ -144,6 +144,9 @@ const Home = ({ location } = {}) => {
                         <div className="col-md-6">
                             <Link to={'/registration/instructor-assignment?personId=' + id} className="btn btn-light"><BiPlus />Instructor Assignment</Link>
                         </div>
+                        <div className="col-md-6">
+                            <Link to={'/accounting/manual-transaction?personId=' + id} className="btn btn-light"><BiPlus />Manual Transaction</Link>
+                        </div>
                     </div>
                 </CardBody>
             </Card>
