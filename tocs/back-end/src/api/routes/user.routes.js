@@ -9,6 +9,18 @@ export default (router) => {
   );
 
   router.get(
+    '/board/principal',
+    [rolePermission.isPrincipal],
+    controller.registrationOfficerBoard,
+  );
+
+  router.get(
+    '/board/academic-vice-principal',
+    [rolePermission.isAcademicVicePrincipal],
+    controller.registrationOfficerBoard,
+  );
+
+  router.get(
     '/board/instructor',
     [rolePermission.isInstructor],
     controller.instructorBoard,

@@ -30,12 +30,16 @@ const ListInstructorDiscountInformation = () => <Link to='/accounting/instructor
 
 const ListAvtiveSchoolClassGradeCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_student_count?schoolYearId=${schoolYear.id}`}>{schoolYear.name} 年級人數清單</Link>
 
+const ListAvtiveSchoolClassGradeClassCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_class_student_count?schoolYearId=${schoolYear.id}`}>{schoolYear.name} 班級人數清單</Link>
+
+const ListElectiveSchoolClassGradeClassCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_class_student_count?elective=true&schoolYearId=${schoolYear.id}`}>{schoolYear.name} Elective Class 人數清單</Link>
+
 const ListSiblingInSameGradeReport = ({ schoolYear }) => <Link to={`/registration/sibling-in-same-grade?schoolYearId=${schoolYear.id}`}>Sibling in Same Grade Report</Link>
 
 const ChargesCollected = ({ schoolYear }) => <Link to={`/accounting/charges-collected?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>Tuition and Fee Collected For {schoolYear.name} School Year</Link>
 
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
-    CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses,
-    ListAvtiveSchoolClassGradeCount, ListSiblingInSameGradeReport, ChargesCollected
+    CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
+    ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected
 };

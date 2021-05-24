@@ -1,5 +1,6 @@
 import ActiveSchoolClasses from './ActiveSchoolClasses';
 import ActiveSchoolClassGradeCount from './ActiveSchoolClassGradeCount';
+import SchoolClassCount from './SchoolClassCount';
 import Family from './Family';
 import Grades from './Grades';
 import ManageStaffAssignment from './ManageStaffAssignment';
@@ -12,7 +13,7 @@ import SchoolYears from './SchoolYears';
 import SiblingInSameGrade from './SiblingInSameGrade';
 
 export {
-    ActiveSchoolClasses, ActiveSchoolClassGradeCount, Family,
+    ActiveSchoolClasses, ActiveSchoolClassGradeCount, SchoolClassCount, Family,
     Grades, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
     SchoolClasses, SchoolYears, SchoolYearDetails, SiblingInSameGrade
 };

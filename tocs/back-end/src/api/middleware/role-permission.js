@@ -48,6 +48,10 @@ const hasRole = async (req, next, roleName) => {
 
 const isStudentParent = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_STUDENT_PARENT);
 
+const isPrincipal = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_PRINCIPAL);
+
+const isAcademicVicePrincipal = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_ACADEMIC_VICE_PRINCIPAL);
+
 const isInstructor = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_INSTRUCTOR);
 
 const isRegistrationOfficer = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_REGISTRATION_OFFICER);
@@ -55,5 +59,11 @@ const isRegistrationOfficer = (req, _res, next) => hasRole(req, next, roleNames.
 const isAccountingOfficer = (req, _res, next) => hasRole(req, next, roleNames.ROLE_NAME_ACCOUNTING_OFFICER);
 
 export default {
-  isActionPermitted, isInstructor, isStudentParent, isRegistrationOfficer, isAccountingOfficer,
+  isActionPermitted,
+  isInstructor,
+  isPrincipal,
+  isStudentParent,
+  isRegistrationOfficer,
+  isAccountingOfficer,
+  isAcademicVicePrincipal,
 };

@@ -63,6 +63,8 @@ const getActiveSchoolClasses = (schoolYearId) => dataService.get(`registration/a
 
 const getAvtiveSchoolClassGradeCount = (schoolYearId) => dataService.get(`registration/active_school_classes/grade_student_count/${schoolYearId}`);
 
+const getchoolClassCount = (schoolYearId, elective) => dataService.get(`registration/active_school_classes/${elective ? 'elective_class_student_count' : 'grade_class_student_count'}/${schoolYearId}`);
+
 const getSiblingInSameGradeReport = (schoolYearId) => dataService.get(`registration/report/sibling_in_same_grade/${schoolYearId}`);
 
 const getInstructorAssignmentForm = (id) => dataService.get(`registration/people/add_instructor_assignment/${id || 0}`);
@@ -79,7 +81,7 @@ const obj = {
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment, savePersonalDetails,
     getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear,
     addPersonalAddress, savePersonalAddress, getPersonalDetails, saveBookCharges, getBookCharges, getActiveSchoolClasses,
-    getAvtiveSchoolClassGradeCount, getSiblingInSameGradeReport, getPersonalAddress,
+    getAvtiveSchoolClassGradeCount, getSiblingInSameGradeReport, getPersonalAddress, getchoolClassCount,
     getInstructorAssignmentForm, addInstructorAssignment, saveInstructorAssignment, deleteInstructorAssignment
 };
 
