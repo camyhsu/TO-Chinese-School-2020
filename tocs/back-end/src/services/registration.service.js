@@ -4,9 +4,11 @@ import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 
 const { Op } = Sequelize;
 const {
-  Address, BookCharge, Family, Grade, InstructorAssignment, ManualTransaction,
-  SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment, Person, WithdrawalRecord,
+  Address, BookCharge, Family, Grade, InstructorAssignment,
+  SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment, Person,
 } = db;
+
+const { SCHOOL_CLASS_TYPE_ELECTIVE } = SchoolClass.prototype.schoolClassTypes;
 
 const dollarFields = [
   'registrationFeeInCents',
@@ -238,6 +240,39 @@ export default {
     const title = (await SchoolYear.getById(schoolYearId)).name;
     return {
       title, items: Object.keys(obj).sort((a, b) => a - b).reduce((result, key) => result.concat(obj[key]), []),
+    };
+  },
+  getSchoolClassStudentCount: async (schoolYearId, elective) => {
+    const criteria = elective ? {
+      schoolClassType: SCHOOL_CLASS_TYPE_ELECTIVE,
+    } : {
+      [Op.not]: {
+        schoolClassType: SCHOOL_CLASS_TYPE_ELECTIVE,
+      },
+    };
+    const schoolClasses = await SchoolClass.getActiveSchoolClasses(schoolYearId, criteria);
+    const promises = [];
+    schoolClasses.forEach((schoolClass) => {
+      promises.push((async () => {
+        const size = await schoolClass.getClassSize(schoolYearId);
+        Object.assign(schoolClass.dataValues, { size });
+      })());
+      Object.values(schoolClass.dataValues.instructorAssignments).forEach((ias) => {
+        ias.forEach(async (ia) => {
+          promises.push((async () => {
+            const contactInformation = await ia.instructor.getPersonalContactInformation();
+            if (contactInformation) {
+              Object.assign(ia.instructor.dataValues, formatAddressPhoneNumbers(contactInformation));
+            }
+          })());
+        });
+      });
+    });
+    await Promise.all(promises);
+    const title = (await SchoolYear.getById(schoolYearId)).name;
+    const sortFn = (a, b) => (elective ? a.englishName.localeCompare(b.englishName) : a.gradeId - b.gradeId);
+    return {
+      title, items: schoolClasses.sort(sortFn),
     };
   },
   getSiblingInSameGrade: async (schoolYearId) => {

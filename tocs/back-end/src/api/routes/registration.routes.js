@@ -189,6 +189,18 @@ export default (router) => {
   );
 
   router.get(
+    '/registration/active_school_classes/grade_class_student_count/:schoolYearId',
+    [],
+    controller.getSchoolClassStudentCount,
+  );
+
+  router.get(
+    '/registration/active_school_classes/elective_class_student_count/:schoolYearId',
+    [],
+    controller.getElectiveSchoolClassStudentCount,
+  );
+
+  router.get(
     '/registration/report/sibling_in_same_grade/:schoolYearId',
     [],
     controller.getSiblingInSameGrade,
