@@ -84,6 +84,14 @@ export default {
     const { schoolYearId } = req.params;
     next(response(await registrationService.getGradeStudentCount(schoolYearId)));
   }),
+  getSchoolClassStudentCount: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.params;
+    next(response(await registrationService.getSchoolClassStudentCount(schoolYearId)));
+  }),
+  getElectiveSchoolClassStudentCount: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.params;
+    next(response(await registrationService.getSchoolClassStudentCount(schoolYearId, true)));
+  }),
   getSiblingInSameGrade: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
     next(response(await registrationService.getSiblingInSameGrade(schoolYearId)));

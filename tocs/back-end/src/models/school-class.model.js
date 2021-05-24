@@ -100,7 +100,11 @@ export default (sequelize, Sequelize, fieldsFactory) => {
           schoolClassId: this.id,
         },
         include: [
-          { model: sequelize.models.Instructor, as: 'instructor' },
+          {
+            model: sequelize.models.Instructor,
+            as: 'instructor',
+            include: [{ model: sequelize.models.Address, as: 'address' }],
+          },
         ],
       });
       return instructorAssignments.reduce((r, c) => {
@@ -111,6 +115,10 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         r[role].push(c);
         return r;
       }, {});
+    },
+    async getClassSize(schoolYearId) {
+      const key = this.elective() ? 'elective_class_id' : 'school_class_id';
+      return sequelize.models.StudentClassAssignment.count({ where: { schoolYearId, [key]: this.id } });
     },
     async studentClassAssignments(schoolYearId) {
       const key = this.elective() ? 'elective_class_id' : 'school_class_id';
@@ -134,14 +142,14 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
   /* Non-prototype */
   Object.assign(SchoolClass, {
-    async getActiveSchoolClasses(_schoolYearId) {
+    async getActiveSchoolClasses(_schoolYearId, criteria) {
       let schoolYearId = _schoolYearId;
       if (!_schoolYearId) {
         const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
         schoolYearId = currentSchoolYear.id;
       }
 
-      const schoolClasses = await SchoolClass.findAll({
+      const options = {
         include: [
           {
             model: sequelize.models.SchoolClassActiveFlag,
@@ -153,7 +161,13 @@ export default (sequelize, Sequelize, fieldsFactory) => {
           },
         ],
         order: [['chineseName', 'asc']],
-      });
+      };
+
+      if (criteria) {
+        Object.assign(options, { where: criteria });
+      }
+
+      const schoolClasses = await SchoolClass.findAll(options);
 
       const promises = schoolClasses.map(async (sc) => {
         const instructorAssignments = await sc.instructorAssignments(schoolYearId);

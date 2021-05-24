@@ -184,6 +184,25 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         },
       });
     },
+    async getPersonalContactInformation() {
+      const { address } = this;
+      const result = { email: null, homePhone: null };
+      if (address) {
+        result.email = address.email;
+        result.homePhone = address.homePhone;
+      }
+      if (result.email && result.homePhone) {
+        return result;
+      }
+      const fs = await this.families();
+      if (!result.email) {
+        result.email = fs.find((f) => f.address && f.address.email).address.email;
+      }
+      if (!result.homePhone) {
+        result.homePhone = fs.find((f) => f.address && f.address.homePhone).address.homePhone;
+      }
+      return result;
+    },
     /* TODO Not yet implemented
       def school_age_for(school_year)
       def age_in_range_for_track_event?(grade)

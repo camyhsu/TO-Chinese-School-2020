@@ -117,7 +117,7 @@ const {
   LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction,
   Person, PreviousGrade, RegistrationPayment, RegistrationPreference, Right, Role, SchoolClass, SchoolClassActiveFlag,
   SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, StudentStatusFlag, User, WithdrawalRecord,
-  Children, EnteredBy, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
+  Children, EnteredBy, Instructor, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
 } = db;
 
 Object.assign(Address, {
@@ -149,6 +149,10 @@ Object.assign(InPersonRegistrationTransaction, {
     { foreignKey: { allowNull: false }, as: 'registrationPayment' }),
   RecordedBy: InPersonRegistrationTransaction.belongsTo(RecordedBy,
     { foreignKey: { name: 'recorded_by_id', allowNull: false }, as: 'recordedBy' }),
+});
+
+Object.assign(Instructor, {
+  Address: Instructor.belongsTo(Address),
 });
 
 Object.assign(InstructorAssignment, {
