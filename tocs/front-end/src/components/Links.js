@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import dataService from '../services/data.service';
 
 const ManageBooks = () => <Link to='/librarian/books'>Manage Books</Link>;
 
@@ -38,8 +39,11 @@ const ListSiblingInSameGradeReport = ({ schoolYear }) => <Link to={`/registratio
 
 const ChargesCollected = ({ schoolYear }) => <Link to={`/accounting/charges-collected?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>Tuition and Fee Collected For {schoolYear.name} School Year</Link>
 
+const CSV = ({ path, text }) => <a href={dataService.csv(path)}>{text}</a>;
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
-    ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected
+    ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
+    CSV,
 };
