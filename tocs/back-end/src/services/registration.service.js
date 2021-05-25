@@ -390,4 +390,27 @@ export default {
     await person.adjustUserRole();
     return 'deleted';
   },
+
+  getStudents: async (_schoolYearId) => {
+    let schoolYearId = _schoolYearId;
+    if (!_schoolYearId) {
+      const currentSchoolYear = await SchoolYear.currentSchoolYear();
+      schoolYearId = currentSchoolYear.id;
+    }
+
+    const studentClassAssignments = await StudentClassAssignment.findAll({
+      where: { [Op.not]: { schoolClassId: null }, schoolYearId },
+      include: [{ model: Person, as: 'student' }, { model: SchoolClass, as: 'schoolClass' }],
+      order: [
+        ['schoolClass', 'short_name', 'ASC'],
+        ['student', 'english_last_name', 'ASC'],
+        ['student', 'english_first_name', 'ASC'],
+      ],
+    });
+
+    return studentClassAssignments.reduce((r, c) => {
+      Object.assign(c.student.dataValues, { className: c.schoolClass.shortName });
+      return r.concat(c.student);
+    }, []);
+  },
 };
