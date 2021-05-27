@@ -37,13 +37,15 @@ const ListElectiveSchoolClassGradeClassCount = ({ schoolYear }) => <Link to={`/r
 
 const ListSiblingInSameGradeReport = ({ schoolYear }) => <Link to={`/registration/sibling-in-same-grade?schoolYearId=${schoolYear.id}`}>Sibling in Same Grade Report</Link>
 
-const ChargesCollected = ({ schoolYear }) => <Link to={`/accounting/charges-collected?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>Tuition and Fee Collected For {schoolYear.name} School Year</Link>
+const ChargesCollected = ({ schoolYear }) => <Link to={`/accounting/charges-collected?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>{schoolYear.name} Tuition and Fee Collected</Link>
 
 const CSV = ({ path, text }) => <a href={dataService.csv(path)}>{text}</a>;
+
+const DailyRegistrationSummary = ({ schoolYear }) => <Link to={`/accounting/daily-online-registration-summary?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>{schoolYear.name} Daily Online Registration Summary</Link>
 
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
     ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
-    CSV,
+    CSV, DailyRegistrationSummary,
 };

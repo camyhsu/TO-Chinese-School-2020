@@ -36,6 +36,14 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     getCccaDueInCents: async (schoolYearId) => RegistrationPayment.sum('ccca_due_in_cents', {
       where: { school_year_id: schoolYearId, paid: true },
     }),
+    findPaidPaymentsForSchoolYear: async (schoolYearId) => {
+      const tmp = await RegistrationPayment.findAll({
+        where: { school_year_id: schoolYearId, paid: true },
+        include: [{ model: sequelize.models.StudentFeePayment, as: 'studentFeePayments' }],
+        order: [['updated_at', 'DESC']],
+      });
+      return tmp;
+    },
   });
 
   return RegistrationPayment;
