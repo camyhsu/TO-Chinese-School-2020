@@ -1,10 +1,11 @@
 import Sequelize from 'sequelize';
 import db from '../models/index.js';
 import { formatAddressPhoneNumbers } from '../utils/mutator.js';
+import { datePart, isoToPacificDate } from '../utils/utilities.js';
 
 const { Op } = Sequelize;
 const {
-  Address, BookCharge, Family, Grade, InstructorAssignment,
+  Address, BookCharge, Family, Grade, InstructorAssignment, RegistrationPayment,
   SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment, Person,
 } = db;
 
@@ -411,6 +412,45 @@ export default {
     return studentClassAssignments.reduce((r, c) => {
       Object.assign(c.student.dataValues, { className: c.schoolClass.shortName });
       return r.concat(c.student);
+    }, []);
+  },
+
+  getDailyOnlineRegistrationSummary: async (schoolYearId) => {
+    const tmp = await RegistrationPayment.findPaidPaymentsForSchoolYear(schoolYearId);
+    const obj = {};
+    tmp.forEach((x) => {
+      const paymentDate = isoToPacificDate(x.updatedAt);
+
+      if (!obj[paymentDate]) {
+        obj[paymentDate] = {
+          paymentDate,
+          studentCount: 0,
+          registrationFeeInCents: 0,
+          tuitionInCents: 0,
+          bookChargeInCents: 0,
+          pvaDueInCents: 0,
+          cccaDueInCents: 0,
+          grandTotalInCents: 0,
+        };
+      }
+
+      const n = obj[paymentDate];
+      n.studentCount += (x.grandTotalInCents < 0 ? -1 : 1) * x.studentFeePayments.length;
+      n.grandTotalInCents += x.grandTotalInCents;
+      n.pvaDueInCents += x.pvaDueInCents;
+      n.cccaDueInCents += x.cccaDueInCents;
+
+      x.studentFeePayments.forEach((studentFeePayment) => {
+        n.registrationFeeInCents += studentFeePayment.registrationFeeInCents;
+        n.tuitionInCents += studentFeePayment.tuitionInCents;
+        n.bookChargeInCents += studentFeePayment.bookChargeInCents;
+      });
+    });
+    return Object.keys(obj).sort((a, b) => b - a).reduce((r, c) => {
+      ['registrationFeeInCents', 'tuitionInCents', 'bookChargeInCents',
+        'grandTotalInCents', 'pvaDueInCents', 'cccaDueInCents']
+        .forEach((s) => Object.assign(obj[c], { [s.replace('InCents', '')]: obj[c][s] / 100 }));
+      return r.concat(obj[c]);
     }, []);
   },
 };

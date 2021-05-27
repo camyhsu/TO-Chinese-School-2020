@@ -96,7 +96,10 @@ export default {
     const { schoolYearId } = req.params;
     next(response(await registrationService.getSiblingInSameGrade(schoolYearId)));
   }),
-
+  getDailyOnlineRegistrationSummary: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId } = req.params;
+    next(response(await registrationService.getDailyOnlineRegistrationSummary(schoolYearId)));
+  }),
   getInstructorAssignmentForm: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
     next(response(await registrationService.getInstructorAssignmentForm(id)));
