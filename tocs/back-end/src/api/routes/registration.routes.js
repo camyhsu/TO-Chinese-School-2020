@@ -207,6 +207,12 @@ export default (router) => {
   );
 
   router.get(
+    '/registration/report/daily_online_registration_summary/:schoolYearId',
+    [],
+    controller.getDailyOnlineRegistrationSummary,
+  );
+
+  router.get(
     '/registration/people/add_instructor_assignment/:id',
     [],
     controller.getInstructorAssignmentForm,

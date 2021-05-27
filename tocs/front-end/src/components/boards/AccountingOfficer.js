@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
-import { ListInstructorDiscountInformation, ChargesCollected } from '../Links';
+import { ListInstructorDiscountInformation, ChargesCollected, DailyRegistrationSummary } from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
@@ -35,6 +35,7 @@ const Home = () => {
                     return (
                         <React.Fragment key={'schoolYear-' + sindex}>
                             <div className="row">
+                                <div className="col-md-12"><DailyRegistrationSummary schoolYear={schoolYear} /></div>
                                 <div className="col-md-12"><ChargesCollected schoolYear={schoolYear} /></div>
                             </div>
                         </React.Fragment>

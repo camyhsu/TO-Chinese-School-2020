@@ -8,8 +8,10 @@ const initializeManualTransaction = (personId) => dataService.get(`accounting/ma
 
 const addManualTransaction = (obj) => dataService.post('accounting/manual_transactions/new', obj);
 
+const getDailyRegistrationSummary = (schoolYearId) => dataService.get(`registration/report/daily_online_registration_summary/${schoolYearId}`);
+
 const obj = {
-    getInstructorDiscounts, getChargesCollected, initializeManualTransaction, addManualTransaction
+    getInstructorDiscounts, getChargesCollected, initializeManualTransaction, addManualTransaction, getDailyRegistrationSummary
 };
 
 export default obj;
