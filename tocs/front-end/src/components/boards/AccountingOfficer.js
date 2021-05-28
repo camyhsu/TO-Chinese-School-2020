@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
-import { ListInstructorDiscountInformation, ChargesCollected, DailyRegistrationSummary } from '../Links';
+import {
+    ListAvtiveSchoolClassGradeClassCount, ListElectiveSchoolClassGradeClassCount,
+    ListInstructorDiscountInformation, ChargesCollected, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears
+} from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
 
 const Home = () => {
@@ -29,7 +32,18 @@ const Home = () => {
             <CardBody>
                 <CardTitle>Accounting Officer Resources</CardTitle>
                 <div className="row">
-                    <div className="col-md-8"><ListInstructorDiscountInformation /></div>
+                    {content.currentSchoolYear && (
+                        <>
+                            <div className="col-md-8"><ListAvtiveSchoolClassGradeClassCount schoolYear={content.currentSchoolYear} /></div>
+                            <div className="col-md-8"><ListElectiveSchoolClassGradeClassCount schoolYear={content.currentSchoolYear} /></div>
+                        </>
+                    )}
+                    {content.nextSchoolYear && (
+                        <>
+                            <div className="col-md-8"><ListAvtiveSchoolClassGradeClassCount schoolYear={content.nextSchoolYear} /></div>
+                            <div className="col-md-8"><ListElectiveSchoolClassGradeClassCount schoolYear={content.nextSchoolYear} /></div>
+                        </>
+                    )}
                 </div>
                 {content.currentAndFutureSchoolYears && content.currentAndFutureSchoolYears.map((schoolYear, sindex) => {
                     return (
@@ -41,6 +55,12 @@ const Home = () => {
                         </React.Fragment>
                     );
                 })}
+                <div className="row">
+                    <div className="col-md-12"><ListManualTransactionsFromLastTwoSchoolYears /></div>
+                </div>
+                <div className="row">
+                    <div className="col-md-8"><ListInstructorDiscountInformation /></div>
+                </div>
             </CardBody>
         </Card>
     );

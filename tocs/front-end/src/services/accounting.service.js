@@ -10,8 +10,11 @@ const addManualTransaction = (obj) => dataService.post('accounting/manual_transa
 
 const getDailyRegistrationSummary = (schoolYearId) => dataService.get(`registration/report/daily_online_registration_summary/${schoolYearId}`);
 
+const getManualTransactionsForLastTwoYears = () => dataService.get('accounting/manual_transactions/index');
+
 const obj = {
-    getInstructorDiscounts, getChargesCollected, initializeManualTransaction, addManualTransaction, getDailyRegistrationSummary
+    getInstructorDiscounts, getChargesCollected, initializeManualTransaction, addManualTransaction,
+    getDailyRegistrationSummary, getManualTransactionsForLastTwoYears,
 };
 
 export default obj;
