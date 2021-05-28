@@ -19,6 +19,12 @@ export default (router) => {
     controller.initializeManualTransaction,
   );
 
+  router.get(
+    '/accounting/manual_transactions/index',
+    [],
+    controller.getManualTransactionsForLastTwoYears,
+  );
+
   router.post(
     '/accounting/manual_transactions/new',
     [],

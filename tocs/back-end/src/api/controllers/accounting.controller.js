@@ -7,6 +7,10 @@ export default {
     next(response(await accountingService.getInstructorDiscounts()));
   }),
 
+  getManualTransactionsForLastTwoYears: asyncWrapper(async (_req, _res, next) => {
+    next(response(await accountingService.getManualTransactionsForLastTwoYears()));
+  }),
+
   getChargesCollected: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
     next(response(await accountingService.getChargesCollected(schoolYearId)));

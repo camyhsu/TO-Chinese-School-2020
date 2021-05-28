@@ -43,9 +43,11 @@ const CSV = ({ path, text }) => <a href={dataService.csv(path)}>{text}</a>;
 
 const DailyRegistrationSummary = ({ schoolYear }) => <Link to={`/accounting/daily-online-registration-summary?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}>{schoolYear.name} Daily Online Registration Summary</Link>
 
+const ListManualTransactionsFromLastTwoSchoolYears = ({ schoolYear }) => <Link to="/accounting/manual-transactions">List Manual Transactions From Last Two School Years</Link>
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
     ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
-    CSV, DailyRegistrationSummary,
+    CSV, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears,
 };

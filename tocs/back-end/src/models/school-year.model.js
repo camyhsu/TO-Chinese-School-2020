@@ -108,6 +108,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     async findCurrentAndFutureSchoolYears() {
       return SchoolYear.findAll({
         where: { endDate: { [Sequelize.Op.gte]: today() } },
+        include: [{ model: SchoolYear, as: 'previousSchoolYear' }],
         order: [['startDate', 'ASC']],
       });
     },
