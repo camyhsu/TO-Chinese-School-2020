@@ -6,13 +6,15 @@ import { withdrawalMailer } from '../utils/mailers.js';
 const { Op } = Sequelize;
 const {
   Instructor, RegistrationPayment, SchoolClass, SchoolClassActiveFlag, SchoolYear, InstructorAssignment, Person,
-  ManualTransaction, WithdrawalRecord,
+  ManualTransaction, Student, TransactionBy, WithdrawalRecord,
 } = db;
 
 export default {
   getBoard: async () => {
     const currentAndFutureSchoolYears = await SchoolYear.findCurrentAndFutureSchoolYears();
-    return { currentAndFutureSchoolYears };
+    const currentSchoolYear = await SchoolYear.currentSchoolYear();
+    const nextSchoolYear = await SchoolYear.nextSchoolYear();
+    return { currentAndFutureSchoolYears, currentSchoolYear, nextSchoolYear };
   },
   getInstructorDiscounts: async () => {
     const currentSchoolYear = await SchoolYear.currentSchoolYear();
@@ -142,5 +144,14 @@ export default {
     console.log('manualTransaction', manualTransaction);
     await this.createManualTransactionWithSideEffects(manualTransaction);
     return 'Added';
+  },
+
+  async getManualTransactionsForLastTwoYears() {
+    const currentSchoolYear = await SchoolYear.currentSchoolYear();
+    return ManualTransaction.findAll({
+      where: { updated_at: { [Op.gt]: currentSchoolYear.previousSchoolYear.earlyRegistrationStartDate } },
+      include: [{ model: TransactionBy, as: 'transactionBy' }, { model: Student, as: 'student' }],
+      order: [['updated_at', 'DESC']],
+    });
   },
 };

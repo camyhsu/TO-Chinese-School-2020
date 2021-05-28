@@ -229,6 +229,10 @@ Object.assign(SchoolClassActiveFlag, {
   SchoolYear: SchoolClassActiveFlag.belongsTo(SchoolYear, { as: 'schoolYear' }),
 });
 
+Object.assign(SchoolYear, {
+  PreviousSchoolYear: SchoolYear.belongsTo(SchoolYear, { as: 'previousSchoolYear' }),
+});
+
 Object.assign(StaffAssignment, {
   Person: StaffAssignment.belongsTo(Person),
   SchoolYear: StaffAssignment.belongsTo(SchoolYear),
