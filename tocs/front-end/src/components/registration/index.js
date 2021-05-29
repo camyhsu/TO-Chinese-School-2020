@@ -3,6 +3,7 @@ import ActiveSchoolClassGradeCount from './ActiveSchoolClassGradeCount';
 import SchoolClassCount from './SchoolClassCount';
 import Family from './Family';
 import Grades from './Grades';
+import ListActiveStudentsByName from './ListActiveStudentsByName';
 import ManageStaffAssignment from './ManageStaffAssignment';
 import ManageStaffAssignments from './ManageStaffAssignments';
 import People from './People';
@@ -14,6 +15,6 @@ import SiblingInSameGrade from './SiblingInSameGrade';
 
 export {
     ActiveSchoolClasses, ActiveSchoolClassGradeCount, SchoolClassCount, Family,
-    Grades, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
+    Grades, ListActiveStudentsByName, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
     SchoolClasses, SchoolYears, SchoolYearDetails, SiblingInSameGrade
 };

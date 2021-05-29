@@ -119,4 +119,8 @@ export default {
     const { id } = req.params;
     next(response(await registrationService.deleteInstructorAssignment(id)));
   }),
+
+  getActiveStudentsByName: asyncWrapper(async (req, _res, next) => {
+    next(response(await registrationService.getActiveStudentsByName()));
+  }),
 };

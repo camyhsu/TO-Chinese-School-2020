@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 import db from '../models/index.js';
 import { formatAddressPhoneNumbers } from '../utils/mutator.js';
-import { datePart, isoToPacificDate } from '../utils/utilities.js';
+import { isoToPacificDate } from '../utils/utilities.js';
 
 const { Op } = Sequelize;
 const {
-  Address, BookCharge, Family, Grade, InstructorAssignment, RegistrationPayment,
+  Address, BookCharge, ElectiveClass, Family, Grade, InstructorAssignment, RegistrationPayment,
   SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment, Person,
 } = db;
 
@@ -452,5 +452,23 @@ export default {
         .forEach((s) => Object.assign(obj[c], { [s.replace('InCents', '')]: obj[c][s] / 100 }));
       return r.concat(obj[c]);
     }, []);
+  },
+
+  getActiveStudentsByName: async () => {
+    const currentSchoolYear = await SchoolYear.currentSchoolYear();
+    const schoolYearId = currentSchoolYear.id;
+    const sca = await StudentClassAssignment.findAll({
+      where: { schoolYearId, [Op.not]: { school_class_id: null } },
+      include: [
+        { model: Person, as: 'student' },
+        { model: SchoolClass, as: 'schoolClass' },
+        { model: ElectiveClass, as: 'electiveClass' },
+      ],
+      order: [
+        ['student', 'english_last_name', 'ASC'],
+        ['student', 'english_first_name', 'ASC'],
+      ],
+    });
+    return sca.map((s) => ({ student: s.student, schoolClass: s.schoolClass, electiveClass: s.electiveClass }));
   },
 };

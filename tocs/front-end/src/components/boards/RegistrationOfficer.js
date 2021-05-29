@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
 import {
   ListAllGrades, ListAllSchoolClasses, ManageSchoolYears, CreateANewFamily,
-  ListAllPeople, ListActiveSchoolClasses, ListAvtiveSchoolClassGradeCount,
+  ListAllPeople, ListActiveSchoolClasses, ListActiveSchoolClassGradeCount, ListActiveStudentsByName,
   ListSiblingInSameGradeReport, ProcessInPersonRegistrationPayments
 } from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
@@ -41,17 +41,19 @@ const Home = () => {
           <div className="col-md-6"><ManageSchoolYears /></div>
           <div className="col-md-6"><CreateANewFamily /></div>
           <div className="col-md-6"><ListAllPeople /></div>
+          <div className="col-md-8"><ListActiveStudentsByName /></div>
+
           {content.currentSchoolYear && (
             <>
               <div className="col-md-8"><ListSiblingInSameGradeReport schoolYear={content.currentSchoolYear} /></div>
               <div className="col-md-8"><ListActiveSchoolClasses schoolYear={content.currentSchoolYear} /></div>
-              <div className="col-md-8"><ListAvtiveSchoolClassGradeCount schoolYear={content.currentSchoolYear} /></div>
+              <div className="col-md-8"><ListActiveSchoolClassGradeCount schoolYear={content.currentSchoolYear} /></div>
             </>
           )}
           {content.nextSchoolYear && (
             <>
               <div className="col-md-8"><ListActiveSchoolClasses schoolYear={content.nextSchoolYear} /></div>
-              <div className="col-md-8"><ListAvtiveSchoolClassGradeCount schoolYear={content.nextSchoolYear} /></div>
+              <div className="col-md-8"><ListActiveSchoolClassGradeCount schoolYear={content.nextSchoolYear} /></div>
             </>
           )}
         </div>
