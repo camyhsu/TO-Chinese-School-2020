@@ -11,12 +11,12 @@ const TransactionHistory = () => {
         {
             cell: (row) => <Link to={'/student/registration-payment?id=' + row.id} className='btn btn-light'><BiInfoCircle /></Link>
         },
-        { title: 'Date', cell: (row) => `${isoToPacific(row.updatedAt)}` },
+        { title: 'Date', cell: (row) => isoToPacific(row.updatedAt) },
         { title: 'Type', cell: (row) => row.grandTotal < 0 ? 'System Adjustment' : 'Registration' },
         { title: 'Amount', cell: (row) => dollar(row.grandTotal) },
     ];
     const mxHeader = [
-        { title: 'Date', cell: (row) => `${isoToPacific(row.updatedAt)}` },
+        { title: 'Date', cell: (row) => isoToPacific(row.updatedAt) },
         { title: 'Type', prop: 'transactionType' },
         { title: 'Amount', cell: (row) => dollar(row.amountWithSign) },
     ];

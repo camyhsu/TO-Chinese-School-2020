@@ -25,6 +25,12 @@ export default (router) => {
     controller.getManualTransactionsForLastTwoYears,
   );
 
+  router.get(
+    '/accounting/in_person_registration_payments/index',
+    [],
+    controller.getInPersonRegistrationPayments,
+  );
+
   router.post(
     '/accounting/manual_transactions/new',
     [],
