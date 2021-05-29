@@ -6,7 +6,7 @@ import { withdrawalMailer } from '../utils/mailers.js';
 const { Op } = Sequelize;
 const {
   Instructor, RegistrationPayment, SchoolClass, SchoolClassActiveFlag, SchoolYear, InstructorAssignment, Person,
-  ManualTransaction, Student, TransactionBy, WithdrawalRecord,
+  ManualTransaction, PaidBy, Student, StudentFeePayment, TransactionBy, WithdrawalRecord,
 } = db;
 
 export default {
@@ -153,5 +153,38 @@ export default {
       include: [{ model: TransactionBy, as: 'transactionBy' }, { model: Student, as: 'student' }],
       order: [['updated_at', 'DESC']],
     });
+  },
+
+  async getInPersonRegistrationPayments() {
+    const currentSchoolYear = await SchoolYear.currentSchoolYear();
+    const schoolYearId = currentSchoolYear.id;
+    const registrationPayments = await RegistrationPayment.findAll({
+      where: {
+        schoolYearId,
+        paid: false,
+        request_in_person: true,
+      },
+      include: [
+        { model: PaidBy, as: 'paidBy' },
+        { model: StudentFeePayment, as: 'studentFeePayments', include: [{ model: Student, as: 'student' }] },
+      ],
+      order: [['updated_at', 'DESC']],
+    });
+
+    const promises = [];
+    const toBeRemovedIds = [];
+    // Exclude payments related to student who has registered already
+    registrationPayments.forEach((registrationPayment) => {
+      registrationPayment.studentFeePayments.forEach((studentFeePayment) => {
+        promises.push((async () => {
+          const studentStatusFlag = await studentFeePayment.student.studentStatusFlagFor(schoolYearId);
+          if (studentStatusFlag && studentStatusFlag.registered) {
+            toBeRemovedIds.push(registrationPayment.id);
+          }
+        })());
+      });
+    });
+    await Promise.all(promises);
+    return registrationPayments.filter((registrationPayment) => !toBeRemovedIds.includes(registrationPayment.id));
   },
 };

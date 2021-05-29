@@ -3,7 +3,7 @@ import UserService from "../../services/user.service";
 import {
   ListAllGrades, ListAllSchoolClasses, ManageSchoolYears, CreateANewFamily,
   ListAllPeople, ListActiveSchoolClasses, ListAvtiveSchoolClassGradeCount,
-  ListSiblingInSameGradeReport
+  ListSiblingInSameGradeReport, ProcessInPersonRegistrationPayments
 } from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
 
@@ -32,6 +32,9 @@ const Home = () => {
     <Card size="medium" plain="true">
       <CardBody>
         <CardTitle>Registration Officer Resources</CardTitle>
+        <div className="row">
+          <div className="col-md-12"><ProcessInPersonRegistrationPayments /></div>
+        </div>
         <div className="row">
           <div className="col-md-6"><ListAllGrades /></div>
           <div className="col-md-6"><ListAllSchoolClasses /></div>
