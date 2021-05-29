@@ -10,7 +10,9 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
-import { ChargesCollected, InstructorDiscount, DailyRegistrationSummary, ManualTransactions } from './components/accounting';
+import {
+  ChargesCollected, InstructorDiscount, DailyRegistrationSummary, ManualTransactions, InPersonRegistrationPayments
+} from './components/accounting';
 import SchoolClassStudents from './components/instruction/SchoolClassStudents';
 import Privacy from './components/Privacy';
 import RegistrationPayment from './components/student/RegistrationPayment';
@@ -93,6 +95,7 @@ const App = () => {
 
             <Route exact path="/librarian/books" component={Books} />
             <Route exact path="/librarian/books/read-only" component={() => <Books readOnly={true} />} />
+            <Route exact path="/accounting/in-person-registration-payments" component={InPersonRegistrationPayments} />
             <Route exact path="/accounting/instructor-discount" component={InstructorDiscount} />
             <Route exact path="/accounting/charges-collected" component={ChargesCollected} />
             <Route exact path="/accounting/daily-online-registration-summary" component={DailyRegistrationSummary} />

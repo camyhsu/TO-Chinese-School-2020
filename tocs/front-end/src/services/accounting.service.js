@@ -12,9 +12,11 @@ const getDailyRegistrationSummary = (schoolYearId) => dataService.get(`registrat
 
 const getManualTransactionsForLastTwoYears = () => dataService.get('accounting/manual_transactions/index');
 
+const getInPersonRegistrationPayments = () => dataService.get('accounting/in_person_registration_payments/index');
+
 const obj = {
     getInstructorDiscounts, getChargesCollected, initializeManualTransaction, addManualTransaction,
-    getDailyRegistrationSummary, getManualTransactionsForLastTwoYears,
+    getDailyRegistrationSummary, getManualTransactionsForLastTwoYears, getInPersonRegistrationPayments,
 };
 
 export default obj;

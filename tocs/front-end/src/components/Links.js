@@ -45,9 +45,11 @@ const DailyRegistrationSummary = ({ schoolYear }) => <Link to={`/accounting/dail
 
 const ListManualTransactionsFromLastTwoSchoolYears = ({ schoolYear }) => <Link to="/accounting/manual-transactions">List Manual Transactions From Last Two School Years</Link>
 
+const ProcessInPersonRegistrationPayments = () => <Link to='/accounting/in-person-registration-payments'>Process In-person Registration Payments</Link>;
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
     ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
-    CSV, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears,
+    CSV, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears, ProcessInPersonRegistrationPayments,
 };
