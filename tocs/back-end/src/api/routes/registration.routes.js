@@ -235,4 +235,10 @@ export default (router) => {
     [],
     controller.deleteInstructorAssignment,
   );
+
+  router.get(
+    '/registration/student_class_assignments/list_active_students_by_name',
+    [],
+    controller.getActiveStudentsByName,
+  );
 };
