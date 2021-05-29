@@ -75,11 +75,13 @@ const saveInstructorAssignment = (id, obj) => dataService.put(`registration/peop
 
 const deleteInstructorAssignment = (id) => dataService.delete(`registration/instructor_assignments/destroy/${id}`);
 
+const getActiveStudentsByName = () => dataService.get('registration/student_class_assignments/list_active_students_by_name');
+
 const obj = {
     addNewFamily, getFamily, getFamilyAddress, saveFamilyAddress, getGrades, addParent, addChild, getPeople,
     getSchoolClasses, getSchoolClass, saveSchoolClass, addSchoolClass, toggleActiveSchoolClass, getPerson,
     getSchoolYears, getSchoolYear, saveSchoolYear, addSchoolYear, toggleAutoClassAssignment, savePersonalDetails,
-    getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear,
+    getManageStaffAssignments, getManageStaffAssignment, getActiveSchoolClassesForCurrentNextSchoolYear, getActiveStudentsByName,
     addPersonalAddress, savePersonalAddress, getPersonalDetails, saveBookCharges, getBookCharges, getActiveSchoolClasses,
     getAvtiveSchoolClassGradeCount, getSiblingInSameGradeReport, getPersonalAddress, getchoolClassCount,
     getInstructorAssignmentForm, addInstructorAssignment, saveInstructorAssignment, deleteInstructorAssignment

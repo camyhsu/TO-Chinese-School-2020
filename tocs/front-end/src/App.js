@@ -28,7 +28,7 @@ import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books } from './components/librarian/index';
 import {
   ActiveSchoolClasses, ActiveSchoolClassGradeCount, SchoolClassCount, Family,
-  Grades, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
+  Grades, ListActiveStudentsByName, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
   SchoolClasses, SchoolYears, SchoolYearDetails, SiblingInSameGrade
 } from './components/registration/index';
 
@@ -110,6 +110,7 @@ const App = () => {
             <Route exact path="/registration/active_school_classes/grade_student_count" component={ActiveSchoolClassGradeCount} />
             <Route exact path="/registration/active_school_classes/grade_class_student_count" component={SchoolClassCount} />
             <Route exact path="/registration/instructor-assignment" component={InstructorAssignmentForm} />
+            <Route exact path="/registration/student-class-assignments" component={ListActiveStudentsByName} />
             <Route exact path="/registration/family" component={Family} />
             <Route exact path="/registration/people" component={People} />
             <Route exact path="/registration/show-person" component={PersonDetails} />

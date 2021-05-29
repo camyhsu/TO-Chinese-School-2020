@@ -29,7 +29,7 @@ const CreateANewFamily = () => <Link to='/new-family-form'>Create A New Family</
 
 const ListInstructorDiscountInformation = () => <Link to='/accounting/instructor-discount'>List Instructor Discount Information</Link>;
 
-const ListAvtiveSchoolClassGradeCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_student_count?schoolYearId=${schoolYear.id}`}>{schoolYear.name} 年級人數清單</Link>
+const ListActiveSchoolClassGradeCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_student_count?schoolYearId=${schoolYear.id}`}>{schoolYear.name} 年級人數清單</Link>
 
 const ListAvtiveSchoolClassGradeClassCount = ({ schoolYear }) => <Link to={`/registration/active_school_classes/grade_class_student_count?schoolYearId=${schoolYear.id}`}>{schoolYear.name} 班級人數清單</Link>
 
@@ -47,9 +47,12 @@ const ListManualTransactionsFromLastTwoSchoolYears = ({ schoolYear }) => <Link t
 
 const ProcessInPersonRegistrationPayments = () => <Link to='/accounting/in-person-registration-payments'>Process In-person Registration Payments</Link>;
 
+const ListActiveStudentsByName = () => <Link to='/registration/student-class-assignments'>List Active Students By Name</Link>;
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
-    ListAvtiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
+    ListActiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
     CSV, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears, ProcessInPersonRegistrationPayments,
+    ListActiveStudentsByName,
 };
