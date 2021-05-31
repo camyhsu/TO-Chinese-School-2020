@@ -1,3 +1,4 @@
 import Books from './Books';
+import SearchStudentsByRegistrationDates from './SearchStudentsByRegistrationDates';
 
-export { Books };
+export { Books, SearchStudentsByRegistrationDates };

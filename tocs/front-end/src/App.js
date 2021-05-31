@@ -25,7 +25,7 @@ import {
   ManualTransactionForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm
 } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
-import { Books } from './components/librarian/index';
+import { Books, SearchStudentsByRegistrationDates } from './components/librarian/index';
 import {
   ActiveSchoolClasses, ActiveSchoolClassGradeCount, SchoolClassCount, Family,
   Grades, ListActiveStudentsByName, ManageStaffAssignments, ManageStaffAssignment, People, PersonDetails,
@@ -94,6 +94,7 @@ const App = () => {
             <Route exact path="/transaction-history" component={TransactionHistory} />
 
             <Route exact path="/librarian/books" component={Books} />
+            <Route exact path="/librarian/search-students" component={SearchStudentsByRegistrationDates} />
             <Route exact path="/librarian/books/read-only" component={() => <Books readOnly={true} />} />
             <Route exact path="/accounting/in-person-registration-payments" component={InPersonRegistrationPayments} />
             <Route exact path="/accounting/instructor-discount" component={InstructorDiscount} />

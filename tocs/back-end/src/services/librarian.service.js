@@ -5,11 +5,13 @@ import { collectionToObj } from '../utils/utilities.js';
 
 const { Op } = Sequelize;
 const {
-  LibraryBook, LibraryBookCheckOut, Person,
+  Grade, LibraryBook, LibraryBookCheckOut, Person, SchoolClass,
+  SchoolYear, StudentStatusFlag, StudentClassAssignment, Student,
 } = db;
 
 export default {
   getLibraryBook: async (id) => LibraryBook.getById(id),
+
   getLibraryBookCheckOutHistory: async (id) => {
     const books = await LibraryBook.findAll({
       include: [{
@@ -29,6 +31,7 @@ export default {
     }
     return book;
   },
+
   getLibraryBooks: async () => {
     const books = await LibraryBook.findAll();
     const bookMap = collectionToObj(books);
@@ -42,12 +45,15 @@ export default {
     });
     return books;
   },
+
   addLibraryBook: async (obj) => LibraryBook.create(obj),
+
   saveLibraryBook: async (bookId, obj) => {
     const book = await LibraryBook.getById(bookId);
     Object.assign(book, obj);
     await book.save();
   },
+
   checkOutLibraryBook: async (id, {
     checkedOutBy, checkedOutDate, note,
   } = {}) => {
@@ -69,6 +75,7 @@ export default {
     }
     throw dataNotFound('Book not found');
   },
+
   returnLibraryBook: async (id, { returnDate, note } = {}) => {
     const book = await LibraryBook.getById(id);
     if (book) {
@@ -84,4 +91,44 @@ export default {
     }
     throw dataNotFound('Book not found');
   },
+
+  searchStudents: async (schoolYearId, startDate, endDate) => {
+    const studentStatusFlags = await StudentStatusFlag.findAll({
+      where: {
+        school_year_id: schoolYearId,
+        registered: true,
+        last_status_change_date: {
+          [Sequelize.Op.gte]: startDate,
+          [Sequelize.Op.lte]: endDate,
+        },
+      },
+      include: [{
+        model: Student,
+        as: 'student',
+        include: [{
+          model: StudentClassAssignment,
+          as: 'studentClassAssignments',
+          where: {
+            school_year_id: schoolYearId,
+          },
+          include: [{ model: Grade, as: 'grade' }, { model: SchoolClass, as: 'schoolClass' }],
+        }],
+      }],
+      order: [
+        [
+          { model: Student, as: 'student' },
+          { model: StudentClassAssignment, as: 'studentClassAssignments' },
+          { model: Grade, as: 'grade' }, 'id', 'ASC'],
+        [
+          { model: Student, as: 'student' },
+          { model: StudentClassAssignment, as: 'studentClassAssignments' },
+          { model: SchoolClass, as: 'schoolClass' }, 'shortName', 'ASC'],
+        ['lastStatusChangeDate', 'ASC'],
+        ['student', 'lastName', 'ASC'],
+      ],
+    });
+    return studentStatusFlags;
+  },
+
+  initializeSearchStudents: async () => SchoolYear.currentSchoolYear(),
 };

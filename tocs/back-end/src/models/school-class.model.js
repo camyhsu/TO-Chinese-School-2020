@@ -160,7 +160,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
             as: 'schoolClassActiveFlags',
           },
         ],
-        order: [['chineseName', 'asc']],
+        order: [['chineseName', 'ASC']],
       };
 
       if (criteria) {

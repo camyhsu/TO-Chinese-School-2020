@@ -14,8 +14,12 @@ const checkOutLibraryBook = (bookId, obj) => dataService.post('librarian/library
 
 const returnLibraryBook = (bookId, obj) => dataService.put('librarian/library_books/return_library_book/' + bookId, obj);
 
+const searchStudents = (schoolYearId, startDate, endDate) => dataService.get(`librarian/search_students/search_result?schoolYearId=${schoolYearId}&startDate=${startDate}&endDate=${endDate}`);
+
+const initializeSearchStudents = () => dataService.get('librarian/search_students/index');
+
 const obj = {
-    getLibraryBooks, getLibraryBookCheckOutHistory,
+    getLibraryBooks, getLibraryBookCheckOutHistory, searchStudents, initializeSearchStudents,
     addLibraryBook, saveLibraryBook, getLibraryBook, checkOutLibraryBook, returnLibraryBook
 };
 

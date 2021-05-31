@@ -37,6 +37,18 @@ export default (router) => {
     controller.getLibraryBookCheckOutHistory,
   );
 
+  router.get(
+    '/librarian/search_students/index',
+    [],
+    controller.initializeSearchStudents,
+  );
+
+  router.get(
+    '/librarian/search_students/search_result',
+    [],
+    controller.searchStudents,
+  );
+
   router.post(
     '/librarian/library_books/check_out_library_book/:id',
     [],
