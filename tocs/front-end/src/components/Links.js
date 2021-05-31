@@ -49,10 +49,12 @@ const ProcessInPersonRegistrationPayments = () => <Link to='/accounting/in-perso
 
 const ListActiveStudentsByName = () => <Link to='/registration/student-class-assignments'>List Active Students By Name</Link>;
 
+const SearchStudentsByRegistrationDates = () => <Link to='/librarian/search-students'>Search Students By Registration Dates</Link>;
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
     ListActiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
     CSV, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears, ProcessInPersonRegistrationPayments,
-    ListActiveStudentsByName,
+    ListActiveStudentsByName, SearchStudentsByRegistrationDates,
 };
