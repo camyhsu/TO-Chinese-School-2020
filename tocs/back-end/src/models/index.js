@@ -185,6 +185,14 @@ Object.assign(Person, {
   Address: Person.belongsTo(Address),
   RegistrationPreference: Person.hasMany(RegistrationPreference,
     { foreignKey: 'student_id', as: 'registrationPreferences' }),
+  StudentClassAssignment: Person.hasMany(StudentClassAssignment,
+    { foreignKey: 'student_id', as: 'studentClassAssignments' }),
+  InstructorAssignment: Person.hasMany(InstructorAssignment,
+    { foreignKey: 'instructor_id', as: 'instructorAssignments' }),
+  StaffAssignment: Person.hasMany(StaffAssignment,
+    { foreignKey: 'person_id', as: 'staffAssignments' }),
+  StudentStatusFlag: Person.hasMany(StudentStatusFlag,
+    { foreignKey: 'student_id', as: 'studentStatusFlags' }),
 });
 
 Object.assign(RegistrationPayment, {
@@ -236,6 +244,11 @@ Object.assign(SchoolYear, {
 Object.assign(StaffAssignment, {
   Person: StaffAssignment.belongsTo(Person),
   SchoolYear: StaffAssignment.belongsTo(SchoolYear),
+});
+
+Object.assign(Student, {
+  StudentClassAssignment: Student.hasMany(StudentClassAssignment,
+    { foreignKey: 'student_id', as: 'studentClassAssignments' }),
 });
 
 Object.assign(StudentClassAssignment, {

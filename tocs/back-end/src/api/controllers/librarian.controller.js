@@ -29,4 +29,11 @@ export default {
     const { id } = req.params;
     next(response(await librarianService.returnLibraryBook(id, req.body)));
   }),
+  searchStudents: asyncWrapper(async (req, _res, next) => {
+    const { schoolYearId, startDate, endDate } = req.query;
+    next(response(await librarianService.searchStudents(schoolYearId, startDate, endDate)));
+  }),
+  initializeSearchStudents: asyncWrapper(async (_req, _res, next) => {
+    next(response(await librarianService.initializeSearchStudents()));
+  }),
 };
