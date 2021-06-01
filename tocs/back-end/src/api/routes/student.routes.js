@@ -67,4 +67,10 @@ export default (router) => {
     [],
     controller.getRegistrationPayment,
   );
+
+  router.get(
+    '/student/transaction_history/show_registration_payment_for_staff/:id',
+    [],
+    controller.getRegistrationPaymentForStaff,
+  );
 };

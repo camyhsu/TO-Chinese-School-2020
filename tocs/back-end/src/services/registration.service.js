@@ -6,7 +6,8 @@ import { isoToPacificDate } from '../utils/utilities.js';
 const { Op } = Sequelize;
 const {
   Address, BookCharge, ElectiveClass, Family, Grade, InstructorAssignment, RegistrationPayment,
-  SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment, Person,
+  SchoolClass, SchoolClassActiveFlag, SchoolYear, StaffAssignment, StudentClassAssignment,
+  StudentFeePayment, Person,
 } = db;
 
 const { SCHOOL_CLASS_TYPE_ELECTIVE } = SchoolClass.prototype.schoolClassTypes;
@@ -216,8 +217,22 @@ export default {
     const promises = schoolYears.map((schoolYear) => person.getInstructorAssignmentsForSchoolYear(schoolYear.id));
     const ias = await Promise.all(promises);
     const instructorAssignments = ias.reduce((r, c) => r.concat(c), []);
+    const studentFeePayments = await StudentFeePayment.findAll({
+      where: { studentId: id },
+      include: [
+        { model: RegistrationPayment, as: 'registrationPayment', where: { paid: true } },
+      ],
+      order: [['updated_at', 'DESC']],
+    });
+    const transactions = studentFeePayments.map((studentFeePayment) => ({
+      id: studentFeePayment.registrationPayment.id,
+      date: studentFeePayment.updatedAt,
+      transactionType: studentFeePayment.registrationPayment.grandTotalInCents < 0
+        ? 'System Adjustment' : 'Registration',
+      paymentMethod: 'Credit Card',
+    }));
     return formatAddressPhoneNumbers(JSON.parse(JSON.stringify({
-      person, families: allFamilies, instructorAssignments,
+      person, families: allFamilies, instructorAssignments, transactions, studentFeePayments,
     })));
   },
   getGradeStudentCount: async (schoolYearId) => {
