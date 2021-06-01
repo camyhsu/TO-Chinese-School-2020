@@ -262,7 +262,8 @@ Object.assign(StudentClassAssignment, {
 
 Object.assign(StudentFeePayment, {
   Student: StudentFeePayment.belongsTo(Student, { foreignKey: { allowNull: false }, as: 'student' }),
-  RegistrationPayment: StudentFeePayment.belongsTo(RegistrationPayment),
+  RegistrationPayment: StudentFeePayment.belongsTo(RegistrationPayment,
+    { as: 'registrationPayment' }),
 });
 
 Object.assign(StudentStatusFlag, {

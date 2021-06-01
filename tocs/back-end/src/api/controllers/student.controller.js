@@ -52,4 +52,9 @@ export default {
     }
     next(response(registrationPayment));
   }),
+  getRegistrationPaymentForStaff: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.params;
+    const { registrationPayment } = await studentService.getRegistrationPayment(id);
+    next(response(registrationPayment));
+  }),
 };

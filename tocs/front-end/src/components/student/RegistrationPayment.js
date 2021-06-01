@@ -6,11 +6,15 @@ import GatewayTransaction from './GatewayTransaction';
 
 const RegistrationPayment = ({ location } = {}) => {
     const [content, setContent] = useState('');
+    const [forStaff, setForStaff] = useState('');
 
     useEffect(() => {
-        const { id } = queryString.parse(location.search);
         document.title = "TOCS - Registration Payment";
-        StudentParentService.getRegistrationPayment(id).then(response => {
+
+        const { id, forStaff: _forStaff } = queryString.parse(location.search);
+        setForStaff(_forStaff);
+
+        StudentParentService.getRegistrationPayment(id, _forStaff).then(response => {
             setContent({
                 isLoaded: true,
                 registrationPayment: response.data,
@@ -21,9 +25,11 @@ const RegistrationPayment = ({ location } = {}) => {
 
     const gatewayTransaction = content.gatewayTransaction;
     const registrationPayment = content.registrationPayment;
+    const paidBy = registrationPayment && registrationPayment.paidBy;
+
     return (
         <>
-            {gatewayTransaction && (<GatewayTransaction gatewayTransaction={gatewayTransaction} />)}
+            {gatewayTransaction && (<GatewayTransaction gatewayTransaction={gatewayTransaction} forStaff={forStaff} paidBy={paidBy} />)}
             {registrationPayment && (<RegistrationPaymentDetails registrationPayment={registrationPayment} />)}
         </>
     );

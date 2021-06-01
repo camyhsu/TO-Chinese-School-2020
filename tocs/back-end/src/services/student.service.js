@@ -1,9 +1,8 @@
 import db from '../models/index.js';
 
 const {
-  Address, ElectiveClass, Family, GatewayTransaction, Grade, ManualTransaction, Person,
-  RegistrationPayment, RegistrationPreference,
-  SchoolYear, Student, StudentFeePayment, User,
+  Address, Family, GatewayTransaction, ManualTransaction, Person,
+  RegistrationPayment, PaidBy, SchoolYear, Student, StudentFeePayment, User,
 } = db;
 
 export default {
@@ -63,6 +62,9 @@ export default {
     const registrationPayment = await RegistrationPayment.findOne({
       where: { id },
       include: [{
+        model: PaidBy,
+        as: 'paidBy',
+      }, {
         model: GatewayTransaction,
         as: 'gatewayTransactions',
         where: {

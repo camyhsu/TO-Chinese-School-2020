@@ -3,17 +3,31 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import queryString from 'query-string';
 import RegistrationService from '../../services/registration.service';
-import { BiPlus, BiPencil, formatPersonName, Children } from '../../utils/utilities';
+import { BiPlus, BiPencil, BiInfoCircle, formatPersonNames, Children, isoToPacific } from '../../utils/utilities';
 import { Card, CardBody, CardTitle, CardFooter } from "../Cards";
 import Address from "../Address";
 import Person from "../Person";
+import Table from '../Table';
 
 const Home = ({ location } = {}) => {
     const [reload, setReload] = useState(null);
     const [content, setContent] = useState({ error: null, isLoaded: false, item: [] });
     const [id, setId] = useState('');
     const dispatch = useDispatch();
-
+    const header = [
+        {
+            cell: (row) => {
+                const transactionType = row.transactionType;
+                if (transactionType === 'System Adjustment' || transactionType === 'Registration') {
+                    return (<Link to={'/student/registration-payment?forStaff=true&id=' + row.id} className='btn btn-light'><BiInfoCircle /></Link>);
+                }
+                return (<Link to={'/student/registration-payment?id=' + row.id} className='btn btn-light'><BiInfoCircle /></Link>);
+            }
+        },
+        { title: 'Date', cell: (row) => isoToPacific(row.date) },
+        { title: 'Type', prop: 'transactionType' },
+        { title: 'Payment Method', prop: 'paymentMethod' }
+    ];
     useEffect(() => {
         const { id: _id } = queryString.parse(location.search);
         setId(_id);
@@ -21,11 +35,9 @@ const Home = ({ location } = {}) => {
         if (id) {
             RegistrationService.getPerson(id).then((response) => {
                 if (response && response.data) {
+                    const { person, families, instructorAssignments, transactions } = response.data;
                     setContent({
-                        isLoaded: true,
-                        person: response.data.person,
-                        families: response.data.families,
-                        instructorAssignments: response.data.instructorAssignments
+                        isLoaded: true, person, families, instructorAssignments, transactions
                     });
                 }
             });
@@ -81,9 +93,9 @@ const Home = ({ location } = {}) => {
                                 <CardTitle>Family for <br className="d-md-none" />{family.name}</CardTitle>
                                 <dl className="row">
                                     <dt className="col-12 col-md-6 text-left text-md-right">Parent One:</dt>
-                                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentOne)}</dd>
+                                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonNames(family.parentOne)}</dd>
                                     <dt className="col-12 col-md-6 text-left text-md-right">Parent Two:</dt>
-                                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonName(family.parentTwo)}</dd>
+                                    <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{formatPersonNames(family.parentTwo)}</dd>
                                     <dt className="col-12 col-md-6 text-left text-md-right">Children:</dt>
                                     <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
                                         <Children children={family.children} />
@@ -103,12 +115,21 @@ const Home = ({ location } = {}) => {
                 );
             })}
 
+            <Card size="medium" plain="true">
+                <CardBody>
+                    <CardTitle>Transation History as Student for {formatPersonNames(content.person)}</CardTitle>
+                    {content.transactions && (
+                        <Table header={header} items={content.transactions} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
+                    )}
+                </CardBody>
+            </Card>
+
             {content.instructorAssignments && content.instructorAssignments.map((instructorAssignment, index) => {
                 return (
                     <React.Fragment key={'instructorAssignment-' + index}>
                         <Card size="medium" plain="true">
                             <CardBody>
-                                <CardTitle>Instructor Assignment for <br className="d-md-none" />{formatPersonName(content.person)}</CardTitle>
+                                <CardTitle>Instructor Assignment for <br className="d-md-none" />{formatPersonNames(content.person)}</CardTitle>
                                 <dl className="row">
                                     <dt className="col-12 col-md-6 text-left text-md-right">School Year:</dt>
                                     <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">{instructorAssignment.schoolYear.name}</dd>
