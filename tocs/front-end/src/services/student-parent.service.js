@@ -20,7 +20,7 @@ const addChild = (familyId, obj) => dataService.post('student/families/add_child
 
 const getTransactionHistory = () => dataService.get('student/transaction_history/index');
 
-const getRegistrationPayment = (id) => dataService.get(`student/transaction_history/show_registration_payment/${id}`);
+const getRegistrationPayment = (id, forStaff) => dataService.get(`student/transaction_history/show_registration_payment${forStaff ? '_for_staff' : ''}/${id}`);
 
 const obj = {
     getPersonalDetails, savePersonalDetails,
