@@ -628,6 +628,42 @@ Ubuntu 20.04 LTS.
 4. Test the registration application on the new server.  Everything should work at this point, including plain HTTP 
    connection attempts would be forced redirect to HTTPS connections.
 
+5. Setup local daily database backups
+   1. Connect as your user then change to the tocsorg_registration user:
+      1. `gcloud compute ssh registration-wp-west1-b-1`
+      2. After connected, change to root user:
+         ```shell
+         sudo -u tocsorg_registration -H bash --login
+         cd
+         ```
+   2. Create the directory holding the daily database backup:
+      ```shell
+      mkdir prod_db_dump
+      cd prod_db_dump
+      ```
+   3. Create the shell script **dump_prod_db.sh** with the following content:
+      ```shell
+      #!/usr/bin/bash
+
+      DUMP_DIR=/home/tocsorg_registration/prod_db_dump
+      TIMESTAMP=`date +"%Y%m%d%H%M"`
+
+      pg_dump -f $DUMP_DIR/registration$TIMESTAMP.sql registration
+      gzip $DUMP_DIR/registration$TIMESTAMP.sql
+      ```
+   4. Make the new script executable:
+      ```shell
+      chmod u+x dump_prod_db.sh
+      ```
+   5. Add the script to crontab so that it runs every night before Google Compute Engine takes the snapshot backup:
+      ```shell
+      crontab -e
+      ```
+      and add the entry:
+      ```text
+      55 9 * * *      /home/tocsorg_registration/prod_db_dump/dump_prod_db.sh
+      ```
+   
 ## Registration application live production cut-over
 
 ### Setup the splash site on the new server
