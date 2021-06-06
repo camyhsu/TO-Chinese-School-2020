@@ -6,7 +6,7 @@ import { withdrawalMailer } from '../utils/mailers.js';
 const { Op } = Sequelize;
 const {
   Instructor, RegistrationPayment, SchoolClass, SchoolClassActiveFlag, SchoolYear, InstructorAssignment, Person,
-  ManualTransaction, PaidBy, Student, StudentFeePayment, TransactionBy, WithdrawalRecord,
+  ManualTransaction, PaidBy, Student, StudentFeePayment, TransactionBy, WithdrawalRecord, WithdrawRequest,
 } = db;
 
 export default {
@@ -186,5 +186,21 @@ export default {
     });
     await Promise.all(promises);
     return registrationPayments.filter((registrationPayment) => !toBeRemovedIds.includes(registrationPayment.id));
+  },
+
+  async getWithdrawRequests() {
+    const currentSchoolYear = await SchoolYear.currentSchoolYear();
+    const schoolYearId = currentSchoolYear.id;
+    const withdrawRequests = await WithdrawRequest.findAll({
+      where: { schoolYearId },
+      include: [
+        { model: Person, as: 'requestBy' },
+        { model: SchoolYear, as: 'schoolYear' },
+      ],
+      order: [['created_at', 'ASC']],
+    });
+    withdrawRequests.forEach((withdrawRequest) => Object.assign(withdrawRequest.dataValues,
+      { status: withdrawRequest.status() }));
+    return withdrawRequests;
   },
 };
