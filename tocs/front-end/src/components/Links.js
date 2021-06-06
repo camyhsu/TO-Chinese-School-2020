@@ -51,10 +51,12 @@ const ListActiveStudentsByName = () => <Link to='/registration/student-class-ass
 
 const SearchStudentsByRegistrationDates = () => <Link to='/librarian/search-students'>Search Students By Registration Dates</Link>;
 
+const ListWithdrawRequests = () => <Link to='/admin/withdraw-requests'>List Withdraw Requests</Link>;
+
 export {
     ListAllGrades, ListAllSchoolClasses, ManageBooks, ManageSchoolYears, ManageStaffAssignments, ViewLibraryBooks,
     CreateANewFamily, ListAllPeople, ListInstructorDiscountInformation, ListActiveSchoolClasses, ListElectiveSchoolClassGradeClassCount,
     ListActiveSchoolClassGradeCount, ListAvtiveSchoolClassGradeClassCount, ListSiblingInSameGradeReport, ChargesCollected,
     CSV, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears, ProcessInPersonRegistrationPayments,
-    ListActiveStudentsByName, SearchStudentsByRegistrationDates,
+    ListActiveStudentsByName, SearchStudentsByRegistrationDates, ListWithdrawRequests,
 };

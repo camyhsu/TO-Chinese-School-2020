@@ -26,6 +26,7 @@ import studentFeePayment from './student-fee-payment.model.js';
 import studentStatusFlag from './student-status-flag.model.js';
 import user from './user.model.js';
 import withdrawalRecord from './withdrawal-record.model.js';
+import withdrawRequest from './withdraw-request.model.js';
 
 const dbConfig = config.get('dbConfig');
 
@@ -95,7 +96,7 @@ const mappings = [
   ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
   ['StaffAssignment', staffAssignment], ['StudentClassAssignment', studentClassAssignment],
   ['StudentFeePayment', studentFeePayment], ['StudentStatusFlag', studentStatusFlag],
-  ['User', user], ['WithdrawalRecord', withdrawalRecord],
+  ['User', user], ['WithdrawalRecord', withdrawalRecord], ['WithdrawRequest', withdrawRequest],
   ['Children', person], ['EnteredBy', person], ['PaidBy', person], ['ParentOne', person], ['ParentTwo', person],
   ['RecordedBy', person], ['Student', person], ['TransactionBy', person],
 ];
@@ -117,6 +118,7 @@ const {
   LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction,
   Person, PreviousGrade, RegistrationPayment, RegistrationPreference, Right, Role, SchoolClass, SchoolClassActiveFlag,
   SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, StudentStatusFlag, User, WithdrawalRecord,
+  WithdrawRequest,
   Children, EnteredBy, Instructor, PaidBy, ParentOne, ParentTwo, RecordedBy, Student, TransactionBy,
 } = db;
 
@@ -284,6 +286,12 @@ Object.assign(WithdrawalRecord, {
   SchoolYear: WithdrawalRecord.belongsTo(SchoolYear),
   ElectiveClass: WithdrawalRecord.belongsTo(SchoolClass,
     { foreignKey: { name: 'elective_class_id' }, as: 'electiveClass' }),
+});
+
+Object.assign(WithdrawRequest, {
+  RequestBy: WithdrawRequest.belongsTo(Person, { foreignKey: { name: 'request_by_id' }, as: 'requestBy' }),
+  statusBy: WithdrawRequest.belongsTo(Person, { foreignKey: { name: 'status_by_id' }, as: 'statusBy' }),
+  SchoolYear: WithdrawRequest.belongsTo(SchoolYear, { as: 'schoolYear' }),
 });
 
 export default db;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
 import {
-    ListAvtiveSchoolClassGradeClassCount, ListElectiveSchoolClassGradeClassCount,
+    ListAvtiveSchoolClassGradeClassCount, ListElectiveSchoolClassGradeClassCount, ListWithdrawRequests,
     ListInstructorDiscountInformation, ChargesCollected, DailyRegistrationSummary, ListManualTransactionsFromLastTwoSchoolYears
 } from '../Links';
 import { Card, CardBody, CardTitle } from "../Cards";
@@ -60,6 +60,10 @@ const Home = () => {
                 </div>
                 <div className="row">
                     <div className="col-md-8"><ListInstructorDiscountInformation /></div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-8"><ListWithdrawRequests /></div>
                 </div>
             </CardBody>
         </Card>

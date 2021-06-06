@@ -11,7 +11,8 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Account from './components/Account';
 import {
-  ChargesCollected, InstructorDiscount, DailyRegistrationSummary, ManualTransactions, InPersonRegistrationPayments
+  ChargesCollected, InstructorDiscount, DailyRegistrationSummary, ManualTransactions, InPersonRegistrationPayments,
+  WithdrawRequests
 } from './components/accounting';
 import SchoolClassStudents from './components/instruction/SchoolClassStudents';
 import Privacy from './components/Privacy';
@@ -107,6 +108,7 @@ const App = () => {
             <Route exact path="/admin/school-year-details" component={SchoolYearDetails} />
             <Route exact path="/admin/manage-staff-assignments" component={ManageStaffAssignments} />
             <Route exact path="/admin/manage-staff-assignment" component={ManageStaffAssignment} />
+            <Route exact path="/admin/withdraw-requests" component={WithdrawRequests} />
             <Route exact path="/registration/active-school-classes" component={ActiveSchoolClasses} />
             <Route exact path="/registration/active_school_classes/grade_student_count" component={ActiveSchoolClassGradeCount} />
             <Route exact path="/registration/active_school_classes/grade_class_student_count" component={SchoolClassCount} />

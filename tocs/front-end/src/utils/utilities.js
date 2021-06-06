@@ -116,7 +116,17 @@ const Children = ({ children = [], link } = {}) => children.map((c, i) => (
     </React.Fragment>)
 );
 
-const isoToPacific = (s) => new Date(s).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+const isoToPacific = (s, dateOnly) => {
+    if (dateOnly) {
+        return new Date(s).toLocaleString('fr-CA', {
+            timeZone: 'America/Los_Angeles',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })
+    }
+    return new Date(s).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+};
 
 const labelForTuitionDiscountApplied = (studentFeePayment) => {
     if (studentFeePayment.staffDiscount) {

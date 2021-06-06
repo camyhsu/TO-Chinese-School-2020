@@ -28,4 +28,8 @@ export default {
   addManualTransaction: asyncWrapper(async (req, _res, next) => {
     next(response(await accountingService.addManualTransaction(req.body, req.userId)));
   }),
+
+  getWithdrawRequests: asyncWrapper(async (req, _res, next) => {
+    next(response(await accountingService.getWithdrawRequests()));
+  }),
 };
