@@ -125,7 +125,48 @@ is done continuously, the first step does not have to be repeated.
       `psql template1`
    3. Disconnect from the PostgreSQL server after poking around:
       `\q`
-      
+
+## MariaDB base installation
+
+1. Connect as your user then change to the root user:
+   1. `gcloud compute ssh registration-wp-west1-b-1`
+   2. After connected, change to root user:
+      ```shell
+      sudo -u root -H bash --login
+      cd
+      ```
+   3. Run system update (this should be done periodically):
+      ```shell
+      apt-get update
+      apt-get upgrade
+      ```
+
+2. Install the Ubuntu package for MariaDB:
+   ```shell
+   apt-get install mariadb-server
+   ```
+   The libpq-dev is the development header needed later for installing pg gem since it needs to compile the native
+   extension for the database connection driver.
+
+3. Run the script which came with the package to secure the database:
+   ```shell
+   mysql_secure_installation
+   ```
+   When prompted, enter NO for setting root password.  Ubuntu installation requires root database password to be empty 
+   so that package updates in the future would work without problems.  For the rest of the prompts, the default YES 
+   response is fine.
+
+4. Test root user can connect to the server:
+   ```shell
+   mariadb
+   ```
+
+5. To start / stop / check status, use the following commands:
+   ```shell
+   systemctl start mariadb
+   systemctl stop mariadb
+   systemctl status mariadb
+   ```
 
 ## Registration application setup
 
@@ -841,6 +882,264 @@ Ubuntu 20.04 LTS.
    ```
 
 3. Test in the browser to make sure it works.  Then we can leave the old server: `exit`
+
+
+## WordPress setup
+
+### Role users in Ubuntu and MariaDB
+
+The WordPress database on the old server was named **tocsorg_school** and the database user was named **tocsorg_web** 
+so we will use the same names on the new server.
+
+1. Connect as your user then change to the root user:
+   1. `gcloud compute ssh registration-wp-west1-b-1`
+   2. After connected, change to root user:
+      ```shell
+      sudo -u root -H bash --login
+      cd
+      ```
+   3. Run system update (this should be done periodically):
+      ```shell
+      apt-get update
+      apt-get upgrade
+      ```
+
+2. Add the Ubuntu user with default settings:
+   ```shell
+   adduser tocsorg_web
+   ```
+   I have to put in a password, but we don't need to use the password since we will be switching to the role user with
+   sudo.
+
+3. Test the Ubuntu user:
+   ```shell
+   sudo -u tocsorg_web -H bash --login
+   cd
+   pwd
+   id
+   exit
+   ```
+
+4. Create the database user in the MariaDB:
+   1. Connect to the MariaDB server:
+      ```shell
+      mariadb
+      ```
+   2. Add the new user:
+      ```mariadb
+      GRANT ALL ON *.* TO 'tocsorg_web'@'localhost' IDENTIFIED BY 'xxxx' WITH GRANT OPTION;
+      FLUSH PRIVILEGES;
+      ```
+      where *xxxx* should be a real strong password.
+      Then disconnect from the MariaDB server:
+      `exit`
+   3. Test the new user with:
+      ```shell
+      mariadb -u tocsorg_web -p
+      ```
+   4. Users existing inside the database can be inspected with:
+      ```mariadb
+      SELECT host, user, password FROM mysql.user;
+      ```
+   5. Disconnect from the MariaDB server:
+      `exit`
+   
+### Installing PHP
+
+1. Connect as your user then change to the root user:
+   1. `gcloud compute ssh registration-wp-west1-b-1`
+   2. After connected, change to root user:
+      ```shell
+      sudo -u root -H bash --login
+      cd
+      ```
+   3. Run system update (this should be done periodically):
+      ```shell
+      apt-get update
+      apt-get upgrade
+      ```
+
+2. Install PHP:
+   1. Install PHP and its Apache2 module:
+      ```shell
+      apt-get install php libapache2-mod-php php-mysql php-curl php-gd php-pear php-imagick php-imap php-tidy php-xmlrpc
+      ```
+   2. Modify PHP settings to allow bigger file uploads:
+      1. Make a backup copy of the original PHP ini file:
+         ```shell
+         cd /etc/php/7.4/apache2
+         cp php.ini php.ini.original
+         cp php.ini.original /root/backup/
+         ```
+      2. Modify php.ini to change the following values from the original default settings:
+         ```text
+         388c388
+         < max_execution_time = 30
+         ---
+         > max_execution_time = 600
+         398c398
+         < max_input_time = 60
+         ---
+         > max_input_time = 600
+         409c409
+         < memory_limit = 128M
+         ---
+         > memory_limit = 512M
+         694c694
+         < post_max_size = 8M
+         ---
+         > post_max_size = 448M
+         846c846
+         < upload_max_filesize = 2M
+         ---
+         > upload_max_filesize = 384M
+         ```
+         The above is shown in the diff format.
+      3. Make a backup copy of the new PHP ini file:
+         ```shell
+         cp php.ini /root/backup/
+         ```
+   3. Restart Apache2 to load the installed PHP module:
+      ```shell
+      apache2ctl restart
+      ```
+
+### Creating the empty wordpress database in MariaDB
+
+1. Connect as your user then change to the tocsorg_web user:
+   1. `gcloud compute ssh registration-wp-west1-b-1`
+   2. After connected, change to tocsorg_registration user:
+      ```shell
+      sudo -u tocsorg_web -H bash --login
+      cd
+      ```
+
+2. Connect to the MariaDB server and create the new database:
+   1. Connect to MariaDB:
+      ```shell
+      mariadb -u tocsorg_web -p
+      ```
+   2. Add the new database:
+   ```mariadb
+   CREATE DATABASE tocsorg_school;
+   ```
+
+3. Disconnect from the MariaDB server:
+   `exit`
+   
+### Install WordPress
+
+1. Create the web directory under **/var/www**:
+   1. Connect as your user then change to the root user:
+      1. `gcloud compute ssh registration-wp-west1-b-1`
+      2. After connected, change to root user:
+         ```shell
+         sudo -u root -H bash --login
+         cd
+         ```
+   2. Create the directory **/var/www/web** and change the ownership to tocsorg_web:
+      ```shell
+      mkdir /var/www/web
+      chown tocsorg_web:tocsorg_web /var/www/web
+      ```
+
+2. Setup a copy of the initial WordPress code:
+   Change to the user tocsorg_web and download the latest WordPress package to the web directory:
+   ```shell
+   sudo -u tocsorg_web -H bash --login
+   cd 
+   wget https://wordpress.org/latest.tar.gz
+   tar zxvf latest.tar.gz
+   cd wordpress
+   mv * /var/www/web/
+   cd 
+   mkdir backup
+   mv latest.tar.gz backup/
+   rmdir wordpress
+   ```
+   
+3. (Continue in the tocsorg_web user session) create WordPress configuration so that it can connect to the database:
+   1. Create a new WordPress config file by copying from the sample file:
+      ```shell
+      cd /var/www/web
+      cp wp-config-sample.php wp-config.php
+      ```
+   2. Edit the file **/var/www/web/wp-config.php** and put in proper database connection information.
+   3. Edit the file **/var/www/web/wp-config.php** and put in randomly generated keys and salts.
+      Values generated from online tool <https://api.wordpress.org/secret-key/1.1/salt/>
+   4. Add the following lines at the end of the file **/var/www/web/wp-config.php** to allow direct upload without FTP:
+      ```php
+      /* Allow direct file upload without using FTP */
+      define('FS_METHOD', 'direct');
+      ```
+   5. Keep a backup of the updated WordPress configuration:
+      ```shell
+      vi /var/www/registration/config/database.yml
+      cp /var/www/web/wp-config.php /home/tocsorg_web/backup/
+      ```
+   
+4. Setup and enable the Apache configuration for the site:
+   1. Connect as your user then change to the root user:
+      1. `gcloud compute ssh registration-wp-west1-b-1`
+      2. After connected, change to root user:
+         ```shell
+         sudo -u root -H bash --login
+         cd
+         ```
+   2. Change the ownership of the WordPress directory tree to the apache run user www-data:
+      ```shell
+      cd /var/www
+      chown -R www-data:www-data web
+      ```
+   3. Create the file **/etc/apache2/sites-available/web.conf** with the following content:
+      ```text
+      <VirtualHost *:80>
+          ServerName info.to-cs.org
+          ServerAlias to-cs.org
+          ServerAlias www.to-cs.org
+
+          ServerAdmin webmaster@to-cs.org
+
+          DocumentRoot /var/www/web
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+      </VirtualHost>
+      ```
+      This contains the minimum configuration of a plain HTTP site mapped to the WordPress code.
+   4. Enable this new site configuration:
+      ```shell
+      a2ensite web
+      apache2ctl restart
+      ```
+
+5. Execute the WordPress installation script:
+   1. Use a web browser and load the page pointing to the installation script <http://info.to-cs.org/wp-admin/install.php>
+   2. Enter the following values when prompted in the page:
+      ```text
+      Site Title: Thousand Oaks Chinese School
+      Username: webmaster
+      Password using the one generated by the page
+      Your Email: webmaster@to-cs.org
+      ```
+   3. Clicked on the button "Install WordPress".
+   4. After the installation completed successfully, test by logging-in with the webmaster credential.
+
+### Move WordPress site from the old server to the new server
+
+1. Create a migration package from the old server:
+   1. Install and activate the plugin "All-in-One WP Migration" in the WordPress site on the old server.
+   2. Use the plugin to export a migration package, with the following text replacement:
+      ```text
+      www.to-cs.org/tocs/ => info.to-cs.org/
+      ```
+      Download the migration package to the local machine.
+   
+2. Import the migration package to the new server:
+   1. Install and activate the plugin "All-in-One WP Migration" in the WordPress site on the new server.
+   2. Use the plugin to import the migration package generated above.
+   3. As part of the importing process, confirm the basic settings and the PermaLink settings.
+
 
 
 
