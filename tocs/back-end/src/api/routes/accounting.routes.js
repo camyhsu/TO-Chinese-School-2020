@@ -36,4 +36,10 @@ export default (router) => {
     [],
     controller.addManualTransaction,
   );
+
+  router.get(
+    '/admin/withdraw_requests/index',
+    [],
+    controller.getWithdrawRequests,
+  );
 };
