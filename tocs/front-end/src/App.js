@@ -12,7 +12,7 @@ import Home from './components/Home';
 import Account from './components/Account';
 import {
   ChargesCollected, InstructorDiscount, DailyRegistrationSummary, ManualTransactions, InPersonRegistrationPayments,
-  WithdrawRequests
+  WithdrawRequestDetails, WithdrawRequests
 } from './components/accounting';
 import SchoolClassStudents from './components/instruction/SchoolClassStudents';
 import Privacy from './components/Privacy';
@@ -102,6 +102,7 @@ const App = () => {
             <Route exact path="/accounting/charges-collected" component={ChargesCollected} />
             <Route exact path="/accounting/daily-online-registration-summary" component={DailyRegistrationSummary} />
             <Route exact path="/accounting/manual-transactions" component={ManualTransactions} />
+            <Route exact path="/accounting/withdraw-request" component={WithdrawRequestDetails} />
             <Route exact path="/admin/grades" component={Grades} />
             <Route exact path="/admin/school-classes" component={SchoolClasses} />
             <Route exact path="/admin/school-years" component={SchoolYears} />
