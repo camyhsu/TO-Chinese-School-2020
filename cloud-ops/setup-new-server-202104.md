@@ -1140,7 +1140,16 @@ so we will use the same names on the new server.
    2. Use the plugin to import the migration package generated above.
    3. As part of the importing process, confirm the basic settings and the PermaLink settings.
 
+### Setup SMTP email sending
 
+WordPress is not able to send email using the default settings since it would only use PHP mail() function, 
+which uses the local sendmail process on the server.  This won't work for a Cloud server instance such as the 
+one in Google Compute Engine we are using.  We have to install a plugin to use SMTP email sending.
+
+1. Install and activate the plugin "WP Mail SMTP" in the WordPress site on the new server.
+2. Configure the plugin using the "Other SMTP" mailer option and put in our Google Workspace SMTP relay configuration.
+   The "Gmail" mailer option would not work since it uses published G Suite app API, which is not how our SMTP relay 
+   is setup.
 
 
 
