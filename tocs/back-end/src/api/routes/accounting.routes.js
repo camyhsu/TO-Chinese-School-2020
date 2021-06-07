@@ -42,4 +42,10 @@ export default (router) => {
     [],
     controller.getWithdrawRequests,
   );
+
+  router.get(
+    '/admin/withdraw_requests/show/:id',
+    [],
+    controller.getWithdrawRequest,
+  );
 };

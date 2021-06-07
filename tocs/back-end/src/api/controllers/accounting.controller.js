@@ -32,4 +32,9 @@ export default {
   getWithdrawRequests: asyncWrapper(async (req, _res, next) => {
     next(response(await accountingService.getWithdrawRequests()));
   }),
+
+  getWithdrawRequest: asyncWrapper(async (req, _res, next) => {
+    const { id } = req.params;
+    next(response(await accountingService.getWithdrawRequest(id)));
+  }),
 };

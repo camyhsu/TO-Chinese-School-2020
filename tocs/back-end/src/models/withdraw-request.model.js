@@ -2,7 +2,11 @@ export default (sequelize, _Sequelize, fieldsFactory) => {
   const fields = fieldsFactory(
     {
       withId: true,
-      withStrings: [['statusCode', 'status_code']],
+      withStrings: [
+        ['statusCode', 'status_code'],
+        ['requestByName', 'request_by_name'],
+        ['requestByAddress', 'request_by_address'],
+      ],
       withIntegers: [
         ['refundPvaDueInCents', 'refund_pva_due_in_cents'],
         ['refundCccaDueInCents', 'refund_ccca_due_in_cents'],
