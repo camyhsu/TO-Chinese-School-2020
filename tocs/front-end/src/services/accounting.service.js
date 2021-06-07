@@ -16,9 +16,11 @@ const getInPersonRegistrationPayments = () => dataService.get('accounting/in_per
 
 const getWithdrawRequests = () => dataService.get('admin/withdraw_requests/index');
 
+const getWithdrawRequest = (id) => dataService.get(`admin/withdraw_requests/show/${id}`);
+
 const obj = {
     getInstructorDiscounts, getChargesCollected, initializeManualTransaction, addManualTransaction, getWithdrawRequests,
-    getDailyRegistrationSummary, getManualTransactionsForLastTwoYears, getInPersonRegistrationPayments,
+    getDailyRegistrationSummary, getManualTransactionsForLastTwoYears, getInPersonRegistrationPayments, getWithdrawRequest,
 };
 
 export default obj;

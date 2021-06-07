@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AccountingService from '../../services/accounting.service';
-import { dollar, formatPersonNames, isoToPacific } from '../../utils/utilities';
+import { dollar, formatPersonNames, isoToPacific, BiInfoCircle } from '../../utils/utilities';
 import Table from '../Table';
 import { Card, CardTitle, CardBody } from "../Cards";
 
 const WithdrawRequests = () => {
     const [content, setContent] = useState({ error: null, isLoaded: false, item: [] });
     const header = [
+        {
+            cell: (row) => <Link to={'/accounting/withdraw-request?id=' + row.id} className='btn btn-light'><BiInfoCircle /></Link>
+        },
         { title: 'School Year', cell: (row) => row.schoolYear.name },
         { title: 'Request Date', cell: (row) => isoToPacific(row.createdAt, true) },
         { title: 'Request By', cell: (row) => formatPersonNames(row.requestBy) },
