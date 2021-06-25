@@ -14,9 +14,11 @@ const getPrincipalBoard = () => dataService.get('board/principal');
 
 const getAcademicVicePrincipalBoard = () => dataService.get('board/academic-vice-principal');
 
+const getAnnouncements = () => dataService.get('announcements');
+
 const obj = {
   getAdminBoard, getStudentParentBoard, changePassword, getRegistrationOfficerBoard, getAccountingOfficerBoard,
-  getPrincipalBoard, getAcademicVicePrincipalBoard,
+  getPrincipalBoard, getAcademicVicePrincipalBoard, getAnnouncements,
 };
 
 export default obj;

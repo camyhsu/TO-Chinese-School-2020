@@ -27,4 +27,7 @@ export default {
       currentPassword, newPassword, newPasswordConfirmation,
     })));
   }),
+  getAnnouncements: asyncWrapper(async (req, _res, next) => {
+    next(response(await userService.getAnnouncements(req.personId)));
+  }),
 };

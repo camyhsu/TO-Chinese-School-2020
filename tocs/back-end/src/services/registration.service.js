@@ -10,8 +10,6 @@ const {
   StudentFeePayment, Person,
 } = db;
 
-const { SCHOOL_CLASS_TYPE_ELECTIVE } = SchoolClass.prototype.schoolClassTypes;
-
 const dollarFields = [
   'registrationFeeInCents',
   'tuitionInCents',
@@ -42,6 +40,15 @@ const initializeBookCharges = async (schoolYear) => {
     schoolYearId: schoolYear.id,
   }));
   return Promise.all(promises);
+};
+
+const assignPreviousSchoolYearId = async (obj) => {
+  if (obj.startDate) {
+    const previousSchoolYear = await SchoolYear.findPreviousSchoolYearByStartDate(obj.startDate);
+    if (previousSchoolYear) {
+      Object.assign(obj, { previousSchoolYearId: previousSchoolYear.id });
+    }
+  }
 };
 
 export default {
@@ -125,7 +132,9 @@ export default {
     schoolYear.autoClassAssignment = !schoolYear.autoClassAssignment;
     return schoolYear.save();
   },
+
   addSchoolYear: async (obj) => {
+    await assignPreviousSchoolYearId(obj);
     const schoolYear = await SchoolYear.create(obj);
     await initializeSchoolClassActiveFlags(schoolYear);
     await initializeBookCharges(schoolYear);
@@ -259,14 +268,9 @@ export default {
     };
   },
   getSchoolClassStudentCount: async (schoolYearId, elective) => {
-    const criteria = elective ? {
-      schoolClassType: SCHOOL_CLASS_TYPE_ELECTIVE,
-    } : {
-      [Op.not]: {
-        schoolClassType: SCHOOL_CLASS_TYPE_ELECTIVE,
-      },
-    };
-    const schoolClasses = await SchoolClass.getActiveSchoolClasses(schoolYearId, criteria);
+    const schoolClasses = elective
+      ? await SchoolClass.getElectiveSchoolClass(schoolYearId)
+      : await SchoolClass.getNonElectiveSchoolClass(schoolYearId);
     const promises = [];
     schoolClasses.forEach((schoolClass) => {
       promises.push((async () => {
