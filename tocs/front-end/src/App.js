@@ -23,7 +23,7 @@ import Contact from './components/Contact';
 import ActiveSchoolClassesForInstructionOfficer from './components/ActiveSchoolClassesForInstructionOfficer';
 import {
   InstructorAssignmentForm, AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm,
-  ManualTransactionForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm
+  ManualTransactionForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm, StudentRegistrationForm
 } from './components/forms/index';
 import ChangePasswordForm from './components/ChangePasswordForm';
 import { Books, SearchStudentsByRegistrationDates } from './components/librarian/index';
@@ -37,6 +37,7 @@ import { logout } from './actions/auth.action';
 import { clearMessage } from './actions/message.action';
 
 import { history } from './helpers/history';
+import { ConsentRelease, Payment } from './components/student';
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -119,6 +120,8 @@ const App = () => {
             <Route exact path="/registration/people" component={People} />
             <Route exact path="/registration/show-person" component={PersonDetails} />
             <Route exact path="/registration/sibling-in-same-grade" component={SiblingInSameGrade} />
+            <Route exact path="/student/consent-release" component={ConsentRelease} />
+            <Route exact path="/student/payment" component={Payment} />
             <Route exact path="/student/registration-payment" component={RegistrationPayment} />
             <Route exact path="/instruction/active-school-classes" component={ActiveSchoolClassesForInstructionOfficer} />
             <Route exact path="/instruction/school-classes" component={SchoolClassStudents} />
@@ -134,6 +137,7 @@ const App = () => {
             <Route exact path="/person-form" component={PersonForm} />
             <Route exact path="/school-class-form" component={SchoolClassForm} />
             <Route exact path="/school-year-form" component={SchoolYearForm} />
+            <Route exact path="/student-registration" component={StudentRegistrationForm} />
 
             {/* Static pages */}
             <Route exact path="/contact-us" component={Contact} />

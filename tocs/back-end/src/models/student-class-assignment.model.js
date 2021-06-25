@@ -22,6 +22,14 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         [sequelize.fn('count', sequelize.col('grade.id')), 'cnt']],
       group: ['grade.id', 'grade.chinese_name', 'grade.english_name'],
     }),
+    getElectiveClassSizes: async (schoolYearId) => {
+      let sql = 'SELECT elective_class_id,COUNT(*) FROM student_class_assignments';
+      sql += ` WHERE school_year_id=${schoolYearId}`;
+      sql += ' AND elective_class_id IS NOT NULL';
+      sql += ' GROUP BY elective_class_id';
+      const [results] = await sequelize.query(sql);
+      return results.reduce((r, c) => Object.assign(r, { [c.elective_class_id]: c.count }), {});
+    },
   });
 
   return StudentClassAssignment;

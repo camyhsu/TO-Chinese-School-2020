@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 import {
-  AcademicVicePrincipal, AccountingOfficer, ActivityOfficer, CommunicationOfficer,
+  Announcement, AcademicVicePrincipal, AccountingOfficer, ActivityOfficer, CommunicationOfficer,
   InstructionOfficer, Instructor, Librarian, Principal, RegistrationOfficer, StudentParent
 } from "./boards/index";
 
@@ -35,6 +35,7 @@ const Home = () => {
             {hasRole('Instruction Officer') && (<InstructionOfficer />)}
             {hasRole('Librarian') && (<Librarian />)}
             {hasRole('Instructor') && (<Instructor />)}
+            <Announcement />
           </div>
         </div>
         { hasRole('Student Parent') && (<StudentParent />)}
