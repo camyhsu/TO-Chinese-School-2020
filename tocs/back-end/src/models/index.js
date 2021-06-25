@@ -91,7 +91,7 @@ const mappings = [
   ['InPersonRegistrationTransaction', inPersonRegistrationTransaction],
   ['Instructor', person], ['InstructorAssignment', instructorAssignment],
   ['LibraryBook', libraryBook], ['LibraryBookCheckOut', libraryBookCheckout], ['LibraryBookCheckedOutBy', person],
-  ['ManualTransaction', manualTransaction], ['Person', person], ['PreviousGrade', grade],
+  ['ManualTransaction', manualTransaction], ['Person', person], ['PreviousGrade', grade], ['NextGrade', grade],
   ['RegistrationPayment', registrationPayment], ['RegistrationPreference', registrationPreference],
   ['Right', right], ['Role', role],
   ['SchoolClass', schoolClass], ['SchoolClassActiveFlag', schoolClassActiveFlag], ['SchoolYear', schoolYear],
@@ -117,7 +117,7 @@ mappings.forEach((mapping) => {
 const {
   Address, BookCharge, ElectiveClass, Family, GatewayTransaction, Grade,
   InPersonRegistrationTransaction, InstructorAssignment,
-  LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction,
+  LibraryBook, LibraryBookCheckOut, LibraryBookCheckedOutBy, ManualTransaction, NextGrade,
   Person, PreviousGrade, RegistrationPayment, RegistrationPreference, Right, Role, SchoolClass, SchoolClassActiveFlag,
   SchoolYear, StaffAssignment, StudentClassAssignment, StudentFeePayment, StudentStatusFlag, User, WithdrawalRecord,
   WithdrawRequest, WithdrawRequestDetail,
@@ -146,6 +146,11 @@ Object.assign(Family, {
 
 Object.assign(GatewayTransaction, {
   RegistrationPayment: GatewayTransaction.belongsTo(RegistrationPayment, { as: 'registrationPayment' }),
+});
+
+Object.assign(Grade, {
+  NextGrade: Grade.belongsTo(NextGrade, { foreignKey: 'next_grade', as: 'nextGrade' }),
+  PreviousGrade: Grade.hasOne(PreviousGrade, { foreignKey: 'next_grade', as: 'previousGrade' }),
 });
 
 Object.assign(InPersonRegistrationTransaction, {
@@ -232,7 +237,7 @@ Object.assign(Role, {
 });
 
 Object.assign(SchoolClass, {
-  Grade: SchoolClass.belongsTo(Grade),
+  Grade: SchoolClass.belongsTo(Grade, { as: 'grade' }),
   SchoolClassActiveFlag: SchoolClass.hasMany(SchoolClassActiveFlag, { as: 'schoolClassActiveFlags' }),
 });
 

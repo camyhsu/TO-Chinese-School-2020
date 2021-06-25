@@ -49,5 +49,19 @@ describe('Test Registration', () => {
       const grades = await Grade.findAll();
       expect(bookCharges.length).to.eq(grades.length);
     });
+
+    it('should have previous school year', async () => {
+      const sy1 = createRandSchoolYear();
+      const schoolYear1 = await RegistrationService.addSchoolYear(sy1);
+
+      const sy2 = createRandSchoolYear();
+      sy2.startDate = new Date(sy1.endDate.getTime() + 1);
+      sy2.endDate = new Date(sy2.startDate.getTime() + 30 * 1000 * 60 * 60 * 24);
+      const schoolYear2 = await RegistrationService.addSchoolYear(sy2);
+
+      expect(schoolYear1.id).to.be.not.null;
+      expect(schoolYear2.id).to.be.not.null;
+      expect(schoolYear2.previousSchoolYearId).to.be.not.null;
+    });
   });
 });

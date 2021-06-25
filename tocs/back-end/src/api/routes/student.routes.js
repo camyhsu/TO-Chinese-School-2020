@@ -73,4 +73,22 @@ export default (router) => {
     [],
     controller.getRegistrationPaymentForStaff,
   );
+
+  router.get(
+    '/student/registration/display_options',
+    [],
+    controller.getStudentRegistrationDisplayOptions,
+  );
+
+  router.post(
+    '/student/registration/save_registration_preferences',
+    [],
+    controller.saveRegistrationPreferences,
+  );
+
+  router.post(
+    '/student/registration/payment_entry',
+    [],
+    controller.initializeRegistrationPayment,
+  );
 };

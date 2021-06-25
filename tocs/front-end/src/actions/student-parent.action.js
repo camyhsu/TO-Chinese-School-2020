@@ -1,20 +1,27 @@
 import {
     ACTION_SUCCESS,
     SET_MESSAGE,
+    SET_REGISTRATION_PREFERENCES
 } from './types';
 
 import StudentParentService from '../services/student-parent.service';
 
-const commonFn = (p, dispatch) => p.then(
+const commonFn = (p, dispatch, redirect, actionType) => p.then(
     (response) => {
         dispatch({
             type: ACTION_SUCCESS,
-            payload: '/home'
+            payload: redirect || '/home'
         });
         dispatch({
             type: SET_MESSAGE,
             payload: response && 'Success',
         });
+        if (actionType) {
+            dispatch({
+                type: actionType,
+                payload: response.data,
+            });
+        }
         return Promise.resolve();
     },
     (error) => {
@@ -69,9 +76,12 @@ const addParent = (familyId, obj) => (dispatch) => commonFn(StudentParentService
 
 const addChild = (familyId, obj) => (dispatch) => commonFn(StudentParentService.addChild(familyId, obj), dispatch);
 
+const saveRegistrationPreferences = (obj) => (dispatch) => commonFn(StudentParentService.saveRegistrationPreferences(obj), dispatch, '/student/consent-release', SET_REGISTRATION_PREFERENCES);;
+
 export {
     getPersonalDetails, savePersonalDetails,
     getPersonalAddress, getFamilyAddress,
     saveFamilyAddress, savePersonalAddress,
-    addPersonalAddress, addParent, addChild
+    addPersonalAddress, addParent, addChild,
+    saveRegistrationPreferences
 }

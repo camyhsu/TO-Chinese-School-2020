@@ -57,4 +57,16 @@ export default {
     const { registrationPayment } = await studentService.getRegistrationPayment(id);
     next(response(registrationPayment));
   }),
+  getStudentRegistrationDisplayOptions: asyncWrapper(async (req, _res, next) => {
+    const { personId } = req;
+    const { schoolYearId } = req.query;
+    next(response(await studentService.getStudentRegistrationDisplayOptions(schoolYearId, personId)));
+  }),
+  saveRegistrationPreferences: asyncWrapper(async (req, _res, next) => {
+    const { personId } = req;
+    next(response(await studentService.saveRegistrationPreferences(personId, req.body)));
+  }),
+  initializeRegistrationPayment: asyncWrapper(async (req, _res, next) => {
+    next(response(await studentService.initializeRegistrationPayment(req.body)));
+  }),
 };

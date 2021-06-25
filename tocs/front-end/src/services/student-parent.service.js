@@ -22,11 +22,18 @@ const getTransactionHistory = () => dataService.get('student/transaction_history
 
 const getRegistrationPayment = (id, forStaff) => dataService.get(`student/transaction_history/show_registration_payment${forStaff ? '_for_staff' : ''}/${id}`);
 
+const getStudentRegistrationDisplayOptions = (schoolYearId) => dataService.get(`student/registration/display_options?schoolYearId=${schoolYearId}`);
+
+const saveRegistrationPreferences = (obj) => dataService.post('student/registration/save_registration_preferences', obj);
+
+const initializeRegistrationPayment = (ids) => dataService.post('student/registration/payment_entry', ids);
+
 const obj = {
     getPersonalDetails, savePersonalDetails,
     getPersonalAddress, getFamilyAddress, addPersonalAddress,
     savePersonalAddress, saveFamilyAddress,
-    addParent, addChild, getTransactionHistory, getRegistrationPayment
+    addParent, addChild, getTransactionHistory, getRegistrationPayment, getStudentRegistrationDisplayOptions,
+    saveRegistrationPreferences, initializeRegistrationPayment
 };
 
 export default obj;

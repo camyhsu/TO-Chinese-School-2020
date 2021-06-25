@@ -107,8 +107,8 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return asParent.concat(asChild);
     },
     async isAParentOf(childId) {
-      const sql = `${'SELECT COUNT(*) FROM families,families_children WHERE '
-      + '(families.parent_one_id='}${this.id} OR families.parent_two_id=${this.id}) AND `
+      const sql = 'SELECT COUNT(*) FROM families,families_children'
+      + ` WHERE (families.parent_one_id=${this.id} OR families.parent_two_id=${this.id}) AND `
       + `families.id=families_children.family_id AND families_children.child_id=${childId}`;
 
       const [result] = await sequelize.query(sql);
@@ -142,7 +142,15 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return sequelize.models.StudentClassAssignment.findOne({
         where: { studentId: this.id, schoolYearId },
         include: [
-          { model: sequelize.models.Grade, as: 'grade' },
+          {
+            model: sequelize.models.Grade,
+            as: 'grade',
+            include: [
+              {
+                model: sequelize.models.Grade, as: 'nextGrade',
+              },
+            ],
+          },
           { model: sequelize.models.SchoolYear, as: 'schoolYear' },
           { model: sequelize.models.SchoolClass, as: 'schoolClass' },
           { model: sequelize.models.SchoolClass, as: 'electiveClass' },
@@ -202,6 +210,13 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         result.homePhone = fs.find((f) => f.address && f.address.homePhone).address.homePhone;
       }
       return result;
+    },
+    schoolAgeFor(schoolYear) {
+      if (!this.birthYear || !this.birthMonth) {
+        return null;
+      }
+      const schoolAge = schoolYear.startYear() - this.birthYear;
+      return schoolYear.ageCutoffMonth <= this.birthMonth ? schoolAge - 1 : schoolAge;
     },
     /* TODO Not yet implemented
       def school_age_for(school_year)

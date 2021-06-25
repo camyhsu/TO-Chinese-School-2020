@@ -98,7 +98,7 @@ const BiPersonPlus = () => <i className="bi-person-plus"></i>;
 
 const BiClockHistory = () => <i className="bi-clock-history"></i>;
 
-const BiInfoCircle  = () => <i className="bi-info-circle"></i>;
+const BiInfoCircle = () => <i className="bi-info-circle"></i>;
 
 const BiToggle = ({ on }) => <i className={on ? 'bi-toggle-on' : 'bi-toggle-off'}></i>;
 
@@ -123,7 +123,7 @@ const isoToPacific = (s, dateOnly) => {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
-          })
+        })
     }
     return new Date(s).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 };
@@ -142,9 +142,19 @@ const bilingualName = (obj) => (obj && `${obj.chineseName}(${obj.englishName})`)
 
 const now = () => new Date().toLocaleString('en-US');
 
+const contacts = {
+    REGISTRATION_CONTACT: 'registration@to-cs.org',
+    TEXT_BOOK_MANAGER: 'academic-book@to-cs.org',
+    WEB_SITE_SUPPORT: 'engineering@to-cs.org',
+    ACCOUNTING_CONTACT: 'accountant@to-cs.org'
+};
+
+const dateStarted = (s) => isoToPacific(s, true).localeCompare(isoToPacific(today(), true)) >= 0;
+
 export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent, formatBirthInfo,
     required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children, bilingualName,
     BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField, formatPhoneNumber,
-    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific, labelForTuitionDiscountApplied, now
+    formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific, labelForTuitionDiscountApplied, now,
+    contacts, dateStarted
 }

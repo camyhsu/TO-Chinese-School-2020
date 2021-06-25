@@ -100,11 +100,25 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
   /* Prototype */
   Object.assign(SchoolYear.prototype, {
-
+    startYear() {
+      if (this.startDate) {
+        const a = this.startDate.split('-');
+        if (a && a.length) {
+          return a[0];
+        }
+      }
+      return null;
+    },
   });
 
   /* Non-prototype */
   Object.assign(SchoolYear, {
+    async findPreviousSchoolYearByStartDate(startDate) {
+      return SchoolYear.findOne({
+        where: { endDate: { [Sequelize.Op.lte]: startDate } },
+        order: [['endDate', 'DESC']],
+      });
+    },
     async findCurrentAndFutureSchoolYears() {
       return SchoolYear.findAll({
         where: { endDate: { [Sequelize.Op.gte]: today() } },
@@ -119,6 +133,16 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     async nextSchoolYear() {
       const r = await SchoolYear.findCurrentAndFutureSchoolYears();
       return r[1];
+    },
+    async findActiveRegistrationSchoolYears() {
+      const date = today();
+      return SchoolYear.findAll({
+        where: {
+          earlyRegistrationStartDate: { [Sequelize.Op.lte]: date },
+          registrationEndDate: { [Sequelize.Op.gte]: date },
+        },
+        order: [['startDate', 'ASC']],
+      });
     },
   });
 

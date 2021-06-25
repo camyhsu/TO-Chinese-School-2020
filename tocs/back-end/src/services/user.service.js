@@ -3,7 +3,7 @@ import { formatAddressPhoneNumbers } from '../utils/mutator.js';
 import { badRequest } from '../utils/response-factory.js';
 
 const {
-  Address, Person, User,
+  Address, Person, User, SchoolYear,
 } = db;
 
 export default {
@@ -31,5 +31,13 @@ export default {
     const families = await person.families();
     const result = formatAddressPhoneNumbers(JSON.parse(JSON.stringify({ person, families })));
     return result;
+  },
+  getAnnouncements: async (personId) => {
+    const person = await Person.getById(personId);
+    const children = await person.findChildren();
+    const activeSchoolYears = await SchoolYear.findActiveRegistrationSchoolYears();
+    return {
+      children, activeSchoolYears,
+    };
   },
 };

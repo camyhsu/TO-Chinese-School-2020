@@ -177,6 +177,18 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       await Promise.all(promises);
       return schoolClasses;
     },
+    async getElectiveSchoolClass(schoolYearId) {
+      return SchoolClass.getActiveSchoolClasses(schoolYearId, {
+        schoolClassType: SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_ELECTIVE,
+      });
+    },
+    async getNonElectiveSchoolClass(schoolYearId) {
+      return SchoolClass.getActiveSchoolClasses(schoolYearId, {
+        [Sequelize.Op.not]: {
+          schoolClassType: SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_ELECTIVE,
+        },
+      });
+    },
     async getActiveSchoolClassesForCurrentNextSchoolYear() {
       const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
       const nextSchoolYear = await sequelize.models.SchoolYear.nextSchoolYear();
@@ -225,6 +237,20 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       const schoolClasses = schoolClassActiveFlags.map((schoolClassActiveFlag) => schoolClassActiveFlag.schoolClass);
       return Object.values(schoolClasses.reduce((r, c) => Object.assign(r, { [c.id]: c }), {}))
         .sort((a, b) => a.englishName.localeCompare(b.englishName));
+    },
+    getSchoolClassTypeName(schoolClassType) {
+      switch (schoolClassType) {
+        case SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_SIMPLIFIED:
+          return 'S(簡)';
+        case SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_TRADITIONAL:
+          return 'T(繁)';
+        case SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_ENGLISH_INSTRUCTION:
+          return 'SE(雙語)';
+        case SchoolClass.prototype.schoolClassTypes.SCHOOL_CLASS_TYPE_EVERYDAYCHINESE:
+          return 'EC(實用中文)';
+        default:
+          return schoolClassType;
+      }
     },
   });
 

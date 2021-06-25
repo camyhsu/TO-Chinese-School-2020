@@ -8,8 +8,9 @@ import NewFamilyForm from './NewFamilyForm';
 import PersonForm from './PersonForm';
 import SchoolClassForm from './SchoolClassForm';
 import SchoolYearForm from './SchoolYearForm';
+import StudentRegistrationForm from './StudentRegistrationForm';
 
 export {
     InstructorAssignmentForm, AddressForm, BookChargeForm, BookForm, CheckoutHistoryForm,
-    ManualTransactionForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm
+    ManualTransactionForm, NewFamilyForm, PersonForm, SchoolClassForm, SchoolYearForm, StudentRegistrationForm
 };

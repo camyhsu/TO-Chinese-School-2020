@@ -43,4 +43,10 @@ export default (router) => {
     [],
     controller.changePassword,
   );
+
+  router.get(
+    '/announcements',
+    [],
+    controller.getAnnouncements,
+  );
 };
