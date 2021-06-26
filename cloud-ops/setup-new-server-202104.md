@@ -704,7 +704,10 @@ Ubuntu 20.04 LTS.
       ```text
       55 9 * * *      /home/tocsorg_registration/prod_db_dump/dump_prod_db.sh
       ```
-   
+   6. Check back in a few days to make sure that the local database backups are generated once a day before the daily 
+      storage snapshots.  These database backups should be periodically archived and moved off the server to other 
+      long-term storage locations (such as Google Drive) in preparation for possible disaster recovery situations.
+
 ## Registration application live production cut-over
 
 ### Setup the splash site on the new server
@@ -1125,7 +1128,7 @@ so we will use the same names on the new server.
    3. Clicked on the button "Install WordPress".
    4. After the installation completed successfully, test by logging-in with the webmaster credential.
 
-### Move WordPress site from the old server to the new server
+### Move WordPress site content from the old server to the new server
 
 1. Create a migration package from the old server:
    1. Install and activate the plugin "All-in-One WP Migration" in the WordPress site on the old server.
@@ -1140,6 +1143,10 @@ so we will use the same names on the new server.
    2. Use the plugin to import the migration package generated above.
    3. As part of the importing process, confirm the basic settings and the PermaLink settings.
 
+3. Ask staff to check the site content on the new server and correct problems.  The new site content can be accessed 
+   through the new URL <http://info.to-cs.org>  Note that the new site is running under plain HTTP without encryption 
+   at this point.
+
 ### Setup SMTP email sending
 
 WordPress is not able to send email using the default settings since it would only use PHP mail() function, 
@@ -1151,5 +1158,62 @@ one in Google Compute Engine we are using.  We have to install a plugin to use S
    The "Gmail" mailer option would not work since it uses published G Suite app API, which is not how our SMTP relay 
    is setup.
 
+### Point the live site to the new server
 
+After the site content is verified on the new server, we need to point the previous hostnames to the new server and 
+then secure the access.
+
+1. Update the DNS records to point both *to-cs.org* and *www.to-cs.org* to the new server IP address.
+2. After the DNS changes become effective, add the following Apache site configurations:
+   1. Connect as your user then change to the root user:
+      1. `gcloud compute ssh registration-wp-west1-b-1`
+      2. After connected, change to root user:
+         ```shell
+         sudo -u root -H bash --login
+         cd
+         ```
+   2. Create the file **/etc/apache2/sites-available/root-redirect.conf** with the following content:
+      ```text
+      <VirtualHost *:80>
+          ServerName to-cs.org
+
+          Redirect 301 /tocs https://info.to-cs.org
+          Redirect 301 / https://info.to-cs.org
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+      </VirtualHost>
+      ```
+      This contains the minimum configuration of a plain HTTP site redirecting to the <info.to-cs.org> site.
+   3. Create the file **/etc/apache2/sites-available/www-redirect.conf** with the following content:
+      ```text
+      <VirtualHost *:80>
+          ServerName www.to-cs.org
+
+          Redirect 301 /tocs https://info.to-cs.org
+          Redirect 301 / https://info.to-cs.org
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+      </VirtualHost>
+      ```
+      This contains the minimum configuration of a plain HTTP site redirecting to the <info.to-cs.org> site.
+   4. Enable this new site configuration:
+      ```shell
+      a2ensite root-redirect
+      a2ensite www-redirect
+      apache2ctl restart
+      ```
+   5. Run the certbot to secure the new hostnames:
+      ```shell
+      certbot --apache -d www.to-cs.org
+      certbot --apache -d to-cs.org
+      ```
+
+### Additional Notes
+
+Unlike on the old server, there is no local database backups for the WordPress site on the new server.  This is because 
+the WordPress site can not be re-created with the database backups alone.  The best way to prepare for possible 
+disaster recovery situations is to periodically take exports of the WordPress site using the "All-in-One WP Migration" 
+plug-in and store the exports in other long-term storage locations (such as Google Drive).
 
