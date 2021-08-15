@@ -90,6 +90,14 @@ const yesOrNo = (b) => b ? 'Yes' : 'No';
 
 const today = () => new Date().toISOString().split('T')[0];
 
+const getYear = () => new Date().getFullYear();
+
+const BiAddress = () => <i className="bi-house-door"></i>;
+
+const BiPerson = () => <i className="bi-person"></i>;
+
+const BiCreditCard = () => <i className="bi-credit-card-2-front"></i>;
+
 const BiPencil = () => <i className="bi-pencil"></i>;
 
 const BiPlus = () => <i className="bi-plus"></i>;
@@ -149,12 +157,12 @@ const contacts = {
     ACCOUNTING_CONTACT: 'accountant@to-cs.org'
 };
 
-const dateStarted = (s) => isoToPacific(s, true).localeCompare(isoToPacific(today(), true)) >= 0;
+const dateStarted = (s) => s.localeCompare(isoToPacific(today(), true)) <= 0;
 
 export {
     decimal, dollar, formatAddress, formatPersonName, formatPersonNames, pagingDataToContent, formatBirthInfo,
     required, today, validEmail, vusername, vpassword, vrepassword, yesOrNo, Children, bilingualName,
     BiPencil, BiPlus, BiPersonPlus, BiClockHistory, BiInfoCircle, BiToggle, OptionalField, formatPhoneNumber,
     formatPersonNamesWithLink, requiredZeroAccepted, isoToPacific, labelForTuitionDiscountApplied, now,
-    contacts, dateStarted
+    contacts, dateStarted, getYear, BiCreditCard, BiPerson, BiAddress
 }

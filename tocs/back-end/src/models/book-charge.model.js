@@ -18,6 +18,10 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
   /* Non-prototype */
   Object.assign(BookCharge, {
+    bookChargeInCentsFor: async (schoolYearId, gradeId) => {
+      const bookCharge = await BookCharge.findOne({ where: { schoolYearId, gradeId } });
+      return bookCharge.bookChargeInCents;
+    },
     findAllForSchoolYear: async (schoolYearId) => BookCharge.findAll({
       where: { schoolYearId },
       include: [

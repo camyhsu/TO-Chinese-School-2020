@@ -61,11 +61,14 @@ const StudentRegistrationForm = ({ location } = {}) => {
         if (schoolYearId) {
             StudentParentService.getStudentRegistrationDisplayOptions(schoolYearId).then(response => {
                 const { person, schoolYear, registeredStudents, registrationPreferences } = response.data;
+                const showPreKAndK = !!registrationPreferences.find(r => r.grade.shortName === 'Pre');
+                const showAp = !!registrationPreferences.find(r => ['9', '10', '11'].includes(r.grade.shortName));
+                const showGradeFull = !!registrationPreferences.find(r => r.gradeFull);
                 setContent({
                     isLoaded: true,
-                    showPreKAndK: true,
-                    showAp: true,
-                    showGradeFull: true,
+                    showPreKAndK,
+                    showAp,
+                    showGradeFull,
                     person,
                     schoolYear,
                     registeredStudents, registrationPreferences

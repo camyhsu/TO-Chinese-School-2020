@@ -27,7 +27,6 @@ export default (sequelize, _Sequelize, fieldsFactory) => {
       STATUS_PENDING_FOR_APPROVAL: 'P',
     },
     status() {
-      console.log(this)
       console.log(this.statusCode, this.statuses.STATUS_CANCELLED);
       if (this.statusCode === this.statuses.STATUS_CANCELLED) {
         return 'CANCELLED';

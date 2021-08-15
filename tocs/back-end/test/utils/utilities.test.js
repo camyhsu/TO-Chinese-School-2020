@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 import {
-  dateBetween, formatPhoneNumber, randSalt, sha256Hex, today, tomorrow,
+  dateBetween, formatPhoneNumber, randSalt, sha256Hex, today, tomorrow, toExp4Digits, isoToPacificDate, todayPacific,
 } from '../../src/utils/utilities.js';
 
 describe('Utilities', () => {
@@ -55,6 +55,22 @@ describe('Utilities', () => {
       expect(new Date(today())).to.be.not.null;
       expect(new Date(tomorrow())).to.be.not.null;
       expect(new Date(today()) < new Date(tomorrow())).to.be.true;
+    });
+  });
+
+  describe('toExp4Digits', () => {
+    it('toExp4Digits', async () => {
+      expect(toExp4Digits('2022', '2')).to.eq('0222');
+      expect(toExp4Digits(2022, 2)).to.eq('0222');
+      expect(toExp4Digits('2022', '12')).to.eq('1222');
+      expect(toExp4Digits(2022, 12)).to.eq('1222');
+    });
+  });
+
+  describe('todayPacific', () => {
+    it('todayPacific', async () => {
+      console.log(todayPacific());
+      expect(isoToPacificDate(today())).to.eq(todayPacific());
     });
   });
 });

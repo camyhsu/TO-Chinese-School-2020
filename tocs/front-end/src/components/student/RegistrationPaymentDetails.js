@@ -11,18 +11,12 @@ const RegistrationPaymentDetails = ({ registrationPayment, raw } = {}) => {
                     <React.Fragment key={'studentFeePayment-' + sindex}>
                         <p>
                             For {formatPersonNames(studentFeePayment.student)}<br />
-                            {studentFeePayment.student.registrationPreferences.map((registrationPreference, rindex) => {
-                                return (
-                                    <React.Fragment key={'registrationPreferences-' + rindex}>
-                                        entering grade {bilingualName(registrationPreference.grade)}<br />
-                                        {registrationPreference.electiveClass && (
-                                            <>
-                                                selecting elective class {bilingualName(registrationPreference.electiveClass)}
-                                            </>
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })}
+                            entering grade {bilingualName(studentFeePayment.student.registrationPreference.grade)}<br />
+                            {studentFeePayment.student.registrationPreference.electiveClass && (
+                                <>
+                                    selecting elective class {bilingualName(studentFeePayment.student.registrationPreference.electiveClass)}
+                                </>
+                            )}
                         </p>
                         <dl className="row">
                             <dt className="col-12 col-md-9 text-right text-md-right">Registration Fee:</dt>

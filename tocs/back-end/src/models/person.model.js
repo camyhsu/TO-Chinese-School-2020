@@ -121,11 +121,12 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return childrenInFamilies.reduce((r, c) => r.concat(c), []);
     },
     async getRegistrationPreferenceForSchoolYear(schoolYearId) {
-      return sequelize.models.RegistrationPreference.findAll({
+      return sequelize.models.RegistrationPreference.findOne({
         where: { student_id: this.id, schoolYearId },
         include: [
           { model: sequelize.models.Grade, as: 'grade' },
-          { model: sequelize.models.SchoolClass, as: 'electiveClass' },
+          { model: sequelize.models.PreviousGrade, as: 'previousGrade' },
+          { model: sequelize.models.ElectiveClass, as: 'electiveClass' },
         ],
       });
     },
@@ -192,6 +193,10 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         },
       });
     },
+    async isStudentRegisteredForSchoolYear(schoolYearId) {
+      const obj = await this.studentStatusFlagFor(schoolYearId);
+      return !!(obj && obj.registered);
+    },
     async getPersonalContactInformation() {
       const { address } = this;
       const result = { email: null, homePhone: null };
@@ -217,6 +222,9 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       }
       const schoolAge = schoolYear.startYear() - this.birthYear;
       return schoolYear.ageCutoffMonth <= this.birthMonth ? schoolAge - 1 : schoolAge;
+    },
+    async findPaidStudentFeePaymentAsStudentFor(schoolYearId) {
+      return sequelize.models.StudentFeePayment.findPaidStudentFeePaymentAsStudentFor(this.id, schoolYearId);
     },
     /* TODO Not yet implemented
       def school_age_for(school_year)

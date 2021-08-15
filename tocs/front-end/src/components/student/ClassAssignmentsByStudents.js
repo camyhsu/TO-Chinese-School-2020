@@ -1,11 +1,17 @@
 import Table from '../Table';
+import { formatPersonNames, bilingualName } from '../../utils/utilities';
 
 const ClassAssignmentsByStudents = ({ schoolYear, registeredStudents }) => {
     const header = [
-        { title: '', cell: (row) => row.name },
-        { title: `${schoolYear.name} Grade`, prop: '' },
-        { title: 'School Class', prop: '' },
-        { title: 'Elective Class', prop: '' },
+        { title: '', cell: (row) => formatPersonNames(row) },
+        { title: `${schoolYear.name} Grade`, cell: (row) => bilingualName(row.registrationPreference.grade) },
+        { title: 'Preferred School Class Type', cell: (row) => row.registrationPreference.schoolClassType },
+        {
+            title: 'Preferred Elective Class',
+            cell: (row) => row.registrationPreference.electiveClass ?
+                bilingualName(row.registrationPreference.electiveClass)
+                : ''
+        },
       ];
 
     return (registeredStudents && registeredStudents.length && (

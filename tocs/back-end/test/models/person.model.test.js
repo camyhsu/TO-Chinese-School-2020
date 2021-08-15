@@ -2,9 +2,11 @@
 import { expect } from 'chai';
 import db from '../../src/models/index.js';
 import { modelTests } from './model-test-utils.js';
-import { randAddress, randPerson } from '../../src/utils/utilities.js';
+import { randAddress, randPerson, createRandSchoolYear } from '../../src/utils/utilities.js';
 
-const { Person, Address, Family } = db;
+const {
+  Person, Address, Family, SchoolYear, StudentStatusFlag,
+} = db;
 const testChineseName = '黄鹤楼';
 
 const createRandPerson = (options) => {
@@ -128,6 +130,28 @@ describe('Test Person', () => {
 
       await family1.addChildren(child.id);
       expect(await person.isAParentOf(child.id)).to.eq(true);
+    });
+  });
+
+  describe('isStudentRegisteredForSchoolYear', () => {
+    it('isStudentRegisteredForSchoolYear', async () => {
+      const schoolYear = await SchoolYear.create(createRandSchoolYear());
+      const student = await Person.create(randPerson());
+      let bool = await student.isStudentRegisteredForSchoolYear(schoolYear.id);
+      expect(bool).to.be.false;
+
+      await StudentStatusFlag.create({ studentId: student.id, schoolYearId: schoolYear.id, registered: true });
+      bool = await student.isStudentRegisteredForSchoolYear(schoolYear.id);
+      expect(bool).to.be.true;
+    });
+  });
+
+  describe('findPaidStudentFeePaymentAsStudentFor', () => {
+    it('findPaidStudentFeePaymentAsStudentFor', async () => {
+      const schoolYear = await SchoolYear.create(createRandSchoolYear());
+      const student = await Person.create(randPerson());
+      const studentFeePayments = await student.findPaidStudentFeePaymentAsStudentFor(schoolYear.id);
+      expect(studentFeePayments.length).to.eq(0);
     });
   });
 });

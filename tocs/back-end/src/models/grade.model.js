@@ -77,6 +77,9 @@ export default (sequelize, Sequelize, fieldsFactory) => {
 
       return assignStudentCount + unassignStudentCount >= maxAllowed;
     },
+    gradePreschool() {
+      return this.shortName === 'Pre';
+    },
   });
 
   /* Non-prototype */
