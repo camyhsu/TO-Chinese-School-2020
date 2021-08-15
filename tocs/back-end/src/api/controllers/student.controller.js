@@ -67,6 +67,12 @@ export default {
     next(response(await studentService.saveRegistrationPreferences(personId, req.body)));
   }),
   initializeRegistrationPayment: asyncWrapper(async (req, _res, next) => {
-    next(response(await studentService.initializeRegistrationPayment(req.body)));
+    const { personId } = req;
+    next(response(await studentService.initializeRegistrationPayment(personId, req.body)));
+  }),
+  savePayment: asyncWrapper(async (req, _res, next) => {
+    const { personId } = req;
+    const { id } = req.params;
+    next(response(await studentService.savePayment(personId, id, req.body)));
   }),
 };

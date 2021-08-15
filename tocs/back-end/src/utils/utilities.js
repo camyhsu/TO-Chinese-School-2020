@@ -69,6 +69,8 @@ const isoToPacificDate = (s) => new Date(s).toLocaleString('fr-CA', {
 
 const today = () => datePart(new Date().toISOString());
 
+const todayPacific = () => isoToPacificDate(today());
+
 const dateBetween = (_date, duration) => {
   const date = datePart(_date);
   return date >= duration.startDate && date <= duration.endDate;
@@ -101,8 +103,10 @@ const createRandSchoolClass = (c) => ({
   maxSize: 10,
 });
 
+const toExp4Digits = (year, month) => String(month).padStart(2, '0') + String(year).substring(2);
+
 export {
   dateBetween, datePlus, formatPhoneNumber, randAddress, randObj, randBook, datePart, isoToPacific, isoToPacificDate,
-  randPerson, randSalt, randUser, sha256Hex, today, createRandSchoolYear, tomorrow,
-  toNumeric, uuid, randString, pick, toObj, collectionToObj, createRandSchoolClass,
+  randPerson, randSalt, randUser, sha256Hex, today, todayPacific, createRandSchoolYear, tomorrow,
+  toNumeric, uuid, randString, pick, toObj, collectionToObj, createRandSchoolClass, toExp4Digits,
 };

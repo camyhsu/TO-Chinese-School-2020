@@ -14,6 +14,10 @@
             "idle": 10000
         }
     },
+    "paymentGateway": {
+        "apiLoginKey": "5KP3u95bQpv",
+        "transactionKey": "346HZ32z3fP4hTG2"
+    },
     "contacts": {
         "webSiteSupport": "engineering@to-cs.org"
     }

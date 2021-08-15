@@ -33,6 +33,15 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       APPROVAL_STATUS_DECLINED: 'DECLINED',
       APPROVAL_STATUS_ERROR: 'ERROR',
     },
+    setApprovalStatusBasedOnAuthorizeNetResponse(responseCode) {
+      if (responseCode === '1') {
+        this.approvalStatus = GatewayTransaction.prototype.status.APPROVAL_STATUS_APPROVED;
+      } else if (responseCode === '2') {
+        this.approvalStatus = GatewayTransaction.prototype.status.APPROVAL_STATUS_DECLINED;
+      } else {
+        this.approvalStatus = GatewayTransaction.prototype.status.APPROVAL_STATUS_ERROR;
+      }
+    },
   });
 
   /* Non-prototype */

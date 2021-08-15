@@ -78,10 +78,12 @@ const addChild = (familyId, obj) => (dispatch) => commonFn(StudentParentService.
 
 const saveRegistrationPreferences = (obj) => (dispatch) => commonFn(StudentParentService.saveRegistrationPreferences(obj), dispatch, '/student/consent-release', SET_REGISTRATION_PREFERENCES);;
 
+const savePayment = (paymentId, payment) => (dispatch) => commonFn(StudentParentService.savePayment(paymentId, payment), dispatch, '/student/registration-payment?id=' + paymentId);
+
 export {
     getPersonalDetails, savePersonalDetails,
     getPersonalAddress, getFamilyAddress,
     saveFamilyAddress, savePersonalAddress,
     addPersonalAddress, addParent, addChild,
-    saveRegistrationPreferences
+    saveRegistrationPreferences, savePayment
 }

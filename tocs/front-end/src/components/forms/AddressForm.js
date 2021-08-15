@@ -8,7 +8,7 @@ import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 import { Card, CardBody, CardTitle } from "../Cards";
 
-import { required, validEmail, OptionalField } from '../../utils/utilities';
+import { required, validEmail, OptionalField, BiAddress } from '../../utils/utilities';
 import {
     getPersonalAddress as spGetPersonalAddress, getFamilyAddress as spGetFamilyAddress,
     saveFamilyAddress as spSaveFamilyAddress, savePersonalAddress as spSavePersonalAddress,
@@ -134,7 +134,7 @@ const PersonForm = ({ location } = {}) => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <CardTitle>{formTitle}</CardTitle>
+                                    <CardTitle><BiAddress /> {formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-12 mb-3">

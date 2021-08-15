@@ -28,12 +28,17 @@ const saveRegistrationPreferences = (obj) => dataService.post('student/registrat
 
 const initializeRegistrationPayment = (ids) => dataService.post('student/registration/payment_entry', ids);
 
+const savePayment = (paymentId, payment) => {
+    console.log('ssssssssssss');
+    return dataService.post(`student/registration/submit_payment/${paymentId}`, payment);
+}
+
 const obj = {
     getPersonalDetails, savePersonalDetails,
     getPersonalAddress, getFamilyAddress, addPersonalAddress,
     savePersonalAddress, saveFamilyAddress,
     addParent, addChild, getTransactionHistory, getRegistrationPayment, getStudentRegistrationDisplayOptions,
-    saveRegistrationPreferences, initializeRegistrationPayment
+    saveRegistrationPreferences, initializeRegistrationPayment, savePayment
 };
 
 export default obj;

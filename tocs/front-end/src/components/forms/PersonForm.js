@@ -6,7 +6,7 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
-import { required, OptionalField } from '../../utils/utilities';
+import { required, OptionalField, BiPerson } from '../../utils/utilities';
 import {
     getPersonalDetails as spGetPersonalDetails, savePersonalDetails, addParent as spAddParent, addChild as spAddChild
 } from '../../actions/student-parent.action';
@@ -127,7 +127,7 @@ const PersonForm = ({ location } = {}) => {
                         <Form onSubmit={handleSave} ref={form}>
                             {!successful && (
                                 <div>
-                                    <CardTitle>{formTitle}</CardTitle>
+                                    <CardTitle><BiPerson/> {formTitle}</CardTitle>
 
                                     <div className="row">
                                         <div className="form-group col-md-6 mb-3">

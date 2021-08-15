@@ -91,4 +91,10 @@ export default (router) => {
     [],
     controller.initializeRegistrationPayment,
   );
+
+  router.post(
+    '/student/registration/submit_payment/:id',
+    [],
+    controller.savePayment,
+  );
 };

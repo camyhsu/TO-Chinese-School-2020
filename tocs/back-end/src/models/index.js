@@ -219,8 +219,10 @@ Object.assign(RegistrationPreference, {
     { foreignKey: { name: 'student_id', allowNull: false }, as: 'student' }),
   EnteredBy: RegistrationPreference.belongsTo(EnteredBy,
     { foreignKey: { name: 'entered_by_id', allowNull: false }, as: 'enteredBy' }),
-  PreviousGrade: RegistrationPreference.belongsTo(PreviousGrade),
-  Grade: RegistrationPreference.belongsTo(Grade),
+  PreviousGrade: RegistrationPreference.belongsTo(PreviousGrade,
+    { foreignKey: 'previous_grade_id', as: 'previousGrade' }),
+  Grade: RegistrationPreference.belongsTo(Grade,
+    { foreignKey: { name: 'grade_id', allowNull: false }, as: 'grade' }),
   ElectiveClass: RegistrationPreference.belongsTo(ElectiveClass,
     { foreignKey: 'elective_class_id', as: 'electiveClass' }),
 });
@@ -258,12 +260,13 @@ Object.assign(StaffAssignment, {
 Object.assign(Student, {
   StudentClassAssignment: Student.hasMany(StudentClassAssignment,
     { foreignKey: 'student_id', as: 'studentClassAssignments' }),
+  StudentStatusFlag: Student.hasMany(StudentStatusFlag, { foreignKey: 'student_id', as: 'studentStatusFlags' }),
 });
 
 Object.assign(StudentClassAssignment, {
   Student: StudentClassAssignment.belongsTo(Student, { foreignKey: { allowNull: false }, as: 'student' }),
-  Grade: StudentClassAssignment.belongsTo(Grade),
-  SchoolClass: StudentClassAssignment.belongsTo(SchoolClass, { foreignKey: { allowNull: false }, as: 'schoolClass' }),
+  Grade: StudentClassAssignment.belongsTo(Grade, { foreignKey: { allowNull: false }, as: 'grade' }),
+  SchoolClass: StudentClassAssignment.belongsTo(SchoolClass, { as: 'schoolClass' }),
   SchoolYear: StudentClassAssignment.belongsTo(SchoolYear, { foreignKey: { allowNull: false }, as: 'schoolYear' }),
   ElectiveClass: StudentClassAssignment.belongsTo(SchoolClass,
     { foreignKey: { name: 'elective_class_id' }, as: 'electiveClass' }),

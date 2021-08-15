@@ -19,7 +19,10 @@ export default (sequelize, _Sequelize, fieldsFactory) => {
 
   /* Non-prototype */
   Object.assign(StudentStatusFlag, {
-
+    async isStudentRegisteredForSchoolYear(studentId, schoolYearId) {
+      const obj = await StudentStatusFlag.findOne({ where: { studentId, schoolYearId, registered: true } });
+      return !!obj;
+    },
   });
 
   return StudentStatusFlag;
