@@ -1191,6 +1191,7 @@ then secure the access.
           ServerName www.to-cs.org
 
           Redirect 301 /tocs https://info.to-cs.org
+          Redirect 301 /chineseschool https://register.to-cs.org
           Redirect 301 / https://info.to-cs.org
 
           ErrorLog ${APACHE_LOG_DIR}/error.log
