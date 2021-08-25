@@ -10,12 +10,12 @@ from check_missing_form import (
     read_form_submitted_students_from_csv,
 )
 
-UNIT_TEST_DIRECTORY_PATH = pathlib.Path(__file__).parent.resolve()
+TEST_DIRECTORY_PATH = pathlib.Path(__file__).parent.parent.resolve()
 SAMPLE_INPUT_FILE_PATH_REGISTERED_STUDENTS = (
-    UNIT_TEST_DIRECTORY_PATH / "data" / "sample_registered_students.csv"
+    TEST_DIRECTORY_PATH / "data" / "sample_registered_students.csv"
 )
 SAMPLE_INPUT_FILE_PATH_FORM_SUBMITTED_STUDENTS = (
-    UNIT_TEST_DIRECTORY_PATH / "data" / "sample_form_submitted_students.csv"
+    TEST_DIRECTORY_PATH / "data" / "sample_form_submitted_students.csv"
 )
 
 
