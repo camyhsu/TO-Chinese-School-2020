@@ -55,6 +55,9 @@ def test_input_csv_parsing_for_form_submitted_students():
     assert form_submitted_students[0] == FormSubmittedStudent(
         "Leia", "Kao", "PreK A", "abc1022@gmail.com", "2021/08/21 9:03:06 AM MDT"
     )
+    assert form_submitted_students[2] == FormSubmittedStudent(
+        "Bowen", "Song", "3B", "ghijk@hotmail.com", "2021/08/21 9:03:49 AM MDT"
+    )
     assert form_submitted_students[7] == FormSubmittedStudent(
         "Evan", "Chow", "EC2", "xyzllan@gmail.com", "2021/08/23 9:08:25 AM MDT"
     )
