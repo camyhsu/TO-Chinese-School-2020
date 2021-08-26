@@ -1,9 +1,9 @@
 from collections import namedtuple
 
 import csv
+import pathlib
+import sys
 
-REGISTERED_STUDENTS_CSV_FILE = "students_by_class.csv"
-FORM_SUBMITTED_STUDENTS_CSV_FILE = "WellnessChecklistAcknowledgment.csv"
 
 RegisteredStudent = namedtuple(
     "RegisteredStudent",
@@ -74,7 +74,7 @@ def read_form_submitted_students_from_csv(form_submitted_students_csv_file_path)
                 line_count += 1
 
     print(f"Processed {line_count} lines.")
-    print(f"{len(form_submitted_students)} registered students collected.")
+    print(f"{len(form_submitted_students)} form submission students collected.")
     return form_submitted_students
 
 
@@ -122,5 +122,25 @@ def write_missing_form_students_to_csv(
     print(f"Written {line_count} lines.")
 
 
-# if __name__ == "__main__":
-#     main()
+def main():
+    registered_students = read_registered_students_from_csv(pathlib.Path(sys.argv[1]))
+    form_submitted_students = read_form_submitted_students_from_csv(
+        pathlib.Path(sys.argv[2])
+    )
+    (
+        matched_registered_students,
+        registered_students_without_submitted_form,
+    ) = check_registered_against_submitted(registered_students, form_submitted_students)
+    print(
+        f"{len(matched_registered_students)} students have submitted the required form."
+    )
+    print(
+        f"{len(registered_students_without_submitted_form)} students still miss the required form."
+    )
+    write_missing_form_students_to_csv(
+        pathlib.Path(sys.argv[3]), registered_students_without_submitted_form
+    )
+
+
+if __name__ == "__main__":
+    main()
