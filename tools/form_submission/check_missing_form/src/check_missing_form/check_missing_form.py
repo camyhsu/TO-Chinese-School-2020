@@ -93,5 +93,34 @@ def check_registered_against_submitted(registered_students, form_submitted_stude
     return (matched_registered_students, registered_students_without_submitted_form)
 
 
+def write_missing_form_students_to_csv(
+    destination_csv_file_path, registered_students_without_submitted_form
+):
+    with destination_csv_file_path.open(mode="w") as csv_file:
+        csv_writer = csv.writer(csv_file, dialect="unix")
+        csv_writer.writerow(
+            [
+                "Class Name",
+                "English First Name",
+                "English Last Name",
+                "Family Email",
+                "Family Home Phone",
+            ]
+        )
+        line_count = 1
+        for registered_student in registered_students_without_submitted_form:
+            csv_writer.writerow(
+                [
+                    registered_student.class_name,
+                    registered_student.first_name,
+                    registered_student.last_name,
+                    registered_student.family_email,
+                    registered_student.family_phone,
+                ]
+            )
+            line_count += 1
+    print(f"Written {line_count} lines.")
+
+
 # if __name__ == "__main__":
 #     main()

@@ -5,4 +5,5 @@ from .check_missing_form import (
     read_registered_students_from_csv,
     read_form_submitted_students_from_csv,
     check_registered_against_submitted,
+    write_missing_form_students_to_csv,
 )
