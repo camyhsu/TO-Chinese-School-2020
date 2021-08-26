@@ -18,8 +18,10 @@ FormSubmittedStudent = namedtuple(
 
 def same_student(registered_student, form_submitted_student):
     if (
-        registered_student.first_name != form_submitted_student.first_name
-        or registered_student.last_name != form_submitted_student.last_name
+        registered_student.first_name.lower()
+        != form_submitted_student.first_name.lower()
+        or registered_student.last_name.lower()
+        != form_submitted_student.last_name.lower()
         or registered_student.class_name != form_submitted_student.class_name
     ):
         return False
@@ -46,7 +48,11 @@ def read_registered_students_from_csv(registered_students_csv_file_path):
             else:
                 registered_students.append(
                     RegisteredStudent(
-                        row[1], row[2], normalize_class_name(row[0]), row[6], row[7]
+                        row[1].strip(),
+                        row[2].strip(),
+                        normalize_class_name(row[0]),
+                        row[6].strip(),
+                        row[7],
                     )
                 )
                 line_count += 1

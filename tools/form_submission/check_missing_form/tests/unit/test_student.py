@@ -91,3 +91,24 @@ def test_same_student_should_return_false_for_students_with_different_class_name
         random_string(7),
     )
     assert not same_student(registered_student, form_submitted_student)
+
+
+def test_same_student_should_return_true_for_students_with_names_only_case_difference():
+    fake_first_name = random_string(8)
+    fake_last_name = random_string(12)
+    fake_class_name = random_string(4)
+    registered_student = RegisteredStudent(
+        fake_first_name,
+        fake_last_name,
+        fake_class_name,
+        random_string(5),
+        random_string(10),
+    )
+    form_submitted_student = FormSubmittedStudent(
+        fake_first_name.lower(),
+        fake_last_name.lower(),
+        fake_class_name,
+        random_string(6),
+        random_string(7),
+    )
+    assert same_student(registered_student, form_submitted_student)

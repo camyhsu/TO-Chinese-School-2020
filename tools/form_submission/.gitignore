@@ -130,3 +130,7 @@ dmypy.json
 
 # Exclude IDE project files
 .idea/
+
+# Exclude test output data
+**/tests/data/test_output*
+
