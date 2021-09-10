@@ -15,10 +15,13 @@
         }
     },
     "paymentGateway": {
-        "apiLoginKey": "5KP3u95bQpv",
-        "transactionKey": "346HZ32z3fP4hTG2"
+        "apiLoginKey": "3M6v9Rh8fCB",
+        "transactionKey": "43XA5aLP96Ce5hZd"
     },
     "contacts": {
-        "webSiteSupport": "engineering@to-cs.org"
+        "webSiteSupport": "engineering@to-cs.org",
+        "registration": "registration@to-cs.org",
+        "textBookManager": "academic-book@to-cs.org",
+        "accounting": "accountant@to-cs.org"
     }
 }
