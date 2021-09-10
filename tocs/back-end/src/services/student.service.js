@@ -4,6 +4,7 @@ import db from '../models/index.js';
 import CreditCard from '../utils/credit-card.js';
 import { toExp4Digits, todayPacific } from '../utils/utilities.js';
 import { process } from '../utils/payment-gateway.js';
+import { sendPaymentConfirmation } from '../utils/email.js';
 
 const { Op } = Sequelize;
 const {
@@ -176,6 +177,7 @@ export default {
       }
       const toBeSaved = Object.assign(registrationPreference, {
         entered_by_id: personId,
+        grade_id: registrationPreference.gradeId,
       });
       return RegistrationPreference.create(toBeSaved);
     });
@@ -383,6 +385,9 @@ export default {
       await createStudentClassAssignments(registrationPayment);
       // TODO
       // Email here
+      const contactInfo = await registrationPayment.paidBy.getPersonalContactInformation();
+      const recipient = contactInfo.email;
+      sendPaymentConfirmation({ recipient });
     } else {
       const s = 'Payment DECLINED by bank.'
       + ' Please use a different credit card to try again'
