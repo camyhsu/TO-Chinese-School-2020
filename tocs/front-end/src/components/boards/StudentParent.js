@@ -25,7 +25,7 @@ const Home = () => {
                     error.message ||
                     error.toString();
 
-                setContent(_content);
+                console.log(_content);
                 if (_content && _content.message && _content.message === 'Unauthorized!') {
                     dispatch(logout());
                 }

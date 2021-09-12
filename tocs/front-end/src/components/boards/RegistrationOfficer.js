@@ -23,7 +23,7 @@ const Home = () => {
           error.message ||
           error.toString();
 
-        setContent(_content);
+        console.log(_content);
       }
     );
   }, []);
