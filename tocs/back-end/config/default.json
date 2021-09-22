@@ -14,6 +14,7 @@
             "idle": 10000
         }
     },
+    "corsOrigin": ["http://localhost:3000"],
     "paymentGateway": {
         "apiLoginKey": "3M6v9Rh8fCB",
         "transactionKey": "43XA5aLP96Ce5hZd"
