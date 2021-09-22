@@ -2,6 +2,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import config from 'config';
 import routes from './api/routes/index.js';
 import { authJwt, rolePermission } from './api/middleware/index.js';
 
@@ -13,7 +14,7 @@ rolePermissionRouter.use(rolePermission.isActionPermitted);
 
 // Port to listen for requests
 const PORT = process.env.PORT || 3001;
-const corsOptions = { origin: 'http://localhost:3000' };
+const corsOptions = { origin: config.get('corsOrigin') };
 
 const app = express();
 
@@ -60,4 +61,4 @@ app.use((obj, _req, res, _next) => {
   res.status(status).send(rtnObj);
 });
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+app.listen(PORT, () => console.log(`Server is running. port=${PORT} environment=${process.env.NODE_ENV}`));

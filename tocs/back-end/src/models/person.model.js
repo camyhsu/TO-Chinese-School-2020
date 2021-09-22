@@ -209,10 +209,16 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       }
       const fs = await this.families();
       if (!result.email) {
-        result.email = fs.find((f) => f.address && f.address.email).address.email;
+        const family = fs.find((f) => f.address && f.address.email);
+        if (family) {
+          result.email = family.address.email;
+        }
       }
       if (!result.homePhone) {
-        result.homePhone = fs.find((f) => f.address && f.address.homePhone).address.homePhone;
+        const family = fs.find((f) => f.address && f.address.homePhone);
+        if (family) {
+          result.homePhone = family.address.homePhone;
+        }
       }
       return result;
     },

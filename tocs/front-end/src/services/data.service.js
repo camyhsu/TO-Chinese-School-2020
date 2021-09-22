@@ -1,7 +1,8 @@
 import { authHeader, accessToken } from './auth-header';
 import axios from 'axios';
+import config from './config';
 
-const API_URL = 'http://localhost:3001/api/';
+const API_URL = `${config.apiUrl}/api/`;
 const headers = { headers: authHeader() };
 
 const get = async (path) => headers.headers['x-access-token'] ? axios.get(API_URL + path, headers) : Promise.reject('No access token');
