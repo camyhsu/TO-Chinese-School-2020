@@ -3,7 +3,7 @@ import config from './config';
 
 const API_URL = config.apiUrl;
 
-const register = (obj) => axios.post(API_URL + 'signup', obj);
+const register = (obj) => axios.post(API_URL + '/signup', obj);
 
 const login = (username, password) => axios
     .post(API_URL + '/signin', {
