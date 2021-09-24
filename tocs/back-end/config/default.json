@@ -4,7 +4,7 @@
         "host": "localhost",
         "port": 5432,
         "username": "tocsorg_camyhsu",
-        "password": null,
+        "password": "1234",
         "database": "chineseschool_development",
         "dialect": "postgres",
         "pool": {
