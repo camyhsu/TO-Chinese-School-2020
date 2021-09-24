@@ -11,13 +11,13 @@ npm install
 ### Develop environment
 #### Create a user and database
 ```
-CREATE USER tocsorg_camyhsu;
+CREATE USER tocsorg_camyhsu WITH PASSWORD '1234';
 CREATE DATABASE chineseschool_development OWNER tocsorg_camyhsu;
 ```
 ### Test environment
 #### Create a user and database
 ```
-CREATE USER test_user;
+CREATE USER test_user WITH PASSWORD '1234';
 CREATE DATABASE test_db OWNER test_user;
 ```
 
