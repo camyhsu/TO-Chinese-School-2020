@@ -264,6 +264,11 @@ export default {
           registrationPreference.grade = await Grade.findBySchoolAge(schoolAge);
         }
 
+        // Cannot find grade, skip
+        if (!registrationPreference.grade) {
+          return;
+        }
+
         registrationPreference.gradeFull = await registrationPreference.grade.gradeFull(schoolYearId);
         registrationPreference.availableSchoolClassTypes = await registrationPreference
           .grade.findAvailableSchoolClassTypes(schoolYearId);
