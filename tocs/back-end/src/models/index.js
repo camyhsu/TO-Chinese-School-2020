@@ -28,6 +28,7 @@ import user from './user.model.js';
 import withdrawalRecord from './withdrawal-record.model.js';
 import withdrawRequest from './withdraw-request.model.js';
 import withdrawRequestDetail from './withdraw-request-detail.model.js';
+import logger from '../utils/logger.js';
 
 const dbConfig = config.get('dbConfig');
 
@@ -51,6 +52,7 @@ const sequelize = new Sequelize(
       max, min, acquire, idle,
     },
     define: { underscored: true },
+    logging: (msg) => logger.info(`[SQL] ${msg}`),
   },
 );
 

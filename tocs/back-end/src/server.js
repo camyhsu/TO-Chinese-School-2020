@@ -4,12 +4,23 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import config from 'config';
 import routes from './api/routes/index.js';
+import logger from './utils/logger.js';
 import { authJwt, rolePermission } from './api/middleware/index.js';
 
 const createRouters = (n) => [...Array(n || 1).keys()].map(() => express.Router());
 const [publicRouter, apiRouter, rolePermissionRouter] = createRouters(3);
 
 apiRouter.use(authJwt.verifyToken);
+// Log
+apiRouter.use((req, _res, next) => {
+  const {
+    userId, method, originalUrl, params, query,
+  } = req;
+  // eslint-disable-next-line max-len
+  logger.info(`userId=${userId} method=${method} url=${originalUrl} params=${JSON.stringify(params)} query=${JSON.stringify(query)}`);
+  next();
+});
+
 rolePermissionRouter.use(rolePermission.isActionPermitted);
 
 // Port to listen for requests
@@ -54,11 +65,11 @@ app.use((obj, _req, res, _next) => {
   const { status, message, rtnObj } = obj;
 
   if (obj instanceof Error) {
-    console.log('Caught', obj);
+    logger.error(`Caught ${JSON.stringify(obj)}`);
     res.status(status || 500).send({ message: message || 'Internal Server Error' });
     return;
   }
   res.status(status).send(rtnObj);
 });
 
-app.listen(PORT, () => console.log(`Server is running. port=${PORT} environment=${process.env.NODE_ENV}`));
+app.listen(PORT, () => logger.info(`Server is running. port=${PORT} environment=${process.env.NODE_ENV}`));

@@ -24,5 +24,8 @@
         "registration": "registration@to-cs.org",
         "textBookManager": "academic-book@to-cs.org",
         "accounting": "accountant@to-cs.org"
+    },
+    "logging": {
+        "level": "info"
     }
 }

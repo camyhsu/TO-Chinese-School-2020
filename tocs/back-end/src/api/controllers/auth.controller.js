@@ -1,6 +1,7 @@
 import { authService } from '../../services/index.js';
 import { response } from '../../utils/response-factory.js';
 import { asyncWrapper } from './utils.js';
+import logger from '../../utils/logger.js';
 
 export default {
   signUp: asyncWrapper(async (req, _res, next) => {
@@ -33,7 +34,7 @@ export default {
     const { username, password } = req.body;
 
     const user = await authService.signIn({ username, password });
-    console.log('signIn', user);
+    logger.info(`signIn ${JSON.stringify(user)}`);
     next(response(user));
   }),
 };
