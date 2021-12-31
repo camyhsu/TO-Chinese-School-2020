@@ -1,44 +1,72 @@
-# back-end
+# TOCS registration app back-end
 
-A Node.js back-end application code used by Thousand Oaks Chinese School.
+The Node.js back-end application for student information and registration used by Thousand Oaks Chinese School.
 
-## Install
+## Development Notes
+
+### Prettier code formatter
+
+This codebase has been formatted by [Prettier](https://www.npmjs.com/package/prettier).
+Please make sure that any code changes / additions are also formatted by
+Prettier before committing to the git repository. Prettier are installed
+when `npm install` is executed for the project. With Prettier installed,
+use
+
+```shell
+npx prettier --check .
+```
+
+at the root directory of the package to check the format. If formatting
+is needed, use
+
+```shell
+npx prettier --write .
+```
+
+at the root directory of the package to format the code.
+
+Please be aware that the Prettier version is fixed in package.json per
+recommendation. Different versions of Prettier may format code
+differently, so the version should not be changed by a simple
+`npm upgrade`
+
+### Installing NPM packages
 
 ```
 npm install
 ```
 
-## PostgreSQL Database Setup
+### PostgreSQL Database Setup
 
-### Develop environment
+#### Development environment
 
-#### Create a user and database
+##### Create a user and database
 
 ```
 CREATE USER tocsorg_camyhsu WITH PASSWORD '1234';
 CREATE DATABASE chineseschool_development OWNER tocsorg_camyhsu;
 ```
 
-### Test environment
+#### Test environment
 
-#### Create a user and database
+##### Create a user and database
 
 ```
 CREATE USER test_user WITH PASSWORD '1234';
 CREATE DATABASE test_db OWNER test_user;
 ```
 
-## API Server
+### API Server
 
 ```
 npm start
 ```
 
-## CLI
+### CLI
 
-### Commands
+#### Commands
 
-#### update
+##### update
 
 Run `update` to create/update database schema.
 Read schema from `schema/dbchangelog.xml`.
@@ -47,7 +75,7 @@ Read schema from `schema/dbchangelog.xml`.
 ./cli update
 ```
 
-#### snapshot
+##### snapshot
 
 Run `snapshot` to capture the current state of the database.
 Output to `output/db-snapshot.yaml`
@@ -56,7 +84,7 @@ Output to `output/db-snapshot.yaml`
 ./cli snapshot
 ```
 
-#### sync
+##### sync
 
 Run `sync` to marks all undeployed changes in `schema/dbchangelog.xml` as executed in your database.
 
@@ -64,7 +92,7 @@ Run `sync` to marks all undeployed changes in `schema/dbchangelog.xml` as execut
 ./cli sync
 ```
 
-#### generate-change-log
+##### generate-change-log
 
 Run `generate-change-log` to create a changelog file that has a sequence of changesets which describe how to re-create the current schema of the database (without data).
 
