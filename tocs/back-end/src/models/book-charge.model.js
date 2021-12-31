@@ -1,10 +1,10 @@
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({ withId: true });
-  const BookCharge = sequelize.define('book_charge', {
+  const BookCharge = sequelize.define("book_charge", {
     ...fields,
     bookChargeInCents: {
       type: Sequelize.INTEGER,
-      field: 'book_charge_in_cents',
+      field: "book_charge_in_cents",
       allowNull: false,
       defaultValue: 0,
       validate: { min: 0 },
@@ -12,23 +12,24 @@ export default (sequelize, Sequelize, fieldsFactory) => {
   });
 
   /* Prototype */
-  Object.assign(BookCharge.prototype, {
-
-  });
+  Object.assign(BookCharge.prototype, {});
 
   /* Non-prototype */
   Object.assign(BookCharge, {
     bookChargeInCentsFor: async (schoolYearId, gradeId) => {
-      const bookCharge = await BookCharge.findOne({ where: { schoolYearId, gradeId } });
+      const bookCharge = await BookCharge.findOne({
+        where: { schoolYearId, gradeId },
+      });
       return bookCharge.bookChargeInCents;
     },
-    findAllForSchoolYear: async (schoolYearId) => BookCharge.findAll({
-      where: { schoolYearId },
-      include: [
-        { model: sequelize.models.Grade, as: 'grade' },
-        { model: sequelize.models.SchoolYear, as: 'schoolYear' },
-      ],
-    }),
+    findAllForSchoolYear: async (schoolYearId) =>
+      BookCharge.findAll({
+        where: { schoolYearId },
+        include: [
+          { model: sequelize.models.Grade, as: "grade" },
+          { model: sequelize.models.SchoolYear, as: "schoolYear" },
+        ],
+      }),
   });
 
   return BookCharge;

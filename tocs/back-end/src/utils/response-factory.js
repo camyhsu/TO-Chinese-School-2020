@@ -1,4 +1,5 @@
-const fn = (statusCode) => (message) => Object.assign(new Error(message), { status: statusCode });
+const fn = (statusCode) => (message) =>
+  Object.assign(new Error(message), { status: statusCode });
 
 const badRequest = fn(400);
 const dataNotFound = fn(404);
@@ -9,5 +10,11 @@ const unauthorized = fn(403);
 const response = (obj) => ({ status: 200, rtnObj: obj });
 
 export {
-  badRequest, dataNotFound, duplicateResource, forbidden, loginError, unauthorized, response,
+  badRequest,
+  dataNotFound,
+  duplicateResource,
+  forbidden,
+  loginError,
+  unauthorized,
+  response,
 };

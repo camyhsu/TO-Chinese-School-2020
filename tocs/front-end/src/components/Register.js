@@ -1,64 +1,73 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
 import { Card, CardBody, CardFooter, CardTitle } from "./Cards";
-import { required, validEmail, vpassword, vrepassword, vusername, OptionalField } from '../utils/utilities';
+import {
+  required,
+  validEmail,
+  vpassword,
+  vrepassword,
+  vusername,
+  OptionalField,
+} from "../utils/utilities";
 import { register } from "../actions/auth.action";
 
 const Register = () => {
-  useEffect(() => { document.title = "TOCS - Register"; }, []);
+  useEffect(() => {
+    document.title = "TOCS - Register";
+  }, []);
 
   const form = useRef();
   const checkBtn = useRef();
 
-  const [lastName, setLastName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [chineseName, setChineseName] = useState('');
-  const [nativeLanguage, setNativeLanguage] = useState('');
-  const [gender, setGender] = useState('F');
-  const [birthYear, setBirthYear] = useState('');
-  const [birthMonth, setBirthMonth] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [zipcode, setZipcode] = useState('');
-  const [homePhone, setHomePhone] = useState('');
-  const [cellPhone, setCellPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [chineseName, setChineseName] = useState("");
+  const [nativeLanguage, setNativeLanguage] = useState("");
+  const [gender, setGender] = useState("F");
+  const [birthYear, setBirthYear] = useState("");
+  const [birthMonth, setBirthMonth] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [homePhone, setHomePhone] = useState("");
+  const [cellPhone, setCellPhone] = useState("");
+  const [email, setEmail] = useState("");
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repassword, setRePassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRePassword] = useState("");
   const [successful, setSuccessful] = useState(false);
 
-  const { message } = useSelector(state => state.message);
+  const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
     const fns = {
-      'last-name': setLastName,
-      'first-name': setFirstName,
-      'chinese-name': setChineseName,
-      'native-language': setNativeLanguage,
-      'gender': setGender,
-      'birth-year': setBirthYear,
-      'birth-month': setBirthMonth,
-      'street': setStreet,
-      'city': setCity,
-      'state': setState,
-      'zipcode': setZipcode,
-      'home-phone': setHomePhone,
-      'cell-phone': setCellPhone,
-      'email': setEmail,
-      'username': setUsername,
-      'password': setPassword,
-      'repassword': setRePassword
+      "last-name": setLastName,
+      "first-name": setFirstName,
+      "chinese-name": setChineseName,
+      "native-language": setNativeLanguage,
+      gender: setGender,
+      "birth-year": setBirthYear,
+      "birth-month": setBirthMonth,
+      street: setStreet,
+      city: setCity,
+      state: setState,
+      zipcode: setZipcode,
+      "home-phone": setHomePhone,
+      "cell-phone": setCellPhone,
+      email: setEmail,
+      username: setUsername,
+      password: setPassword,
+      repassword: setRePassword,
     };
     fns[name](value);
   };
@@ -71,15 +80,32 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register({
-        lastName, firstName, chineseName, nativeLanguage, gender,
-        birthYear, birthMonth, street, city, state, zipcode, homePhone,
-        cellPhone, email, username, password
-      })).then(() => {
-        setSuccessful(true);
-      }).catch(() => {
-        setSuccessful(false);
-      });
+      dispatch(
+        register({
+          lastName,
+          firstName,
+          chineseName,
+          nativeLanguage,
+          gender,
+          birthYear,
+          birthMonth,
+          street,
+          city,
+          state,
+          zipcode,
+          homePhone,
+          cellPhone,
+          email,
+          username,
+          password,
+        })
+      )
+        .then(() => {
+          setSuccessful(true);
+        })
+        .catch(() => {
+          setSuccessful(false);
+        });
     }
   };
 
@@ -125,7 +151,9 @@ const Register = () => {
 
               <div className="row">
                 <div className="form-group col-md-6 mb-3">
-                  <label htmlFor="chinese-name">Chinese Name <OptionalField/></label>
+                  <label htmlFor="chinese-name">
+                    Chinese Name <OptionalField />
+                  </label>
                   <Input
                     type="text"
                     className="form-control"
@@ -136,16 +164,19 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-6 mb-3">
-                  <label htmlFor="native-language">Native Language <OptionalField/></label>
+                  <label htmlFor="native-language">
+                    Native Language <OptionalField />
+                  </label>
                   <Select
                     className="form-control"
                     name="native-language"
                     value={nativeLanguage}
-                    onChange={onChangeField}>
-                    <option value='Mandarin'>Mandarin</option>
-                    <option value='English'>English</option>
-                    <option value='Cantonese'>Cantonese</option>
-                    <option value='Other'>Other</option>
+                    onChange={onChangeField}
+                  >
+                    <option value="Mandarin">Mandarin</option>
+                    <option value="English">English</option>
+                    <option value="Cantonese">Cantonese</option>
+                    <option value="Other">Other</option>
                   </Select>
                 </div>
               </div>
@@ -158,14 +189,17 @@ const Register = () => {
                     name="gender"
                     value={gender}
                     onChange={onChangeField}
-                    validations={[required]}>
-                    <option value='F'>F</option>
-                    <option value='M'>M</option>
+                    validations={[required]}
+                  >
+                    <option value="F">F</option>
+                    <option value="M">M</option>
                   </Select>
                 </div>
 
                 <div className="form-group col-md-4 mb-3">
-                  <label htmlFor="birth-year">Birth Year <OptionalField/></label>
+                  <label htmlFor="birth-year">
+                    Birth Year <OptionalField />
+                  </label>
                   <Input
                     type="text"
                     className="form-control"
@@ -176,25 +210,28 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-4 mb-3">
-                  <label htmlFor="birth-month">Birth Month <OptionalField/></label>
+                  <label htmlFor="birth-month">
+                    Birth Month <OptionalField />
+                  </label>
                   <Select
                     className="form-control"
                     name="birth-month"
                     value={birthMonth}
-                    onChange={onChangeField}>
-                    <option value=''></option>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
-                    <option value='11'>11</option>
-                    <option value='12'>12</option>
+                    onChange={onChangeField}
+                  >
+                    <option value=""></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
                   </Select>
                 </div>
               </div>
@@ -267,7 +304,9 @@ const Register = () => {
                 </div>
 
                 <div className="form-group col-md-6 mb-3">
-                  <label htmlFor="cell-phone">Cell Phone <OptionalField/></label>
+                  <label htmlFor="cell-phone">
+                    Cell Phone <OptionalField />
+                  </label>
                   <Input
                     type="text"
                     className="form-control"
@@ -336,7 +375,9 @@ const Register = () => {
 
               <div className="row">
                 <div className="form-group col-md-12 mb-3">
-                  <button className="btn btn-primary btn-block">Create User</button>
+                  <button className="btn btn-primary btn-block">
+                    Create User
+                  </button>
                 </div>
               </div>
             </div>
@@ -344,7 +385,12 @@ const Register = () => {
 
           {message && (
             <div className="form-group">
-              <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
+              <div
+                className={
+                  successful ? "alert alert-success" : "alert alert-danger"
+                }
+                role="alert"
+              >
                 {message}
               </div>
             </div>

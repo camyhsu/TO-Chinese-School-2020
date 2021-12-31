@@ -1,19 +1,29 @@
 /* global describe, it */
-import { expect } from 'chai';
-import AccountingService from '../../src/services/accounting.service.js';
+import { expect } from "chai";
+import AccountingService from "../../src/services/accounting.service.js";
 import {
-  createRandSchoolYear, createRandSchoolClass, today, randString, randPerson,
-} from '../../src/utils/utilities.js';
-import db from '../../src/models/index.js';
+  createRandSchoolYear,
+  createRandSchoolClass,
+  today,
+  randString,
+  randPerson,
+} from "../../src/utils/utilities.js";
+import db from "../../src/models/index.js";
 
 const {
-  Grade, SchoolClass, SchoolYear, SchoolClassActiveFlag, StudentStatusFlag,
-  StudentClassAssignment, WithdrawalRecord, Person,
+  Grade,
+  SchoolClass,
+  SchoolYear,
+  SchoolClassActiveFlag,
+  StudentStatusFlag,
+  StudentClassAssignment,
+  WithdrawalRecord,
+  Person,
 } = db;
 
-describe('Test AccountingService', () => {
-  describe('getDiscounts', () => {
-    it('getDiscounts', async () => {
+describe("Test AccountingService", () => {
+  describe("getDiscounts", () => {
+    it("getDiscounts", async () => {
       const schoolClass = await SchoolClass.create(createRandSchoolClass());
       const schoolYear = await SchoolYear.create(createRandSchoolYear());
       const s = await SchoolClassActiveFlag.create();
@@ -26,8 +36,8 @@ describe('Test AccountingService', () => {
     });
   });
 
-  describe('createManualTransactionWithSideEffects', async () => {
-    it('createManualTransactionWithSideEffects', async () => {
+  describe("createManualTransactionWithSideEffects", async () => {
+    it("createManualTransactionWithSideEffects", async () => {
       const schoolClass = await SchoolClass.create(createRandSchoolClass());
       const schoolYear = await SchoolYear.currentSchoolYear();
       const student = await Person.create(randPerson());
@@ -49,30 +59,40 @@ describe('Test AccountingService', () => {
       });
       expect(studentClassAssignment).to.be.not.null;
 
-      let studentClassAssignments = await StudentClassAssignment.findAll({ where: { studentId: student.id } });
+      let studentClassAssignments = await StudentClassAssignment.findAll({
+        where: { studentId: student.id },
+      });
       expect(studentClassAssignments.length).to.eq(1);
 
       const obj = {
-        paymentMethod: 'Check',
-        checkNumber: '101',
-        transactionType: 'Withdrawal',
+        paymentMethod: "Check",
+        checkNumber: "101",
+        transactionType: "Withdrawal",
         amountInCents: 10,
         transaction_by_id: student.id,
         recorded_by_id: student.id,
         studentId: student.id,
       };
 
-      const withdrawalRecords = await WithdrawalRecord.findAll({ where: { studentId: student.id } });
+      const withdrawalRecords = await WithdrawalRecord.findAll({
+        where: { studentId: student.id },
+      });
       expect(withdrawalRecords.length).to.eq(0);
 
-      const tx = await AccountingService.createManualTransactionWithSideEffects(obj);
+      const tx = await AccountingService.createManualTransactionWithSideEffects(
+        obj
+      );
       expect(tx).to.be.not.null;
       expect(tx.transactionDate).eq(today());
 
-      const modifiedStudentStatusFlag = await StudentStatusFlag.getById(studentStatusFlag.id);
+      const modifiedStudentStatusFlag = await StudentStatusFlag.getById(
+        studentStatusFlag.id
+      );
       expect(modifiedStudentStatusFlag.registered).to.be.false;
 
-      studentClassAssignments = await StudentClassAssignment.findAll({ where: { studentId: student.id } });
+      studentClassAssignments = await StudentClassAssignment.findAll({
+        where: { studentId: student.id },
+      });
       expect(studentClassAssignments.length).to.eq(0);
     });
   });

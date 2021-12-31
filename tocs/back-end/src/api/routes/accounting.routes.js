@@ -1,51 +1,51 @@
-import controller from '../controllers/accounting.controller.js';
+import controller from "../controllers/accounting.controller.js";
 
 export default (router) => {
   router.get(
-    '/accounting/instructors/discount',
+    "/accounting/instructors/discount",
     [],
-    controller.getInstructorDiscounts,
+    controller.getInstructorDiscounts
   );
 
   router.get(
-    '/accounting/registration_report/charges_collected_report/:schoolYearId',
+    "/accounting/registration_report/charges_collected_report/:schoolYearId",
     [],
-    controller.getChargesCollected,
+    controller.getChargesCollected
   );
 
   router.get(
-    '/accounting/manual_transactions/new',
+    "/accounting/manual_transactions/new",
     [],
-    controller.initializeManualTransaction,
+    controller.initializeManualTransaction
   );
 
   router.get(
-    '/accounting/manual_transactions/index',
+    "/accounting/manual_transactions/index",
     [],
-    controller.getManualTransactionsForLastTwoYears,
+    controller.getManualTransactionsForLastTwoYears
   );
 
   router.get(
-    '/accounting/in_person_registration_payments/index',
+    "/accounting/in_person_registration_payments/index",
     [],
-    controller.getInPersonRegistrationPayments,
+    controller.getInPersonRegistrationPayments
   );
 
   router.post(
-    '/accounting/manual_transactions/new',
+    "/accounting/manual_transactions/new",
     [],
-    controller.addManualTransaction,
+    controller.addManualTransaction
   );
 
   router.get(
-    '/admin/withdraw_requests/index',
+    "/admin/withdraw_requests/index",
     [],
-    controller.getWithdrawRequests,
+    controller.getWithdrawRequests
   );
 
   router.get(
-    '/admin/withdraw_requests/show/:id',
+    "/admin/withdraw_requests/show/:id",
     [],
-    controller.getWithdrawRequest,
+    controller.getWithdrawRequest
   );
 };

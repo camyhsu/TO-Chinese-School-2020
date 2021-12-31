@@ -1,37 +1,37 @@
-import { registrationService } from '../../services/index.js';
-import { asyncWrapper, downloadCsv } from './utils.js';
-import { toObj } from '../../utils/utilities.js';
+import { registrationService } from "../../services/index.js";
+import { asyncWrapper, downloadCsv } from "./utils.js";
+import { toObj } from "../../utils/utilities.js";
 
 const fn = async (res) => {
   const fields = [
     {
-      label: 'Class',
-      value: 'className',
+      label: "Class",
+      value: "className",
     },
     {
-      label: 'Student ID',
-      value: 'id',
+      label: "Student ID",
+      value: "id",
     },
     {
-      label: 'First Name',
-      value: 'firstName',
+      label: "First Name",
+      value: "firstName",
     },
     {
-      label: 'Last Name',
-      value: 'lastName',
+      label: "Last Name",
+      value: "lastName",
     },
     {
-      label: 'Chinese Name',
-      value: 'chineseName',
+      label: "Chinese Name",
+      value: "chineseName",
     },
     {
-      label: 'Gender',
-      value: 'gender',
+      label: "Gender",
+      value: "gender",
     },
   ];
 
   const data = await registrationService.getStudents();
-  return downloadCsv(res, 'student_list_for_yearbook.csv', fields, toObj(data));
+  return downloadCsv(res, "student_list_for_yearbook.csv", fields, toObj(data));
 };
 
 export default {

@@ -1,85 +1,107 @@
 /* eslint-disable no-param-reassign */
-import { today } from '../utils/utilities.js';
+import { today } from "../utils/utilities.js";
 
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({
     withId: true,
     withIntegers: [
-      ['registrationFeeInCents', 'registration_fee_in_cents', true],
-      ['tuitionInCents', 'tuition_in_cents', true],
-      ['bookChargeInCents', 'book_charge_in_cents', true],
+      ["registrationFeeInCents", "registration_fee_in_cents", true],
+      ["tuitionInCents", "tuition_in_cents", true],
+      ["bookChargeInCents", "book_charge_in_cents", true],
     ],
   });
 
-  const StudentFeePayment = sequelize.define('student_fee_payment', {
+  const StudentFeePayment = sequelize.define("student_fee_payment", {
     ...fields,
     earlyRegistration: {
       type: Sequelize.BOOLEAN,
-      field: 'early_registration',
+      field: "early_registration",
       defaultValue: false,
     },
     multipleChildDiscount: {
       type: Sequelize.BOOLEAN,
-      field: 'multiple_child_discount',
+      field: "multiple_child_discount",
       defaultValue: false,
       allowNull: false,
     },
     preKDiscount: {
       type: Sequelize.BOOLEAN,
-      field: 'pre_k_discount',
+      field: "pre_k_discount",
       defaultValue: false,
       allowNull: false,
     },
     prorate75: {
       type: Sequelize.BOOLEAN,
-      field: 'prorate_75',
+      field: "prorate_75",
       defaultValue: false,
       allowNull: false,
     },
     prorate50: {
       type: Sequelize.BOOLEAN,
-      field: 'prorate_50',
+      field: "prorate_50",
       defaultValue: false,
       allowNull: false,
     },
     instructorDiscount: {
       type: Sequelize.BOOLEAN,
-      field: 'instructor_discount',
+      field: "instructor_discount",
       defaultValue: false,
       allowNull: false,
     },
     staffDiscount: {
       type: Sequelize.BOOLEAN,
-      field: 'staff_discount',
+      field: "staff_discount",
       defaultValue: false,
       allowNull: false,
     },
   });
 
   /* Prototype */
-  Object.assign(StudentFeePayment.prototype, {
-
-  });
+  Object.assign(StudentFeePayment.prototype, {});
 
   /* Non-prototype */
   Object.assign(StudentFeePayment, {
     async findPaidStudentFeePaymentAsStudentFor(studentId, schoolYearId) {
       return StudentFeePayment.findAll({
         where: { studentId },
-        include: [{
-          model: sequelize.models.RegistrationPayment,
-          as: 'registrationPayment',
-          where: { schoolYearId, paid: true },
-        }],
+        include: [
+          {
+            model: sequelize.models.RegistrationPayment,
+            as: "registrationPayment",
+            where: { schoolYearId, paid: true },
+          },
+        ],
       });
     },
-    async fillInTuitionAndFee(obj, personId, schoolYear, grade, paidAndPendingStudentFeePayments) {
+    async fillInTuitionAndFee(
+      obj,
+      personId,
+      schoolYear,
+      grade,
+      paidAndPendingStudentFeePayments
+    ) {
       obj.registrationFeeInCents = schoolYear.registrationFeeInCents;
-      const bookChargeInCents = await sequelize.models.BookCharge.bookChargeInCentsFor(schoolYear.id, grade.id);
+      const bookChargeInCents =
+        await sequelize.models.BookCharge.bookChargeInCentsFor(
+          schoolYear.id,
+          grade.id
+        );
       obj.bookChargeInCents = bookChargeInCents;
-      await StudentFeePayment.calculateTuition(obj, personId, schoolYear, grade, paidAndPendingStudentFeePayments);
+      await StudentFeePayment.calculateTuition(
+        obj,
+        personId,
+        schoolYear,
+        grade,
+        paidAndPendingStudentFeePayments
+      );
     },
-    async calculateTuition(obj, personId, schoolYear, grade, paidAndPendingStudentFeePayments) {
+    async calculateTuition(
+      obj,
+      personId,
+      schoolYear,
+      grade,
+      paidAndPendingStudentFeePayments
+    ) {
       if (today() <= schoolYear.earlyRegistrationEndDate) {
         obj.earlyRegistration = true;
         obj.tuitionInCents = schoolYear.earlyRegistrationTuitionInCents;
@@ -87,10 +109,18 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         obj.tuitionInCents = schoolYear.tuitionInCents;
       }
       StudentFeePayment.applyPreKDiscount(obj, schoolYear, grade);
-      StudentFeePayment.applyMultipleChildDiscount(obj, schoolYear, paidAndPendingStudentFeePayments);
+      StudentFeePayment.applyMultipleChildDiscount(
+        obj,
+        schoolYear,
+        paidAndPendingStudentFeePayments
+      );
       StudentFeePayment.applyLateRegistrationProrate(obj, schoolYear);
-      await StudentFeePayment
-        .applyStaffAndInstructorDiscount(obj, personId, schoolYear, paidAndPendingStudentFeePayments);
+      await StudentFeePayment.applyStaffAndInstructorDiscount(
+        obj,
+        personId,
+        schoolYear,
+        paidAndPendingStudentFeePayments
+      );
     },
     applyPreKDiscount(obj, schoolYear, grade) {
       if (grade.gradePreschool) {
@@ -98,10 +128,15 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         obj.tuitionInCents -= schoolYear.tuitionDiscountForPreKInCents;
       }
     },
-    applyMultipleChildDiscount(obj, schoolYear, paidAndPendingStudentFeePayments) {
+    applyMultipleChildDiscount(
+      obj,
+      schoolYear,
+      paidAndPendingStudentFeePayments
+    ) {
       if (paidAndPendingStudentFeePayments.length >= 2) {
         obj.multipleChildDiscount = true;
-        obj.tuitionInCents -= schoolYear.tuitionDiscountForThreeOrMoreChildInCents;
+        obj.tuitionInCents -=
+          schoolYear.tuitionDiscountForThreeOrMoreChildInCents;
       }
     },
     applyLateRegistrationProrate(obj, schoolYear) {
@@ -111,9 +146,20 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         obj.tuitionInCents *= 0.75;
       }
     },
-    async applyStaffAndInstructorDiscount(obj, personId, schoolYear, paidAndPendingStudentFeePayments) {
-      const result = await sequelize.models.Family.memberStaffInstructorInfo(personId, schoolYear.id);
-      if (result.staff && !paidAndPendingStudentFeePayments.find((p) => p.staffDiscount)) {
+    async applyStaffAndInstructorDiscount(
+      obj,
+      personId,
+      schoolYear,
+      paidAndPendingStudentFeePayments
+    ) {
+      const result = await sequelize.models.Family.memberStaffInstructorInfo(
+        personId,
+        schoolYear.id
+      );
+      if (
+        result.staff &&
+        !paidAndPendingStudentFeePayments.find((p) => p.staffDiscount)
+      ) {
         // Only one tuition discount for staff
         obj.staffDiscount = true;
         obj.tuitionInCents = 0;
@@ -122,8 +168,10 @@ export default (sequelize, Sequelize, fieldsFactory) => {
          * If a family has both staff and instructor, only the staff discount applies
          * hence, we only need to check for instructor in the family if there is no staff in the family
          */
-        const numberOfInstructorDiscountAlreadyApplied = paidAndPendingStudentFeePayments
-          .filter((p) => p.instructorDiscount).length;
+        const numberOfInstructorDiscountAlreadyApplied =
+          paidAndPendingStudentFeePayments.filter(
+            (p) => p.instructorDiscount
+          ).length;
         if (numberOfInstructorDiscountAlreadyApplied < 2) {
           obj.instructorDiscount = true;
           obj.tuitionInCents -= schoolYear.tuitionDiscountForInstructorInCents;

@@ -1,31 +1,31 @@
 {
-    "authSecret": "top-secret-key",
-    "dbConfig": {
-        "host": "localhost",
-        "port": 5432,
-        "username": "tocsorg_camyhsu",
-        "password": "1234",
-        "database": "chineseschool_development",
-        "dialect": "postgres",
-        "pool": {
-            "max": 5,
-            "min": 0,
-            "acquire": 30000,
-            "idle": 10000
-        }
-    },
-    "corsOrigin": ["http://localhost:3000"],
-    "paymentGateway": {
-        "apiLoginKey": "3M6v9Rh8fCB",
-        "transactionKey": "43XA5aLP96Ce5hZd"
-    },
-    "contacts": {
-        "webSiteSupport": "engineering@to-cs.org",
-        "registration": "registration@to-cs.org",
-        "textBookManager": "academic-book@to-cs.org",
-        "accounting": "accountant@to-cs.org"
-    },
-    "logging": {
-        "level": "info"
+  "authSecret": "top-secret-key",
+  "dbConfig": {
+    "host": "localhost",
+    "port": 5432,
+    "username": "tocsorg_camyhsu",
+    "password": "1234",
+    "database": "chineseschool_development",
+    "dialect": "postgres",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
     }
+  },
+  "corsOrigin": ["http://localhost:3000"],
+  "paymentGateway": {
+    "apiLoginKey": "3M6v9Rh8fCB",
+    "transactionKey": "43XA5aLP96Ce5hZd"
+  },
+  "contacts": {
+    "webSiteSupport": "engineering@to-cs.org",
+    "registration": "registration@to-cs.org",
+    "textBookManager": "academic-book@to-cs.org",
+    "accounting": "accountant@to-cs.org"
+  },
+  "logging": {
+    "level": "info"
+  }
 }

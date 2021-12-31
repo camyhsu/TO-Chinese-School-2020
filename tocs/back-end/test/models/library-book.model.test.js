@@ -1,19 +1,22 @@
 /* global describe, it */
-import { expect } from 'chai';
-import db from '../../src/models/index.js';
-import { modelTests } from './model-test-utils.js';
-import { randPerson, randBook } from '../../src/utils/utilities.js';
+import { expect } from "chai";
+import db from "../../src/models/index.js";
+import { modelTests } from "./model-test-utils.js";
+import { randPerson, randBook } from "../../src/utils/utilities.js";
 
 const { LibraryBook, LibraryBookCheckOut, Person } = db;
 
-describe('Test LibraryBook', () => {
-  describe('LibraryBook - CRUD', modelTests(LibraryBook, {
-    fieldToTest: 'title',
-    object: randBook(),
-  }));
+describe("Test LibraryBook", () => {
+  describe(
+    "LibraryBook - CRUD",
+    modelTests(LibraryBook, {
+      fieldToTest: "title",
+      object: randBook(),
+    })
+  );
 
-  describe('Checkouts', () => {
-    it('should have checkouts', async () => {
+  describe("Checkouts", () => {
+    it("should have checkouts", async () => {
       const book = await LibraryBook.create(randBook());
       let checkouts = await book.getCheckOuts();
       const originalLength = checkouts.length;
@@ -44,8 +47,8 @@ describe('Test LibraryBook', () => {
     });
   });
 
-  describe('Find current checkout', () => {
-    it('should have current checkout', async () => {
+  describe("Find current checkout", () => {
+    it("should have current checkout", async () => {
       const book = await LibraryBook.create(randBook());
       let r = await book.findCurrentCheckoutRecord();
       expect(r).to.be.null;

@@ -1,12 +1,19 @@
-import Sequelize from 'sequelize';
-import db from '../models/index.js';
-import { dataNotFound } from '../utils/response-factory.js';
-import { collectionToObj } from '../utils/utilities.js';
+import Sequelize from "sequelize";
+import db from "../models/index.js";
+import { dataNotFound } from "../utils/response-factory.js";
+import { collectionToObj } from "../utils/utilities.js";
 
 const { Op } = Sequelize;
 const {
-  Grade, LibraryBook, LibraryBookCheckOut, Person, SchoolClass,
-  SchoolYear, StudentStatusFlag, StudentClassAssignment, Student,
+  Grade,
+  LibraryBook,
+  LibraryBookCheckOut,
+  Person,
+  SchoolClass,
+  SchoolYear,
+  StudentStatusFlag,
+  StudentClassAssignment,
+  Student,
 } = db;
 
 export default {
@@ -14,20 +21,25 @@ export default {
 
   getLibraryBookCheckOutHistory: async (id) => {
     const books = await LibraryBook.findAll({
-      include: [{
-        model: LibraryBookCheckOut,
-        as: 'checkOuts',
-        include: [{
-          model: Person,
-          as: 'checkedOutBy',
-        }],
-      }],
+      include: [
+        {
+          model: LibraryBookCheckOut,
+          as: "checkOuts",
+          include: [
+            {
+              model: Person,
+              as: "checkedOutBy",
+            },
+          ],
+        },
+      ],
       where: { id: { [Op.eq]: id } },
     });
     const book = books && books[0];
     // Find eligibleCheckoutPeople only when the book is not checkedOut
     if (book && !book.checkedOut) {
-      book.dataValues.eligibleCheckoutPeople = await LibraryBook.findEligibleCheckoutPeople();
+      book.dataValues.eligibleCheckoutPeople =
+        await LibraryBook.findEligibleCheckoutPeople();
     }
     return book;
   },
@@ -41,7 +53,8 @@ export default {
     const checkOuts = await LibraryBookCheckOut.notReturned();
     checkOuts.forEach((checkOut) => {
       bookMap[checkOut.libraryBookId].dataValues.checkOut = checkOut;
-      bookMap[checkOut.libraryBookId].dataValues.borrower = borrowerMap[checkOut.checked_out_by_id];
+      bookMap[checkOut.libraryBookId].dataValues.borrower =
+        borrowerMap[checkOut.checked_out_by_id];
     });
     return books;
   },
@@ -54,9 +67,10 @@ export default {
     await book.save();
   },
 
-  checkOutLibraryBook: async (id, {
-    checkedOutBy, checkedOutDate, note,
-  } = {}) => {
+  checkOutLibraryBook: async (
+    id,
+    { checkedOutBy, checkedOutDate, note } = {}
+  ) => {
     const book = await LibraryBook.getById(id);
     if (book) {
       const person = await Person.getById(checkedOutBy);
@@ -71,9 +85,9 @@ export default {
         await book.save();
         return checkOut;
       }
-      throw dataNotFound('Person not found');
+      throw dataNotFound("Person not found");
     }
-    throw dataNotFound('Book not found');
+    throw dataNotFound("Book not found");
   },
 
   returnLibraryBook: async (id, { returnDate, note } = {}) => {
@@ -89,7 +103,7 @@ export default {
       await book.save();
       return checkout;
     }
-    throw dataNotFound('Book not found');
+    throw dataNotFound("Book not found");
   },
 
   searchStudents: async (schoolYearId, startDate, endDate) => {
@@ -102,29 +116,42 @@ export default {
           [Sequelize.Op.lte]: endDate,
         },
       },
-      include: [{
-        model: Student,
-        as: 'student',
-        include: [{
-          model: StudentClassAssignment,
-          as: 'studentClassAssignments',
-          where: {
-            school_year_id: schoolYearId,
-          },
-          include: [{ model: Grade, as: 'grade' }, { model: SchoolClass, as: 'schoolClass' }],
-        }],
-      }],
+      include: [
+        {
+          model: Student,
+          as: "student",
+          include: [
+            {
+              model: StudentClassAssignment,
+              as: "studentClassAssignments",
+              where: {
+                school_year_id: schoolYearId,
+              },
+              include: [
+                { model: Grade, as: "grade" },
+                { model: SchoolClass, as: "schoolClass" },
+              ],
+            },
+          ],
+        },
+      ],
       order: [
         [
-          { model: Student, as: 'student' },
-          { model: StudentClassAssignment, as: 'studentClassAssignments' },
-          { model: Grade, as: 'grade' }, 'id', 'ASC'],
+          { model: Student, as: "student" },
+          { model: StudentClassAssignment, as: "studentClassAssignments" },
+          { model: Grade, as: "grade" },
+          "id",
+          "ASC",
+        ],
         [
-          { model: Student, as: 'student' },
-          { model: StudentClassAssignment, as: 'studentClassAssignments' },
-          { model: SchoolClass, as: 'schoolClass' }, 'shortName', 'ASC'],
-        ['lastStatusChangeDate', 'ASC'],
-        ['student', 'lastName', 'ASC'],
+          { model: Student, as: "student" },
+          { model: StudentClassAssignment, as: "studentClassAssignments" },
+          { model: SchoolClass, as: "schoolClass" },
+          "shortName",
+          "ASC",
+        ],
+        ["lastStatusChangeDate", "ASC"],
+        ["student", "lastName", "ASC"],
       ],
     });
     return studentStatusFlags;

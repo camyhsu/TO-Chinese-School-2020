@@ -1,7 +1,7 @@
 /* global describe */
-import db from '../../src/models/index.js';
-import { modelTests } from './model-test-utils.js';
-import { randString } from '../../src/utils/utilities.js';
+import db from "../../src/models/index.js";
+import { modelTests } from "./model-test-utils.js";
+import { randString } from "../../src/utils/utilities.js";
 
 const { StaffAssignment } = db;
 
@@ -13,8 +13,12 @@ const createRandStaffAssignment = () => ({
   endDate: new Date(),
 });
 
-describe('Test StaffAssignment', () => {
-  describe('StaffAssignment - CRUD', modelTests(StaffAssignment, {
-    fieldToTest: 'role', object: createRandStaffAssignment(),
-  }));
+describe("Test StaffAssignment", () => {
+  describe(
+    "StaffAssignment - CRUD",
+    modelTests(StaffAssignment, {
+      fieldToTest: "role",
+      object: createRandStaffAssignment(),
+    })
+  );
 });

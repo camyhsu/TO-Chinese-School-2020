@@ -1,14 +1,27 @@
-import { authService } from '../../services/index.js';
-import { response } from '../../utils/response-factory.js';
-import { asyncWrapper } from './utils.js';
-import logger from '../../utils/logger.js';
+import { authService } from "../../services/index.js";
+import { response } from "../../utils/response-factory.js";
+import { asyncWrapper } from "./utils.js";
+import logger from "../../utils/logger.js";
 
 export default {
   signUp: asyncWrapper(async (req, _res, next) => {
     const {
-      lastName, firstName, chineseName, nativeLanguage, gender,
-      birthYear, birthMonth, street, city, state, zipcode, homePhone,
-      cellPhone, email, username, password,
+      lastName,
+      firstName,
+      chineseName,
+      nativeLanguage,
+      gender,
+      birthYear,
+      birthMonth,
+      street,
+      city,
+      state,
+      zipcode,
+      homePhone,
+      cellPhone,
+      email,
+      username,
+      password,
     } = req.body;
     await authService.signUp({
       lastName,
@@ -28,7 +41,7 @@ export default {
       username,
       password,
     });
-    next(response({ message: 'Account successfully created' }));
+    next(response({ message: "Account successfully created" }));
   }),
   signIn: asyncWrapper(async (req, _res, next) => {
     const { username, password } = req.body;

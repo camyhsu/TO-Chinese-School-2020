@@ -1,25 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import Table from '../Table';
-import RegistrationService from '../../services/registration.service';
+import React, { useState, useEffect } from "react";
+import Table from "../Table";
+import RegistrationService from "../../services/registration.service";
 import { Card, CardBody } from "../Cards";
 
 const Home = () => {
-  const [content, setContent] = useState({ error: null, isLoaded: false, items: [] });
+  const [content, setContent] = useState({
+    error: null,
+    isLoaded: false,
+    items: [],
+  });
   const header = [
-    { title: 'Chinese Name', prop: 'chineseName' },
-    { title: 'English Name', prop: 'englishName' },
-    { title: 'Short Name', prop: 'shortName' },
+    { title: "Chinese Name", prop: "chineseName" },
+    { title: "English Name", prop: "englishName" },
+    { title: "Short Name", prop: "shortName" },
   ];
 
   useEffect(() => {
-    document.title = 'TOCS - Home';
+    document.title = "TOCS - Home";
 
     RegistrationService.getGrades().then(
       (response) => {
         const grades = response.data;
         setContent({
           isLoaded: true,
-          items: grades
+          items: grades,
         });
       },
       (error) => {
@@ -30,7 +34,7 @@ const Home = () => {
 
         setContent({
           isLoaded: true,
-          error: { message: _content }
+          error: { message: _content },
         });
       }
     );
@@ -38,9 +42,16 @@ const Home = () => {
 
   return (
     <Card size="medium">
-        <CardBody>
-          <Table header={header} items={content.items} isLoaded={content.isLoaded} error={content.error} sortKey="id" showAll="true" />
-        </CardBody>
+      <CardBody>
+        <Table
+          header={header}
+          items={content.items}
+          isLoaded={content.isLoaded}
+          error={content.error}
+          sortKey="id"
+          showAll="true"
+        />
+      </CardBody>
     </Card>
   );
 };

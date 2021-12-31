@@ -1,18 +1,31 @@
-import Sequelize from 'sequelize';
-import db from '../models/index.js';
-import { today, tomorrow } from '../utils/utilities.js';
-import { withdrawalMailer } from '../utils/mailers.js';
+import Sequelize from "sequelize";
+import db from "../models/index.js";
+import { today, tomorrow } from "../utils/utilities.js";
+import { withdrawalMailer } from "../utils/mailers.js";
 
 const { Op } = Sequelize;
 const {
-  Instructor, RegistrationPayment, SchoolClass, SchoolClassActiveFlag, SchoolYear, InstructorAssignment, Person,
-  ManualTransaction, PaidBy, Student, StudentFeePayment, TransactionBy,
-  WithdrawalRecord, WithdrawRequest, WithdrawRequestDetail,
+  Instructor,
+  RegistrationPayment,
+  SchoolClass,
+  SchoolClassActiveFlag,
+  SchoolYear,
+  InstructorAssignment,
+  Person,
+  ManualTransaction,
+  PaidBy,
+  Student,
+  StudentFeePayment,
+  TransactionBy,
+  WithdrawalRecord,
+  WithdrawRequest,
+  WithdrawRequestDetail,
 } = db;
 
 export default {
   getBoard: async () => {
-    const currentAndFutureSchoolYears = await SchoolYear.findCurrentAndFutureSchoolYears();
+    const currentAndFutureSchoolYears =
+      await SchoolYear.findCurrentAndFutureSchoolYears();
     const currentSchoolYear = await SchoolYear.currentSchoolYear();
     const nextSchoolYear = await SchoolYear.nextSchoolYear();
     return { currentAndFutureSchoolYears, currentSchoolYear, nextSchoolYear };
@@ -32,7 +45,7 @@ export default {
       include: [
         {
           model: SchoolClass,
-          as: 'schoolClass',
+          as: "schoolClass",
           include: [
             {
               model: SchoolClassActiveFlag,
@@ -40,35 +53,40 @@ export default {
                 schoolYearId: currentSchoolYear.id,
                 active: true,
               },
-              as: 'schoolClassActiveFlags',
+              as: "schoolClassActiveFlags",
             },
           ],
         },
-        { model: Instructor, as: 'instructor' },
+        { model: Instructor, as: "instructor" },
       ],
-      order: [['schoolClass', 'englishName', 'asc']],
+      order: [["schoolClass", "englishName", "asc"]],
     });
     if (instructorAssignments) {
-      const promises = instructorAssignments.map(async (instructorAssignment) => {
-        const { instructor } = instructorAssignment;
-        if (instructor) {
-          const children = await instructor.findChildren();
-          instructor.dataValues.children = children;
-          instructor.dataValues.discount = Math.min(2, children.length) * 60;
+      const promises = instructorAssignments.map(
+        async (instructorAssignment) => {
+          const { instructor } = instructorAssignment;
+          if (instructor) {
+            const children = await instructor.findChildren();
+            instructor.dataValues.children = children;
+            instructor.dataValues.discount = Math.min(2, children.length) * 60;
+          }
+          return instructor;
         }
-        return instructor;
-      });
+      );
       await Promise.all(promises);
     }
     return instructorAssignments;
   },
 
   getChargesCollected: async (schoolYearId) => {
-    let sql = 'SELECT SUM(student_fee_payments.registration_fee_in_cents) as registration_fee_total,';
-    sql += ' SUM(student_fee_payments.tuition_in_cents) as tuition_total,';
-    sql += ' SUM(student_fee_payments.book_charge_in_cents) as book_charge_total';
-    sql += ' FROM student_fee_payments';
-    sql += ' JOIN registration_payments ON student_fee_payments.registration_payment_id = registration_payments.id';
+    let sql =
+      "SELECT SUM(student_fee_payments.registration_fee_in_cents) as registration_fee_total,";
+    sql += " SUM(student_fee_payments.tuition_in_cents) as tuition_total,";
+    sql +=
+      " SUM(student_fee_payments.book_charge_in_cents) as book_charge_total";
+    sql += " FROM student_fee_payments";
+    sql +=
+      " JOIN registration_payments ON student_fee_payments.registration_payment_id = registration_payments.id";
     sql += ` WHERE registration_payments.paid = TRUE AND registration_payments.school_year_id =${schoolYearId}`;
     const [rows] = await db.sequelize.query(sql);
     const result = {};
@@ -77,8 +95,12 @@ export default {
       Object.assign(result, rows[0]);
     }
 
-    result.pvaDueInCents = await RegistrationPayment.getPvaDueInCents(schoolYearId);
-    result.cccaDueInCents = await RegistrationPayment.getCccaDueInCents(schoolYearId);
+    result.pvaDueInCents = await RegistrationPayment.getPvaDueInCents(
+      schoolYearId
+    );
+    result.cccaDueInCents = await RegistrationPayment.getCccaDueInCents(
+      schoolYearId
+    );
 
     return result;
   },
@@ -105,14 +127,17 @@ export default {
     const student = await Person.getById(manualTransaction.studentId);
     const studentStatusFlag = await student.studentStatusFlagFor(schoolYearId);
     if (studentStatusFlag) {
-      withdrawalRecord.registrationDate = studentStatusFlag.lastStatusChangeDate;
+      withdrawalRecord.registrationDate =
+        studentStatusFlag.lastStatusChangeDate;
       studentStatusFlag.registered = false;
-      studentStatusFlag.lastStatusChangeDate = manualTransaction.transactionDate;
+      studentStatusFlag.lastStatusChangeDate =
+        manualTransaction.transactionDate;
       await studentStatusFlag.save();
     }
 
     // Move class assignment data to withdrawal record and destroy the class assignment
-    const studentClassAssignment = await student.getStudentClassAssignmentForSchoolYear(schoolYearId);
+    const studentClassAssignment =
+      await student.getStudentClassAssignmentForSchoolYear(schoolYearId);
     if (studentClassAssignment) {
       withdrawalRecord.gradeId = studentClassAssignment.gradeId;
       withdrawalRecord.schoolClassId = studentClassAssignment.schoolClassId;
@@ -124,7 +149,10 @@ export default {
 
     // Notify instructors about the withdrawal
     if (new Date(tomorrow()) >= new Date(schoolYear.startDate)) {
-      withdrawalMailer.notifyInstructor(student, studentClassAssignment && studentClassAssignment.schoolClass);
+      withdrawalMailer.notifyInstructor(
+        student,
+        studentClassAssignment && studentClassAssignment.schoolClass
+      );
     }
   },
 
@@ -142,17 +170,25 @@ export default {
 
     manualTransaction.transaction_by_id = manualTransaction.transactionById;
     manualTransaction.recorded_by_id = userId;
-    console.log('manualTransaction', manualTransaction);
+    console.log("manualTransaction", manualTransaction);
     await this.createManualTransactionWithSideEffects(manualTransaction);
-    return 'Added';
+    return "Added";
   },
 
   async getManualTransactionsForLastTwoYears() {
     const currentSchoolYear = await SchoolYear.currentSchoolYear();
     return ManualTransaction.findAll({
-      where: { updated_at: { [Op.gt]: currentSchoolYear.previousSchoolYear.earlyRegistrationStartDate } },
-      include: [{ model: TransactionBy, as: 'transactionBy' }, { model: Student, as: 'student' }],
-      order: [['updated_at', 'DESC']],
+      where: {
+        updated_at: {
+          [Op.gt]:
+            currentSchoolYear.previousSchoolYear.earlyRegistrationStartDate,
+        },
+      },
+      include: [
+        { model: TransactionBy, as: "transactionBy" },
+        { model: Student, as: "student" },
+      ],
+      order: [["updated_at", "DESC"]],
     });
   },
 
@@ -166,10 +202,14 @@ export default {
         request_in_person: true,
       },
       include: [
-        { model: PaidBy, as: 'paidBy' },
-        { model: StudentFeePayment, as: 'studentFeePayments', include: [{ model: Student, as: 'student' }] },
+        { model: PaidBy, as: "paidBy" },
+        {
+          model: StudentFeePayment,
+          as: "studentFeePayments",
+          include: [{ model: Student, as: "student" }],
+        },
       ],
-      order: [['updated_at', 'DESC']],
+      order: [["updated_at", "DESC"]],
     });
 
     const promises = [];
@@ -177,16 +217,23 @@ export default {
     // Exclude payments related to student who has registered already
     registrationPayments.forEach((registrationPayment) => {
       registrationPayment.studentFeePayments.forEach((studentFeePayment) => {
-        promises.push((async () => {
-          const studentStatusFlag = await studentFeePayment.student.studentStatusFlagFor(schoolYearId);
-          if (studentStatusFlag && studentStatusFlag.registered) {
-            toBeRemovedIds.push(registrationPayment.id);
-          }
-        })());
+        promises.push(
+          (async () => {
+            const studentStatusFlag =
+              await studentFeePayment.student.studentStatusFlagFor(
+                schoolYearId
+              );
+            if (studentStatusFlag && studentStatusFlag.registered) {
+              toBeRemovedIds.push(registrationPayment.id);
+            }
+          })()
+        );
       });
     });
     await Promise.all(promises);
-    return registrationPayments.filter((registrationPayment) => !toBeRemovedIds.includes(registrationPayment.id));
+    return registrationPayments.filter(
+      (registrationPayment) => !toBeRemovedIds.includes(registrationPayment.id)
+    );
   },
 
   async getWithdrawRequests() {
@@ -195,13 +242,16 @@ export default {
     const withdrawRequests = await WithdrawRequest.findAll({
       where: { schoolYearId },
       include: [
-        { model: Person, as: 'requestBy' },
-        { model: SchoolYear, as: 'schoolYear' },
+        { model: Person, as: "requestBy" },
+        { model: SchoolYear, as: "schoolYear" },
       ],
-      order: [['created_at', 'ASC']],
+      order: [["created_at", "ASC"]],
     });
-    withdrawRequests.forEach((withdrawRequest) => Object.assign(withdrawRequest.dataValues,
-      { status: withdrawRequest.status() }));
+    withdrawRequests.forEach((withdrawRequest) =>
+      Object.assign(withdrawRequest.dataValues, {
+        status: withdrawRequest.status(),
+      })
+    );
     return withdrawRequests;
   },
 
@@ -209,17 +259,17 @@ export default {
     const withdrawRequest = await WithdrawRequest.findOne({
       where: { id },
       include: [
-        { model: SchoolYear, as: 'schoolYear' },
+        { model: SchoolYear, as: "schoolYear" },
         {
           model: WithdrawRequestDetail,
-          as: 'withdrawRequestDetails',
-          include: [
-            { model: Person, as: 'student' },
-          ],
+          as: "withdrawRequestDetails",
+          include: [{ model: Person, as: "student" }],
         },
       ],
     });
-    Object.assign(withdrawRequest.dataValues, { status: withdrawRequest.status() });
+    Object.assign(withdrawRequest.dataValues, {
+      status: withdrawRequest.status(),
+    });
     return withdrawRequest;
   },
 };

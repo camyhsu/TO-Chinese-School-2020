@@ -1,17 +1,20 @@
 /* global describe, it */
-import chai from 'chai';
-import db from '../../src/models/index.js';
-import { datePlus, createRandSchoolYear } from '../../src/utils/utilities.js';
-import { modelTests } from './model-test-utils.js';
+import chai from "chai";
+import db from "../../src/models/index.js";
+import { datePlus, createRandSchoolYear } from "../../src/utils/utilities.js";
+import { modelTests } from "./model-test-utils.js";
 
 const { expect } = chai;
 const { SchoolYear } = db;
 
-describe('Test SchoolYear', () => {
-  describe('SchoolYear - CRUD', modelTests(SchoolYear, { object: createRandSchoolYear() }));
+describe("Test SchoolYear", () => {
+  describe(
+    "SchoolYear - CRUD",
+    modelTests(SchoolYear, { object: createRandSchoolYear() })
+  );
 
-  describe('findCurrentAndFutureSchoolYears', () => {
-    it('findCurrentAndFutureSchoolYears', async () => {
+  describe("findCurrentAndFutureSchoolYears", () => {
+    it("findCurrentAndFutureSchoolYears", async () => {
       let r = await SchoolYear.findCurrentAndFutureSchoolYears();
       const originalSize = r.length;
       const obj = createRandSchoolYear();

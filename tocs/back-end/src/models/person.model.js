@@ -2,58 +2,66 @@ export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({
     withId: true,
     withStrings: [
-      ['chineseName', 'chinese_name'],
-      ['nativeLanguage', 'native_language'],
+      ["chineseName", "chinese_name"],
+      ["nativeLanguage", "native_language"],
     ],
   });
 
-  const Person = sequelize.define('person', {
-    ...fields,
-    lastName: {
-      type: Sequelize.STRING,
-      field: 'english_last_name',
-      allowNull: false,
-      validate: { notNull: true, notEmpty: true },
-    },
-    firstName: {
-      type: Sequelize.STRING,
-      field: 'english_first_name',
-      allowNull: false,
-      validate: { notNull: true, notEmpty: true },
-    },
-    gender: {
-      type: Sequelize.STRING,
-      field: 'gender',
-      allowNull: false,
-      validate: { notNull: true, notEmpty: true },
-    },
-    birthYear: {
-      type: Sequelize.INTEGER,
-      field: 'birth_year',
-      validate: { max: new Date().getFullYear(), min: 1900 },
-    },
-    birthMonth: {
-      type: Sequelize.INTEGER,
-      field: 'birth_month',
-      validate: { max: 12, min: 1 },
-    },
-    newChild: Sequelize.VIRTUAL,
-  }, {
-    hooks: {
-      beforeValidate: (obj) => {
-        ['birthYear', 'birthMonth']
-          .reduce((r, current) => Object.assign(r, { [current]: r[current] || null }), obj);
-        if (!obj.nativeLanguage) {
-          Object.assign(obj, { nativeLanguage: Person.prototype.nativeLanguages[0] });
-        }
+  const Person = sequelize.define(
+    "person",
+    {
+      ...fields,
+      lastName: {
+        type: Sequelize.STRING,
+        field: "english_last_name",
+        allowNull: false,
+        validate: { notNull: true, notEmpty: true },
       },
+      firstName: {
+        type: Sequelize.STRING,
+        field: "english_first_name",
+        allowNull: false,
+        validate: { notNull: true, notEmpty: true },
+      },
+      gender: {
+        type: Sequelize.STRING,
+        field: "gender",
+        allowNull: false,
+        validate: { notNull: true, notEmpty: true },
+      },
+      birthYear: {
+        type: Sequelize.INTEGER,
+        field: "birth_year",
+        validate: { max: new Date().getFullYear(), min: 1900 },
+      },
+      birthMonth: {
+        type: Sequelize.INTEGER,
+        field: "birth_month",
+        validate: { max: 12, min: 1 },
+      },
+      newChild: Sequelize.VIRTUAL,
     },
-  });
+    {
+      hooks: {
+        beforeValidate: (obj) => {
+          ["birthYear", "birthMonth"].reduce(
+            (r, current) => Object.assign(r, { [current]: r[current] || null }),
+            obj
+          );
+          if (!obj.nativeLanguage) {
+            Object.assign(obj, {
+              nativeLanguage: Person.prototype.nativeLanguages[0],
+            });
+          }
+        },
+      },
+    }
+  );
 
   /* Prototype */
   Object.assign(Person.prototype, {
-    genders: { GENDER_MALE: 'M', GENDER_FEMALE: 'F' },
-    nativeLanguages: ['Mandarin', 'English', 'Cantonese', 'Other'],
+    genders: { GENDER_MALE: "M", GENDER_FEMALE: "F" },
+    nativeLanguages: ["Mandarin", "English", "Cantonese", "Other"],
     name() {
       return `${this.chineseName}(${Person.prototype.englishName.call(this)})`;
     },
@@ -61,16 +69,26 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return `${this.firstName} ${this.lastName}`;
     },
     birthInfo() {
-      return (this.birthYear && this.birthMonth && `${this.birthMonth}/${this.birthYear}`) || '';
+      return (
+        (this.birthYear &&
+          this.birthMonth &&
+          `${this.birthMonth}/${this.birthYear}`) ||
+        ""
+      );
     },
     async findFamiliesAsParent() {
       const fs = await sequelize.models.Family.findAll({
-        where: { [Sequelize.Op.or]: [{ parent_one_id: this.id }, { parent_two_id: this.id }] },
+        where: {
+          [Sequelize.Op.or]: [
+            { parent_one_id: this.id },
+            { parent_two_id: this.id },
+          ],
+        },
         include: [
-          { model: Person, as: 'parentOne' },
-          { model: Person, as: 'parentTwo' },
-          { model: Person, as: 'children' },
-          { model: sequelize.models.Address, as: 'address' },
+          { model: Person, as: "parentOne" },
+          { model: Person, as: "parentTwo" },
+          { model: Person, as: "children" },
+          { model: sequelize.models.Address, as: "address" },
         ],
       });
       return fs;
@@ -90,14 +108,16 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     },
     async findFamiliesAsChild() {
       const fs = await sequelize.models.Family.findAll({
-        include: [{
-          model: sequelize.models.Children,
-          as: 'children',
-          where: { id: this.id },
-        },
-        { model: Person, as: 'parentOne' },
-        { model: Person, as: 'parentTwo' },
-        { model: sequelize.models.Address, as: 'address' }],
+        include: [
+          {
+            model: sequelize.models.Children,
+            as: "children",
+            where: { id: this.id },
+          },
+          { model: Person, as: "parentOne" },
+          { model: Person, as: "parentTwo" },
+          { model: sequelize.models.Address, as: "address" },
+        ],
       });
       return fs;
     },
@@ -107,9 +127,10 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return asParent.concat(asChild);
     },
     async isAParentOf(childId) {
-      const sql = 'SELECT COUNT(*) FROM families,families_children'
-      + ` WHERE (families.parent_one_id=${this.id} OR families.parent_two_id=${this.id}) AND `
-      + `families.id=families_children.family_id AND families_children.child_id=${childId}`;
+      const sql =
+        "SELECT COUNT(*) FROM families,families_children" +
+        ` WHERE (families.parent_one_id=${this.id} OR families.parent_two_id=${this.id}) AND ` +
+        `families.id=families_children.family_id AND families_children.child_id=${childId}`;
 
       const [result] = await sequelize.query(sql);
       return result[0].count > 0;
@@ -124,9 +145,9 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return sequelize.models.RegistrationPreference.findOne({
         where: { student_id: this.id, schoolYearId },
         include: [
-          { model: sequelize.models.Grade, as: 'grade' },
-          { model: sequelize.models.PreviousGrade, as: 'previousGrade' },
-          { model: sequelize.models.ElectiveClass, as: 'electiveClass' },
+          { model: sequelize.models.Grade, as: "grade" },
+          { model: sequelize.models.PreviousGrade, as: "previousGrade" },
+          { model: sequelize.models.ElectiveClass, as: "electiveClass" },
         ],
       });
     },
@@ -134,8 +155,8 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return sequelize.models.InstructorAssignment.findAll({
         where: { instructorId: this.id, schoolYearId },
         include: [
-          { model: sequelize.models.SchoolYear, as: 'schoolYear' },
-          { model: sequelize.models.SchoolClass, as: 'schoolClass' },
+          { model: sequelize.models.SchoolYear, as: "schoolYear" },
+          { model: sequelize.models.SchoolClass, as: "schoolClass" },
         ],
       });
     },
@@ -145,38 +166,53 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         include: [
           {
             model: sequelize.models.Grade,
-            as: 'grade',
+            as: "grade",
             include: [
               {
-                model: sequelize.models.Grade, as: 'nextGrade',
+                model: sequelize.models.Grade,
+                as: "nextGrade",
               },
             ],
           },
-          { model: sequelize.models.SchoolYear, as: 'schoolYear' },
-          { model: sequelize.models.SchoolClass, as: 'schoolClass' },
-          { model: sequelize.models.SchoolClass, as: 'electiveClass' },
+          { model: sequelize.models.SchoolYear, as: "schoolYear" },
+          { model: sequelize.models.SchoolClass, as: "schoolClass" },
+          { model: sequelize.models.SchoolClass, as: "electiveClass" },
         ],
       });
     },
     async adjustUserRole() {
-      const { ROLE_NAME_ROOM_PARENT, ROLE_NAME_INSTRUCTOR } = sequelize.models.Role.prototype.roleNames;
+      const { ROLE_NAME_ROOM_PARENT, ROLE_NAME_INSTRUCTOR } =
+        sequelize.models.Role.prototype.roleNames;
       const {
-        ROLE_PRIMARY_INSTRUCTOR, ROLE_SECONDARY_INSTRUCTOR, ROLE_ROOM_PARENT,
+        ROLE_PRIMARY_INSTRUCTOR,
+        ROLE_SECONDARY_INSTRUCTOR,
+        ROLE_ROOM_PARENT,
       } = sequelize.models.InstructorAssignment.prototype.roleNames;
-      const roleRoomParent = await sequelize.models.Role.findByName(ROLE_NAME_ROOM_PARENT);
-      const roleInstructor = await sequelize.models.Role.findByName(ROLE_NAME_INSTRUCTOR);
+      const roleRoomParent = await sequelize.models.Role.findByName(
+        ROLE_NAME_ROOM_PARENT
+      );
+      const roleInstructor = await sequelize.models.Role.findByName(
+        ROLE_NAME_INSTRUCTOR
+      );
       const user = await this.getUser();
       let roles = await user.getRoles();
-      const currentSchoolYear = await sequelize.models.SchoolYear.currentSchoolYear();
-      const instructorAssignments = await this.getInstructorAssignmentsForSchoolYear(currentSchoolYear.id);
+      const currentSchoolYear =
+        await sequelize.models.SchoolYear.currentSchoolYear();
+      const instructorAssignments =
+        await this.getInstructorAssignmentsForSchoolYear(currentSchoolYear.id);
       const newRoleNames = instructorAssignments.map((i) => i.role);
 
       // Remove ROLE_NAME_INSTRUCTOR and ROLE_NAME_ROOM_PARENT
-      roles = roles
-        .filter((r) => r.name !== ROLE_NAME_INSTRUCTOR && r.name !== ROLE_NAME_ROOM_PARENT);
+      roles = roles.filter(
+        (r) =>
+          r.name !== ROLE_NAME_INSTRUCTOR && r.name !== ROLE_NAME_ROOM_PARENT
+      );
 
       // Add ROLE_NAME_INSTRUCTOR
-      if (newRoleNames.includes(ROLE_PRIMARY_INSTRUCTOR) || newRoleNames.includes(ROLE_SECONDARY_INSTRUCTOR)) {
+      if (
+        newRoleNames.includes(ROLE_PRIMARY_INSTRUCTOR) ||
+        newRoleNames.includes(ROLE_SECONDARY_INSTRUCTOR)
+      ) {
         roles.push(roleInstructor);
       }
       // Add ROLE_NAME_ROOM_PARENT
@@ -227,10 +263,15 @@ export default (sequelize, Sequelize, fieldsFactory) => {
         return null;
       }
       const schoolAge = schoolYear.startYear() - this.birthYear;
-      return schoolYear.ageCutoffMonth <= this.birthMonth ? schoolAge - 1 : schoolAge;
+      return schoolYear.ageCutoffMonth <= this.birthMonth
+        ? schoolAge - 1
+        : schoolAge;
     },
     async findPaidStudentFeePaymentAsStudentFor(schoolYearId) {
-      return sequelize.models.StudentFeePayment.findPaidStudentFeePaymentAsStudentFor(this.id, schoolYearId);
+      return sequelize.models.StudentFeePayment.findPaidStudentFeePaymentAsStudentFor(
+        this.id,
+        schoolYearId
+      );
     },
     /* TODO Not yet implemented
       def school_age_for(school_year)
@@ -269,7 +310,8 @@ export default (sequelize, Sequelize, fieldsFactory) => {
   /* Non-prototype */
   Object.assign(Person, {
     baselineMonths: (year = 0, month = 0) => year * 12 + month,
-    createWith: async (obj) => Person.create(obj, { include: [{ association: Person.Address }] }),
+    createWith: async (obj) =>
+      Person.create(obj, { include: [{ association: Person.Address }] }),
   });
 
   return Person;

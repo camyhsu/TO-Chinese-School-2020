@@ -1,63 +1,55 @@
-import controller from '../controllers/librarian.controller.js';
+import controller from "../controllers/librarian.controller.js";
 
 export default (router) => {
-  router.get(
-    '/librarian/library_books/index',
-    [],
-    controller.getLibraryBooks,
-  );
+  router.get("/librarian/library_books/index", [], controller.getLibraryBooks);
 
   router.get(
-    '/librarian/library_books/read_only_view',
+    "/librarian/library_books/read_only_view",
     [],
-    controller.getLibraryBooks,
+    controller.getLibraryBooks
   );
 
-  router.post(
-    '/librarian/library_books/new',
-    [],
-    controller.addLibraryBook,
-  );
+  router.post("/librarian/library_books/new", [], controller.addLibraryBook);
 
   router.get(
-    '/librarian/library_books/edit/:id',
+    "/librarian/library_books/edit/:id",
     [],
-    controller.getLibraryBook,
+    controller.getLibraryBook
   );
 
   router.put(
-    '/librarian/library_books/edit/:id',
+    "/librarian/library_books/edit/:id",
     [],
-    controller.editLibraryBook,
+    controller.editLibraryBook
   );
 
   router.get(
-    '/librarian/library_books/checkout_history/:id',
+    "/librarian/library_books/checkout_history/:id",
     [],
-    controller.getLibraryBookCheckOutHistory,
+    controller.getLibraryBookCheckOutHistory
   );
 
   router.get(
-    '/librarian/search_students/index',
+    "/librarian/search_students/index",
     [],
-    controller.initializeSearchStudents,
+    controller.initializeSearchStudents
   );
 
   router.get(
-    '/librarian/search_students/search_result',
+    "/librarian/search_students/search_result",
     [],
-    controller.searchStudents,
+    controller.searchStudents
   );
 
   router.post(
-    '/librarian/library_books/check_out_library_book/:id',
+    "/librarian/library_books/check_out_library_book/:id",
     [],
-    controller.checkOutLibraryBook,
+    controller.checkOutLibraryBook
   );
 
   router.put(
-    '/librarian/library_books/return_library_book/:id',
+    "/librarian/library_books/return_library_book/:id",
     [],
-    controller.returnLibraryBook,
+    controller.returnLibraryBook
   );
 };

@@ -1,15 +1,18 @@
 /* global describe, it */
-import chai from 'chai';
-import db from '../../src/models/index.js';
-import { createRandSchoolYear, createRandSchoolClass } from '../../src/utils/utilities.js';
+import chai from "chai";
+import db from "../../src/models/index.js";
+import {
+  createRandSchoolYear,
+  createRandSchoolClass,
+} from "../../src/utils/utilities.js";
 
 const { expect } = chai;
 
 const { SchoolClass, SchoolClassActiveFlag, SchoolYear } = db;
 
-describe('Test SchoolClassActiveFlag', () => {
-  describe('SchoolClassActiveFlag', async () => {
-    it('SchoolClassActiveFlag - create', async () => {
+describe("Test SchoolClassActiveFlag", () => {
+  describe("SchoolClassActiveFlag", async () => {
+    it("SchoolClassActiveFlag - create", async () => {
       const schoolClass = await SchoolClass.create(createRandSchoolClass());
       const schoolYear = await SchoolYear.create(createRandSchoolYear());
       const s = await SchoolClassActiveFlag.create();
@@ -23,8 +26,8 @@ describe('Test SchoolClassActiveFlag', () => {
     });
   });
 
-  describe('activeIn', async () => {
-    it('activeIn', async () => {
+  describe("activeIn", async () => {
+    it("activeIn", async () => {
       const schoolClass = await SchoolClass.create(createRandSchoolClass());
       const schoolYear = await SchoolYear.create(createRandSchoolYear());
       const s = await SchoolClassActiveFlag.create();

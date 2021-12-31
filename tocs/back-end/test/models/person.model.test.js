@@ -1,59 +1,78 @@
 /* global describe, it */
-import { expect } from 'chai';
-import db from '../../src/models/index.js';
-import { modelTests } from './model-test-utils.js';
-import { randAddress, randPerson, createRandSchoolYear } from '../../src/utils/utilities.js';
+import { expect } from "chai";
+import db from "../../src/models/index.js";
+import { modelTests } from "./model-test-utils.js";
+import {
+  randAddress,
+  randPerson,
+  createRandSchoolYear,
+} from "../../src/utils/utilities.js";
 
-const {
-  Person, Address, Family, SchoolYear, StudentStatusFlag,
-} = db;
-const testChineseName = '黄鹤楼';
+const { Person, Address, Family, SchoolYear, StudentStatusFlag } = db;
+const testChineseName = "黄鹤楼";
 
 const createRandPerson = (options) => {
   const person = randPerson();
   return { ...person, ...options };
 };
 
-describe('Test Person', () => {
-  describe('UPersonser - CRUD', modelTests(Person, { fieldToTest: 'lastName', object: createRandPerson() }));
+describe("Test Person", () => {
+  describe(
+    "UPersonser - CRUD",
+    modelTests(Person, { fieldToTest: "lastName", object: createRandPerson() })
+  );
 
-  describe('People', () => {
-    it('englishName', async () => {
+  describe("People", () => {
+    it("englishName", async () => {
       const person = await Person.create(createRandPerson());
       expect(person.englishName()).eq(`${person.firstName} ${person.lastName}`);
     });
 
-    it('name', async () => {
-      const person = await Person.create(createRandPerson({ chineseName: testChineseName }));
-      expect(person.name()).eq(`${testChineseName}(${person.firstName} ${person.lastName})`);
+    it("name", async () => {
+      const person = await Person.create(
+        createRandPerson({ chineseName: testChineseName })
+      );
+      expect(person.name()).eq(
+        `${testChineseName}(${person.firstName} ${person.lastName})`
+      );
     });
 
-    it('birthInfo', async () => {
+    it("birthInfo", async () => {
       const birthYear = 2000;
       const birthMonth = 8;
-      expect((await Person.create(createRandPerson())).birthInfo()).eq('');
-      expect((await Person.create(createRandPerson({ birthYear }))).birthInfo()).eq('');
-      expect((await Person.create(createRandPerson({ birthMonth }))).birthInfo()).eq('');
-      expect((await Person.create(createRandPerson({ birthYear, birthMonth }))).birthInfo()).eq('8/2000');
+      expect((await Person.create(createRandPerson())).birthInfo()).eq("");
+      expect(
+        (await Person.create(createRandPerson({ birthYear }))).birthInfo()
+      ).eq("");
+      expect(
+        (await Person.create(createRandPerson({ birthMonth }))).birthInfo()
+      ).eq("");
+      expect(
+        (
+          await Person.create(createRandPerson({ birthYear, birthMonth }))
+        ).birthInfo()
+      ).eq("8/2000");
     });
 
-    it('baselineMonths', async () => {
+    it("baselineMonths", async () => {
       expect(Person.baselineMonths(0, 0)).eq(0);
       expect(Person.baselineMonths(0, 1)).eq(1);
       expect(Person.baselineMonths(1, 0)).eq(12);
       expect(Person.baselineMonths(1, 1)).eq(13);
     });
 
-    it('address', async () => {
+    it("address", async () => {
       let person = createRandPerson();
       person.address = randAddress();
       person = await Person.createWith(person);
       expect(person.address.id).gt(0);
       const address = await Address.getById(person.address.id);
-      Object.keys(person.address).forEach((key) => expect(address[key]).eq(address[key]));
+      Object.keys(person.address).forEach((key) =>
+        expect(address[key]).eq(address[key])
+      );
     });
 
-    it('findFamiliesAsParent', async () => {
+    it("findFamiliesAsParent", async () => {
       const originalLength = await Family.count();
       const person = await Person.createWith(createRandPerson());
 
@@ -76,7 +95,7 @@ describe('Test Person', () => {
       expect(families.length).eq(2);
     });
 
-    it('findFamiliesAsChild', async () => {
+    it("findFamiliesAsChild", async () => {
       const originalLength = await Family.count();
       const person = await Person.createWith(createRandPerson());
 
@@ -96,7 +115,7 @@ describe('Test Person', () => {
       expect(families.length).eq(1);
     });
 
-    it('families', async () => {
+    it("families", async () => {
       const originalLength = await Family.count();
       const person = await Person.createWith(createRandPerson());
 
@@ -120,7 +139,7 @@ describe('Test Person', () => {
       expect(families.length).eq(3);
     });
 
-    it('isAParentOf', async () => {
+    it("isAParentOf", async () => {
       const person = await Person.createWith(createRandPerson());
       const family1 = await Family.create();
       await family1.setParentOne(person.id);
@@ -133,24 +152,29 @@ describe('Test Person', () => {
     });
   });
 
-  describe('isStudentRegisteredForSchoolYear', () => {
-    it('isStudentRegisteredForSchoolYear', async () => {
+  describe("isStudentRegisteredForSchoolYear", () => {
+    it("isStudentRegisteredForSchoolYear", async () => {
       const schoolYear = await SchoolYear.create(createRandSchoolYear());
       const student = await Person.create(randPerson());
       let bool = await student.isStudentRegisteredForSchoolYear(schoolYear.id);
       expect(bool).to.be.false;
 
-      await StudentStatusFlag.create({ studentId: student.id, schoolYearId: schoolYear.id, registered: true });
+      await StudentStatusFlag.create({
+        studentId: student.id,
+        schoolYearId: schoolYear.id,
+        registered: true,
+      });
       bool = await student.isStudentRegisteredForSchoolYear(schoolYear.id);
       expect(bool).to.be.true;
     });
   });
 
-  describe('findPaidStudentFeePaymentAsStudentFor', () => {
-    it('findPaidStudentFeePaymentAsStudentFor', async () => {
+  describe("findPaidStudentFeePaymentAsStudentFor", () => {
+    it("findPaidStudentFeePaymentAsStudentFor", async () => {
       const schoolYear = await SchoolYear.create(createRandSchoolYear());
       const student = await Person.create(randPerson());
-      const studentFeePayments = await student.findPaidStudentFeePaymentAsStudentFor(schoolYear.id);
+      const studentFeePayments =
+        await student.findPaidStudentFeePaymentAsStudentFor(schoolYear.id);
       expect(studentFeePayments.length).to.eq(0);
     });
   });

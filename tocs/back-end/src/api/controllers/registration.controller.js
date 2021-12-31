@@ -1,6 +1,6 @@
-import { registrationService } from '../../services/index.js';
-import { response } from '../../utils/response-factory.js';
-import { asyncWrapper } from './utils.js';
+import { registrationService } from "../../services/index.js";
+import { response } from "../../utils/response-factory.js";
+import { asyncWrapper } from "./utils.js";
 
 export default {
   getGrades: asyncWrapper(async (_req, _res, next) => {
@@ -15,11 +15,19 @@ export default {
   }),
   getActiveSchoolClasses: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.getActiveSchoolClasses(schoolYearId)));
+    next(
+      response(await registrationService.getActiveSchoolClasses(schoolYearId))
+    );
   }),
-  getActiveSchoolClassesForCurrentNextSchoolYear: asyncWrapper(async (req, _res, next) => {
-    next(response(await registrationService.getActiveSchoolClassesForCurrentNextSchoolYear()));
-  }),
+  getActiveSchoolClassesForCurrentNextSchoolYear: asyncWrapper(
+    async (req, _res, next) => {
+      next(
+        response(
+          await registrationService.getActiveSchoolClassesForCurrentNextSchoolYear()
+        )
+      );
+    }
+  ),
   addSchoolClass: asyncWrapper(async (req, _res, next) => {
     next(response(await registrationService.addSchoolClass(req.body)));
   }),
@@ -30,7 +38,15 @@ export default {
   toggleActiveSchoolClass: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
     const { schoolYearId, active } = req.query;
-    next(response(await registrationService.toggleActiveSchoolClass(id, schoolYearId, active)));
+    next(
+      response(
+        await registrationService.toggleActiveSchoolClass(
+          id,
+          schoolYearId,
+          active
+        )
+      )
+    );
   }),
   getSchoolYears: asyncWrapper(async (_req, _res, next) => {
     next(response(await registrationService.getSchoolYears()));
@@ -52,7 +68,11 @@ export default {
   }),
   saveBookCharges: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.saveBookCharges(schoolYearId, req.body)));
+    next(
+      response(
+        await registrationService.saveBookCharges(schoolYearId, req.body)
+      )
+    );
   }),
   toggleAutoClassAssignment: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
@@ -74,7 +94,11 @@ export default {
   }),
   getPeople: asyncWrapper(async (req, _res, next) => {
     const { limit, offset, searchText } = req.query;
-    next(response(await registrationService.getPeople({ limit, offset, searchText })));
+    next(
+      response(
+        await registrationService.getPeople({ limit, offset, searchText })
+      )
+    );
   }),
   getPerson: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
@@ -82,23 +106,41 @@ export default {
   }),
   getGradeStudentCount: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.getGradeStudentCount(schoolYearId)));
+    next(
+      response(await registrationService.getGradeStudentCount(schoolYearId))
+    );
   }),
   getSchoolClassStudentCount: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.getSchoolClassStudentCount(schoolYearId)));
+    next(
+      response(
+        await registrationService.getSchoolClassStudentCount(schoolYearId)
+      )
+    );
   }),
   getElectiveSchoolClassStudentCount: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.getSchoolClassStudentCount(schoolYearId, true)));
+    next(
+      response(
+        await registrationService.getSchoolClassStudentCount(schoolYearId, true)
+      )
+    );
   }),
   getSiblingInSameGrade: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.getSiblingInSameGrade(schoolYearId)));
+    next(
+      response(await registrationService.getSiblingInSameGrade(schoolYearId))
+    );
   }),
   getDailyOnlineRegistrationSummary: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId } = req.params;
-    next(response(await registrationService.getDailyOnlineRegistrationSummary(schoolYearId)));
+    next(
+      response(
+        await registrationService.getDailyOnlineRegistrationSummary(
+          schoolYearId
+        )
+      )
+    );
   }),
   getInstructorAssignmentForm: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
@@ -107,12 +149,18 @@ export default {
 
   addInstructorAssignment: asyncWrapper(async (req, _res, next) => {
     const { personId } = req.query;
-    next(response(await registrationService.addInstructorAssignment(personId, req.body)));
+    next(
+      response(
+        await registrationService.addInstructorAssignment(personId, req.body)
+      )
+    );
   }),
 
   saveInstructorAssignment: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
-    next(response(await registrationService.saveInstructorAssignment(id, req.body)));
+    next(
+      response(await registrationService.saveInstructorAssignment(id, req.body))
+    );
   }),
 
   deleteInstructorAssignment: asyncWrapper(async (req, _res, next) => {

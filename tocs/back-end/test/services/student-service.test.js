@@ -1,23 +1,32 @@
 /* global describe, it */
 
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import StudentService from '../../src/services/student.service.js';
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import StudentService from "../../src/services/student.service.js";
 import {
-  randPerson, createRandSchoolClass, randString, createRandSchoolYear,
-} from '../../src/utils/utilities.js';
-import db from '../../src/models/index.js';
+  randPerson,
+  createRandSchoolClass,
+  randString,
+  createRandSchoolYear,
+} from "../../src/utils/utilities.js";
+import db from "../../src/models/index.js";
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
 const {
-  Grade, Person, RegistrationPayment, RegistrationPreference, SchoolClass,
-  SchoolClassActiveFlag, SchoolYear, StudentStatusFlag,
+  Grade,
+  Person,
+  RegistrationPayment,
+  RegistrationPreference,
+  SchoolClass,
+  SchoolClassActiveFlag,
+  SchoolYear,
+  StudentStatusFlag,
 } = db;
 
-describe('Test Student service', () => {
-  describe('savePayment', () => {
-    it('savePayment - Already paid', async () => {
+describe("Test Student service", () => {
+  describe("savePayment", () => {
+    it("savePayment - Already paid", async () => {
       const studentId = (await Person.create(randPerson())).id;
       const schoolYearId = 1;
       const payment = await RegistrationPayment.createWith({
@@ -26,23 +35,30 @@ describe('Test Student service', () => {
         pvaDueInCents: 1000,
         paid_by_id: 1,
         schoolYearId,
-        studentFeePayments: [{
-          studentId,
-          bookChargeInCents: 10000,
-          registrationFeeInCents: 10000,
-          tuitionInCents: 10000,
-        }],
+        studentFeePayments: [
+          {
+            studentId,
+            bookChargeInCents: 10000,
+            registrationFeeInCents: 10000,
+            tuitionInCents: 10000,
+          },
+        ],
         paid: true,
       });
       const paymentId = payment.id;
       const personId = 123;
       const obj = {
-        number: '4532928211171666', year: '2022', month: '2', cardCode: '123',
+        number: "4532928211171666",
+        year: "2022",
+        month: "2",
+        cardCode: "123",
       };
-      await expect(StudentService.savePayment(personId, paymentId, obj)).to.eventually.be.rejectedWith('Already paid.');
+      await expect(
+        StudentService.savePayment(personId, paymentId, obj)
+      ).to.eventually.be.rejectedWith("Already paid.");
     });
 
-    it('savePayment - already registered', async () => {
+    it("savePayment - already registered", async () => {
       const studentId = (await Person.create(randPerson())).id;
       const schoolYearId = 1;
       const payment = await RegistrationPayment.createWith({
@@ -51,21 +67,30 @@ describe('Test Student service', () => {
         pvaDueInCents: 1000,
         paid_by_id: 1,
         schoolYearId: 1,
-        studentFeePayments: [{
-          studentId,
-          bookChargeInCents: 10000,
-          registrationFeeInCents: 10000,
-          tuitionInCents: 10000,
-        }],
+        studentFeePayments: [
+          {
+            studentId,
+            bookChargeInCents: 10000,
+            registrationFeeInCents: 10000,
+            tuitionInCents: 10000,
+          },
+        ],
       });
-      await StudentStatusFlag.create({ studentId, schoolYearId, registered: true });
+      await StudentStatusFlag.create({
+        studentId,
+        schoolYearId,
+        registered: true,
+      });
       const paymentId = payment.id;
       const personId = 123;
-      await expect(StudentService.savePayment(personId, paymentId, null))
-        .to.eventually.be.rejectedWith('At least one student in the attempted payment has already registered.');
+      await expect(
+        StudentService.savePayment(personId, paymentId, null)
+      ).to.eventually.be.rejectedWith(
+        "At least one student in the attempted payment has already registered."
+      );
     });
 
-    it('savePayment - card type not accepted', async () => {
+    it("savePayment - card type not accepted", async () => {
       const studentId = (await Person.create(randPerson())).id;
       const schoolYearId = 1;
       const payment = await RegistrationPayment.createWith({
@@ -74,24 +99,32 @@ describe('Test Student service', () => {
         pvaDueInCents: 1000,
         paid_by_id: 1,
         schoolYearId,
-        studentFeePayments: [{
-          studentId,
-          bookChargeInCents: 10000,
-          registrationFeeInCents: 10000,
-          tuitionInCents: 10000,
-        }],
+        studentFeePayments: [
+          {
+            studentId,
+            bookChargeInCents: 10000,
+            registrationFeeInCents: 10000,
+            tuitionInCents: 10000,
+          },
+        ],
       });
       await StudentStatusFlag.create({ studentId, schoolYearId: 2 });
       const paymentId = payment.id;
       const personId = 123;
       const obj = {
-        number: '342826328808014', year: '2022', month: '2', cardCode: '123',
+        number: "342826328808014",
+        year: "2022",
+        month: "2",
+        cardCode: "123",
       };
-      await expect(StudentService.savePayment(personId, paymentId, obj))
-        .to.eventually.be.rejectedWith('american-express is not accepted by Chinese School');
+      await expect(
+        StudentService.savePayment(personId, paymentId, obj)
+      ).to.eventually.be.rejectedWith(
+        "american-express is not accepted by Chinese School"
+      );
     });
 
-    it('savePayment - Expiration Date', async () => {
+    it("savePayment - Expiration Date", async () => {
       const studentId = (await Person.create(randPerson())).id;
       const schoolYearId = 1;
       const payment = await RegistrationPayment.createWith({
@@ -100,24 +133,30 @@ describe('Test Student service', () => {
         pvaDueInCents: 1000,
         paid_by_id: 1,
         schoolYearId,
-        studentFeePayments: [{
-          studentId,
-          bookChargeInCents: 10000,
-          registrationFeeInCents: 10000,
-          tuitionInCents: 10000,
-        }],
+        studentFeePayments: [
+          {
+            studentId,
+            bookChargeInCents: 10000,
+            registrationFeeInCents: 10000,
+            tuitionInCents: 10000,
+          },
+        ],
       });
       await StudentStatusFlag.create({ studentId, schoolYearId: 2 });
       const paymentId = payment.id;
       const personId = 123;
       const obj = {
-        number: '4532928211171666', year: '2022', month: '13', cardCode: '123',
+        number: "4532928211171666",
+        year: "2022",
+        month: "13",
+        cardCode: "123",
       };
-      await expect(StudentService.savePayment(personId, paymentId, obj))
-        .to.eventually.be.rejectedWith('Expiration Date');
+      await expect(
+        StudentService.savePayment(personId, paymentId, obj)
+      ).to.eventually.be.rejectedWith("Expiration Date");
     });
 
-    it('createStudentClassAssignments', async () => {
+    it("createStudentClassAssignments", async () => {
       const studentId = (await Person.create(randPerson())).id;
       const grade = await Grade.create({ englishName: randString() });
       const sc = createRandSchoolClass();
@@ -143,18 +182,23 @@ describe('Test Student service', () => {
         pvaDueInCents: 1000,
         paid_by_id: 1,
         schoolYearId,
-        studentFeePayments: [{
-          studentId,
-          bookChargeInCents: 10000,
-          registrationFeeInCents: 10000,
-          tuitionInCents: 10000,
-        }],
+        studentFeePayments: [
+          {
+            studentId,
+            bookChargeInCents: 10000,
+            registrationFeeInCents: 10000,
+            tuitionInCents: 10000,
+          },
+        ],
       });
       expect(payment.paid).to.be.false;
       const paymentId = payment.id;
       const personId = 123;
       const obj = {
-        number: '4532928211171666', year: '2022', month: '11', cardCode: '123',
+        number: "4532928211171666",
+        year: "2022",
+        month: "11",
+        cardCode: "123",
       };
       const student = await Person.getById(studentId);
       let studentStatusFlag = await student.studentStatusFlagFor(schoolYearId);

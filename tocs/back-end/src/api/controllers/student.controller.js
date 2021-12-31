@@ -1,6 +1,6 @@
-import { studentService } from '../../services/index.js';
-import { response, unauthorized } from '../../utils/response-factory.js';
-import { asyncWrapper } from './utils.js';
+import { studentService } from "../../services/index.js";
+import { response, unauthorized } from "../../utils/response-factory.js";
+import { asyncWrapper } from "./utils.js";
 
 export default {
   addParent: asyncWrapper(async (req, _res, next) => {
@@ -33,42 +33,69 @@ export default {
   }),
   editPersonalAddress: asyncWrapper(async (req, _res, next) => {
     const { id: personId } = req.params;
-    next(response(await studentService.savePersonalAddress(personId, req.body)));
+    next(
+      response(await studentService.savePersonalAddress(personId, req.body))
+    );
   }),
   addPersonalAddress: asyncWrapper(async (req, _res, next) => {
     const { id: personId } = req.params;
     next(response(await studentService.addPersonalAddress(personId, req.body)));
   }),
   getTransactionHistory: asyncWrapper(async (req, _res, next) => {
-    next(response(await studentService.getTransactionHistoryByUser(req.userId)));
+    next(
+      response(await studentService.getTransactionHistoryByUser(req.userId))
+    );
   }),
   getRegistrationPayment: asyncWrapper(async (req, _res, next) => {
     const { personId } = req;
     const { id } = req.params;
-    const { registrationPayment } = await studentService.getRegistrationPayment(id);
+    const { registrationPayment } = await studentService.getRegistrationPayment(
+      id
+    );
     if (personId !== registrationPayment.paid_by_id) {
-      next(unauthorized('Access to requested payment confirmation not authorized'));
+      next(
+        unauthorized("Access to requested payment confirmation not authorized")
+      );
       return;
     }
     next(response(registrationPayment));
   }),
   getRegistrationPaymentForStaff: asyncWrapper(async (req, _res, next) => {
     const { id } = req.params;
-    const { registrationPayment } = await studentService.getRegistrationPayment(id);
+    const { registrationPayment } = await studentService.getRegistrationPayment(
+      id
+    );
     next(response(registrationPayment));
   }),
-  getStudentRegistrationDisplayOptions: asyncWrapper(async (req, _res, next) => {
-    const { personId } = req;
-    const { schoolYearId } = req.query;
-    next(response(await studentService.getStudentRegistrationDisplayOptions(schoolYearId, personId)));
-  }),
+  getStudentRegistrationDisplayOptions: asyncWrapper(
+    async (req, _res, next) => {
+      const { personId } = req;
+      const { schoolYearId } = req.query;
+      next(
+        response(
+          await studentService.getStudentRegistrationDisplayOptions(
+            schoolYearId,
+            personId
+          )
+        )
+      );
+    }
+  ),
   saveRegistrationPreferences: asyncWrapper(async (req, _res, next) => {
     const { personId } = req;
-    next(response(await studentService.saveRegistrationPreferences(personId, req.body)));
+    next(
+      response(
+        await studentService.saveRegistrationPreferences(personId, req.body)
+      )
+    );
   }),
   initializeRegistrationPayment: asyncWrapper(async (req, _res, next) => {
     const { personId } = req;
-    next(response(await studentService.initializeRegistrationPayment(personId, req.body)));
+    next(
+      response(
+        await studentService.initializeRegistrationPayment(personId, req.body)
+      )
+    );
   }),
   savePayment: asyncWrapper(async (req, _res, next) => {
     const { personId } = req;

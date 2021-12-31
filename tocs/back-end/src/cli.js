@@ -1,14 +1,17 @@
-import minimist from 'minimist';
+import minimist from "minimist";
 import {
-  generateChangeLog, snapshot, sync, update,
-} from './services/database.service.js';
+  generateChangeLog,
+  snapshot,
+  sync,
+  update,
+} from "./services/database.service.js";
 
 const argv = minimist(process.argv.slice(2));
 const command = argv._[0];
 
 (() => {
   const fns = {
-    'generate-change-log': () => generateChangeLog(argv.diffTypes),
+    "generate-change-log": () => generateChangeLog(argv.diffTypes),
     snapshot: () => snapshot(),
     sync: () => sync(),
     update: () => update(),
@@ -18,6 +21,6 @@ const command = argv._[0];
   if (fns[command]) {
     fns[command]();
   } else {
-    console.log('Unrecognized command');
+    console.log("Unrecognized command");
   }
 })();

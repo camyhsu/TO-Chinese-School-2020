@@ -1,5 +1,5 @@
-import winston from 'winston';
-import config from 'config';
+import winston from "winston";
+import config from "config";
 
 const { createLogger, transports } = winston;
 
@@ -8,8 +8,10 @@ export default createLogger({
   transports: new transports.Console(),
   format: winston.format.combine(
     winston.format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: "YYYY-MM-DD HH:mm:ss",
     }),
-    winston.format.printf((info) => `[${info.level}][${[info.timestamp]}] ${info.message}`),
+    winston.format.printf(
+      (info) => `[${info.level}][${[info.timestamp]}] ${info.message}`
+    )
   ),
 });

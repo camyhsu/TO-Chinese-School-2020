@@ -1,19 +1,17 @@
-import {
-    ACTION_SUCCESS,
-    SET_MESSAGE,
-  } from './types';
+import { ACTION_SUCCESS, SET_MESSAGE } from "./types";
 
-import LibrarianService from '../services/librarian.service';
+import LibrarianService from "../services/librarian.service";
 
-const commonFn = (p, dispatch) => p.then(
+const commonFn = (p, dispatch) =>
+  p.then(
     (response) => {
       dispatch({
         type: ACTION_SUCCESS,
-        payload: '/librarian/books'
+        payload: "/librarian/books",
       });
       dispatch({
         type: SET_MESSAGE,
-        payload: response && 'Success',
+        payload: response && "Success",
       });
       return Promise.resolve();
     },
@@ -34,14 +32,25 @@ const commonFn = (p, dispatch) => p.then(
     }
   );
 
-const saveLibraryBook = (bookId, obj) => (dispatch) => commonFn(LibrarianService.saveLibraryBook(bookId, obj), dispatch);
+const saveLibraryBook = (bookId, obj) => (dispatch) =>
+  commonFn(LibrarianService.saveLibraryBook(bookId, obj), dispatch);
 
-const addLibraryBook = (obj) => (dispatch) => commonFn(LibrarianService.addLibraryBook(obj), dispatch);
+const addLibraryBook = (obj) => (dispatch) =>
+  commonFn(LibrarianService.addLibraryBook(obj), dispatch);
 
-const getLibraryBook = (bookId) => (_dispatch) => LibrarianService.getLibraryBook(bookId);
+const getLibraryBook = (bookId) => (_dispatch) =>
+  LibrarianService.getLibraryBook(bookId);
 
-const checkOutLibraryBook = (bookId, obj) => (dispatch) => commonFn(LibrarianService.checkOutLibraryBook(bookId, obj), dispatch);
+const checkOutLibraryBook = (bookId, obj) => (dispatch) =>
+  commonFn(LibrarianService.checkOutLibraryBook(bookId, obj), dispatch);
 
-const returnLibraryBook = (bookId, obj) => (dispatch) => commonFn(LibrarianService.returnLibraryBook(bookId, obj), dispatch);
+const returnLibraryBook = (bookId, obj) => (dispatch) =>
+  commonFn(LibrarianService.returnLibraryBook(bookId, obj), dispatch);
 
-export { saveLibraryBook, addLibraryBook, getLibraryBook, checkOutLibraryBook, returnLibraryBook }
+export {
+  saveLibraryBook,
+  addLibraryBook,
+  getLibraryBook,
+  checkOutLibraryBook,
+  returnLibraryBook,
+};

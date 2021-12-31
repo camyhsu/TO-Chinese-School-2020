@@ -1,21 +1,21 @@
-$primary-color-dark:   #388E3C;
-$primary-color:        #4CAF50;
-$primary-color-light:  #C8E6C9;
-$primary-color-text:   #FFFFFF;
-$accent-color:         #795548;
-$primary-text-color:   #212121;
+$primary-color-dark: #388e3c;
+$primary-color: #4caf50;
+$primary-color-light: #c8e6c9;
+$primary-color-text: #ffffff;
+$accent-color: #795548;
+$primary-text-color: #212121;
 $secondary-text-color: #757575;
-$divider-color:        #BDBDBD;
+$divider-color: #bdbdbd;
 
 // Override default variables before the import
-$primary:       $primary-color;
-$secondary:     $accent-color;
+$primary: $primary-color;
+$secondary: $accent-color;
 // $success:       $green !default;
 // $info:          $cyan !default;
 // $warning:       $yellow !default;
 // $danger:        $red !default;
-$light:         $primary-color-light;
-$dark:          $primary-color-dark;
+$light: $primary-color-light;
+$dark: $primary-color-dark;
 
 $body-bg: #006636;
 $body-color: $primary-text-color;
@@ -121,10 +121,10 @@ body {
 }
 
 // Import Bootstrap and its default variables
-@import '~bootstrap/scss/bootstrap.scss';
-@import '~bootstrap-icons/font/bootstrap-icons';
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootstrap-icons/font/bootstrap-icons";
 
-@import './border.scss';
+@import "./border.scss";
 
 // Import fontawesome
-@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import "~@fortawesome/fontawesome-free/css/all.min.css";

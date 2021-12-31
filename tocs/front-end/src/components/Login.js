@@ -1,26 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link } from "react-router-dom";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { Card, CardBody, CardFooter } from "./Cards";
 import { login } from "../actions/auth.action";
-import { required } from '../utils/utilities';
+import { required } from "../utils/utilities";
 
 const Login = (props) => {
-  useEffect(() => { document.title = "TOCS - Sign In"; }, []);
+  useEffect(() => {
+    document.title = "TOCS - Sign In";
+  }, []);
 
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { isLoggedIn } = useSelector(state => state.auth);
-  const { message } = useSelector(state => state.message);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
 
   const dispatch = useDispatch();
 

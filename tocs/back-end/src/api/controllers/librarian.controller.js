@@ -1,6 +1,6 @@
-import { librarianService } from '../../services/index.js';
-import { response } from '../../utils/response-factory.js';
-import { asyncWrapper } from './utils.js';
+import { librarianService } from "../../services/index.js";
+import { response } from "../../utils/response-factory.js";
+import { asyncWrapper } from "./utils.js";
 
 export default {
   getLibraryBook: asyncWrapper(async (req, _res, next) => {
@@ -31,7 +31,11 @@ export default {
   }),
   searchStudents: asyncWrapper(async (req, _res, next) => {
     const { schoolYearId, startDate, endDate } = req.query;
-    next(response(await librarianService.searchStudents(schoolYearId, startDate, endDate)));
+    next(
+      response(
+        await librarianService.searchStudents(schoolYearId, startDate, endDate)
+      )
+    );
   }),
   initializeSearchStudents: asyncWrapper(async (_req, _res, next) => {
     next(response(await librarianService.initializeSearchStudents()));

@@ -8,5 +8,5 @@ export default combineReducers({
   auth,
   message,
   temp,
-  user
+  user,
 });
