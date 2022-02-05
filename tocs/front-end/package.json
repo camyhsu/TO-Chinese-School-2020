@@ -22,8 +22,7 @@
     "react-validation": "^3.0.7",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "validator": "^13.5.2",
-    "web-vitals": "^1.1.0"
+    "validator": "^13.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
