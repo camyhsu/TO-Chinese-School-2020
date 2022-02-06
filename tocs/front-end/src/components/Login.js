@@ -8,8 +8,11 @@ import CheckButton from "react-validation/build/button";
 import { Card, CardBody, CardFooter } from "./Cards";
 import { login } from "../actions/auth.action";
 import { required } from "../utils/utilities";
+import { useHistory } from "react-router-dom";
 
-const Login = (props) => {
+const Login = () => {
+  let history = useHistory();
+
   useEffect(() => {
     document.title = "TOCS - Sign In";
   }, []);
@@ -46,7 +49,7 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          props.history.push("/home");
+          history.push("/home");
           window.location.reload();
         })
         .catch(() => {

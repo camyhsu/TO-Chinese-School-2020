@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -62,20 +62,12 @@ import {
 } from "./components/registration/index";
 
 import { logout } from "./actions/auth.action";
-import { clearMessage } from "./actions/message.action";
 
-import { history } from "./helpers/history";
 import { ConsentRelease, Payment } from "./components/student";
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    history.listen((location) => {
-      dispatch(clearMessage()); // clear message when changing location
-    });
-  }, [dispatch]);
 
   useEffect(() => {
     if (currentUser) {
@@ -87,7 +79,7 @@ const App = () => {
   };
 
   return (
-    <Router history={history}>
+    <BrowserRouter>
       <div>
         {currentUser && (
           <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -328,7 +320,7 @@ const App = () => {
           </div>
         </footer>
       )}
-    </Router>
+    </BrowserRouter>
   );
 };
 
