@@ -71,7 +71,13 @@ const InstructorAssignmentForm = () => {
         }
       });
     }
-  }, [dispatch, personId, instructorAssignmentId, fns]);
+  }, [
+    dispatch,
+    personId,
+    instructorAssignmentId,
+    instructorAssignmentIdIsDefined,
+    fns,
+  ]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
