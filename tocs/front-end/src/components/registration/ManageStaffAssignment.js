@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Table from "../Table";
-import queryString from "query-string";
 import RegistrationService from "../../services/registration.service";
 import { formatPersonNames } from "../../utils/utilities";
 import { Card, CardBody, CardTitle } from "../Cards";
 
-const ManageStaffAssignment = ({ location } = {}) => {
+const ManageStaffAssignment = () => {
+  const { schoolYearId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -30,19 +31,20 @@ const ManageStaffAssignment = ({ location } = {}) => {
   useEffect(() => {
     document.title = "TOCS - Home";
 
-    const { id } = queryString.parse(location.search);
-    if (id) {
-      RegistrationService.getManageStaffAssignment(id).then((response) => {
-        if (response && response.data) {
-          setContent({
-            isLoaded: true,
-            items: response.data.staffAssignments,
-            schoolYear: response.data.schoolYear,
-          });
+    if (schoolYearId) {
+      RegistrationService.getManageStaffAssignment(schoolYearId).then(
+        (response) => {
+          if (response && response.data) {
+            setContent({
+              isLoaded: true,
+              items: response.data.staffAssignments,
+              schoolYear: response.data.schoolYear,
+            });
+          }
         }
-      });
+      );
     }
-  }, [location.search]);
+  }, [schoolYearId]);
 
   return (
     <Card size="flex">

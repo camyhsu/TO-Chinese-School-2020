@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import RegistrationService from "../../services/registration.service";
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from "../Table";
 
-const ActiveSchoolClassGradeCount = ({ location } = {}) => {
+const ActiveSchoolClassGradeCount = () => {
+  const { schoolYearId } = useParams();
+
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -24,11 +26,9 @@ const ActiveSchoolClassGradeCount = ({ location } = {}) => {
   ];
 
   useEffect(() => {
-    const { schoolYearId } = queryString.parse(location.search);
-
     document.title = "TOCS - Home";
 
-    RegistrationService.getAvtiveSchoolClassGradeCount(schoolYearId).then(
+    RegistrationService.getActiveSchoolClassGradeCount(schoolYearId).then(
       (response) => {
         setContent({
           isLoaded: true,
@@ -51,7 +51,7 @@ const ActiveSchoolClassGradeCount = ({ location } = {}) => {
         });
       }
     );
-  }, [location.search]);
+  }, [schoolYearId]);
 
   return (
     <Card size="no-max-width">

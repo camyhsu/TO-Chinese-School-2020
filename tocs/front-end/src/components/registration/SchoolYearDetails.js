@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import queryString from "query-string";
 import RegistrationService from "../../services/registration.service";
 import { dollar, BiPencil } from "../../utils/utilities";
 import { Card, CardBody } from "../Cards";
 
-const Home = ({ location } = {}) => {
-  const [id, setId] = useState(null);
+const SchoolYearDetails = () => {
+  const { schoolYearId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -16,10 +15,8 @@ const Home = ({ location } = {}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { id } = queryString.parse(location.search);
-    setId(id);
-    if (id) {
-      RegistrationService.getSchoolYear(id).then((response) => {
+    if (schoolYearId) {
+      RegistrationService.getSchoolYear(schoolYearId).then((response) => {
         if (response && response.data) {
           setContent({
             isLoaded: true,
@@ -28,7 +25,7 @@ const Home = ({ location } = {}) => {
         }
       });
     }
-  }, [dispatch, location.search]);
+  }, [dispatch, schoolYearId]);
 
   const sy = content.item;
   return (
@@ -74,10 +71,7 @@ const Home = ({ location } = {}) => {
             Book / Material Charge:
           </dt>
           <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
-            <Link
-              to={"/book-charge-form?schoolYearId=" + sy.id}
-              className="btn btn-light"
-            >
+            <Link to={"/book-charge-form/" + sy.id} className="btn btn-light">
               <BiPencil /> Book Charge
             </Link>
           </dd>
@@ -184,7 +178,10 @@ const Home = ({ location } = {}) => {
         </dl>
         <div className="card-footer row">
           <div className="col-md-4">
-            <Link to={`/school-year-form?id=${id}`} className="btn btn-light">
+            <Link
+              to={`/school-year-form/${schoolYearId}`}
+              className="btn btn-light"
+            >
               <BiPencil /> School Year
             </Link>
           </div>
@@ -199,4 +196,4 @@ const Home = ({ location } = {}) => {
   );
 };
 
-export default Home;
+export default SchoolYearDetails;

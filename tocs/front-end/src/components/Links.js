@@ -17,7 +17,7 @@ const ListActiveSchoolClasses = ({ schoolYear } = {}) => {
   let url = "/instruction/active-school-classes";
   let prefix = "List";
   if (schoolYear) {
-    url = `/registration/active-school-classes?schoolYearId=${schoolYear.id}`;
+    url = `/registration/active-school-classes/${schoolYear.id}`;
     prefix = schoolYear.name;
   }
   return <Link to={url}>{prefix} Active School Classes</Link>;
@@ -45,41 +45,39 @@ const ListInstructorDiscountInformation = () => (
   </Link>
 );
 
-const ListActiveSchoolClassGradeCount = ({ schoolYear }) => (
+const ListGradeStudentCount = ({ schoolYear }) => (
   <Link
-    to={`/registration/active_school_classes/grade_student_count?schoolYearId=${schoolYear.id}`}
+    to={`/registration/school-classes/grade-student-count/${schoolYear.id}`}
   >
     {schoolYear.name} 年級人數清單
   </Link>
 );
 
-const ListAvtiveSchoolClassGradeClassCount = ({ schoolYear }) => (
+const ListGradeClassStudentCount = ({ schoolYear }) => (
   <Link
-    to={`/registration/active_school_classes/grade_class_student_count?schoolYearId=${schoolYear.id}`}
+    to={`/registration/school-classes/student-count/grade/${schoolYear.id}`}
   >
     {schoolYear.name} 班級人數清單
   </Link>
 );
 
-const ListElectiveSchoolClassGradeClassCount = ({ schoolYear }) => (
+const ListElectiveClassStudentCount = ({ schoolYear }) => (
   <Link
-    to={`/registration/active_school_classes/grade_class_student_count?elective=true&schoolYearId=${schoolYear.id}`}
+    to={`/registration/school-classes/student-count/elective/${schoolYear.id}`}
   >
     {schoolYear.name} Elective Class 人數清單
   </Link>
 );
 
 const ListSiblingInSameGradeReport = ({ schoolYear }) => (
-  <Link
-    to={`/registration/sibling-in-same-grade?schoolYearId=${schoolYear.id}`}
-  >
+  <Link to={`/registration/sibling-in-same-grade/${schoolYear.id}`}>
     Sibling in Same Grade Report
   </Link>
 );
 
 const ChargesCollected = ({ schoolYear }) => (
   <Link
-    to={`/accounting/charges-collected?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}
+    to={`/accounting/charges-collected/${schoolYear.id}/${schoolYear.name}`}
   >
     {schoolYear.name} Tuition and Fee Collected
   </Link>
@@ -89,7 +87,7 @@ const CSV = ({ path, text }) => <a href={dataService.csv(path)}>{text}</a>;
 
 const DailyRegistrationSummary = ({ schoolYear }) => (
   <Link
-    to={`/accounting/daily-online-registration-summary?schoolYearId=${schoolYear.id}&name=${schoolYear.name}`}
+    to={`/accounting/daily-registration-summary/${schoolYear.id}/${schoolYear.name}`}
   >
     {schoolYear.name} Daily Online Registration Summary
   </Link>
@@ -134,9 +132,9 @@ export {
   ListAllPeople,
   ListInstructorDiscountInformation,
   ListActiveSchoolClasses,
-  ListElectiveSchoolClassGradeClassCount,
-  ListActiveSchoolClassGradeCount,
-  ListAvtiveSchoolClassGradeClassCount,
+  ListElectiveClassStudentCount,
+  ListGradeStudentCount,
+  ListGradeClassStudentCount,
   ListSiblingInSameGradeReport,
   ChargesCollected,
   CSV,

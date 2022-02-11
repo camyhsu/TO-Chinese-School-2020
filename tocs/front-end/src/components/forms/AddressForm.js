@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -30,14 +29,14 @@ import {
   getPersonalAddress as rgGetPersonalAddress,
 } from "../../actions/registration.action";
 
-const PersonForm = ({ location } = {}) => {
+const AddressForm = ({ location } = {}) => {
+  const { addressId, personId, familyId, forRegistrationStaff } = useParams();
+  const addressIdIsDefined = addressId !== "none";
+  const personIdIsDefined = personId !== "none";
+  const familyIdIsDefined = familyId !== "none";
   const form = useRef();
   const checkBtn = useRef();
 
-  const [personId, setPersonId] = useState(null);
-  const [familyId, setFamilyId] = useState(null);
-  const [registration, setRegistration] = useState(null);
-  const [id, setId] = useState(null);
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -56,7 +55,6 @@ const PersonForm = ({ location } = {}) => {
 
   const fns = useMemo(
     () => ({
-      id: setId,
       street: setStreet,
       city: setCity,
       state: setState,
@@ -69,24 +67,20 @@ const PersonForm = ({ location } = {}) => {
   );
 
   useEffect(() => {
-    const { id, personId, familyId, registration } = queryString.parse(
-      location.search
-    );
     setFormTitle(
-      `${id ? "Edit" : "Add"} ${familyId ? "Family" : "Personal"} Address`
+      `${addressIdIsDefined ? "Edit" : "Add"} ${
+        familyIdIsDefined ? "Family" : "Personal"
+      } Address`
     );
-    setPersonId(personId);
-    setFamilyId(familyId);
-    setRegistration(registration);
-    if (id) {
+    if (addressIdIsDefined) {
       const fn = () => {
-        if (registration && familyId) {
+        if (forRegistrationStaff && familyIdIsDefined) {
           return rgGetFamilyAddress(familyId);
         }
-        if (familyId) {
+        if (familyIdIsDefined) {
           return spGetFamilyAddress(familyId);
         }
-        if (registration) {
+        if (forRegistrationStaff) {
           return rgGetPersonalAddress(personId);
         }
         return spGetPersonalAddress(personId);
@@ -99,7 +93,17 @@ const PersonForm = ({ location } = {}) => {
         }
       });
     }
-  }, [location, fns, dispatch]);
+  }, [
+    addressId,
+    addressIdIsDefined,
+    personId,
+    personIdIsDefined,
+    familyId,
+    familyIdIsDefined,
+    forRegistrationStaff,
+    fns,
+    dispatch,
+  ]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
@@ -124,19 +128,19 @@ const PersonForm = ({ location } = {}) => {
         email,
       };
       const fn = () => {
-        if (registration && familyId) {
+        if (forRegistrationStaff && familyIdIsDefined) {
           return rgSaveFamilyAddress(familyId, obj);
         }
-        if (id) {
-          if (familyId) {
+        if (addressIdIsDefined) {
+          if (familyIdIsDefined) {
             return spSaveFamilyAddress(familyId, obj);
           }
-          if (registration) {
+          if (forRegistrationStaff) {
             return rgSavePersonalAddress(personId, obj);
           }
           return spSavePersonalAddress(personId, obj);
         }
-        if (registration) {
+        if (forRegistrationStaff) {
           return rgAddPersonalAddress(personId, obj);
         }
         return spAddPersonalAddress(personId, obj);
@@ -284,4 +288,4 @@ const PersonForm = ({ location } = {}) => {
   );
 };
 
-export default PersonForm;
+export default AddressForm;

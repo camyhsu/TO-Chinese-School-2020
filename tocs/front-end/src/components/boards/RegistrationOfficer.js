@@ -7,7 +7,7 @@ import {
   CreateANewFamily,
   ListAllPeople,
   ListActiveSchoolClasses,
-  ListActiveSchoolClassGradeCount,
+  ListGradeStudentCount,
   ListActiveStudentsByName,
   ListSiblingInSameGradeReport,
   ProcessInPersonRegistrationPayments,
@@ -77,7 +77,7 @@ const Home = () => {
                 />
               </div>
               <div className="col-md-8">
-                <ListActiveSchoolClassGradeCount
+                <ListGradeStudentCount
                   schoolYear={content.currentSchoolYear}
                 />
               </div>
@@ -89,7 +89,7 @@ const Home = () => {
                 <ListActiveSchoolClasses schoolYear={content.nextSchoolYear} />
               </div>
               <div className="col-md-8">
-                <ListActiveSchoolClassGradeCount
+                <ListGradeStudentCount
                   schoolYear={content.nextSchoolYear}
                 />
               </div>

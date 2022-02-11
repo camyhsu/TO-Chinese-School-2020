@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import queryString from "query-string";
+import { Link, useParams } from "react-router-dom";
 import AccountingService from "../../services/accounting.service";
 import { dollar, formatPersonNames, isoToPacific } from "../../utils/utilities";
 import { Card, CardTitle, CardBody, CardFooter } from "../Cards";
 
-const WithdrawRequests = ({ location } = {}) => {
+const WithdrawRequestDetails = () => {
+  const { requestId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -15,9 +15,7 @@ const WithdrawRequests = ({ location } = {}) => {
   useEffect(() => {
     document.title = "TOCS - Home";
 
-    const { id: _id } = queryString.parse(location.search);
-
-    AccountingService.getWithdrawRequest(_id).then(
+    AccountingService.getWithdrawRequest(requestId).then(
       (response) => {
         setContent({
           isLoaded: true,
@@ -36,7 +34,7 @@ const WithdrawRequests = ({ location } = {}) => {
         });
       }
     );
-  }, [location.search]);
+  }, [requestId]);
 
   const withDrawRequest = content.item;
   return (
@@ -144,4 +142,4 @@ const WithdrawRequests = ({ location } = {}) => {
   );
 };
 
-export default WithdrawRequests;
+export default WithdrawRequestDetails;

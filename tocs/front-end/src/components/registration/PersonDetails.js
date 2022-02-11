@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import queryString from "query-string";
 import RegistrationService from "../../services/registration.service";
 import {
   BiPlus,
@@ -16,14 +15,14 @@ import Address from "../Address";
 import Person from "../Person";
 import Table from "../Table";
 
-const Home = ({ location } = {}) => {
+const PersonDetails = () => {
+  const { personId } = useParams();
   const [reload, setReload] = useState(null);
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
     item: [],
   });
-  const [id, setId] = useState("");
   const dispatch = useDispatch();
   const header = [
     {
@@ -35,7 +34,7 @@ const Home = ({ location } = {}) => {
         ) {
           return (
             <Link
-              to={"/student/registration-payment?forStaff=true&id=" + row.id}
+              to={"/student/registration-payment/staff/" + row.id}
               className="btn btn-light"
             >
               <BiInfoCircle />
@@ -44,7 +43,7 @@ const Home = ({ location } = {}) => {
         }
         return (
           <Link
-            to={"/student/registration-payment?id=" + row.id}
+            to={"/student/registration-payment/parent/" + row.id}
             className="btn btn-light"
           >
             <BiInfoCircle />
@@ -57,11 +56,8 @@ const Home = ({ location } = {}) => {
     { title: "Payment Method", prop: "paymentMethod" },
   ];
   useEffect(() => {
-    const { id: _id } = queryString.parse(location.search);
-    setId(_id);
-
-    if (id) {
-      RegistrationService.getPerson(id).then((response) => {
+    if (personId) {
+      RegistrationService.getPerson(personId).then((response) => {
         if (response && response.data) {
           const { person, families, instructorAssignments, transactions } =
             response.data;
@@ -75,7 +71,7 @@ const Home = ({ location } = {}) => {
         }
       });
     }
-  }, [dispatch, id, location.search, reload]);
+  }, [dispatch, personId, reload]);
 
   const deleteInstructorAssignment = (id) => {
     RegistrationService.deleteInstructorAssignment(id).then(
@@ -109,7 +105,7 @@ const Home = ({ location } = {}) => {
             <div className="col-md-5 mb-3 mb-md-0">
               {content.person && (
                 <Link
-                  to={`/person-form?registration=true&id=${content.person.id}`}
+                  to={`/person-form/${content.person.id}/none/false/true`}
                   className="btn btn-light"
                 >
                   <BiPencil /> Person Details
@@ -119,7 +115,7 @@ const Home = ({ location } = {}) => {
             <div className="col-md-7 text-md-right">
               {content.person && !content.person.addressId && (
                 <Link
-                  to={`/address-form?registration=true&personId=${content.person.id}`}
+                  to={`/address-form/none/${content.person.id}/none/true`}
                   className="btn btn-light"
                 >
                   <BiPlus /> Personal Address
@@ -127,7 +123,7 @@ const Home = ({ location } = {}) => {
               )}
               {content.person && content.person.addressId && (
                 <Link
-                  to={`/address-form?registration=true&id=${content.person.addressId}&personId=${content.person.id}`}
+                  to={`/address-form/${content.person.addressId}/${content.person.id}/none/true`}
                   className="btn btn-light"
                 >
                   <BiPencil /> Personal Address
@@ -175,7 +171,7 @@ const Home = ({ location } = {}) => {
                   <div className="row text-truncate">
                     <div className="col-md-5 mb-3 mb-md-0">
                       <Link
-                        to={`/registration/family?id=${family.id}`}
+                        to={`/registration/family/${family.id}`}
                         className="btn btn-light"
                       >
                         <BiPencil /> Family Data
@@ -254,7 +250,7 @@ const Home = ({ location } = {}) => {
                   <div className="row text-truncate">
                     <div className="col-md-6 mb-3 mb-md-0">
                       <Link
-                        to={`/registration/instructor-assignment?personId=${id}&id=${instructorAssignment.id}`}
+                        to={`/registration/instructor-assignment/${personId}/${instructorAssignment.id}`}
                         className="btn btn-light"
                       >
                         <BiPencil /> Instructor Assignment
@@ -283,7 +279,7 @@ const Home = ({ location } = {}) => {
           <div className="row">
             <div className="col-md-6">
               <Link
-                to={"/registration/instructor-assignment?personId=" + id}
+                to={"/registration/instructor-assignment/" + personId + "/new"}
                 className="btn btn-light"
               >
                 <BiPlus />
@@ -292,7 +288,7 @@ const Home = ({ location } = {}) => {
             </div>
             <div className="col-md-6">
               <Link
-                to={"/accounting/manual-transaction?personId=" + id}
+                to={"/accounting/manual-transaction/" + personId}
                 className="btn btn-light"
               >
                 <BiPlus />
@@ -306,4 +302,4 @@ const Home = ({ location } = {}) => {
   );
 };
 
-export default Home;
+export default PersonDetails;

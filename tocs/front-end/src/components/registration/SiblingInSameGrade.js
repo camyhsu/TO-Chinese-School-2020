@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import RegistrationService from "../../services/registration.service";
 import { formatPersonNames } from "../../utils/utilities";
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from "../Table";
 
-const SiblingInSameGrade = ({ location } = {}) => {
+const SiblingInSameGrade = () => {
+  const { schoolYearId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -35,8 +36,6 @@ const SiblingInSameGrade = ({ location } = {}) => {
   ];
 
   useEffect(() => {
-    const { schoolYearId } = queryString.parse(location.search);
-
     document.title = "TOCS - Home";
 
     RegistrationService.getSiblingInSameGradeReport(schoolYearId).then(
@@ -58,7 +57,7 @@ const SiblingInSameGrade = ({ location } = {}) => {
         });
       }
     );
-  }, [location.search]);
+  }, [schoolYearId]);
 
   return (
     <Card size="no-max-width">

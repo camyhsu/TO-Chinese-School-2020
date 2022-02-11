@@ -27,7 +27,7 @@ const People = () => {
     {
       cell: (row) => (
         <Link
-          to={"/registration/show-person?id=" + row.id}
+          to={"/registration/show-person/" + row.id}
           className="btn btn-light"
         >
           <BiInfoCircle />

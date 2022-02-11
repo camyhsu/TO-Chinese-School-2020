@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import StudentParentService from "../../services/student-parent.service";
 import RegistrationPaymentDetails from "./RegistrationPaymentDetails";
 import GatewayTransaction from "./GatewayTransaction";
 
-const RegistrationPayment = ({ location } = {}) => {
+const RegistrationPayment = () => {
+  const { viewType, paymentId } = useParams();
+  const forStaff = viewType === "staff";
   const [content, setContent] = useState("");
-  const [forStaff, setForStaff] = useState("");
 
   useEffect(() => {
     document.title = "TOCS - Registration Payment";
 
-    const { id, forStaff: _forStaff } = queryString.parse(location.search);
-    setForStaff(_forStaff);
-
-    StudentParentService.getRegistrationPayment(id, _forStaff).then(
+    StudentParentService.getRegistrationPayment(paymentId, forStaff).then(
       (response) => {
         setContent({
           isLoaded: true,
@@ -25,7 +23,7 @@ const RegistrationPayment = ({ location } = {}) => {
         });
       }
     );
-  }, [location.search]);
+  }, [paymentId, forStaff]);
 
   const gatewayTransaction = content.gatewayTransaction;
   const registrationPayment = content.registrationPayment;

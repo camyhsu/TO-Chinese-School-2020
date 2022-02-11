@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import AccountingService from "../../services/accounting.service";
 import { dollar } from "../../utils/utilities";
 import { Card, CardTitle, CardBody } from "../Cards";
 
-const ChargesCollected = ({ location } = {}) => {
-  const { schoolYearId, name } = queryString.parse(location.search);
+const ChargesCollected = () => {
+  const { schoolYearId, schoolYearName } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -38,7 +38,9 @@ const ChargesCollected = ({ location } = {}) => {
 
   return (
     <Card size="large">
-      <CardTitle>Tuition and Fee Collected For {name} School Year</CardTitle>
+      <CardTitle>
+        Tuition and Fee Collected For {schoolYearName} School Year
+      </CardTitle>
       <CardBody>
         <dl className="row">
           <dt className="col-12 col-md-6 text-right text-md-right">

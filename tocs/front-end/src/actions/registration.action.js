@@ -38,7 +38,7 @@ const commonFamilyFn = (p, dispatch, familyId) =>
       const id = familyId || response.data.id;
       dispatch({
         type: ACTION_SUCCESS,
-        payload: "/registration/family?id=" + id,
+        payload: "/registration/family/" + id,
       });
       dispatch({
         type: SET_MESSAGE,
@@ -87,7 +87,7 @@ const commonPersonFn = (p, dispatch, personId) =>
     (response) => {
       dispatch({
         type: ACTION_SUCCESS,
-        payload: "/registration/show-person?id=" + personId,
+        payload: "/registration/show-person/" + personId,
       });
       dispatch({
         type: SET_MESSAGE,

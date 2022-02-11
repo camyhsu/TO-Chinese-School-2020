@@ -99,7 +99,7 @@ const savePayment = (paymentId, payment) => (dispatch) =>
   commonFn(
     StudentParentService.savePayment(paymentId, payment),
     dispatch,
-    "/student/registration-payment?id=" + paymentId
+    "/student/registration-payment/parent/" + paymentId
   );
 
 export {

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -11,7 +11,6 @@ import {
   dateStarted,
   bilingualName,
 } from "../../utils/utilities";
-import queryString from "query-string";
 import { Card, CardBody, CardTitle } from "../Cards";
 import StudentParentService from "../../services/student-parent.service";
 import {
@@ -20,7 +19,8 @@ import {
 } from "../student";
 import { saveRegistrationPreferences } from "../../actions/student-parent.action";
 
-const StudentRegistrationForm = ({ location } = {}) => {
+const StudentRegistrationForm = () => {
+  const { schoolYearId } = useParams();
   const checkBtn = useRef();
   const [successful, setSuccessful] = useState(false);
   const { message } = useSelector((state) => state.message);
@@ -78,8 +78,6 @@ const StudentRegistrationForm = ({ location } = {}) => {
   };
 
   useEffect(() => {
-    const { schoolYearId } = queryString.parse(location.search);
-
     if (schoolYearId) {
       StudentParentService.getStudentRegistrationDisplayOptions(
         schoolYearId
@@ -119,7 +117,7 @@ const StudentRegistrationForm = ({ location } = {}) => {
         );
       });
     }
-  }, [dispatch, location.search]);
+  }, [dispatch, schoolYearId]);
 
   const onClickContinue = (e) => {
     e.preventDefault();

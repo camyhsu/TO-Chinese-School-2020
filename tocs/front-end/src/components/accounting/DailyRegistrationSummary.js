@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import AccountingService from "../../services/accounting.service";
 import { dollar } from "../../utils/utilities";
 import Table from "../Table";
 import { Card, CardTitle, CardBody } from "../Cards";
 
-const DailyRegistrationSummary = ({ location } = {}) => {
-  const { schoolYearId, name } = queryString.parse(location.search);
+const DailyRegistrationSummary = () => {
+  const { schoolYearId, schoolYearName } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -48,7 +48,9 @@ const DailyRegistrationSummary = ({ location } = {}) => {
 
   return (
     <Card size="no-max-width">
-      <CardTitle>Daily Registration Summary For {name} School Year</CardTitle>
+      <CardTitle>
+        Daily Registration Summary For {schoolYearName} School Year
+      </CardTitle>
       <CardBody>
         <Table
           header={header}

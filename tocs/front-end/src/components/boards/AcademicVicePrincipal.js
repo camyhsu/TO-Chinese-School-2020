@@ -3,8 +3,8 @@ import UserService from "../../services/user.service";
 import {
   ViewLibraryBooks,
   ListActiveSchoolClasses,
-  ListAvtiveSchoolClassGradeClassCount,
-  ListElectiveSchoolClassGradeClassCount,
+  ListGradeClassStudentCount,
+  ListElectiveClassStudentCount,
 } from "../Links";
 import { Card, CardBody, CardTitle } from "../Cards";
 
@@ -37,12 +37,12 @@ const Home = () => {
           {content.currentSchoolYear && (
             <>
               <div className="col-md-8">
-                <ListAvtiveSchoolClassGradeClassCount
+                <ListGradeClassStudentCount
                   schoolYear={content.currentSchoolYear}
                 />
               </div>
               <div className="col-md-8">
-                <ListElectiveSchoolClassGradeClassCount
+                <ListElectiveClassStudentCount
                   schoolYear={content.currentSchoolYear}
                 />
               </div>
@@ -51,12 +51,12 @@ const Home = () => {
           {content.nextSchoolYear && (
             <>
               <div className="col-md-8">
-                <ListAvtiveSchoolClassGradeClassCount
+                <ListGradeClassStudentCount
                   schoolYear={content.nextSchoolYear}
                 />
               </div>
               <div className="col-md-8">
-                <ListElectiveSchoolClassGradeClassCount
+                <ListElectiveClassStudentCount
                   schoolYear={content.nextSchoolYear}
                 />
               </div>

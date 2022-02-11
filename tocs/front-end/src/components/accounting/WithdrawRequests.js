@@ -20,7 +20,7 @@ const WithdrawRequests = () => {
     {
       cell: (row) => (
         <Link
-          to={"/accounting/withdraw-request?id=" + row.id}
+          to={"/accounting/withdraw-request/" + row.id}
           className="btn btn-light"
         >
           <BiInfoCircle />

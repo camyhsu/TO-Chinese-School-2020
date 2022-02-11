@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
 import {
-  ListAvtiveSchoolClassGradeClassCount,
-  ListElectiveSchoolClassGradeClassCount,
+  ListGradeClassStudentCount,
+  ListElectiveClassStudentCount,
   ListWithdrawRequests,
   ListInstructorDiscountInformation,
   ChargesCollected,
@@ -40,12 +40,12 @@ const Home = () => {
           {content.currentSchoolYear && (
             <>
               <div className="col-md-8">
-                <ListAvtiveSchoolClassGradeClassCount
+                <ListGradeClassStudentCount
                   schoolYear={content.currentSchoolYear}
                 />
               </div>
               <div className="col-md-8">
-                <ListElectiveSchoolClassGradeClassCount
+                <ListElectiveClassStudentCount
                   schoolYear={content.currentSchoolYear}
                 />
               </div>
@@ -54,12 +54,12 @@ const Home = () => {
           {content.nextSchoolYear && (
             <>
               <div className="col-md-8">
-                <ListAvtiveSchoolClassGradeClassCount
+                <ListGradeClassStudentCount
                   schoolYear={content.nextSchoolYear}
                 />
               </div>
               <div className="col-md-8">
-                <ListElectiveSchoolClassGradeClassCount
+                <ListElectiveClassStudentCount
                   schoolYear={content.nextSchoolYear}
                 />
               </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import queryString from "query-string";
 import RegistrationService from "../../services/registration.service";
 import {
   formatPersonName,
@@ -13,7 +12,8 @@ import {
 import { Card, CardTitle, CardBody, CardFooter } from "../Cards";
 import Address from "../Address";
 
-const Family = ({ location } = {}) => {
+const Family = () => {
+  const { familyId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -22,9 +22,8 @@ const Family = ({ location } = {}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { id } = queryString.parse(location.search);
-    if (id) {
-      RegistrationService.getFamily(id).then((response) => {
+    if (familyId) {
+      RegistrationService.getFamily(familyId).then((response) => {
         if (response && response.data) {
           setContent({
             isLoaded: true,
@@ -33,7 +32,7 @@ const Family = ({ location } = {}) => {
         }
       });
     }
-  }, [dispatch, location.search]);
+  }, [dispatch, familyId]);
 
   const family = content.item;
   return (
@@ -72,7 +71,7 @@ const Family = ({ location } = {}) => {
           <div className="col-md-5 mb-3 mb-md-0">
             {family && family.address && (
               <Link
-                to={`/address-form?registration=true&id=${family.address.id}&familyId=${family.id}`}
+                to={`/address-form/${family.address.id}/none/${family.id}/true`}
                 className="btn btn-light"
               >
                 <BiPencil /> Family Address
@@ -82,7 +81,7 @@ const Family = ({ location } = {}) => {
           <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right">
             {!family.parentTwo && (
               <Link
-                to={`/person-form?registration=true&familyId=${family.id}&isParentTwo=true`}
+                to={`/person-form/none/${family.id}/true/true`}
                 className="btn btn-light"
               >
                 <BiPersonPlus /> Parent
@@ -91,7 +90,7 @@ const Family = ({ location } = {}) => {
           </div>
           <div className="col-md-3 text-md-right">
             <Link
-              to={`/person-form?registration=true&familyId=${family.id}`}
+              to={`/person-form/none/${family.id}/false/true`}
               className="btn btn-light"
             >
               <BiPersonPlus /> Child

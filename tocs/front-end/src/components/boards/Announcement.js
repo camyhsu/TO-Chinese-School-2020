@@ -45,7 +45,7 @@ const Home = () => {
                   These will be used as-is in yearbook.
                 </p>
                 <Link
-                  to={`/student-registration?schoolYearId=${schoolYear.id}`}
+                  to={`/student-registration/${schoolYear.id}`}
                   className="btn btn-dark"
                 >
                   Start

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -17,11 +16,12 @@ import {
   getLibraryBook,
 } from "../../actions/librarian.action";
 
-const BookForm = ({ location } = {}) => {
+const BookForm = () => {
+  const { bookId } = useParams();
+  const bookIdIsDefined = bookId !== "new";
   const form = useRef();
   const checkBtn = useRef();
 
-  const [id, setId] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [publisher, setPublisher] = useState("");
@@ -36,7 +36,6 @@ const BookForm = ({ location } = {}) => {
   const dispatch = useDispatch();
   const fns = useMemo(
     () => ({
-      id: setId,
       title: setTitle,
       description: setDescription,
       publisher: setPublisher,
@@ -47,10 +46,9 @@ const BookForm = ({ location } = {}) => {
   );
 
   useEffect(() => {
-    const { id } = queryString.parse(location.search);
-    setFormTitle(`${id ? "Edit" : "Add"} Book`);
-    if (id) {
-      dispatch(getLibraryBook(id)).then((response) => {
+    setFormTitle(`${bookIdIsDefined ? "Edit" : "Add"} Book`);
+    if (bookIdIsDefined) {
+      dispatch(getLibraryBook(bookId)).then((response) => {
         if (response && response.data) {
           Object.entries(response.data).forEach(
             ([key, value]) => fns[key] && fns[key](value || "")
@@ -58,7 +56,7 @@ const BookForm = ({ location } = {}) => {
         }
       });
     }
-  }, [location.search, fns, dispatch]);
+  }, [bookId, fns, dispatch, bookIdIsDefined]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
@@ -80,7 +78,9 @@ const BookForm = ({ location } = {}) => {
         bookType,
         note,
       };
-      dispatch(id ? saveLibraryBook(id, obj) : addLibraryBook(obj))
+      dispatch(
+        bookIdIsDefined ? saveLibraryBook(bookId, obj) : addLibraryBook(obj)
+      )
         .then(() => {
           setSuccessful(true);
         })

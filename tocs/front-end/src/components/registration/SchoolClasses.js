@@ -16,7 +16,7 @@ const Home = () => {
   const header = [
     {
       cell: (row) => (
-        <Link to={"/school-class-form?id=" + row.id} className="btn btn-light">
+        <Link to={"/school-class-form/" + row.id} className="btn btn-light">
           <BiPencil />
         </Link>
       ),
@@ -158,7 +158,7 @@ const Home = () => {
       <CardBody>
         <div className="row">
           <div className="col-md-3">
-            <Link to="/school-class-form" className="btn btn-light">
+            <Link to="/school-class-form/new" className="btn btn-light">
               <BiPlus /> School Class
             </Link>
           </div>

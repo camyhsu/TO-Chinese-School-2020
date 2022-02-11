@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -18,11 +17,11 @@ import {
   saveBookCharges,
 } from "../../actions/registration.action";
 
-const BookChargeForm = ({ location } = {}) => {
+const BookChargeForm = () => {
+  const { schoolYearId } = useParams();
   const form = useRef();
   const checkBtn = useRef();
 
-  const [schoolYearId, setSchoolYearId] = useState(null);
   const [bookCharges, setBookCharges] = useState(null);
 
   const [formTitle, setFormTitle] = useState("");
@@ -35,8 +34,6 @@ const BookChargeForm = ({ location } = {}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { schoolYearId } = queryString.parse(location.search);
-    setSchoolYearId(schoolYearId);
     setFormTitle("Edit Book / Material Charge");
     if (schoolYearId) {
       dispatch(getBookCharges(schoolYearId)).then((response) => {
@@ -54,7 +51,7 @@ const BookChargeForm = ({ location } = {}) => {
         }
       });
     }
-  }, [location.search, dispatch]);
+  }, [dispatch, schoolYearId]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;

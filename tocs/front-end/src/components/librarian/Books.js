@@ -39,7 +39,7 @@ const Books = ({ readOnly } = {}) => {
   const allHeaders = [
     {
       cell: (row) => (
-        <Link to={"/book-form?id=" + row.id} className="btn btn-light">
+        <Link to={"/book-form/" + row.id} className="btn btn-light">
           <BiPencil />
         </Link>
       ),
@@ -47,7 +47,7 @@ const Books = ({ readOnly } = {}) => {
     {
       cell: (row) => (
         <Link
-          to={"/librarian/checkout-history?id=" + row.id}
+          to={"/librarian/checkout-history/" + row.id}
           className="btn btn-light"
         >
           <BiClockHistory />
@@ -96,7 +96,7 @@ const Books = ({ readOnly } = {}) => {
         <div className="row">
           <div className="col-md-3">
             {!readOnly && (
-              <Link to="/book-form" className="btn btn-light">
+              <Link to="/book-form/new" className="btn btn-light">
                 <BiPlus /> Book
               </Link>
             )}

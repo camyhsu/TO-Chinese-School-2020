@@ -46,7 +46,7 @@ const ManageStaffAssignments = () => {
                 <div className="row">
                   <div className="col-md-12 mb-3 text-center">
                     <Link
-                      to={"/admin/manage-staff-assignment?id=" + schoolYear.id}
+                      to={"/admin/manage-staff-assignment/" + schoolYear.id}
                       className="btn btn-light"
                     >
                       Show Staff Assignment for {schoolYear.name}

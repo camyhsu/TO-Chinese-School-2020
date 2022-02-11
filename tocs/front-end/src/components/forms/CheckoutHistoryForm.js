@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
@@ -22,7 +21,8 @@ import {
 } from "../../utils/utilities";
 import { Card, CardBody, CardTitle } from "../Cards";
 
-const CheckoutHistoryForm = ({ location } = {}) => {
+const CheckoutHistoryForm = () => {
+  const { bookId } = useParams();
   const form = useRef();
   const checkBtn = useRef();
   const [successful, setSuccessful] = useState(false);
@@ -34,7 +34,6 @@ const CheckoutHistoryForm = ({ location } = {}) => {
     isLoaded: false,
     items: [],
   });
-  const [id, setId] = useState(null);
   const [checkedOutBy, setCheckedOutBy] = useState(null);
   const [date, setDate] = useState(today());
   const [note, setNote] = useState("");
@@ -54,7 +53,6 @@ const CheckoutHistoryForm = ({ location } = {}) => {
   const dispatch = useDispatch();
   const fns = useMemo(
     () => ({
-      id: setId,
       checkedOutBy: setCheckedOutBy,
       date: setDate,
       note: setNote,
@@ -64,9 +62,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
 
   useEffect(() => {
     document.title = "TOCS - Home";
-    const { id } = queryString.parse(location.search);
-    setId(id);
-    LibrarianService.getLibraryBookCheckOutHistory(id).then(
+    LibrarianService.getLibraryBookCheckOutHistory(bookId).then(
       (response) => {
         const book = response.data;
         setContent({
@@ -93,7 +89,7 @@ const CheckoutHistoryForm = ({ location } = {}) => {
         });
       }
     );
-  }, [location]);
+  }, [bookId]);
 
   const book = content && content.item;
   const checkouts = book && book.checkOuts;
@@ -125,8 +121,8 @@ const CheckoutHistoryForm = ({ location } = {}) => {
       }
       dispatch(
         book.checkedOut
-          ? returnLibraryBook(id, obj)
-          : checkOutLibraryBook(id, obj)
+          ? returnLibraryBook(bookId, obj)
+          : checkOutLibraryBook(bookId, obj)
       )
         .then(() => {
           setSuccessful(true);

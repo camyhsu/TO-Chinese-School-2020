@@ -63,7 +63,7 @@ const Home = () => {
               <div className="col-md-5 mb-3 mb-md-0">
                 {content.person && (
                   <Link
-                    to={`/person-form?id=${content.person.id}`}
+                    to={`/person-form/${content.person.id}/none/false/false`}
                     className="btn btn-light"
                   >
                     <BiPencil /> Person Details
@@ -73,7 +73,7 @@ const Home = () => {
               <div className="col-md-7 text-md-right">
                 {content.person && !content.person.addressId && (
                   <Link
-                    to={`/address-form?personId=${content.person.id}`}
+                    to={`/address-form/none/${content.person.id}/none/false`}
                     className="btn btn-light"
                   >
                     <BiPlus /> Personal Address
@@ -81,7 +81,7 @@ const Home = () => {
                 )}
                 {content.person && content.person.addressId && (
                   <Link
-                    to={`/address-form?id=${content.person.addressId}&personId=${content.person.id}`}
+                    to={`/address-form/${content.person.addressId}/${content.person.id}/none/false`}
                     className="btn btn-light"
                   >
                     <BiPencil /> Personal Address
@@ -129,7 +129,7 @@ const Home = () => {
                     <div className="row text-truncate">
                       <div className="col-md-5 mb-3 mb-md-0">
                         <Link
-                          to={`/address-form?id=${family.addressId}&familyId=${family.id}`}
+                          to={`/address-form/${family.addressId}/none/${family.id}/false`}
                           className="btn btn-light"
                         >
                           <BiPencil /> Family Address
@@ -138,7 +138,7 @@ const Home = () => {
                       <div className="col-md-4 mb-3 mb-md-0 px-md-2 text-md-right">
                         {!family.parentTwo && (
                           <Link
-                            to={`/person-form?familyId=${family.id}&isParentTwo=true`}
+                            to={`/person-form/none/${family.id}/true/false`}
                             className="btn btn-light"
                           >
                             <BiPersonPlus /> Parent
@@ -147,7 +147,7 @@ const Home = () => {
                       </div>
                       <div className="col-md-3 text-md-right">
                         <Link
-                          to={`/person-form?familyId=${family.id}`}
+                          to={`/person-form/none/${family.id}/false/false`}
                           className="btn btn-light"
                         >
                           <BiPersonPlus /> Child
@@ -173,7 +173,7 @@ const Home = () => {
                             <div className="row text-truncate">
                               <div className="col-md-5 mb-md-0">
                                 <Link
-                                  to={`/person-form?id=${student.id}`}
+                                  to={`/person-form/${student.id}/none/false/false`}
                                   className="btn btn-light"
                                 >
                                   <BiPencil /> Student Details

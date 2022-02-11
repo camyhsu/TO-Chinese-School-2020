@@ -7,7 +7,7 @@ const commonPersonFn = (p, dispatch, personId) =>
     (response) => {
       dispatch({
         type: ACTION_SUCCESS,
-        payload: "/registration/show-person?id=" + personId,
+        payload: "/registration/show-person/" + personId,
       });
       dispatch({
         type: SET_MESSAGE,

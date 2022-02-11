@@ -16,7 +16,7 @@ const Home = () => {
     {
       cell: (row) => (
         <Link
-          to={"/admin/school-year-details?id=" + row.id}
+          to={"/admin/school-year-details/" + row.id}
           className="btn btn-light"
         >
           <BiInfoCircle />
@@ -94,7 +94,7 @@ const Home = () => {
       <CardBody>
         <div className="row">
           <div className="col-md-3">
-            <Link to="/school-year-form" className="btn btn-light">
+            <Link to="/school-year-form/new" className="btn btn-light">
               <BiPlus /> School Year
             </Link>
           </div>

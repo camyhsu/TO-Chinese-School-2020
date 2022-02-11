@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
@@ -15,7 +14,8 @@ import {
 import { decimal, required, OptionalField } from "../../utils/utilities";
 import { Card, CardBody, CardTitle } from "../Cards";
 
-const SchoolYearForm = ({ location } = {}) => {
+const SchoolYearForm = () => {
+  const { schoolYearId } = useParams();
   const form = useRef();
   const checkBtn = useRef();
 
@@ -86,10 +86,12 @@ const SchoolYearForm = ({ location } = {}) => {
   );
 
   useEffect(() => {
-    const { id } = queryString.parse(location.search);
-    setFormTitle(`${id ? "Edit" : "Add"} School Year`);
-    if (id) {
-      dispatch(getSchoolYear(id)).then((response) => {
+    // This is a temporary hack to get the react router upgrade going.
+    if (schoolYearId === "new") {
+      setFormTitle(`Add School Year`);
+    } else {
+      setFormTitle(`Edit School Year`);
+      dispatch(getSchoolYear(schoolYearId)).then((response) => {
         if (response && response.data) {
           Object.entries(response.data).forEach(
             ([key, value]) => fns[key] && fns[key](value || "")
@@ -97,7 +99,7 @@ const SchoolYearForm = ({ location } = {}) => {
         }
       });
     }
-  }, [dispatch, fns, location.search]);
+  }, [dispatch, fns, schoolYearId]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;

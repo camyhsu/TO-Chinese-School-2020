@@ -90,23 +90,30 @@ const getBookCharges = (schoolYearId) =>
 const getActiveSchoolClasses = (schoolYearId) =>
   dataService.get(`registration/active_school_classes/index/${schoolYearId}`);
 
-const getAvtiveSchoolClassGradeCount = (schoolYearId) =>
+const getActiveSchoolClassGradeCount = (schoolYearId) =>
   dataService.get(
     `registration/active_school_classes/grade_student_count/${schoolYearId}`
   );
 
-const getchoolClassCount = (schoolYearId, elective) =>
-  dataService.get(
-    `registration/active_school_classes/${
-      elective ? "elective_class_student_count" : "grade_class_student_count"
-    }/${schoolYearId}`
+const getSchoolClassCount = (classType, schoolYearId) => {
+  const classTypePathComponent = `${classType}_class_student_count`;
+  return dataService.get(
+    `registration/active_school_classes/${classTypePathComponent}/${schoolYearId}`
   );
+};
 
 const getSiblingInSameGradeReport = (schoolYearId) =>
   dataService.get(`registration/report/sibling_in_same_grade/${schoolYearId}`);
 
-const getInstructorAssignmentForm = (id) =>
-  dataService.get(`registration/people/add_instructor_assignment/${id || 0}`);
+const getInstructorAssignmentForm = (id) => {
+  if (id === "new") {
+    return dataService.get(`registration/people/add_instructor_assignment/0`);
+  } else {
+    return dataService.get(
+      `registration/people/add_instructor_assignment/${id}`
+    );
+  }
+};
 
 const addInstructorAssignment = (personId, obj) =>
   dataService.post(
@@ -156,10 +163,10 @@ const obj = {
   saveBookCharges,
   getBookCharges,
   getActiveSchoolClasses,
-  getAvtiveSchoolClassGradeCount,
+  getActiveSchoolClassGradeCount,
   getSiblingInSameGradeReport,
   getPersonalAddress,
-  getchoolClassCount,
+  getSchoolClassCount,
   getInstructorAssignmentForm,
   addInstructorAssignment,
   saveInstructorAssignment,

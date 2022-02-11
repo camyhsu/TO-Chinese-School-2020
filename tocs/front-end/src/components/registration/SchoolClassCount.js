@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import RegistrationService from "../../services/registration.service";
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from "../Table";
 import { formatPersonNames } from "../../utils/utilities";
 
-const SchoolClassCount = ({ location } = {}) => {
+const SchoolClassCount = () => {
+  const { classType, schoolYearId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
@@ -72,11 +73,9 @@ const SchoolClassCount = ({ location } = {}) => {
   ];
 
   useEffect(() => {
-    const { schoolYearId, elective } = queryString.parse(location.search);
-
     document.title = "TOCS - Home";
 
-    RegistrationService.getchoolClassCount(schoolYearId, elective).then(
+    RegistrationService.getSchoolClassCount(classType, schoolYearId).then(
       (response) => {
         setContent({
           isLoaded: true,
@@ -84,7 +83,7 @@ const SchoolClassCount = ({ location } = {}) => {
         });
         setTitle(
           `千橡中文學校  ${response.data.title}學年度  ${
-            elective ? "Elective Class" : "班級"
+            classType === "elective" ? "Elective Class" : "班級"
           }人數清單`
         );
         if (response.data.items) {
@@ -103,7 +102,7 @@ const SchoolClassCount = ({ location } = {}) => {
         });
       }
     );
-  }, [location.search]);
+  }, [classType, schoolYearId]);
 
   return (
     <Card size="no-max-width">

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
@@ -16,12 +15,13 @@ import RegistrationService from "../../services/registration.service";
 import { required, OptionalField } from "../../utils/utilities";
 import { Card, CardBody, CardTitle } from "../Cards";
 
-const SchoolClassForm = ({ location: urlLocation } = {}) => {
+const SchoolClassForm = () => {
+  const { schoolClassId } = useParams();
+  const schoolClassIdIsDefined = schoolClassId !== "new";
   const form = useRef();
   const checkBtn = useRef();
   const [content, setContent] = useState({ grades: [] });
 
-  const [id, setId] = useState(null);
   const [englishName, setEnglishName] = useState("");
   const [chineseName, setChineseName] = useState("");
   const [shortName, setShortName] = useState("");
@@ -43,7 +43,6 @@ const SchoolClassForm = ({ location: urlLocation } = {}) => {
 
   const fns = useMemo(
     () => ({
-      id: setId,
       englishName: setEnglishName,
       chineseName: setChineseName,
       shortName: setShortName,
@@ -59,14 +58,13 @@ const SchoolClassForm = ({ location: urlLocation } = {}) => {
   );
 
   useEffect(() => {
-    const { id } = queryString.parse(urlLocation.search);
-    setFormTitle(`${id ? "Edit" : "Add"} School Class`);
+    setFormTitle(`${schoolClassIdIsDefined ? "Edit" : "Add"} School Class`);
     RegistrationService.getGrades().then((response) => {
       const grades = response.data;
       setContent({ grades });
     });
-    if (id) {
-      dispatch(getSchoolClass(id)).then((response) => {
+    if (schoolClassIdIsDefined) {
+      dispatch(getSchoolClass(schoolClassId)).then((response) => {
         if (response && response.data) {
           Object.entries(response.data).forEach(
             ([key, value]) => fns[key] && fns[key](value || "")
@@ -74,7 +72,7 @@ const SchoolClassForm = ({ location: urlLocation } = {}) => {
         }
       });
     }
-  }, [dispatch, fns, urlLocation.search]);
+  }, [dispatch, fns, schoolClassId, schoolClassIdIsDefined]);
 
   const grades = content.grades;
 
@@ -103,7 +101,11 @@ const SchoolClassForm = ({ location: urlLocation } = {}) => {
         maxAge,
         gradeId,
       };
-      dispatch(id ? saveSchoolClass(id, obj) : addSchoolClass(obj))
+      dispatch(
+        schoolClassIdIsDefined
+          ? saveSchoolClass(schoolClassId, obj)
+          : addSchoolClass(obj)
+      )
         .then(() => {
           setSuccessful(true);
         })

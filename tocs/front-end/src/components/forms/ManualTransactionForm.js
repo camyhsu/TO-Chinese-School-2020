@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
@@ -17,12 +16,12 @@ import {
 } from "../../utils/utilities";
 import { Card, CardBody, CardTitle } from "../Cards";
 
-const ManualTransactionForm = ({ location: urlLocation } = {}) => {
+const ManualTransactionForm = () => {
+  const { personId } = useParams();
   const form = useRef();
   const checkBtn = useRef();
   const [content, setContent] = useState({ grades: [] });
 
-  const [personId, setPersonId] = useState(null);
   const [transactionType, setTransactionType] = useState("");
   const [transactionDate, setTransactionDate] = useState("");
   const [transactionById, setTransactionById] = useState("");
@@ -52,8 +51,6 @@ const ManualTransactionForm = ({ location: urlLocation } = {}) => {
   );
 
   useEffect(() => {
-    const { personId: _personId } = queryString.parse(urlLocation.search);
-    setPersonId(_personId);
     if (personId) {
       AccountingService.initializeManualTransaction(personId).then(
         (response) => {
@@ -67,7 +64,7 @@ const ManualTransactionForm = ({ location: urlLocation } = {}) => {
         }
       );
     }
-  }, [dispatch, fns, personId, urlLocation.search]);
+  }, [dispatch, fns, personId]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
@@ -223,7 +220,7 @@ const ManualTransactionForm = ({ location: urlLocation } = {}) => {
                   </div>
                   <div className="col-md-6">
                     <Link
-                      to={`/registration/show-person?id=${personId}`}
+                      to={`/registration/show-person/${personId}`}
                       className="btn btn-light btn-block"
                     >
                       Back

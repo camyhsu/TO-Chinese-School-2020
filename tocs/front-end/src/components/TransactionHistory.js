@@ -11,7 +11,7 @@ const TransactionHistory = () => {
     {
       cell: (row) => (
         <Link
-          to={"/student/registration-payment?id=" + row.id}
+          to={"/student/registration-payment/parent/" + row.id}
           className="btn btn-light"
         >
           <BiInfoCircle />

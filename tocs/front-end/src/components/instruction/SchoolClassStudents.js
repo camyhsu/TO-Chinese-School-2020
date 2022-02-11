@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
+import { useParams } from "react-router-dom";
 import InstructionService from "../../services/instruction.service";
 import {
   formatPersonNames,
@@ -10,14 +10,13 @@ import {
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from "../Table";
 
-const SchoolClassStudents = ({ location } = {}) => {
+const SchoolClassStudents = () => {
+  const { schoolClassId, schoolYearId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
     item: [],
   });
-  const [id, setId] = useState("");
-  const [schoolYearId, setSchoolYearId] = useState("");
 
   const electiveHeader = [
     { title: "學生", cell: (row) => formatPersonNames(row.student) },
@@ -45,12 +44,6 @@ const SchoolClassStudents = ({ location } = {}) => {
 
   console.log(electiveHeader.length, nonElectiveHeader.length);
   useEffect(() => {
-    const { schoolYearId: _schoolYearId, id: _id } = queryString.parse(
-      location.search
-    );
-    setId(_id);
-    setSchoolYearId(_schoolYearId);
-
     document.title = "TOCS - Home";
 
     const extract = (instructorAssignments, role) => {
@@ -60,8 +53,8 @@ const SchoolClassStudents = ({ location } = {}) => {
       return null;
     };
 
-    if (id && schoolYearId) {
-      InstructionService.getSchoolClass(id, schoolYearId).then(
+    if (schoolClassId && schoolYearId) {
+      InstructionService.getSchoolClass(schoolClassId, schoolYearId).then(
         (response) => {
           const {
             instructorAssignments,
@@ -98,7 +91,7 @@ const SchoolClassStudents = ({ location } = {}) => {
         }
       );
     }
-  }, [id, location.search, schoolYearId]);
+  }, [schoolClassId, schoolYearId]);
 
   return (
     (content.schoolClass && (

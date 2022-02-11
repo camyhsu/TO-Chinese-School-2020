@@ -31,7 +31,7 @@ const formatPersonNames = (person) =>
 const formatPersonNamesWithLink = (person) => (
   <>
     {person && (
-      <Link to={"/registration/show-person?id=" + person.id}>
+      <Link to={"/registration/show-person/" + person.id}>
         {formatPersonNames(person)}
       </Link>
     )}

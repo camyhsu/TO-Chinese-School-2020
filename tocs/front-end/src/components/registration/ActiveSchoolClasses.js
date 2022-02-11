@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import queryString from "query-string";
+import { Link, useParams } from "react-router-dom";
 import RegistrationService from "../../services/registration.service";
 import { formatPersonNamesWithLink } from "../../utils/utilities";
 import { Card, CardTitle, CardBody } from "../Cards";
 import Table from "../Table";
 
-const ActiveSchoolClasses = ({ location } = {}) => {
+const ActiveSchoolClasses = () => {
+  const { schoolYearId } = useParams();
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
     item: [],
   });
-  const [schoolYearId, setSchoolYearId] = useState("");
 
   const header = [
     { title: "Class Name", prop: "chineseName" },
@@ -66,9 +65,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
       title: "",
       cell: (row) => {
         return (
-          <Link
-            to={`/instruction/school-classes?id=${row.id}&schoolYearId=${schoolYearId}`}
-          >
+          <Link to={`/instruction/school-classes/${row.id}/${schoolYearId}`}>
             Student List
           </Link>
         );
@@ -77,9 +74,6 @@ const ActiveSchoolClasses = ({ location } = {}) => {
   ];
 
   useEffect(() => {
-    const { schoolYearId: _schoolYearId } = queryString.parse(location.search);
-    setSchoolYearId(_schoolYearId);
-
     document.title = "TOCS - Home";
 
     if (schoolYearId) {
@@ -103,7 +97,7 @@ const ActiveSchoolClasses = ({ location } = {}) => {
         }
       );
     }
-  }, [location.search, schoolYearId]);
+  }, [schoolYearId]);
 
   return (
     <Card size="no-max-width">

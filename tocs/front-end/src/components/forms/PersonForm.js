@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
@@ -21,14 +20,13 @@ import {
 } from "../../actions/registration.action";
 import { Card, CardBody, CardTitle } from "../Cards";
 
-const PersonForm = ({ location } = {}) => {
+const PersonForm = () => {
+  const { personId, familyId, isParentTwo, forRegistrationStaff } = useParams();
+  const personIdIsDefined = personId !== "none";
+  const familyIdIsDefined = familyId !== "none";
   const form = useRef();
   const checkBtn = useRef();
 
-  const [familyId, setFamilyId] = useState(null);
-  const [registration, setRegistration] = useState(null);
-  const [isParentTwo, setIsParentTwo] = useState(false);
-  const [id, setId] = useState(null);
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [chineseName, setChineseName] = useState("");
@@ -46,7 +44,6 @@ const PersonForm = ({ location } = {}) => {
 
   const fns = useMemo(
     () => ({
-      id: setId,
       lastName: setLastName,
       firstName: setFirstName,
       chineseName: setChineseName,
@@ -59,24 +56,18 @@ const PersonForm = ({ location } = {}) => {
   );
 
   useEffect(() => {
-    const { id, familyId, isParentTwo, registration } = queryString.parse(
-      location.search
-    );
-    if (id) {
-      setFormTitle(`Edit ${familyId ? "Family" : "Personal"} Details`);
+    if (personIdIsDefined) {
+      setFormTitle(`Edit ${familyIdIsDefined ? "Family" : "Personal"} Details`);
     } else {
       setFormTitle(`Add ${isParentTwo ? "Parent" : "Child"}`);
     }
 
-    setFamilyId(familyId);
-    setIsParentTwo(!!isParentTwo);
-    setRegistration(registration);
-    if (id) {
+    if (personIdIsDefined) {
       const fn = () => {
-        if (registration) {
-          return rgGetPersonalDetails(id);
+        if (forRegistrationStaff) {
+          return rgGetPersonalDetails(personId);
         }
-        return spGetPersonalDetails(id);
+        return spGetPersonalDetails(personId);
       };
       dispatch(fn()).then((response) => {
         if (response && response.data) {
@@ -86,7 +77,16 @@ const PersonForm = ({ location } = {}) => {
         }
       });
     }
-  }, [location.search, dispatch, fns]);
+  }, [
+    dispatch,
+    fns,
+    personIdIsDefined,
+    familyIdIsDefined,
+    personId,
+    familyId,
+    isParentTwo,
+    forRegistrationStaff,
+  ]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
@@ -111,17 +111,17 @@ const PersonForm = ({ location } = {}) => {
         birthMonth,
       };
       const fn = () => {
-        if (registration && familyId) {
+        if (forRegistrationStaff && familyIdIsDefined) {
           if (isParentTwo) {
             return rgAddParent(familyId, obj);
           }
           return rgAddChild(familyId, obj);
         }
-        if (id) {
-          if (registration) {
-            return rgSavePersonalDetails(id, obj);
+        if (personIdIsDefined) {
+          if (forRegistrationStaff) {
+            return rgSavePersonalDetails(personId, obj);
           }
-          return savePersonalDetails(id, obj);
+          return savePersonalDetails(personId, obj);
         }
         if (isParentTwo) {
           return spAddParent(familyId, obj);

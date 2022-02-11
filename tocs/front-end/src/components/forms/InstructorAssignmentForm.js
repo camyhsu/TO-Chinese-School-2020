@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -16,12 +15,12 @@ import {
 } from "../../actions/registration.action";
 import RegistrationService from "../../services/registration.service";
 
-const InstructorAssignmentForm = ({ location } = {}) => {
+const InstructorAssignmentForm = () => {
+  const { personId, instructorAssignmentId } = useParams();
+  const instructorAssignmentIdIsDefined = instructorAssignmentId !== "new";
   const form = useRef();
   const checkBtn = useRef();
 
-  const [personId, setPersonId] = useState(null);
-  const [id, setId] = useState(null);
   const [schoolYearId, setSchoolYearId] = useState("");
   const [schoolClassId, setSchoolClassId] = useState("");
   const [role, setRole] = useState("");
@@ -48,12 +47,10 @@ const InstructorAssignmentForm = ({ location } = {}) => {
   );
 
   useEffect(() => {
-    const { id: _id, personId: _personId } = queryString.parse(location.search);
-    setId(_id);
-    setPersonId(_personId);
-
     if (personId) {
-      RegistrationService.getInstructorAssignmentForm(id).then((response) => {
+      RegistrationService.getInstructorAssignmentForm(
+        instructorAssignmentId
+      ).then((response) => {
         if (response && response.data) {
           setSchoolYears(response.data.schoolYears);
           setSchoolClasses(response.data.schoolClasses);
@@ -63,7 +60,10 @@ const InstructorAssignmentForm = ({ location } = {}) => {
           setSchoolClassId(response.data.schoolClasses[0].id);
           setRole(response.data.roles[0]);
 
-          if (id && response.data.instructorAssignment) {
+          if (
+            instructorAssignmentIdIsDefined &&
+            response.data.instructorAssignment
+          ) {
             Object.entries(response.data.instructorAssignment).forEach(
               ([key, value]) => fns[key] && fns[key](value || "")
             );
@@ -71,7 +71,7 @@ const InstructorAssignmentForm = ({ location } = {}) => {
         }
       });
     }
-  }, [location.search, dispatch, personId, id, fns]);
+  }, [dispatch, personId, instructorAssignmentId, fns]);
 
   const onChangeField = (e) => {
     const { name, value } = e.target;
@@ -94,8 +94,12 @@ const InstructorAssignmentForm = ({ location } = {}) => {
         endDate,
       };
       const fn = () => {
-        if (id) {
-          return saveInstructorAssignment(id, obj, personId);
+        if (instructorAssignmentIdIsDefined) {
+          return saveInstructorAssignment(
+            instructorAssignmentId,
+            obj,
+            personId
+          );
         }
         return addInstructorAssignment(personId, obj);
       };
@@ -214,7 +218,7 @@ const InstructorAssignmentForm = ({ location } = {}) => {
                   </div>
                   <div className="col-md-6">
                     <Link
-                      to={`/registration/show-person?id=${personId}`}
+                      to={`/registration/show-person/${personId}`}
                       className="btn btn-light btn-block"
                     >
                       Back
