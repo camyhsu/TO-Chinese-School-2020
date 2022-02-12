@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Form from "react-validation/build/form";
@@ -56,7 +56,7 @@ const ChangePasswordForm = () => {
   };
   return (
     <>
-      {successful && false && <Redirect to="/account" />}
+      {successful && false && <Navigate to="/account" />}
       <Card>
         <CardBody>
           <Form onSubmit={handleSave} ref={form}>

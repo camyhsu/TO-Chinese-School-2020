@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Redirect, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -140,7 +140,7 @@ const PersonForm = () => {
 
   return (
     <>
-      {successful && <Redirect to={redirect} />}
+      {successful && <Navigate to={redirect} />}
       <Card size="large">
         <CardBody>
           <Form onSubmit={handleSave} ref={form}>

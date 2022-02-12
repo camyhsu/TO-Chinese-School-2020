@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -8,10 +8,9 @@ import CheckButton from "react-validation/build/button";
 import { Card, CardBody, CardFooter } from "./Cards";
 import { login } from "../actions/auth.action";
 import { required } from "../utils/utilities";
-import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  let history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "TOCS - Sign In";
@@ -49,7 +48,7 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          history.push("/home");
+          navigate("/home");
           window.location.reload();
         })
         .catch(() => {
@@ -61,7 +60,7 @@ const Login = () => {
   };
 
   if (isLoggedIn) {
-    return <Redirect to="/home" />;
+    return <Navigate to="/home" />;
   }
 
   return (

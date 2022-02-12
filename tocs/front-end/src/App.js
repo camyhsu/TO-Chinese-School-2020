@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -125,159 +125,161 @@ const App = () => {
         <div
           className={`container mt-3 ${currentUser ? "container-main" : ""}`}
         >
-          <Switch>
-            <Route exact path={["/", "/home"]}>
-              <Home />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/register">
-              <Register />
-            </Route>
-            <Route exact path="/account">
-              <Account />
-            </Route>
-            <Route exact path="/transaction-history">
-              <TransactionHistory />
-            </Route>
-            <Route exact path="/librarian/books">
-              <Books />
-            </Route>
-            <Route exact path="/librarian/search-students">
-              <SearchStudentsByRegistrationDates />
-            </Route>
-            <Route exact path="/librarian/books/read-only">
-              <Books readOnly={true} />
-            </Route>
-            <Route exact path="/accounting/in-person-registration-payments">
-              <InPersonRegistrationPayments />
-            </Route>
-            <Route exact path="/accounting/instructor-discount">
-              <InstructorDiscount />
-            </Route>
-            <Route path="/accounting/charges-collected/:schoolYearId/:schoolYearName">
-              <ChargesCollected />
-            </Route>
-            <Route path="/accounting/daily-registration-summary/:schoolYearId/:schoolYearName">
-              <DailyRegistrationSummary />
-            </Route>
-            <Route exact path="/accounting/manual-transactions">
-              <ManualTransactions />
-            </Route>
-            <Route path="/accounting/withdraw-request/:requestId">
-              <WithdrawRequestDetails />
-            </Route>
-            <Route exact path="/admin/grades">
-              <Grades />
-            </Route>
-            <Route exact path="/admin/school-classes">
-              <SchoolClasses />
-            </Route>
-            <Route exact path="/admin/school-years">
-              <SchoolYears />
-            </Route>
-            <Route path="/admin/school-year-details/:schoolYearId">
-              <SchoolYearDetails />
-            </Route>
-            <Route exact path="/admin/manage-staff-assignments">
-              <ManageStaffAssignments />
-            </Route>
-            <Route path="/admin/manage-staff-assignment/:schoolYearId">
-              <ManageStaffAssignment />
-            </Route>
-            <Route exact path="/admin/withdraw-requests">
-              <WithdrawRequests />
-            </Route>
-            <Route path="/registration/active-school-classes/:schoolYearId">
-              <ActiveSchoolClasses />
-            </Route>
-            <Route path="/registration/school-classes/grade-student-count/:schoolYearId">
-              <ActiveSchoolClassGradeCount />
-            </Route>
-            <Route path="/registration/school-classes/student-count/:classType/:schoolYearId">
-              <SchoolClassCount />
-            </Route>
-            <Route path="/registration/instructor-assignment/:personId/:instructorAssignmentId">
-              <InstructorAssignmentForm />
-            </Route>
-            <Route exact path="/registration/student-class-assignments">
-              <ListActiveStudentsByName />
-            </Route>
-            <Route path="/registration/family/:familyId">
-              <Family />
-            </Route>
-            <Route exact path="/registration/people">
-              <People />
-            </Route>
-            <Route path="/registration/show-person/:personId">
-              <PersonDetails />
-            </Route>
-            <Route path="/registration/sibling-in-same-grade/:schoolYearId">
-              <SiblingInSameGrade />
-            </Route>
-            <Route exact path="/student/consent-release">
-              <ConsentRelease />
-            </Route>
-            <Route exact path="/student/payment">
-              <Payment />
-            </Route>
-            <Route path="/student/registration-payment/:viewType/:paymentId">
-              <RegistrationPayment />
-            </Route>
-            <Route exact path="/instruction/active-school-classes">
-              <ActiveSchoolClassesForInstructionOfficer />
-            </Route>
-            <Route path="/instruction/school-classes/:schoolClassId/:schoolYearId">
-              <SchoolClassStudents />
-            </Route>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/account" element={<Account />} />
+            <Route
+              path="/transaction-history"
+              element={<TransactionHistory />}
+            />
+            <Route path="/librarian/books" element={<Books />} />
+            <Route
+              path="/librarian/search-students"
+              element={<SearchStudentsByRegistrationDates />}
+            />
+            <Route
+              path="/librarian/books/read-only"
+              element={<Books readOnly={true} />}
+            />
+            <Route
+              path="/accounting/in-person-registration-payments"
+              element={<InPersonRegistrationPayments />}
+            />
+            <Route
+              path="/accounting/instructor-discount"
+              element={<InstructorDiscount />}
+            />
+            <Route
+              path="/accounting/charges-collected/:schoolYearId/:schoolYearName"
+              element={<ChargesCollected />}
+            />
+            <Route
+              path="/accounting/daily-registration-summary/:schoolYearId/:schoolYearName"
+              element={<DailyRegistrationSummary />}
+            />
+            <Route
+              path="/accounting/manual-transactions"
+              element={<ManualTransactions />}
+            />
+            <Route
+              path="/accounting/withdraw-request/:requestId"
+              element={<WithdrawRequestDetails />}
+            />
+            <Route path="/admin/grades" element={<Grades />} />
+            <Route path="/admin/school-classes" element={<SchoolClasses />} />
+            <Route path="/admin/school-years" element={<SchoolYears />} />
+            <Route
+              path="/admin/school-year-details/:schoolYearId"
+              element={<SchoolYearDetails />}
+            />
+            <Route
+              path="/admin/manage-staff-assignments"
+              element={<ManageStaffAssignments />}
+            />
+            <Route
+              path="/admin/manage-staff-assignment/:schoolYearId"
+              element={<ManageStaffAssignment />}
+            />
+            <Route
+              path="/admin/withdraw-requests"
+              element={<WithdrawRequests />}
+            />
+            <Route
+              path="/registration/active-school-classes/:schoolYearId"
+              element={<ActiveSchoolClasses />}
+            />
+            <Route
+              path="/registration/school-classes/grade-student-count/:schoolYearId"
+              element={<ActiveSchoolClassGradeCount />}
+            />
+            <Route
+              path="/registration/school-classes/student-count/:classType/:schoolYearId"
+              element={<SchoolClassCount />}
+            />
+            <Route
+              path="/registration/instructor-assignment/:personId/:instructorAssignmentId"
+              element={<InstructorAssignmentForm />}
+            />
+            <Route
+              path="/registration/student-class-assignments"
+              element={<ListActiveStudentsByName />}
+            />
+            <Route path="/registration/family/:familyId" element={<Family />} />
+            <Route path="/registration/people" element={<People />} />
+            <Route
+              path="/registration/show-person/:personId"
+              element={<PersonDetails />}
+            />
+            <Route
+              path="/registration/sibling-in-same-grade/:schoolYearId"
+              element={<SiblingInSameGrade />}
+            />
+            <Route
+              path="/student/consent-release"
+              element={<ConsentRelease />}
+            />
+            <Route path="/student/payment" element={<Payment />} />
+            <Route
+              path="/student/registration-payment/:viewType/:paymentId"
+              element={<RegistrationPayment />}
+            />
+            <Route
+              path="/instruction/active-school-classes"
+              element={<ActiveSchoolClassesForInstructionOfficer />}
+            />
+            <Route
+              path="/instruction/school-classes/:schoolClassId/:schoolYearId"
+              element={<SchoolClassStudents />}
+            />
 
             {/* Forms */}
-            <Route path="/address-form/:addressId/:personId/:familyId/:forRegistrationStaff">
-              <AddressForm />
-            </Route>
-            <Route path="/accounting/manual-transaction/:personId">
-              <ManualTransactionForm />
-            </Route>
-            <Route path="/book-charge-form/:schoolYearId">
-              <BookChargeForm />
-            </Route>
-            <Route path="/book-form/:bookId">
-              <BookForm />
-            </Route>
-            <Route exact path="/change-password-form">
-              <ChangePasswordForm />
-            </Route>
-            <Route path="/librarian/checkout-history/:bookId">
-              <CheckoutHistoryForm />
-            </Route>
-            <Route exact path="/new-family-form">
-              <NewFamilyForm />
-            </Route>
-            <Route path="/person-form/:personId/:familyId/:isParentTwo/:forRegistrationStaff">
-              <PersonForm />
-            </Route>
-            <Route path="/school-class-form/:schoolClassId">
-              <SchoolClassForm />
-            </Route>
-            <Route path="/school-year-form/:schoolYearId">
-              <SchoolYearForm />
-            </Route>
-            <Route path="/student-registration/:schoolYearId">
-              <StudentRegistrationForm />
-            </Route>
+            <Route
+              path="/address-form/:addressId/:personId/:familyId/:forRegistrationStaff"
+              element={<AddressForm />}
+            />
+            <Route
+              path="/accounting/manual-transaction/:personId"
+              element={<ManualTransactionForm />}
+            />
+            <Route
+              path="/book-charge-form/:schoolYearId"
+              element={<BookChargeForm />}
+            />
+            <Route path="/book-form/:bookId" element={<BookForm />} />
+            <Route
+              path="/change-password-form"
+              element={<ChangePasswordForm />}
+            />
+            <Route
+              path="/librarian/checkout-history/:bookId"
+              element={<CheckoutHistoryForm />}
+            />
+            <Route path="/new-family-form" element={<NewFamilyForm />} />
+            <Route
+              path="/person-form/:personId/:familyId/:isParentTwo/:forRegistrationStaff"
+              element={<PersonForm />}
+            />
+            <Route
+              path="/school-class-form/:schoolClassId"
+              element={<SchoolClassForm />}
+            />
+            <Route
+              path="/school-year-form/:schoolYearId"
+              element={<SchoolYearForm />}
+            />
+            <Route
+              path="/student-registration/:schoolYearId"
+              element={<StudentRegistrationForm />}
+            />
 
             {/* Static pages */}
-            <Route exact path="/contact-us">
-              <Contact />
-            </Route>
-            <Route exact path="/privacy-policy">
-              <Privacy />
-            </Route>
-            <Route exact path="/waiver">
-              <Waiver />
-            </Route>
-          </Switch>
+            <Route path="/contact-us" element={<Contact />} />
+            <Route path="/privacy-policy" element={<Privacy />} />
+            <Route path="/waiver" element={<Waiver />} />
+          </Routes>
         </div>
       </div>
       {currentUser && (

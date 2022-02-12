@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody } from "../Cards";
 import { formatPersonNames } from "../../utils/utilities";
@@ -47,7 +47,7 @@ const ConsentRelease = () => {
 
   return (
     <>
-      {successful && <Redirect to={redirect} />}
+      {successful && <Navigate to={redirect} />}
       <Card size="xlarge">
         <CardBody>
           <h3>Consent, Release, Indemnification and Assumption of Risk</h3>

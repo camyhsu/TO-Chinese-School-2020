@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import {
@@ -24,7 +24,7 @@ const Home = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
 
   if (!currentUser) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" />;
   }
 
   const hasRole = (role) =>

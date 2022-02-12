@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -57,7 +57,7 @@ const PaymentForm = ({ callback }) => {
 
   return (
     <>
-      {successful && <Redirect to={redirect} />}
+      {successful && <Navigate to={redirect} />}
       <Card size="medium">
         <CardBody>
           <Form onSubmit={handleSave} ref={form}>

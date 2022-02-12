@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import RegistrationPaymentDetails from "./RegistrationPaymentDetails";
 import StudentParentService from "../../services/student-parent.service";
 import PaymentForm from "../forms/PaymentForm";
@@ -39,7 +39,7 @@ const Payment = () => {
   return (
     (registrationPayment && (
       <>
-        {successful && <Redirect to={redirect} />}
+        {successful && <Navigate to={redirect} />}
         <RegistrationPaymentDetails registrationPayment={registrationPayment} />
         <PaymentForm callback={paymentCallback} />
       </>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Link, Redirect, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -135,7 +135,7 @@ const CheckoutHistoryForm = () => {
 
   return (
     <>
-      {successful && <Redirect to={redirect} />}
+      {successful && <Navigate to={redirect} />}
       {book && (
         <>
           <Card size="large">
