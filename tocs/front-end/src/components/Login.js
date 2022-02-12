@@ -48,7 +48,7 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          navigate("/home");
+          navigate("/home", { replace: true });
           window.location.reload();
         })
         .catch(() => {

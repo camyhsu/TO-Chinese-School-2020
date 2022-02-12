@@ -6,7 +6,7 @@ import {
   LOGOUT,
 } from "../actions/types";
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(sessionStorage.getItem("user"));
 
 const initialState = user
   ? { isLoggedIn: true, user }

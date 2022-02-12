@@ -13,13 +13,13 @@ const login = (username, password) =>
     })
     .then((response) => {
       if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        sessionStorage.setItem("user", JSON.stringify(response.data));
       }
 
       return response.data;
     });
 
-const logout = () => localStorage.removeItem("user");
+const logout = () => sessionStorage.removeItem("user");
 
 const obj = {
   register,
