@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -61,67 +61,22 @@ import {
   SiblingInSameGrade,
 } from "./components/registration/index";
 
-import { logout } from "./actions/auth.action";
-
 import { ConsentRelease, Payment } from "./components/student";
+import { TopNavbar } from "./app/TopNavbar";
+import { Footer } from "./app/Footer";
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (currentUser) {
     }
   }, [currentUser]);
 
-  const logOut = () => {
-    dispatch(logout());
-  };
-
   return (
     <BrowserRouter>
       <div>
-        {currentUser && (
-          <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <span className="navbar-brand">TOCS</span>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-controls="navbarCollapse"
-              aria-expanded="true"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="navbar-collapse collapse" id="navbarCollapse">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to={"/home"} className="nav-link">
-                    Home
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to={"/transaction-history"} className="nav-link">
-                    Transaction History
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to={"/account"} className="nav-link">
-                    Account
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <a href="/login" className="nav-link" onClick={logOut}>
-                    Sign Out
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        )}
-
+        {currentUser && <TopNavbar />}
         <div
           className={`container mt-3 ${currentUser ? "container-main" : ""}`}
         >
@@ -282,23 +237,7 @@ const App = () => {
           </Routes>
         </div>
       </div>
-      {currentUser && (
-        <footer className="footer--sticky">
-          <div className="container mw-100">
-            <div className="row">
-              <div className="col-ms-1 ml-3">
-                <Link to={"/privacy-policy"}>Privacy Policy</Link>
-              </div>
-              <div className="col-ms-10 mr-auto ml-3">
-                <Link to={"/waiver"}>Waiver</Link>
-              </div>
-              <div className="col-ms-1 mr-3">
-                <Link to={"/contact-us"}>Contact Us</Link>
-              </div>
-            </div>
-          </div>
-        </footer>
-      )}
+      {currentUser && <Footer />}
     </BrowserRouter>
   );
 };
