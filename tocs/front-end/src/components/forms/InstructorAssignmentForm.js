@@ -32,7 +32,7 @@ const InstructorAssignmentForm = () => {
 
   const [successful, setSuccessful] = useState(false);
   const { message } = useSelector((state) => state.message);
-  const { redirect } = useSelector((state) => state.user);
+  const { redirect } = useSelector((state) => state.redirect);
 
   const dispatch = useDispatch();
   const fns = useMemo(

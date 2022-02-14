@@ -7,7 +7,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { required, vpassword, vrepassword } from "../utils/utilities";
 import { Card, CardBody, CardTitle } from "./Cards";
-import { changePassword } from "../actions/user.action";
+import { changePassword } from "../actions/redirect.action";
 
 const ChangePasswordForm = () => {
   const form = useRef();

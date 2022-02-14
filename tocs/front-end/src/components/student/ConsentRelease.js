@@ -19,7 +19,7 @@ const ConsentRelease = () => {
   );
 
   const [successful, setSuccessful] = useState(false);
-  const { redirect } = useSelector((state) => state.user);
+  const { redirect } = useSelector((state) => state.redirect);
   const dispatch = useDispatch();
 
   const studentNames =

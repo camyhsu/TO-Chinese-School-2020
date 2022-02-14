@@ -20,7 +20,7 @@ const PaymentForm = ({ callback }) => {
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector((state) => state.message);
-  const { redirect } = useSelector((state) => state.user);
+  const { redirect } = useSelector((state) => state.redirect);
   const years = [...new Array(10).keys()].map((i) => "" + (i + currentYear));
 
   const fns = useMemo(

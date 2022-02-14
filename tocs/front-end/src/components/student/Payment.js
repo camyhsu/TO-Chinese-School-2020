@@ -12,7 +12,7 @@ const Payment = () => {
     (state) => state.temp
   );
   const [successful, setSuccessful] = useState(false);
-  const { redirect } = useSelector((state) => state.user);
+  const { redirect } = useSelector((state) => state.redirect);
   const dispatch = useDispatch();
 
   const paymentCallback = (payment) => {

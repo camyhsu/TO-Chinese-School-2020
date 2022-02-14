@@ -28,7 +28,7 @@ const CheckoutHistoryForm = () => {
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector((state) => state.message);
-  const { redirect } = useSelector((state) => state.user);
+  const { redirect } = useSelector((state) => state.redirect);
   const [content, setContent] = useState({
     error: null,
     isLoaded: false,
