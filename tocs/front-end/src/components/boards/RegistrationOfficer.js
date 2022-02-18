@@ -77,9 +77,7 @@ const Home = () => {
                 />
               </div>
               <div className="col-md-8">
-                <ListGradeStudentCount
-                  schoolYear={content.currentSchoolYear}
-                />
+                <ListGradeStudentCount schoolYear={content.currentSchoolYear} />
               </div>
             </>
           )}
@@ -89,9 +87,7 @@ const Home = () => {
                 <ListActiveSchoolClasses schoolYear={content.nextSchoolYear} />
               </div>
               <div className="col-md-8">
-                <ListGradeStudentCount
-                  schoolYear={content.nextSchoolYear}
-                />
+                <ListGradeStudentCount schoolYear={content.nextSchoolYear} />
               </div>
             </>
           )}
