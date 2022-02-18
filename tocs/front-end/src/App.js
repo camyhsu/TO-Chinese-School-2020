@@ -66,7 +66,8 @@ import { TopNavbar } from "./app/TopNavbar";
 import { Footer } from "./app/Footer";
 
 const App = () => {
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.user);
+  console.log(`In App.js currentUser => ${currentUser}`);
 
   useEffect(() => {
     if (currentUser) {

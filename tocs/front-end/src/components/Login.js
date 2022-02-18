@@ -1,17 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { Card, CardBody, CardFooter } from "./Cards";
-import { login } from "../actions/auth.action";
 import { required } from "../utils/utilities";
 
-const Login = () => {
-  const navigate = useNavigate();
+import { userSignIn } from "../features/user/userSlice";
 
+const Login = () => {
   useEffect(() => {
     document.title = "TOCS - Sign In";
   }, []);
@@ -23,8 +22,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { message } = useSelector((state) => state.message);
+  const { status } = useSelector((state) => state.user);
+  //const { message } = useSelector((state) => state.message);
+  const message = false;
 
   const dispatch = useDispatch();
 
@@ -46,20 +46,15 @@ const Login = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login(username, password))
-        .then(() => {
-          navigate("/home", { replace: true });
-          window.location.reload();
-        })
-        .catch(() => {
-          setLoading(false);
-        });
+      dispatch(userSignIn({ username: username, password: password }));
     } else {
       setLoading(false);
     }
   };
 
-  if (isLoggedIn) {
+  console.log(`About to check status => ${status}`);
+  if (status === "signInSucceeded") {
+    console.log(`status check => ${status}`);
     return <Navigate to="/home" />;
   }
 
@@ -98,9 +93,7 @@ const Login = () => {
 
           <div className="form-group">
             <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
+              {loading && <span className="spinner-border spinner-border-sm" />}
               <span>Sign In</span>
             </button>
           </div>

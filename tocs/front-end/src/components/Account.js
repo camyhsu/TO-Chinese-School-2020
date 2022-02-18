@@ -5,7 +5,7 @@ import { BiPencil } from "../utils/utilities";
 import { Card, CardBody, CardFooter } from "./Cards";
 
 const Profile = () => {
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.user);
 
   if (!currentUser) {
     return <Navigate to="/login" />;

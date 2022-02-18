@@ -21,7 +21,7 @@ const Home = () => {
     document.title = "TOCS - Home";
   });
 
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.user);
 
   if (!currentUser) {
     return <Navigate to="/login" />;

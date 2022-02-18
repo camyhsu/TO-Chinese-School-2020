@@ -43,7 +43,7 @@ const Home = () => {
     );
   }, [dispatch]);
 
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.user);
 
   if (!currentUser) {
     return <Navigate to="/login" />;

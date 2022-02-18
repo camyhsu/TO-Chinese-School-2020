@@ -3,9 +3,9 @@ import config from "./config";
 
 const API_URL = config.apiUrl;
 
-const register = (obj) => axios.post(API_URL + "/signup", obj);
+export const register = (obj) => axios.post(API_URL + "/signup", obj);
 
-const login = (username, password) =>
+export const login = (username, password) =>
   axios
     .post(API_URL + "/signin", {
       username,
@@ -19,12 +19,10 @@ const login = (username, password) =>
       return response.data;
     });
 
-const logout = () => sessionStorage.removeItem("user");
+export const logout = () => sessionStorage.removeItem("user");
 
-const obj = {
-  register,
-  login,
-  logout,
-};
+export const signIn = (credential) =>
+  axios.post(`${API_URL}/signin`, credential);
 
-export default obj;
+const AuthService = { register, login, logout };
+export default AuthService;

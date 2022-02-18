@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../actions/auth.action";
+import { userSignOut } from "../features/user/userSlice";
 
 export const TopNavbar = () => {
   const dispatch = useDispatch();
 
-  const signOutHandler = () => dispatch(logout());
+  const signOutHandler = () => dispatch(userSignOut());
 
   return (
     <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
