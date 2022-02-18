@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { signIn } from "../../services/auth.service";
+import axios from "axios";
+import config from "../../app/config";
 
 const existingUser = JSON.parse(sessionStorage.getItem("user"));
 
@@ -20,7 +21,7 @@ const initialState = existingUser
 export const userSignIn = createAsyncThunk(
   "user/signIn",
   async (credential) => {
-    const response = await signIn(credential);
+    const response = await axios.post(`${config.apiUrl}/signin`, credential);
     if (response.data.accessToken) {
       sessionStorage.setItem("user", JSON.stringify(response.data));
     }

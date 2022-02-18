@@ -1,6 +1,6 @@
 import { authHeader, accessToken } from "./auth-header";
 import axios from "axios";
-import config from "./config";
+import config from "../app/config";
 
 const API_URL = `${config.apiUrl}/api/`;
 const headers = { headers: authHeader() };

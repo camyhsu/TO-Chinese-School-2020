@@ -1,5 +1,5 @@
 import axios from "axios";
-import config from "./config";
+import config from "../app/config";
 
 const API_URL = config.apiUrl;
 
@@ -20,9 +20,6 @@ export const login = (username, password) =>
     });
 
 export const logout = () => sessionStorage.removeItem("user");
-
-export const signIn = (credential) =>
-  axios.post(`${API_URL}/signin`, credential);
 
 const AuthService = { register, login, logout };
 export default AuthService;
