@@ -3,15 +3,25 @@ import axios from "axios";
 import config from "../app/config";
 
 const API_URL = `${config.apiUrl}/api/`;
-const headers = { headers: authHeader() };
+const getRequestConfig = () => {
+  return { headers: authHeader() };
+};
 
-const get = async (path) =>
-  headers.headers["x-access-token"]
-    ? axios.get(API_URL + path, headers)
-    : Promise.reject("No access token");
-const post = async (path, obj) => axios.post(API_URL + path, obj, headers);
-const put = async (path, obj) => axios.put(API_URL + path, obj, headers);
-const _delete = async (path) => axios.delete(API_URL + path, headers);
+const get = async (path) => {
+  const requestConfig = getRequestConfig();
+  if (requestConfig.headers["x-access-token"]) {
+    return axios.get(API_URL + path, requestConfig);
+  } else {
+    return Promise.reject("No access token");
+  }
+};
+
+const post = async (path, obj) =>
+  axios.post(API_URL + path, obj, getRequestConfig());
+const put = async (path, obj) =>
+  axios.put(API_URL + path, obj, getRequestConfig());
+const _delete = async (path) =>
+  axios.delete(API_URL + path, getRequestConfig());
 const csv = (path) =>
   `${API_URL}${path}${
     path.includes("?") ? "&" : "?"
