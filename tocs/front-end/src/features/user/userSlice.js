@@ -54,7 +54,14 @@ const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(userSignIn.rejected, (state, action) => {
-        state.error = action.error.message;
+        const errorMessageFromSignInRequest = action.error.message;
+        if (errorMessageFromSignInRequest.includes("status code 401")) {
+          state.error = "Sign In Failed - incorrect username or password";
+        } else if (errorMessageFromSignInRequest.includes("Network Error")) {
+          state.error = "Server Unavailable - please try again later";
+        } else {
+          state.error = errorMessageFromSignInRequest;
+        }
         state.status = "signInFailed";
       });
   },

@@ -40,7 +40,7 @@ export const TopNavbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/login" className="nav-link" onClick={signOutHandler}>
+            <Link to="/sign-in" className="nav-link" onClick={signOutHandler}>
               Sign Out
             </Link>
           </li>

@@ -4,7 +4,7 @@ import store from "./app/store";
 import App from "./App";
 
 describe("The TOCS front-end application", () => {
-  test("should show the Login screen by default", () => {
+  test("should show the SignIn screen by default", () => {
     render(
       <Provider store={store}>
         <App />

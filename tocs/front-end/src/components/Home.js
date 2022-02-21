@@ -24,7 +24,7 @@ const Home = () => {
   const { user: currentUser } = useSelector((state) => state.user);
 
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/sign-in" />;
   }
 
   const hasRole = (role) =>

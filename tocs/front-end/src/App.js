@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./App.css";
 
-import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Account from "./components/Account";
@@ -64,6 +63,7 @@ import {
 import { ConsentRelease, Payment } from "./components/student";
 import { TopNavbar } from "./app/TopNavbar";
 import { Footer } from "./app/Footer";
+import { SignIn } from "./features/user/SignIn";
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.user);
@@ -84,7 +84,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
             <Route path="/account" element={<Account />} />
             <Route

@@ -399,7 +399,7 @@ const Register = () => {
         </Form>
       </CardBody>
       <CardFooter>
-        Back to <Link to={"/login"}>Sign In</Link>
+        Back to <Link to={"/sign-in"}>Sign In</Link>
       </CardFooter>
     </Card>
   );
