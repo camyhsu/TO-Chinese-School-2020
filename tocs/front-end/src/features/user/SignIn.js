@@ -46,6 +46,7 @@ export const SignIn = () => {
             <input
               {...register("username", { required: "Username is required" })}
               type="text"
+              placeholder="username"
               className={`form-control ${errors.username ? "is-invalid" : ""}`}
             />
             <div className="invalid-feedback">{errors.username?.message}</div>
@@ -55,6 +56,7 @@ export const SignIn = () => {
             <input
               {...register("password", { required: "Password is required" })}
               type="password"
+              placeholder="password"
               className={`form-control ${errors.password ? "is-invalid" : ""}`}
             />
             <div className="invalid-feedback">{errors.password?.message}</div>
