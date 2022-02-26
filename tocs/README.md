@@ -2,15 +2,8 @@
 
 ## Quick start guide for local `Develop` environment
 
-### 0. Tool versions
-
-```
-$ psql --version
-psql (PostgreSQL) 13.1
-
-$ node -v
-v15.8.0
-```
+### 0. Runtime versions
+The production server currently runs NodeJS 16.x LTS and PostgreSQL 12.
 
 ### 1. PostgreSQL Database setup
 
