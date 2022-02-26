@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
@@ -66,21 +66,13 @@ import { Footer } from "./app/Footer";
 import { SignIn } from "./features/user/SignIn";
 
 const App = () => {
-  const { user: currentUser } = useSelector((state) => state.user);
-  console.log(`In App.js currentUser => ${currentUser}`);
-
-  useEffect(() => {
-    if (currentUser) {
-    }
-  }, [currentUser]);
+  const { user } = useSelector((state) => state.user);
 
   return (
     <BrowserRouter>
       <div>
-        {currentUser && <TopNavbar />}
-        <div
-          className={`container mt-3 ${currentUser ? "container-main" : ""}`}
-        >
+        {user && <TopNavbar />}
+        <div className={`container mt-3 ${user ? "container-main" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
@@ -238,7 +230,7 @@ const App = () => {
           </Routes>
         </div>
       </div>
-      {currentUser && <Footer />}
+      {user && <Footer />}
     </BrowserRouter>
   );
 };

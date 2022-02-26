@@ -19,44 +19,39 @@ import {
 const Home = () => {
   useEffect(() => {
     document.title = "TOCS - Home";
-  });
+  }, []);
 
-  const { user: currentUser } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
-  if (!currentUser) {
+  if (!user) {
     return <Navigate to="/sign-in" />;
   }
 
   const hasRole = (role) =>
-    currentUser.roles &&
-    (currentUser.roles.includes(role) ||
-      currentUser.roles.includes("Super User"));
+    user.roles &&
+    (user.roles.includes(role) || user.roles.includes("Super User"));
 
-  function GetBoard() {
-    return (
-      currentUser && (
-        <>
-          <div className="container">
-            <div className="card-deck justify-content-center justify-content-xl-start">
-              {hasRole("Principal") && <Principal />}
-              {hasRole("Academic Vice Principal") && <AcademicVicePrincipal />}
-              {hasRole("Registration Officer") && <RegistrationOfficer />}
-              {hasRole("Accounting Officer") && <AccountingOfficer />}
-              {hasRole("Activity Officer") && <ActivityOfficer />}
-              {hasRole("Communication Officer") && <CommunicationOfficer />}
-              {hasRole("Instruction Officer") && <InstructionOfficer />}
-              {hasRole("Librarian") && <Librarian />}
-              {hasRole("Instructor") && <Instructor />}
-              <Announcement />
-            </div>
+  return (
+    user && (
+      <>
+        <div className="container">
+          <div className="card-deck justify-content-center justify-content-xl-start">
+            {hasRole("Principal") && <Principal />}
+            {hasRole("Academic Vice Principal") && <AcademicVicePrincipal />}
+            {hasRole("Registration Officer") && <RegistrationOfficer />}
+            {hasRole("Accounting Officer") && <AccountingOfficer />}
+            {hasRole("Activity Officer") && <ActivityOfficer />}
+            {hasRole("Communication Officer") && <CommunicationOfficer />}
+            {hasRole("Instruction Officer") && <InstructionOfficer />}
+            {hasRole("Librarian") && <Librarian />}
+            {hasRole("Instructor") && <Instructor />}
+            <Announcement />
           </div>
-          {hasRole("Student Parent") && <StudentParent />}
-        </>
-      )
-    );
-  }
-
-  return <GetBoard />;
+        </div>
+        {hasRole("Student Parent") && <StudentParent />}
+      </>
+    )
+  );
 };
 
 export default Home;
