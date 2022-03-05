@@ -93,12 +93,6 @@ const DailyRegistrationSummary = ({ schoolYear }) => (
   </Link>
 );
 
-const ListManualTransactionsFromLastTwoSchoolYears = ({ schoolYear }) => (
-  <Link to="/accounting/manual-transactions">
-    List Manual Transactions From Last Two School Years
-  </Link>
-);
-
 const ProcessInPersonRegistrationPayments = () => (
   <Link to="/accounting/in-person-registration-payments">
     Process In-person Registration Payments
@@ -139,7 +133,6 @@ export {
   ChargesCollected,
   CSV,
   DailyRegistrationSummary,
-  ListManualTransactionsFromLastTwoSchoolYears,
   ProcessInPersonRegistrationPayments,
   ListActiveStudentsByName,
   SearchStudentsByRegistrationDates,

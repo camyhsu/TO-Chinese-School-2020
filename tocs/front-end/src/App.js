@@ -13,7 +13,6 @@ import {
   ChargesCollected,
   InstructorDiscount,
   DailyRegistrationSummary,
-  ManualTransactions,
   InPersonRegistrationPayments,
   WithdrawRequestDetails,
   WithdrawRequests,
@@ -31,7 +30,6 @@ import {
   BookChargeForm,
   BookForm,
   CheckoutHistoryForm,
-  ManualTransactionForm,
   NewFamilyForm,
   PersonForm,
   SchoolClassForm,
@@ -142,14 +140,6 @@ const App = () => {
               element={
                 <PrivateRoute requiredRoles={[Role.ACCOUNTING_OFFICER]}>
                   <DailyRegistrationSummary />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/accounting/manual-transactions"
-              element={
-                <PrivateRoute requiredRoles={[Role.ACCOUNTING_OFFICER]}>
-                  <ManualTransactions />
                 </PrivateRoute>
               }
             />
@@ -335,10 +325,6 @@ const App = () => {
               path="/address-form/:addressId/:personId/:familyId/:forRegistrationStaff"
               element={<AddressForm />}
             />
-            {/*<Route*/}
-            {/*  path="/accounting/manual-transaction/:personId"*/}
-            {/*  element={<ManualTransactionForm />}*/}
-            {/*/>*/}
             <Route
               path="/book-charge-form/:schoolYearId"
               element={

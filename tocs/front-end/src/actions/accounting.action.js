@@ -31,12 +31,3 @@ const commonPersonFn = (p, dispatch, personId) =>
       return Promise.reject();
     }
   );
-
-const addManualTransaction = (personId, obj) => (dispatch) =>
-  commonPersonFn(
-    AccountingService.addManualTransaction(obj),
-    dispatch,
-    personId
-  );
-
-export { addManualTransaction };

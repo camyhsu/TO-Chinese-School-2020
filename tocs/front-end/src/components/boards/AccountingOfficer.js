@@ -7,7 +7,6 @@ import {
   ListInstructorDiscountInformation,
   ChargesCollected,
   DailyRegistrationSummary,
-  ListManualTransactionsFromLastTwoSchoolYears,
 } from "../Links";
 import { Card, CardBody, CardTitle } from "../Cards";
 
@@ -81,11 +80,6 @@ const Home = () => {
               </React.Fragment>
             );
           })}
-        <div className="row">
-          <div className="col-md-12">
-            <ListManualTransactionsFromLastTwoSchoolYears />
-          </div>
-        </div>
         <div className="row">
           <div className="col-md-8">
             <ListInstructorDiscountInformation />

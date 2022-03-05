@@ -286,15 +286,6 @@ const PersonDetails = () => {
                 Instructor Assignment
               </Link>
             </div>
-            <div className="col-md-6">
-              <Link
-                to={"/accounting/manual-transaction/" + personId}
-                className="btn btn-light"
-              >
-                <BiPlus />
-                Manual Transaction
-              </Link>
-            </div>
           </div>
         </CardBody>
       </Card>

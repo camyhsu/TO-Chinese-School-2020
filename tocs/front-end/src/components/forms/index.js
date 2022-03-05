@@ -3,7 +3,6 @@ import AddressForm from "./AddressForm";
 import BookChargeForm from "./BookChargeForm";
 import BookForm from "./BookForm";
 import CheckoutHistoryForm from "./CheckoutHistoryForm";
-import ManualTransactionForm from "./ManualTransactionForm";
 import NewFamilyForm from "./NewFamilyForm";
 import PersonForm from "./PersonForm";
 import SchoolClassForm from "./SchoolClassForm";
@@ -16,7 +15,6 @@ export {
   BookChargeForm,
   BookForm,
   CheckoutHistoryForm,
-  ManualTransactionForm,
   NewFamilyForm,
   PersonForm,
   SchoolClassForm,
