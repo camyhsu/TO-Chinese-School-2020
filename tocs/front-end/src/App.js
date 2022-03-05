@@ -64,15 +64,19 @@ import { Footer } from "./app/Footer";
 import { PrivateRoute } from "./app/PrivateRoute";
 import { Role } from "./app/Role";
 import { SignIn } from "./features/user/SignIn";
+import { UserStatus } from "./features/user/UserStatus";
 
 const App = () => {
-  const { user } = useSelector((state) => state.user);
+  const { status } = useSelector((state) => state.user);
+  const userSignedIn = status === UserStatus.SIGNED_IN;
 
   return (
     <BrowserRouter>
       <div>
-        {user && <TopNavbar />}
-        <div className={`container mt-3 ${user ? "container-main" : ""}`}>
+        {userSignedIn && <TopNavbar />}
+        <div
+          className={`container mt-3 ${userSignedIn ? "container-main" : ""}`}
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
@@ -390,7 +394,7 @@ const App = () => {
           </Routes>
         </div>
       </div>
-      {user && <Footer />}
+      {userSignedIn && <Footer />}
     </BrowserRouter>
   );
 };
