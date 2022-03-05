@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import config from "../../app/config";
+import { UserStatus } from "./UserStatus";
 
 const existingUser = JSON.parse(sessionStorage.getItem("user"));
 
@@ -9,12 +10,12 @@ const existingUser = JSON.parse(sessionStorage.getItem("user"));
 const initialState = existingUser
   ? {
       error: null,
-      status: "signInSucceeded",
+      status: UserStatus.SIGNED_IN,
       user: existingUser,
     }
   : {
       error: null,
-      status: "notSignedIn",
+      status: UserStatus.NOT_SIGNED_IN,
       user: null,
     };
 
@@ -40,17 +41,17 @@ const userSlice = createSlice({
   reducers: {
     signOut(state) {
       state.error = null;
-      state.status = "notSignedIn";
+      state.status = UserStatus.NOT_SIGNED_IN;
       state.user = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(userSignIn.pending, (state) => {
-        state.status = "pending";
+        state.status = UserStatus.PENDING;
       })
       .addCase(userSignIn.fulfilled, (state, action) => {
-        state.status = "signInSucceeded";
+        state.status = UserStatus.SIGNED_IN;
         state.user = action.payload;
       })
       .addCase(userSignIn.rejected, (state, action) => {
@@ -62,7 +63,7 @@ const userSlice = createSlice({
         } else {
           state.error = errorMessageFromSignInRequest;
         }
-        state.status = "signInFailed";
+        state.status = UserStatus.SIGNED_IN_FAILED;
       });
   },
 });

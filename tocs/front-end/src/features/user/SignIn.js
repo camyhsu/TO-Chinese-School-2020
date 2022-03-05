@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+import { UserStatus } from "./UserStatus";
 
 import { Card, CardBody, CardFooter } from "../../components/Cards";
 import { userSignIn } from "./userSlice";
@@ -24,13 +25,13 @@ export const SignIn = () => {
     dispatch(userSignIn(data));
   };
 
-  if (status === "signInSucceeded") {
+  if (status === UserStatus.SIGNED_IN) {
     console.log("In SignIn page - already signed in - redirecting to home");
     return <Navigate to="/home" />;
   }
 
-  const signInPending = status === "pending";
-  const signInFailed = status === "signInFailed";
+  const signInPending = status === UserStatus.PENDING;
+  const signInFailed = status === UserStatus.SIGNED_IN_FAILED;
 
   return (
     <Card>
