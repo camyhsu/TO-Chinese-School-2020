@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "./App.css";
 
 import Register from "./components/Register";
-import Home from "./components/Home";
+import { Home } from "./features/home/Home";
 import Account from "./components/Account";
 import {
   ChargesCollected,
