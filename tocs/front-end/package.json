@@ -21,7 +21,7 @@
     "react-scripts": "^5.0.0",
     "react-validation": "^3.0.7",
     "sass": "^1.49.9",
-    "validator": "^13.5.2"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
