@@ -1,5 +1,4 @@
 /* global describe, it */
-import { expect } from "chai";
 import db from "../../src/models/index.js";
 import { modelTests } from "./model-test-utils.js";
 import {
@@ -25,50 +24,48 @@ describe("Test Person", () => {
   describe("People", () => {
     it("englishName", async () => {
       const person = await Person.create(createRandPerson());
-      expect(person.englishName()).eq(`${person.firstName} ${person.lastName}`);
+      expect(person.englishName()).toBe(`${person.firstName} ${person.lastName}`);
     });
 
     it("name", async () => {
       const person = await Person.create(
         createRandPerson({ chineseName: testChineseName })
       );
-      expect(person.name()).eq(
-        `${testChineseName}(${person.firstName} ${person.lastName})`
-      );
+      expect(person.name()).toBe(`${testChineseName}(${person.firstName} ${person.lastName})`);
     });
 
     it("birthInfo", async () => {
       const birthYear = 2000;
       const birthMonth = 8;
-      expect((await Person.create(createRandPerson())).birthInfo()).eq("");
+      expect((await Person.create(createRandPerson())).birthInfo()).toBe("");
       expect(
         (await Person.create(createRandPerson({ birthYear }))).birthInfo()
-      ).eq("");
+      ).toBe("");
       expect(
         (await Person.create(createRandPerson({ birthMonth }))).birthInfo()
-      ).eq("");
+      ).toBe("");
       expect(
         (
           await Person.create(createRandPerson({ birthYear, birthMonth }))
         ).birthInfo()
-      ).eq("8/2000");
+      ).toBe("8/2000");
     });
 
     it("baselineMonths", async () => {
-      expect(Person.baselineMonths(0, 0)).eq(0);
-      expect(Person.baselineMonths(0, 1)).eq(1);
-      expect(Person.baselineMonths(1, 0)).eq(12);
-      expect(Person.baselineMonths(1, 1)).eq(13);
+      expect(Person.baselineMonths(0, 0)).toBe(0);
+      expect(Person.baselineMonths(0, 1)).toBe(1);
+      expect(Person.baselineMonths(1, 0)).toBe(12);
+      expect(Person.baselineMonths(1, 1)).toBe(13);
     });
 
     it("address", async () => {
       let person = createRandPerson();
       person.address = randAddress();
       person = await Person.createWith(person);
-      expect(person.address.id).gt(0);
+      expect(person.address.id).toBeGreaterThan(0);
       const address = await Address.getById(person.address.id);
       Object.keys(person.address).forEach((key) =>
-        expect(address[key]).eq(address[key])
+        expect(address[key]).toBe(address[key])
       );
     });
 
@@ -84,15 +81,15 @@ describe("Test Person", () => {
 
       await Family.create({ parentOne: createRandPerson() });
 
-      expect(await Family.count()).eq(originalLength + 3);
+      expect(await Family.count()).toBe(originalLength + 3);
 
       let families = await person.findFamiliesAsParent();
-      expect(families.length).eq(2);
-      expect((await family1.getParentOne()).id).eq(person.id);
-      expect((await family2.getParentTwo()).id).eq(person.id);
+      expect(families.length).toBe(2);
+      expect((await family1.getParentOne()).id).toBe(person.id);
+      expect((await family2.getParentTwo()).id).toBe(person.id);
 
       families = await person.families();
-      expect(families.length).eq(2);
+      expect(families.length).toBe(2);
     });
 
     it("findFamiliesAsChild", async () => {
@@ -104,15 +101,15 @@ describe("Test Person", () => {
 
       await Family.create({ parentOne: createRandPerson() });
 
-      expect(await Family.count()).eq(originalLength + 2);
+      expect(await Family.count()).toBe(originalLength + 2);
 
       let families = await person.findFamiliesAsChild();
-      expect(families.length).eq(1);
+      expect(families.length).toBe(1);
       const child = (await families[0].getChildren())[0];
-      expect(child.id).eq(person.id);
+      expect(child.id).toBe(person.id);
 
       families = await person.families();
-      expect(families.length).eq(1);
+      expect(families.length).toBe(1);
     });
 
     it("families", async () => {
@@ -128,15 +125,15 @@ describe("Test Person", () => {
       const family2 = await Family.create();
       await family2.setParentTwo(person.id);
 
-      expect(await Family.count()).eq(originalLength + 3);
+      expect(await Family.count()).toBe(originalLength + 3);
 
       let families = await person.findFamiliesAsChild();
-      expect(families.length).eq(1);
+      expect(families.length).toBe(1);
       families = await person.findFamiliesAsParent();
-      expect(families.length).eq(2);
+      expect(families.length).toBe(2);
 
       families = await person.families();
-      expect(families.length).eq(3);
+      expect(families.length).toBe(3);
     });
 
     it("isAParentOf", async () => {
@@ -145,10 +142,10 @@ describe("Test Person", () => {
       await family1.setParentOne(person.id);
 
       const child = await Person.createWith(createRandPerson());
-      expect(await person.isAParentOf(child.id)).to.eq(false);
+      expect(await person.isAParentOf(child.id)).toBe(false);
 
       await family1.addChildren(child.id);
-      expect(await person.isAParentOf(child.id)).to.eq(true);
+      expect(await person.isAParentOf(child.id)).toBe(true);
     });
   });
 
@@ -157,7 +154,7 @@ describe("Test Person", () => {
       const schoolYear = await SchoolYear.create(createRandSchoolYear());
       const student = await Person.create(randPerson());
       let bool = await student.isStudentRegisteredForSchoolYear(schoolYear.id);
-      expect(bool).to.be.false;
+      expect(bool).toBe(false);
 
       await StudentStatusFlag.create({
         studentId: student.id,
@@ -165,7 +162,7 @@ describe("Test Person", () => {
         registered: true,
       });
       bool = await student.isStudentRegisteredForSchoolYear(schoolYear.id);
-      expect(bool).to.be.true;
+      expect(bool).toBe(true);
     });
   });
 
@@ -175,7 +172,7 @@ describe("Test Person", () => {
       const student = await Person.create(randPerson());
       const studentFeePayments =
         await student.findPaidStudentFeePaymentAsStudentFor(schoolYear.id);
-      expect(studentFeePayments.length).to.eq(0);
+      expect(studentFeePayments.length).toBe(0);
     });
   });
 });

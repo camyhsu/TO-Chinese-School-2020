@@ -1,5 +1,4 @@
 /* global describe, it */
-import { expect } from "chai";
 import { modelTests, testRole } from "./model-test-utils.js";
 import {
   randAddress,
@@ -39,8 +38,8 @@ describe("Test User", () => {
   describe("passwordCorrect", () => {
     it("passwordCorrect", async () => {
       const user = await User.createWith(createRandUser());
-      expect(user.passwordCorrect(testPassword)).to.be.true;
-      expect(user.passwordCorrect(diffPassword)).to.be.false;
+      expect(user.passwordCorrect(testPassword)).toBe(true);
+      expect(user.passwordCorrect(diffPassword)).toBe(false);
     });
   });
 
@@ -54,55 +53,52 @@ describe("Test User", () => {
       const updatedHash = user.passwordHash;
       const updatedSalt = user.passwordSalt;
 
-      expect(updatedHash).not.eq(originalHash);
-      expect(updatedSalt).not.eq(originalSalt);
+      expect(updatedHash).not.toBe(originalHash);
+      expect(updatedSalt).not.toBe(originalSalt);
 
       await user.save();
 
       const retrivied = await User.getById(user.id);
-      expect(retrivied.passwordHash).eq(updatedHash);
-      expect(retrivied.passwordSalt).eq(updatedSalt);
+      expect(retrivied.passwordHash).toBe(updatedHash);
+      expect(retrivied.passwordSalt).toBe(updatedSalt);
     });
   });
 
   describe("authorized", () => {
     it("authorized", async () => {
       const user = await User.createWith(createRandUser());
-      expect(await user.authorized(testRole.controller, testRole.action)).to.be
-        .false;
+      expect(await user.authorized(testRole.controller, testRole.action)).toBe(false);
       const role = await Role.findFirstBy({ name: testRole.roleName });
       await user.addRole(role);
-      expect(await user.authorized(testRole.controller, testRole.action)).to.be
-        .true;
+      expect(await user.authorized(testRole.controller, testRole.action)).toBe(true);
     });
   });
 
   describe("authenticate", () => {
     it("authenticate", async () => {
       const user = await User.createWith(createRandUser());
-      expect(await User.authenticate(user.username, diffPassword)).to.be.false;
-      expect(await User.authenticate(user.username, testPassword)).to.be.true;
-      expect(await User.authenticate(`${user.username}x`, testPassword)).to.be
-        .false;
+      expect(await User.authenticate(user.username, diffPassword)).toBe(false);
+      expect(await User.authenticate(user.username, testPassword)).toBe(true);
+      expect(await User.authenticate(`${user.username}x`, testPassword)).toBe(false);
     });
   });
 
   describe("userNameAlreadyExists", () => {
     it("userNameAlreadyExists", async () => {
       const user = createRandUser();
-      expect(await User.userNameAlreadyExists(user.username)).to.be.false;
+      expect(await User.userNameAlreadyExists(user.username)).toBe(false);
       await User.createWith(user);
-      expect(await User.userNameAlreadyExists(user.username)).to.be.true;
+      expect(await User.userNameAlreadyExists(user.username)).toBe(true);
     });
   });
 
   describe("hasRole", () => {
     it("hasRole", async () => {
       const user = await User.createWith(createRandUser());
-      expect(await user.hasRole(testRole.roleName)).to.be.false;
+      expect(await user.hasRole(testRole.roleName)).toBe(false);
       const role = await Role.findFirstBy({ name: testRole.roleName });
       await user.addRole(role);
-      expect(await user.hasRole(testRole.roleName)).to.be.true;
+      expect(await user.hasRole(testRole.roleName)).toBe(true);
     });
   });
 
@@ -111,10 +107,10 @@ describe("Test User", () => {
       let user = createRandUser();
       user.person.address = randAddress();
       user = await User.createWith(user);
-      expect(user.person.address.id).gt(0);
+      expect(user.person.address.id).toBeGreaterThan(0);
       const address = await Address.getById(user.person.address.id);
       Object.keys(user.person.address).forEach((key) =>
-        expect(address[key]).eq(address[key])
+        expect(address[key]).toBe(address[key])
       );
     });
   });

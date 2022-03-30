@@ -1,5 +1,4 @@
 /* global describe, it */
-import { expect } from "chai";
 import {
   dateBetween,
   formatPhoneNumber,
@@ -15,29 +14,27 @@ import {
 describe("Utilities", () => {
   describe("sha256Hex", () => {
     it("sha256Hex", async () => {
-      expect(sha256Hex("admin", "5678")).eq(
-        "ab460250edf5cf49c700eea578db1fcec74dd34d953485660d4ce0931408cad8"
-      );
+      expect(sha256Hex("admin", "5678")).toBe("ab460250edf5cf49c700eea578db1fcec74dd34d953485660d4ce0931408cad8");
     });
   });
 
   describe("formatPhone", () => {
     it("formatPhone", async () => {
-      expect(formatPhoneNumber("1112223333")).eq("(111) 222-3333");
-      expect(formatPhoneNumber("(111) 222-3333")).eq("(111) 222-3333");
-      expect(formatPhoneNumber("-111-222-3333-")).eq("(111) 222-3333");
-      expect(formatPhoneNumber(undefined)).eq("");
-      expect(formatPhoneNumber(null)).eq("");
+      expect(formatPhoneNumber("1112223333")).toBe("(111) 222-3333");
+      expect(formatPhoneNumber("(111) 222-3333")).toBe("(111) 222-3333");
+      expect(formatPhoneNumber("-111-222-3333-")).toBe("(111) 222-3333");
+      expect(formatPhoneNumber(undefined)).toBe("");
+      expect(formatPhoneNumber(null)).toBe("");
     });
   });
 
   describe("randSalt", () => {
     it("randSalt", async () => {
-      expect(randSalt().length).eq(8);
-      expect(randSalt(6, true).length).eq(12);
+      expect(randSalt().length).toBe(8);
+      expect(randSalt(6, true).length).toBe(12);
 
-      expect(randSalt(12).length).eq(16);
-      expect(randSalt(12, true).length).eq(24);
+      expect(randSalt(12).length).toBe(16);
+      expect(randSalt(12, true).length).toBe(24);
     });
   });
 
@@ -48,69 +45,64 @@ describe("Utilities", () => {
           startDate: "2021-04-14",
           endDate: "2021-04-14",
         })
-      ).to.be.true;
+      ).toBe(true);
       expect(
         dateBetween("2021-04-14", {
           startDate: "2021-04-13",
           endDate: "2021-04-14",
         })
-      ).to.be.true;
+      ).toBe(true);
       expect(
         dateBetween("2021-04-14", {
           startDate: "2021-04-14",
           endDate: "2021-04-15",
         })
-      ).to.be.true;
+      ).toBe(true);
       expect(
         dateBetween("2021-04-14", {
           startDate: "2021-04-13",
           endDate: "2021-04-15",
         })
-      ).to.be.true;
+      ).toBe(true);
       expect(
         dateBetween("2021-04-14", {
           startDate: "2021-04-15",
           endDate: "2021-04-16",
         })
-      ).to.be.false;
+      ).toBe(false);
 
       const s = "2021-04-14T06:50:22.274Z";
-      expect(dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-14" }))
-        .to.be.true;
-      expect(dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-14" }))
-        .to.be.true;
-      expect(dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-15" }))
-        .to.be.true;
-      expect(dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-15" }))
-        .to.be.true;
-      expect(dateBetween(s, { startDate: "2021-04-15", endDate: "2021-04-16" }))
-        .to.be.false;
+      expect(dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-14" })).toBe(true);
+      expect(dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-14" })).toBe(true);
+      expect(dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-15" })).toBe(true);
+      expect(dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-15" })).toBe(true);
+      expect(dateBetween(s, { startDate: "2021-04-15", endDate: "2021-04-16" })).toBe(false);
     });
   });
 
   describe("today/tomorrow", () => {
     it("today/tomorrow", async () => {
-      expect(today()).to.be.not.null;
-      expect(tomorrow()).to.be.not.null;
-      expect(new Date(today())).to.be.not.null;
-      expect(new Date(tomorrow())).to.be.not.null;
-      expect(new Date(today()) < new Date(tomorrow())).to.be.true;
+      expect(today()).not.toBeNull();
+      expect(tomorrow()).not.toBeNull();
+      expect(new Date(today())).not.toBeNull();
+      expect(new Date(tomorrow())).not.toBeNull();
+      expect(new Date(today()) < new Date(tomorrow())).toBe(true);
     });
   });
 
   describe("toExp4Digits", () => {
     it("toExp4Digits", async () => {
-      expect(toExp4Digits("2022", "2")).to.eq("0222");
-      expect(toExp4Digits(2022, 2)).to.eq("0222");
-      expect(toExp4Digits("2022", "12")).to.eq("1222");
-      expect(toExp4Digits(2022, 12)).to.eq("1222");
+      expect(toExp4Digits("2022", "2")).toBe("0222");
+      expect(toExp4Digits(2022, 2)).toBe("0222");
+      expect(toExp4Digits("2022", "12")).toBe("1222");
+      expect(toExp4Digits(2022, 12)).toBe("1222");
     });
   });
 
   describe("todayPacific", () => {
     it("todayPacific", async () => {
       console.log(todayPacific());
-      expect(isoToPacificDate(today())).to.eq(todayPacific());
+      expect(isoToPacificDate(today())).toBe(todayPacific());
     });
   });
 });

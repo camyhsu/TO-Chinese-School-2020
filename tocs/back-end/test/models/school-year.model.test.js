@@ -21,11 +21,11 @@ describe("Test SchoolYear", () => {
       obj.endDate = datePlus(1);
       await SchoolYear.create(obj);
       r = await SchoolYear.findCurrentAndFutureSchoolYears();
-      expect(r.length).to.eq(originalSize + 1);
+      expect(r.length).toBe(originalSize + 1);
 
       const c1 = await SchoolYear.currentSchoolYear();
       const c2 = await SchoolYear.nextSchoolYear();
-      expect(c1.id).to.not.eq(c2.id);
+      expect(c1.id).not.toBe(c2.id);
     });
   });
 });

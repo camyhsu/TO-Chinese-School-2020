@@ -1,5 +1,4 @@
 /* global describe, it */
-import { expect } from "chai";
 import RegistrationService from "../../src/services/registration.service.js";
 import StudentService from "../../src/services/student.service.js";
 import {
@@ -23,10 +22,10 @@ describe("Test Registration", () => {
       });
       const family = await RegistrationService.getFamily(savedFamily.id);
 
-      expect(family.id).to.eq(savedFamily.id);
-      expect(family.address.id).to.eq(savedFamily.address.id);
-      expect(family.parentOne.id).to.eq(savedFamily.parentOne.id);
-      expect(family.children.length).to.eq(0);
+      expect(family.id).toBe(savedFamily.id);
+      expect(family.address.id).toBe(savedFamily.address.id);
+      expect(family.parentOne.id).toBe(savedFamily.parentOne.id);
+      expect(family.children.length).toBe(0);
 
       const child1 = randPerson();
       await StudentService.addChild(family.id, child1);
@@ -34,15 +33,15 @@ describe("Test Registration", () => {
       let familyWithChildren = await RegistrationService.getFamily(
         savedFamily.id
       );
-      expect(familyWithChildren.children.length).to.eq(1);
-      expect(familyWithChildren.children[0].firstName).to.eq(child1.firstName);
+      expect(familyWithChildren.children.length).toBe(1);
+      expect(familyWithChildren.children[0].firstName).toBe(child1.firstName);
 
       const child2 = randPerson();
       await StudentService.addChild(family.id, child2);
 
       familyWithChildren = await RegistrationService.getFamily(savedFamily.id);
-      expect(familyWithChildren.children.length).to.eq(2);
-      expect(familyWithChildren.children[1].firstName).to.eq(child2.firstName);
+      expect(familyWithChildren.children.length).toBe(2);
+      expect(familyWithChildren.children[1].firstName).toBe(child2.firstName);
     });
   });
 
@@ -52,10 +51,10 @@ describe("Test Registration", () => {
       const schoolYear = await RegistrationService.addSchoolYear(
         createRandSchoolYear()
       );
-      expect(await schoolClass.activeIn(schoolYear.id)).to.be.true;
+      expect(await schoolClass.activeIn(schoolYear.id)).toBe(true);
       const bookCharges = await BookCharge.findAllForSchoolYear(schoolYear.id);
       const grades = await Grade.findAll();
-      expect(bookCharges.length).to.eq(grades.length);
+      expect(bookCharges.length).toBe(grades.length);
     });
 
     it("should have previous school year", async () => {
@@ -69,9 +68,9 @@ describe("Test Registration", () => {
       );
       const schoolYear2 = await RegistrationService.addSchoolYear(sy2);
 
-      expect(schoolYear1.id).to.be.not.null;
-      expect(schoolYear2.id).to.be.not.null;
-      expect(schoolYear2.previousSchoolYearId).to.be.not.null;
+      expect(schoolYear1.id).not.toBeNull();
+      expect(schoolYear2.id).not.toBeNull();
+      expect(schoolYear2.previousSchoolYearId).not.toBeNull();
     });
   });
 });

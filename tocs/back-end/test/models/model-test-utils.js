@@ -1,5 +1,4 @@
 /* global it */
-import { expect } from "chai";
 import { uuid } from "../../src/utils/utilities.js";
 
 const modelTests = async (
@@ -15,37 +14,37 @@ const modelTests = async (
   });
 
   it("N", async () => {
-    expect(object.id).to.be.undefined;
-    expect(object[fieldToTest]).eq(s);
+    expect(object.id).toBeUndefined();
+    expect(object[fieldToTest]).toBe(s);
   });
 
   it("C", async () => {
     object = await model.create(object, createOptions);
-    expect(object.id).gt(0);
-    expect(object[fieldToTest]).eq(s);
+    expect(object.id).toBeGreaterThan(0);
+    expect(object[fieldToTest]).toBe(s);
   });
 
   it("R", async () => {
     object = await model.getById(object.id);
-    expect(object.id).gt(0);
-    expect(object[fieldToTest]).eq(s);
+    expect(object.id).toBeGreaterThan(0);
+    expect(object[fieldToTest]).toBe(s);
   });
 
   it("U", async () => {
-    expect(object[fieldToTest]).eq(s);
+    expect(object[fieldToTest]).toBe(s);
     object[fieldToTest] += "x";
     await object.save();
     object = await model.getById(object.id);
-    expect(object.id).gt(0);
-    expect(object[fieldToTest]).not.eq(s);
-    expect(object[fieldToTest]).eq(`${s}x`);
+    expect(object.id).toBeGreaterThan(0);
+    expect(object[fieldToTest]).not.toBe(s);
+    expect(object[fieldToTest]).toBe(`${s}x`);
   });
 
   it("D", async () => {
     const r = await model.deleteById(object.id);
-    expect(r).eq(1);
+    expect(r).toBe(1);
     object = await model.getById(object.id);
-    expect(object).to.be.null;
+    expect(object).toBeNull();
   });
 };
 

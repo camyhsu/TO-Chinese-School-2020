@@ -1,5 +1,4 @@
 /* global describe it */
-import { expect } from "chai";
 import db from "../../src/models/index.js";
 import { randPerson } from "../../src/utils/utilities.js";
 
@@ -10,7 +9,7 @@ describe("Test ManualTransaction", () => {
     it("findTransactionBy", async () => {
       const person = await Person.create(randPerson());
       const payments = await ManualTransaction.findTransactionBy(person.id);
-      expect(payments).to.be.not.null;
+      expect(payments).not.toBeNull();
     });
   });
 });

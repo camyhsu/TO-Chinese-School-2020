@@ -1,5 +1,4 @@
 /* global describe it */
-import { expect } from "chai";
 import db from "../../src/models/index.js";
 import { randPerson } from "../../src/utils/utilities.js";
 
@@ -12,7 +11,7 @@ describe("Test RegistrationPayment", () => {
       const payments = await RegistrationPayment.findPaidPaymentsPaidBy(
         person.id
       );
-      expect(payments).to.be.not.null;
+      expect(payments).not.toBeNull();
     });
   });
 
@@ -33,8 +32,8 @@ describe("Test RegistrationPayment", () => {
           },
         ],
       });
-      expect(payment).to.be.not.null;
-      expect(payment.id).to.gt(0);
+      expect(payment).not.toBeNull();
+      expect(payment.id).toBeGreaterThan(0);
     });
   });
 });

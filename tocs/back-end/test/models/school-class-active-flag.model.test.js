@@ -21,8 +21,8 @@ describe("Test SchoolClassActiveFlag", () => {
       await s.save();
 
       const t = await SchoolClassActiveFlag.getById(s.id);
-      expect(t.schoolClassId).to.eq(schoolClass.id);
-      expect(t.schoolYearId).to.eq(schoolYear.id);
+      expect(t.schoolClassId).toBe(schoolClass.id);
+      expect(t.schoolYearId).toBe(schoolYear.id);
     });
   });
 
@@ -35,11 +35,11 @@ describe("Test SchoolClassActiveFlag", () => {
       s.setSchoolYear(schoolYear.id);
       await s.save();
 
-      expect(await schoolClass.activeIn(schoolYear.id)).to.be.true;
+      expect(await schoolClass.activeIn(schoolYear.id)).toBe(true);
 
       s.active = false;
       await s.save();
-      expect(await schoolClass.activeIn(schoolYear.id)).to.be.false;
+      expect(await schoolClass.activeIn(schoolYear.id)).toBe(false);
     });
   });
 });

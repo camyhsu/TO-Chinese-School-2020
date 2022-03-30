@@ -1,5 +1,4 @@
 /* global describe it */
-import { expect } from "chai";
 import { librarianService } from "../../src/services/index.js";
 import { randPerson, randBook, toObj } from "../../src/utils/utilities.js";
 import db from "../../src/models/index.js";
@@ -17,14 +16,14 @@ describe("Test librarianService", () => {
       const originalBooksCount = r.length;
       book = await librarianService.addLibraryBook(rawBook);
       r = await librarianService.getLibraryBooks();
-      expect(r.length).to.eq(originalBooksCount + 1);
-      expect(await book.findCurrentCheckoutRecord()).to.be.null;
+      expect(r.length).toBe(originalBooksCount + 1);
+      expect(await book.findCurrentCheckoutRecord()).toBeNull();
     });
 
     it("should checkout", async () => {
       borrower = await Person.create(randPerson());
-      expect((await book.getCheckOuts()).length).to.eq(0);
-      expect(book.checkedOut).to.not.eq(true);
+      expect((await book.getCheckOuts()).length).toBe(0);
+      expect(book.checkedOut).not.toBe(true);
 
       await librarianService.checkOutLibraryBook(book.id, {
         checkedOutBy: borrower.id,
@@ -32,29 +31,29 @@ describe("Test librarianService", () => {
         note: "Nice book!",
       });
 
-      expect((await book.getCheckOuts()).length).to.eq(1);
+      expect((await book.getCheckOuts()).length).toBe(1);
       const updatedBook = await librarianService.getLibraryBook(book.id);
-      expect(updatedBook.checkedOut).to.eq(true);
-      expect(await book.findCurrentCheckoutRecord()).to.be.not.null;
+      expect(updatedBook.checkedOut).toBe(true);
+      expect(await book.findCurrentCheckoutRecord()).not.toBeNull();
 
       const r = await librarianService.getLibraryBooks();
       const theBook = toObj(r.filter((b) => b.id === book.id)[0]);
-      expect(theBook.checkOut.checked_out_by_id).to.eq(borrower.id);
-      expect(theBook.borrower.id).to.eq(borrower.id);
+      expect(theBook.checkOut.checked_out_by_id).toBe(borrower.id);
+      expect(theBook.borrower.id).toBe(borrower.id);
     });
 
     it("should return", async () => {
       const dbBook = await librarianService.getLibraryBook(book.id);
-      expect(dbBook.checkedOut).to.eq(true);
-      expect(await dbBook.findCurrentCheckoutRecord()).to.be.not.null;
+      expect(dbBook.checkedOut).toBe(true);
+      expect(await dbBook.findCurrentCheckoutRecord()).not.toBeNull();
 
       await librarianService.returnLibraryBook(book.id, {
         returnDate: new Date(),
         note: "Nice book indeed!",
       });
       const updatedBook = await librarianService.getLibraryBook(book.id);
-      expect(updatedBook.checkedOut).to.eq(false);
-      expect(await updatedBook.findCurrentCheckoutRecord()).to.be.null;
+      expect(updatedBook.checkedOut).toBe(false);
+      expect(await updatedBook.findCurrentCheckoutRecord()).toBeNull();
     });
   });
 });

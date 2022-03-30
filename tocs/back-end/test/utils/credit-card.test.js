@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 /* global describe, it */
-import { expect } from "chai";
 import CreditCard from "../../src/utils/credit-card.js";
 import { process } from "../../src/utils/payment-gateway.js";
 
@@ -9,44 +8,36 @@ describe("Credit Card", () => {
     it("creditCardCreator", async () => {
       expect(
         new CreditCard("4532928211171666", "1221", "123").validate().isValid
-      ).to.be.true;
-      expect(new CreditCard("4532928211171666", "1221").validate().isValid).to
-        .be.false;
-      expect(new CreditCard("4532928211171666", "1221").validate().error).to.eq(
-        "CVV"
-      );
+      ).toBe(true);
+      expect(new CreditCard("4532928211171666", "1221").validate().isValid).toBe(false);
+      expect(new CreditCard("4532928211171666", "1221").validate().error).toBe("CVV");
 
-      expect(new CreditCard("4532928211171666", "1321").validate().isValid).to
-        .be.false;
-      expect(new CreditCard("4532928211171666", "1321").validate().error).to.eq(
-        "Expiration Date"
-      );
+      expect(new CreditCard("4532928211171666", "1321").validate().isValid).toBe(false);
+      expect(new CreditCard("4532928211171666", "1321").validate().error).toBe("Expiration Date");
 
-      expect(new CreditCard("453292821117166").validate().isValid).to.be.false;
-      expect(new CreditCard("453292821117166").validate().error).to.eq(
-        "Number"
-      );
+      expect(new CreditCard("453292821117166").validate().isValid).toBe(false);
+      expect(new CreditCard("453292821117166").validate().error).toBe("Number");
     });
 
     it("card type", async () => {
       expect(
         new CreditCard("342826328808014", "1221", "123").validate().type
-      ).eq("american-express");
+      ).toBe("american-express");
       expect(
         new CreditCard("3014481532938230", "1221", "123").validate().type
-      ).eq("diners-club");
+      ).toBe("diners-club");
       expect(
         new CreditCard("6011229168236619", "1221", "123").validate().type
-      ).eq("discover");
+      ).toBe("discover");
       expect(
         new CreditCard("5323052417528049", "1221", "123").validate().type
-      ).eq("mastercard");
+      ).toBe("mastercard");
       expect(
         new CreditCard("6222023945730720", "1221", "123").validate().type
-      ).eq("unionpay");
+      ).toBe("unionpay");
       expect(
         new CreditCard("4532928211171666", "1221", "123").validate().type
-      ).eq("visa");
+      ).toBe("visa");
     });
   });
 
@@ -66,7 +57,7 @@ describe("Credit Card", () => {
         creditCard,
       });
       console.log("===========\n", rtn);
-      expect(rtn.description).to.eq("This transaction has been approved.");
+      expect(rtn.description).toBe("This transaction has been approved.");
     });
   });
 
@@ -74,7 +65,7 @@ describe("Credit Card", () => {
     it("last 4", async () => {
       expect(
         new CreditCard("342826328808014", "1221", "123").validate().last4
-      ).to.eq("8014");
+      ).toBe("8014");
     });
   });
 });

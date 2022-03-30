@@ -1,5 +1,4 @@
 /* global describe, it */
-import { expect } from "chai";
 import AccountingService from "../../src/services/accounting.service.js";
 import {
   createRandSchoolYear,
@@ -32,7 +31,7 @@ describe("Test AccountingService", () => {
       await s.save();
 
       const ds = await AccountingService.getInstructorDiscounts();
-      expect(ds).to.be.not.null;
+      expect(ds).not.toBeNull();
     });
   });
 
@@ -49,7 +48,7 @@ describe("Test AccountingService", () => {
         schoolClassId: schoolClass.id,
         registered: true,
       });
-      expect(studentStatusFlag.registered).to.be.true;
+      expect(studentStatusFlag.registered).toBe(true);
 
       const studentClassAssignment = await StudentClassAssignment.create({
         schoolYearId: schoolYear.id,
@@ -57,12 +56,12 @@ describe("Test AccountingService", () => {
         studentId: student.id,
         gradeId: grade.id,
       });
-      expect(studentClassAssignment).to.be.not.null;
+      expect(studentClassAssignment).not.toBeNull();
 
       let studentClassAssignments = await StudentClassAssignment.findAll({
         where: { studentId: student.id },
       });
-      expect(studentClassAssignments.length).to.eq(1);
+      expect(studentClassAssignments.length).toBe(1);
 
       const obj = {
         paymentMethod: "Check",
@@ -77,23 +76,23 @@ describe("Test AccountingService", () => {
       const withdrawalRecords = await WithdrawalRecord.findAll({
         where: { studentId: student.id },
       });
-      expect(withdrawalRecords.length).to.eq(0);
+      expect(withdrawalRecords.length).toBe(0);
 
       const tx = await AccountingService.createManualTransactionWithSideEffects(
         obj
       );
-      expect(tx).to.be.not.null;
-      expect(tx.transactionDate).eq(today());
+      expect(tx).not.toBeNull();
+      expect(tx.transactionDate).toBe(today());
 
       const modifiedStudentStatusFlag = await StudentStatusFlag.getById(
         studentStatusFlag.id
       );
-      expect(modifiedStudentStatusFlag.registered).to.be.false;
+      expect(modifiedStudentStatusFlag.registered).toBe(false);
 
       studentClassAssignments = await StudentClassAssignment.findAll({
         where: { studentId: student.id },
       });
-      expect(studentClassAssignments.length).to.eq(0);
+      expect(studentClassAssignments.length).toBe(0);
     });
   });
 });
