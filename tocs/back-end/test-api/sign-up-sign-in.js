@@ -27,7 +27,7 @@ describe("Test SignUp/SignIn", () => {
         zipcode: chance.zip(),
       };
       let r = await api.signUp(formData);
-      expect(r.data.message).eq("Account successfully created");
+      expect(r.data.message).toBe("Account successfully created");
 
       r = await api.signIn(username, password);
       console.log(JSON.stringify(r, null, 2));
