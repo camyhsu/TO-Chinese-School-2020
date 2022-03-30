@@ -1,7 +1,7 @@
 import { authService } from "../../services/index.js";
 import { response } from "../../utils/response-factory.js";
 import { asyncWrapper } from "./utils.js";
-import logger from "../../utils/logger.js";
+import { logger } from "../../utils/logger.js";
 
 export default {
   signUp: asyncWrapper(async (req, _res, next) => {

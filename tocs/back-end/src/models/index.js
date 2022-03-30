@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import config from "config";
+import { sqlLogger } from "../utils/logger.js";
 
 // Models
 import address from "./address.model.js";
@@ -28,7 +29,6 @@ import user from "./user.model.js";
 import withdrawalRecord from "./withdrawal-record.model.js";
 import withdrawRequest from "./withdraw-request.model.js";
 import withdrawRequestDetail from "./withdraw-request-detail.model.js";
-import logger from "../utils/logger.js";
 
 const dbConfig = config.get("dbConfig");
 
@@ -47,7 +47,7 @@ const sequelize = new Sequelize(database, username, password, {
     idle,
   },
   define: { underscored: true },
-  logging: (msg) => logger.info(`[SQL] ${msg}`),
+  logging: (msg) => sqlLogger.info(msg),
 });
 
 const db = { Sequelize, sequelize };
