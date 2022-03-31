@@ -9,6 +9,6 @@ TIMESTAMP=$(date +"%Y%m%d%H%M")
 ARCHIVE_NAME=tocs-back-end-build-$TIMESTAMP
 
 cd ../../tocs/back-end
-tar cvf "$ARCHIVE_NAME".tar cli config/default.json drivers package* schema src
+tar cvf "$ARCHIVE_NAME".tar config/default.json package* src
 gzip "$ARCHIVE_NAME".tar
 mv "$ARCHIVE_NAME".tar.gz ../../cloud-ops/deployment/
