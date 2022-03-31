@@ -2,6 +2,7 @@
   "env": {
     "commonjs": true,
     "es6": true,
+    "jest/globals": true,
     "node": true
   },
   "extends": ["airbnb-base", "prettier"],
@@ -12,6 +13,7 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
+  "plugins": ["jest"],
   "rules": {
     "no-console": "off",
     "max-len": ["error", { "code": 120 }],
@@ -20,7 +22,7 @@
       "error",
       "ignorePackages",
       {
-        "js": "always",
+        "js": "never",
         "jsx": "never",
         "ts": "never",
         "tsx": "never"

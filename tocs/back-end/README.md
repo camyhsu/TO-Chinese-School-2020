@@ -56,10 +56,26 @@ CREATE USER test_user WITH PASSWORD '1234';
 CREATE DATABASE test_db OWNER test_user;
 ```
 
-### API Server
+### Development Server
+
+Simply use the following command to start the development server. The server will reload files as they changes.
 
 ```
 npm start
+```
+
+### Running API integration tests
+
+Before running the API integration tests, start the test server with:
+
+```
+npm run start-test-api-server
+```
+
+Then execute the full API integration test suite with:
+
+```
+npm run test-api
 ```
 
 ### CLI

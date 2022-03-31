@@ -18,8 +18,12 @@ export const logger = createLogger({
   ],
 });
 
-// Local dev would have the NODE_ENV undefined -- also output logs to console in this case
-if (!process.env.NODE_ENV) {
+// Also output logs to console for local development or test
+if (
+  !process.env.NODE_ENV ||
+  process.env.NODE_ENV === "dev" ||
+  process.env.NODE_ENV === "test"
+) {
   logger.add(new transports.Console());
 }
 
