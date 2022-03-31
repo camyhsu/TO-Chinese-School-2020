@@ -5,7 +5,7 @@
     "jest/globals": true,
     "node": true
   },
-  "extends": ["airbnb-base", "plugin:jest/recommended", "prettier" ],
+  "extends": ["airbnb-base", "plugin:jest/recommended", "prettier"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"

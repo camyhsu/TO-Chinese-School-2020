@@ -3,9 +3,9 @@
   "dbConfig": {
     "host": "localhost",
     "port": 5432,
-    "username": "tocsorg_camyhsu",
-    "password": "1234",
-    "database": "chineseschool_development",
+    "username": "tocsorg_registration",
+    "password": "",
+    "database": "registration",
     "dialect": "postgres",
     "pool": {
       "max": 5,
@@ -20,9 +20,9 @@
     "transactionKey": "43XA5aLP96Ce5hZd"
   },
   "contacts": {
-    "webSiteSupport": "engineering@to-cs.org",
-    "registration": "registration@to-cs.org",
-    "textBookManager": "academic-book@to-cs.org",
-    "accounting": "accountant@to-cs.org"
+    "webSiteSupport": "engineering1@to-cs.org",
+    "registration": "engineering1@to-cs.org",
+    "textBookManager": "engineering1@to-cs.org",
+    "accounting": "engineering1@to-cs.org"
   }
 }

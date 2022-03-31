@@ -7,8 +7,8 @@
   "scripts": {
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-module jest --verbose test",
     "test-api": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose test-api",
-    "start": "nodemon src/server.js",
-    "start-test-api-server": "NODE_ENV=test nodemon src/server.js"
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js",
+    "start-test-api-server": "NODE_ENV=test nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js"
   },
   "author": "",
   "license": "ISC",
