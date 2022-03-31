@@ -1,8 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* global describe, it */
 import chai from "chai";
 import { Chance } from "chance";
-import apiFn from "../src/utils/api.js";
+import apiFn from "../src/utils/api";
 
 const chance = new Chance();
 const { expect } = chai;

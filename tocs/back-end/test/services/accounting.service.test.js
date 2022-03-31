@@ -1,13 +1,12 @@
-/* global describe, it */
-import AccountingService from "../../src/services/accounting.service.js";
+import AccountingService from "../../src/services/accounting.service";
 import {
   createRandSchoolYear,
   createRandSchoolClass,
   today,
   randString,
   randPerson,
-} from "../../src/utils/utilities.js";
-import db from "../../src/models/index.js";
+} from "../../src/utils/utilities";
+import db from "../../src/models/index";
 
 const {
   Grade,

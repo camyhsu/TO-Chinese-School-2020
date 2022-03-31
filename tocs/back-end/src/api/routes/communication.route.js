@@ -1,4 +1,4 @@
-import controller from "../controllers/communication.controller.js";
+import controller from "../controllers/communication.controller";
 
 export default (router) => {
   router.get(

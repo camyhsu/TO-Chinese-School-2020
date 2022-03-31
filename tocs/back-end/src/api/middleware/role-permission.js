@@ -1,6 +1,6 @@
-import db from "../../models/index.js";
-import { actionsXRoles } from "../../utils/caches.js";
-import { unauthorized } from "../../utils/response-factory.js";
+import db from "../../models/index";
+import { actionsXRoles } from "../../utils/caches";
+import { unauthorized } from "../../utils/response-factory";
 
 const { Right, Role, User } = db;
 const { roleNames } = db.Role.prototype;

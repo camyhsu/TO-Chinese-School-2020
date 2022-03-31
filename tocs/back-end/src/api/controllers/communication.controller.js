@@ -1,6 +1,6 @@
-import { registrationService } from "../../services/index.js";
-import { asyncWrapper, downloadCsv } from "./utils.js";
-import { toObj } from "../../utils/utilities.js";
+import { registrationService } from "../../services/index";
+import { asyncWrapper, downloadCsv } from "./utils";
+import { toObj } from "../../utils/utilities";
 
 const fn = async (res) => {
   const fields = [

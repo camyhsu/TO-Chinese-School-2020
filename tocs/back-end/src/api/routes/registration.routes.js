@@ -1,5 +1,5 @@
-import controller from "../controllers/registration.controller.js";
-import studentController from "../controllers/student.controller.js";
+import controller from "../controllers/registration.controller";
+import studentController from "../controllers/student.controller";
 
 export default (router) => {
   router.get("/admin/grades/index", [], controller.getGrades);

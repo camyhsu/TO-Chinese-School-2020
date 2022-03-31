@@ -1,4 +1,4 @@
-import { randSalt, sha256Hex } from "../utils/utilities.js";
+import { randSalt, sha256Hex } from "../utils/utilities";
 
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({

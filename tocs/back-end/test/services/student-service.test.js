@@ -1,15 +1,13 @@
-/* global describe, it */
-
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import StudentService from "../../src/services/student.service.js";
+import StudentService from "../../src/services/student.service";
 import {
   randPerson,
   createRandSchoolClass,
   randString,
   createRandSchoolYear,
-} from "../../src/utils/utilities.js";
-import db from "../../src/models/index.js";
+} from "../../src/utils/utilities";
+import db from "../../src/models/index";
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

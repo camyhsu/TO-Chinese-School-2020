@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "config";
-import db from "../models/index.js";
-import { loginError } from "../utils/response-factory.js";
+import db from "../models/index";
+import { loginError } from "../utils/response-factory";
 
 const authSecret = config.get("authSecret");
 const { Family, User, Role } = db;

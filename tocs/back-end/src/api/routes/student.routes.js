@@ -1,5 +1,5 @@
-import controller from "../controllers/student.controller.js";
-import { familyPermission, peoplePermission } from "../middleware/index.js";
+import controller from "../controllers/student.controller";
+import { familyPermission, peoplePermission } from "../middleware/index";
 
 export default (router) => {
   router.post(

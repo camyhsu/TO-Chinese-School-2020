@@ -1,7 +1,6 @@
-/* global describe */
-import db from "../../src/models/index.js";
-import { modelTests } from "./model-test-utils.js";
-import { randString } from "../../src/utils/utilities.js";
+import db from "../../src/models/index";
+import { modelTests } from "./model-test-utils";
+import { randString } from "../../src/utils/utilities";
 
 const { StaffAssignment } = db;
 

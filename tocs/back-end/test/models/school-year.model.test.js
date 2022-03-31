@@ -1,8 +1,7 @@
-/* global describe, it */
 import chai from "chai";
-import db from "../../src/models/index.js";
-import { datePlus, createRandSchoolYear } from "../../src/utils/utilities.js";
-import { modelTests } from "./model-test-utils.js";
+import db from "../../src/models/index";
+import { datePlus, createRandSchoolYear } from "../../src/utils/utilities";
+import { modelTests } from "./model-test-utils";
 
 const { expect } = chai;
 const { SchoolYear } = db;

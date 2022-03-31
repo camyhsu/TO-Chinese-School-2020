@@ -1,10 +1,10 @@
-import accountingService from "./accounting.service.js";
-import authService from "./auth.service.js";
-import instructionService from "./instruction.service.js";
-import librarianService from "./librarian.service.js";
-import registrationService from "./registration.service.js";
-import studentService from "./student.service.js";
-import userService from "./user.service.js";
+import accountingService from "./accounting.service";
+import authService from "./auth.service";
+import instructionService from "./instruction.service";
+import librarianService from "./librarian.service";
+import registrationService from "./registration.service";
+import studentService from "./student.service";
+import userService from "./user.service";
 
 export {
   accountingService,

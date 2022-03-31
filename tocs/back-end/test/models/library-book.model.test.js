@@ -1,7 +1,6 @@
-/* global describe, it */
-import db from "../../src/models/index.js";
-import { modelTests } from "./model-test-utils.js";
-import { randPerson, randBook } from "../../src/utils/utilities.js";
+import db from "../../src/models/index";
+import { modelTests } from "./model-test-utils";
+import { randPerson, randBook } from "../../src/utils/utilities";
 
 const { LibraryBook, LibraryBookCheckOut, Person } = db;
 

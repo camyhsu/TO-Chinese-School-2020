@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "config";
-import { forbidden, unauthorized } from "../../utils/response-factory.js";
+import { forbidden, unauthorized } from "../../utils/response-factory";
 
 const authSecret = config.get("authSecret");
 

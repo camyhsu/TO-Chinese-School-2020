@@ -1,4 +1,4 @@
-import { formatPhoneNumber, toNumeric } from "../utils/utilities.js";
+import { formatPhoneNumber, toNumeric } from "../utils/utilities";
 
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({

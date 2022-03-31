@@ -1,6 +1,6 @@
-import { librarianService } from "../../services/index.js";
-import { response } from "../../utils/response-factory.js";
-import { asyncWrapper } from "./utils.js";
+import { librarianService } from "../../services/index";
+import { response } from "../../utils/response-factory";
+import { asyncWrapper } from "./utils";
 
 export default {
   getLibraryBook: asyncWrapper(async (req, _res, next) => {

@@ -1,5 +1,5 @@
-import { rolePermission } from "../middleware/index.js";
-import controller from "../controllers/user.controller.js";
+import { rolePermission } from "../middleware/index";
+import controller from "../controllers/user.controller";
 
 export default (router) => {
   router.get(

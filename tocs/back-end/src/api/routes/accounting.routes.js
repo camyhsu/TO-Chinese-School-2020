@@ -1,4 +1,4 @@
-import controller from "../controllers/accounting.controller.js";
+import controller from "../controllers/accounting.controller";
 
 export default (router) => {
   router.get(

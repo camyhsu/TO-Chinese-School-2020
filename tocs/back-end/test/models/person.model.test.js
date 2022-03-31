@@ -1,11 +1,10 @@
-/* global describe, it */
-import db from "../../src/models/index.js";
-import { modelTests } from "./model-test-utils.js";
+import db from "../../src/models/index";
+import { modelTests } from "./model-test-utils";
 import {
   randAddress,
   randPerson,
   createRandSchoolYear,
-} from "../../src/utils/utilities.js";
+} from "../../src/utils/utilities";
 
 const { Person, Address, Family, SchoolYear, StudentStatusFlag } = db;
 const testChineseName = "黄鹤楼";

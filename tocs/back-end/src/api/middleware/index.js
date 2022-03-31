@@ -1,8 +1,8 @@
-import authJwt from "./auth-jwt.js";
-import familyPermission from "./family-permission.js";
-import peoplePermission from "./people-permission.js";
-import rolePermission from "./role-permission.js";
-import verifySignUp from "./verify-sign-up.js";
+import authJwt from "./auth-jwt";
+import familyPermission from "./family-permission";
+import peoplePermission from "./people-permission";
+import rolePermission from "./role-permission";
+import verifySignUp from "./verify-sign-up";
 
 export {
   authJwt,

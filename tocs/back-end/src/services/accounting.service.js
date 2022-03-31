@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
-import db from "../models/index.js";
-import { today, tomorrow } from "../utils/utilities.js";
-import { withdrawalMailer } from "../utils/mailers.js";
+import db from "../models/index";
+import { today, tomorrow } from "../utils/utilities";
+import { withdrawalMailer } from "../utils/mailers";
 
 const { Op } = Sequelize;
 const {

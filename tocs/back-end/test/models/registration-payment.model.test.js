@@ -1,6 +1,5 @@
-/* global describe it */
-import db from "../../src/models/index.js";
-import { randPerson } from "../../src/utils/utilities.js";
+import db from "../../src/models/index";
+import { randPerson } from "../../src/utils/utilities";
 
 const { Person, RegistrationPayment } = db;
 

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { formatPhoneNumber } from "./utilities.js";
+import { formatPhoneNumber } from "./utilities";
 
 const formatAddressPhoneNumbers = (obj) => {
   _.forIn(obj, (value, key) => {

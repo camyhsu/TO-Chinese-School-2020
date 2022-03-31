@@ -1,7 +1,6 @@
-/* global describe it */
-import { librarianService } from "../../src/services/index.js";
-import { randPerson, randBook, toObj } from "../../src/utils/utilities.js";
-import db from "../../src/models/index.js";
+import { librarianService } from "../../src/services/index";
+import { randPerson, randBook, toObj } from "../../src/utils/utilities";
+import db from "../../src/models/index";
 
 const { Person } = db;
 

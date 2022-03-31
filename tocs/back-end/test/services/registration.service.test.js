@@ -1,13 +1,12 @@
-/* global describe, it */
-import RegistrationService from "../../src/services/registration.service.js";
-import StudentService from "../../src/services/student.service.js";
+import RegistrationService from "../../src/services/registration.service";
+import StudentService from "../../src/services/student.service";
 import {
   randAddress,
   randPerson,
   createRandSchoolYear,
   createRandSchoolClass,
-} from "../../src/utils/utilities.js";
-import db from "../../src/models/index.js";
+} from "../../src/utils/utilities";
+import db from "../../src/models/index";
 
 const { BookCharge, Grade, SchoolClass } = db;
 

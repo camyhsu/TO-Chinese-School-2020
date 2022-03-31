@@ -1,5 +1,5 @@
-import controller from "../controllers/instruction.controller.js";
-import registrationController from "../controllers/registration.controller.js";
+import controller from "../controllers/instruction.controller";
+import registrationController from "../controllers/registration.controller";
 
 export default (router) => {
   router.get(

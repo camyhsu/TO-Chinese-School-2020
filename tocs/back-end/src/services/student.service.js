@@ -1,10 +1,10 @@
 import Sequelize from "sequelize";
 import config from "config";
-import db from "../models/index.js";
-import CreditCard from "../utils/credit-card.js";
-import { toExp4Digits, todayPacific } from "../utils/utilities.js";
-import { process } from "../utils/payment-gateway.js";
-import { sendPaymentConfirmation } from "../utils/email.js";
+import db from "../models/index";
+import CreditCard from "../utils/credit-card";
+import { toExp4Digits, todayPacific } from "../utils/utilities";
+import { process } from "../utils/payment-gateway";
+import { sendPaymentConfirmation } from "../utils/email";
 
 const { Op } = Sequelize;
 const {

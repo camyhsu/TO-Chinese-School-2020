@@ -1,4 +1,4 @@
-import { dateBetween } from "../utils/utilities.js";
+import { dateBetween } from "../utils/utilities";
 
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({

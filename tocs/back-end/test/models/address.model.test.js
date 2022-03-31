@@ -1,9 +1,8 @@
-/* global describe, it */
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import db from "../../src/models/index.js";
-import { modelTests } from "./model-test-utils.js";
-import { randAddress } from "../../src/utils/utilities.js";
+import db from "../../src/models/index";
+import { modelTests } from "./model-test-utils";
+import { randAddress } from "../../src/utils/utilities";
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

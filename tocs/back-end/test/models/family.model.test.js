@@ -1,11 +1,10 @@
-/* global describe, it */
-import db from "../../src/models/index.js";
+import db from "../../src/models/index";
 import {
   randString,
   randAddress,
   randPerson,
   createRandSchoolYear,
-} from "../../src/utils/utilities.js";
+} from "../../src/utils/utilities";
 
 const {
   Address,

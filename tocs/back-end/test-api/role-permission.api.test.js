@@ -1,9 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* global describe, it */
-
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import apiFn from "../src/utils/api.js";
+import apiFn from "../src/utils/api";
 
 const api = apiFn();
 chai.use(chaiAsPromised);

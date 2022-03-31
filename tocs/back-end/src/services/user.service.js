@@ -1,6 +1,6 @@
-import db from "../models/index.js";
-import { formatAddressPhoneNumbers } from "../utils/mutator.js";
-import { badRequest } from "../utils/response-factory.js";
+import db from "../models/index";
+import { formatAddressPhoneNumbers } from "../utils/mutator";
+import { badRequest } from "../utils/response-factory";
 
 const { Address, Person, User, SchoolYear } = db;
 

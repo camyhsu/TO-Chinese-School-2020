@@ -1,10 +1,9 @@
-/* global describe, it */
 import chai from "chai";
-import db from "../../src/models/index.js";
+import db from "../../src/models/index";
 import {
   createRandSchoolYear,
   createRandSchoolClass,
-} from "../../src/utils/utilities.js";
+} from "../../src/utils/utilities";
 
 const { expect } = chai;
 

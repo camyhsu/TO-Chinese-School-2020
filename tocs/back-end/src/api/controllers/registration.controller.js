@@ -1,6 +1,6 @@
-import { registrationService } from "../../services/index.js";
-import { response } from "../../utils/response-factory.js";
-import { asyncWrapper } from "./utils.js";
+import { registrationService } from "../../services/index";
+import { response } from "../../utils/response-factory";
+import { asyncWrapper } from "./utils";
 
 export default {
   getGrades: asyncWrapper(async (_req, _res, next) => {

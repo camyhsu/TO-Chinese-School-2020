@@ -1,5 +1,5 @@
-import db from "../../models/index.js";
-import { unauthorized } from "../../utils/response-factory.js";
+import db from "../../models/index";
+import { unauthorized } from "../../utils/response-factory";
 
 const { Family, User } = db;
 

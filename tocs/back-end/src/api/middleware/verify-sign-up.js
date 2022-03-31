@@ -1,5 +1,5 @@
-import db from "../../models/index.js";
-import { badRequest, duplicateResource } from "../../utils/response-factory.js";
+import db from "../../models/index";
+import { badRequest, duplicateResource } from "../../utils/response-factory";
 
 const { Address, User } = db;
 

@@ -1,4 +1,4 @@
-import controller from "../controllers/librarian.controller.js";
+import controller from "../controllers/librarian.controller";
 
 export default (router) => {
   router.get("/librarian/library_books/index", [], controller.getLibraryBooks);

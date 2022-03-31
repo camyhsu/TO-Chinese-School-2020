@@ -1,5 +1,4 @@
-/* global it */
-import { uuid } from "../../src/utils/utilities.js";
+import { uuid } from "../../src/utils/utilities";
 
 const modelTests = async (
   model,

@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
-/* global describe, it */
-import CreditCard from "../../src/utils/credit-card.js";
-import { process } from "../../src/utils/payment-gateway.js";
+import CreditCard from "../../src/utils/credit-card";
+import { process } from "../../src/utils/payment-gateway";
 
 describe("Credit Card", () => {
   describe("creditCardCreator", () => {

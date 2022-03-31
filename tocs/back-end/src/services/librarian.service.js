@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
-import db from "../models/index.js";
-import { dataNotFound } from "../utils/response-factory.js";
-import { collectionToObj } from "../utils/utilities.js";
+import db from "../models/index";
+import { dataNotFound } from "../utils/response-factory";
+import { collectionToObj } from "../utils/utilities";
 
 const { Op } = Sequelize;
 const {

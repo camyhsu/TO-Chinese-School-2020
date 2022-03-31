@@ -1,6 +1,6 @@
-import { studentService } from "../../services/index.js";
-import { response, unauthorized } from "../../utils/response-factory.js";
-import { asyncWrapper } from "./utils.js";
+import { studentService } from "../../services/index";
+import { response, unauthorized } from "../../utils/response-factory";
+import { asyncWrapper } from "./utils";
 
 export default {
   addParent: asyncWrapper(async (req, _res, next) => {

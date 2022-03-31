@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import Chance from "chance";
-import sha256 from "crypto-js/sha256.js";
+import sha256 from "crypto-js/sha256";
 import CryptoJS from "crypto-js";
 
 const { Base64, Hex } = CryptoJS.enc;

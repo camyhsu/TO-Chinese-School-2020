@@ -1,11 +1,6 @@
-/* global describe, it */
-import { modelTests, testRole } from "./model-test-utils.js";
-import {
-  randAddress,
-  randPerson,
-  randUser,
-} from "../../src/utils/utilities.js";
-import db from "../../src/models/index.js";
+import { modelTests, testRole } from "./model-test-utils";
+import { randAddress, randPerson, randUser } from "../../src/utils/utilities";
+import db from "../../src/models/index";
 
 const { Address, Role, User } = db;
 

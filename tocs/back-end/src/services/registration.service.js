@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
-import db from "../models/index.js";
-import { formatAddressPhoneNumbers } from "../utils/mutator.js";
-import { isoToPacificDate } from "../utils/utilities.js";
+import db from "../models/index";
+import { formatAddressPhoneNumbers } from "../utils/mutator";
+import { isoToPacificDate } from "../utils/utilities";
 
 const { Op } = Sequelize;
 const {

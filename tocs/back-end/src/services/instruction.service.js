@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import db from "../models/index.js";
+import db from "../models/index";
 
 const { Op } = Sequelize;
 

@@ -1,4 +1,3 @@
-/* global describe, it */
 import {
   dateBetween,
   formatPhoneNumber,
@@ -9,7 +8,7 @@ import {
   toExp4Digits,
   isoToPacificDate,
   todayPacific,
-} from "../../src/utils/utilities.js";
+} from "../../src/utils/utilities";
 
 describe("Utilities", () => {
   describe("sha256Hex", () => {

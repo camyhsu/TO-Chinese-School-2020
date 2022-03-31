@@ -3,9 +3,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import config from "config";
-import routes from "./api/routes/index.js";
-import { logger } from "./utils/logger.js";
-import { authJwt, rolePermission } from "./api/middleware/index.js";
+import routes from "./api/routes/index";
+import { logger } from "./utils/logger";
+import { authJwt, rolePermission } from "./api/middleware/index";
 
 const createRouters = (n) =>
   [...Array(n || 1).keys()].map(() => express.Router());

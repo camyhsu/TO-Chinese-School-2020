@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { today } from "../utils/utilities.js";
+import { today } from "../utils/utilities";
 
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({

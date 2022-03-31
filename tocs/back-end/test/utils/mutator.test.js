@@ -1,5 +1,4 @@
-/* global describe, it */
-import { formatAddressPhoneNumbers } from "../../src/utils/mutator.js";
+import { formatAddressPhoneNumbers } from "../../src/utils/mutator";
 
 describe("mutator", () => {
   describe("formatAddressPhoneNumbers", () => {
