@@ -67,10 +67,14 @@ describe("Test User", () => {
   describe("authorized", () => {
     it("authorized", async () => {
       const user = await User.createWith(createRandUser());
-      expect(await user.authorized(testRole.controller, testRole.action)).toBe(false);
+      expect(await user.authorized(testRole.controller, testRole.action)).toBe(
+        false
+      );
       const role = await Role.findFirstBy({ name: testRole.roleName });
       await user.addRole(role);
-      expect(await user.authorized(testRole.controller, testRole.action)).toBe(true);
+      expect(await user.authorized(testRole.controller, testRole.action)).toBe(
+        true
+      );
     });
   });
 
@@ -79,7 +83,9 @@ describe("Test User", () => {
       const user = await User.createWith(createRandUser());
       expect(await User.authenticate(user.username, diffPassword)).toBe(false);
       expect(await User.authenticate(user.username, testPassword)).toBe(true);
-      expect(await User.authenticate(`${user.username}x`, testPassword)).toBe(false);
+      expect(await User.authenticate(`${user.username}x`, testPassword)).toBe(
+        false
+      );
     });
   });
 

@@ -14,7 +14,9 @@ import {
 describe("Utilities", () => {
   describe("sha256Hex", () => {
     it("sha256Hex", async () => {
-      expect(sha256Hex("admin", "5678")).toBe("ab460250edf5cf49c700eea578db1fcec74dd34d953485660d4ce0931408cad8");
+      expect(sha256Hex("admin", "5678")).toBe(
+        "ab460250edf5cf49c700eea578db1fcec74dd34d953485660d4ce0931408cad8"
+      );
     });
   });
 
@@ -72,11 +74,21 @@ describe("Utilities", () => {
       ).toBe(false);
 
       const s = "2021-04-14T06:50:22.274Z";
-      expect(dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-14" })).toBe(true);
-      expect(dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-14" })).toBe(true);
-      expect(dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-15" })).toBe(true);
-      expect(dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-15" })).toBe(true);
-      expect(dateBetween(s, { startDate: "2021-04-15", endDate: "2021-04-16" })).toBe(false);
+      expect(
+        dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-14" })
+      ).toBe(true);
+      expect(
+        dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-14" })
+      ).toBe(true);
+      expect(
+        dateBetween(s, { startDate: "2021-04-14", endDate: "2021-04-15" })
+      ).toBe(true);
+      expect(
+        dateBetween(s, { startDate: "2021-04-13", endDate: "2021-04-15" })
+      ).toBe(true);
+      expect(
+        dateBetween(s, { startDate: "2021-04-15", endDate: "2021-04-16" })
+      ).toBe(false);
     });
   });
 

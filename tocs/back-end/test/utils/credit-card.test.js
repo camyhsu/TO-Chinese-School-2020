@@ -9,11 +9,19 @@ describe("Credit Card", () => {
       expect(
         new CreditCard("4532928211171666", "1221", "123").validate().isValid
       ).toBe(true);
-      expect(new CreditCard("4532928211171666", "1221").validate().isValid).toBe(false);
-      expect(new CreditCard("4532928211171666", "1221").validate().error).toBe("CVV");
+      expect(
+        new CreditCard("4532928211171666", "1221").validate().isValid
+      ).toBe(false);
+      expect(new CreditCard("4532928211171666", "1221").validate().error).toBe(
+        "CVV"
+      );
 
-      expect(new CreditCard("4532928211171666", "1321").validate().isValid).toBe(false);
-      expect(new CreditCard("4532928211171666", "1321").validate().error).toBe("Expiration Date");
+      expect(
+        new CreditCard("4532928211171666", "1321").validate().isValid
+      ).toBe(false);
+      expect(new CreditCard("4532928211171666", "1321").validate().error).toBe(
+        "Expiration Date"
+      );
 
       expect(new CreditCard("453292821117166").validate().isValid).toBe(false);
       expect(new CreditCard("453292821117166").validate().error).toBe("Number");

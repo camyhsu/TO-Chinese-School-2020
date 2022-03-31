@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose",
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-module jest --verbose test",
+    "test-api": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose test-api",
     "start": "nodemon src/server.js"
   },
   "author": "",

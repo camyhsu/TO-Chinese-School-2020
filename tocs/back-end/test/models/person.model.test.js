@@ -24,14 +24,18 @@ describe("Test Person", () => {
   describe("People", () => {
     it("englishName", async () => {
       const person = await Person.create(createRandPerson());
-      expect(person.englishName()).toBe(`${person.firstName} ${person.lastName}`);
+      expect(person.englishName()).toBe(
+        `${person.firstName} ${person.lastName}`
+      );
     });
 
     it("name", async () => {
       const person = await Person.create(
         createRandPerson({ chineseName: testChineseName })
       );
-      expect(person.name()).toBe(`${testChineseName}(${person.firstName} ${person.lastName})`);
+      expect(person.name()).toBe(
+        `${testChineseName}(${person.firstName} ${person.lastName})`
+      );
     });
 
     it("birthInfo", async () => {

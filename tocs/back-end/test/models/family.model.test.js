@@ -31,7 +31,9 @@ describe("Test Family", () => {
       const parentOne = randPerson();
       const family = await Family.createWith({ parentOne });
       expect(await Family.count()).toBe(originalLength + 1);
-      expect(family.parentOne.englishName()).toBe(Person.prototype.englishName.call(parentOne));
+      expect(family.parentOne.englishName()).toBe(
+        Person.prototype.englishName.call(parentOne)
+      );
     });
 
     it("should have parentOne and parentTwo", async () => {
@@ -40,8 +42,12 @@ describe("Test Family", () => {
       const parentTwo = randPerson();
       const family = await Family.createWith({ parentOne, parentTwo });
       expect(await Family.count()).toBe(originalLength + 1);
-      expect(family.parentOne.englishName()).toBe(Person.prototype.englishName.call(parentOne));
-      expect(family.parentTwo.englishName()).toBe(Person.prototype.englishName.call(parentTwo));
+      expect(family.parentOne.englishName()).toBe(
+        Person.prototype.englishName.call(parentOne)
+      );
+      expect(family.parentTwo.englishName()).toBe(
+        Person.prototype.englishName.call(parentTwo)
+      );
 
       expect(await family.isParentOne(null)).toBe(false);
       expect(await family.isParentOne(family.parentOne)).toBe(true);
@@ -58,8 +64,12 @@ describe("Test Family", () => {
       const address = randAddress();
       const family = await Family.createWith({ parentOne, address });
       expect(await Family.count()).toBe(originalLength + 1);
-      expect(family.parentOne.englishName()).toBe(Person.prototype.englishName.call(parentOne));
-      expect(family.address.streetAddress()).toBe(Address.prototype.streetAddress.call(address));
+      expect(family.parentOne.englishName()).toBe(
+        Person.prototype.englishName.call(parentOne)
+      );
+      expect(family.address.streetAddress()).toBe(
+        Address.prototype.streetAddress.call(address)
+      );
     });
 
     it("should have children", async () => {
@@ -81,7 +91,10 @@ describe("Test Family", () => {
       const child1 = await Person.create(randPerson());
       const child2 = await Person.create(randPerson());
       await family.addChildren([child1.id, child2.id]);
-      expect(await family.childrenNames()).toEqual([child1.name(), child2.name()]);
+      expect(await family.childrenNames()).toEqual([
+        child1.name(),
+        child2.name(),
+      ]);
     });
   });
 
