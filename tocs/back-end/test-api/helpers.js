@@ -8,9 +8,11 @@ export const TEST_API_BASE_URL = "http://localhost:3001";
 
 const chance = new Chance();
 
+export const createRandomPassword = () => chance.string({ length: 8 });
+
 export const createRandomUser = () => {
   const user = { username: chance.string({ alpha: true, numeric: true }) };
   user.person = randPerson();
-  User.prototype.setPassword.call(user, chance.string({ length: 8 }));
+  User.prototype.setPassword.call(user, createRandomPassword());
   return user;
 };

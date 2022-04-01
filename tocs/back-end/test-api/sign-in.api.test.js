@@ -1,10 +1,14 @@
 import request from "supertest";
-import { TEST_API_BASE_URL, createRandomUser } from "./helpers";
+import {
+  TEST_API_BASE_URL,
+  createRandomPassword,
+  createRandomUser,
+} from "./helpers";
 import db from "../src/models/index";
 
 const { User } = db;
 
-describe("SignIn API", () => {
+describe("Sign In API", () => {
   let testUser;
 
   beforeAll(async () => {
@@ -41,49 +45,62 @@ describe("SignIn API", () => {
   });
 });
 
-// import chai from "chai";
-// import chaiAsPromised from "chai-as-promised";
-// import apiFn from "../src/utils/api.js";
-//
-// chai.use(chaiAsPromised);
-// const { expect } = chai;
-//
-// const username = "admin";
-// const password = "123456";
-// const newPassword = "654321";
-//
-// const api = apiFn();
-//
-//
-//   describe("Change password", () => {
-//     it("change password", async () => {
-//       await api.signIn();
-//       await expect(
-//         api.changePassword({
-//           currentPassword: "1",
-//           newPassword: "2",
-//           newPasswordConfirmation: "3",
-//         })
-//       ).to.eventually.be.rejectedWith("Request failed with status code 400");
-//       await expect(
-//         api.changePassword({
-//           currentPassword: password,
-//           newPassword: "2",
-//           newPasswordConfirmation: "3",
-//         })
-//       ).to.eventually.be.rejectedWith("Request failed with status code 400");
-//       let r = await api.changePassword({
-//         currentPassword: password,
-//         newPassword,
-//         newPasswordConfirmation: newPassword,
-//       });
-//       expect(r.status).eq(200);
-//       r = await api.changePassword({
-//         currentPassword: newPassword,
-//         newPassword: password,
-//         newPasswordConfirmation: password,
-//       });
-//       expect(r.status).eq(200);
-//     });
-//   });
-// });
+describe("Change Password API", () => {
+  let testUser;
+  let accessToken;
+  let fakePassword;
+
+  beforeAll(async () => {
+    testUser = await User.createWith(createRandomUser());
+    const response = await request(TEST_API_BASE_URL)
+      .post("/signin")
+      .send({ username: testUser.username, password: testUser.password });
+    accessToken = response.body.accessToken;
+    fakePassword = createRandomPassword();
+  });
+
+  afterAll(async () => {
+    await User.deleteById(testUser.id);
+  });
+
+  it("should return 400 if the current password is not correct", async () => {
+    const response = await request(TEST_API_BASE_URL)
+      .put("/api/change-password")
+      .set("x-access-token", accessToken)
+      .send({
+        currentPassword: "badpassword",
+        newPassword: fakePassword,
+        newPasswordConfirmation: fakePassword,
+      });
+    expect(response.statusCode).toBe(400);
+  });
+
+  it("should return 400 if the new password confirmation does not match", async () => {
+    const response = await request(TEST_API_BASE_URL)
+      .put("/api/change-password")
+      .set("x-access-token", accessToken)
+      .send({
+        currentPassword: testUser.password,
+        newPassword: fakePassword,
+        newPasswordConfirmation: "noMatchPassword",
+      });
+    expect(response.statusCode).toBe(400);
+  });
+
+  it("should return 200 if the current password is correct and the new password confirmation does match", async () => {
+    const response = await request(TEST_API_BASE_URL)
+      .put("/api/change-password")
+      .set("x-access-token", accessToken)
+      .send({
+        currentPassword: testUser.password,
+        newPassword: fakePassword,
+        newPasswordConfirmation: fakePassword,
+      });
+    expect(response.statusCode).toBe(200);
+    // Sign in again with the old password should now get a 401 response
+    const newSignInResponse = await request(TEST_API_BASE_URL)
+      .post("/signin")
+      .send({ username: testUser.username, password: testUser.password });
+    expect(newSignInResponse.statusCode).toBe(401);
+  });
+});
