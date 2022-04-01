@@ -1,19 +1,43 @@
 import request from "supertest";
-import { TEST_API_BASE_URL } from "./helpers";
+import { TEST_API_BASE_URL, createRandomUser } from "./helpers";
+import db from "../src/models/index";
+
+const { User } = db;
 
 describe("SignIn API", () => {
+  let testUser;
+
+  beforeAll(async () => {
+    testUser = await User.createWith(createRandomUser());
+  });
+
+  afterAll(async () => {
+    await User.deleteById(testUser.id);
+  });
+
   it("should return 401 given invalid username", async () => {
     const response = await request(TEST_API_BASE_URL)
       .post("/signin")
-      .send({ username: "badusername", password: "badpassword" });
+      .send({ username: "badusername", password: testUser.password });
     expect(response.statusCode).toBe(401);
   });
 
   it("should return 401 given invalid password", async () => {
     const response = await request(TEST_API_BASE_URL)
       .post("/signin")
-      .send({ username: "badusername", password: "badpassword" });
+      .send({ username: testUser.username, password: "badpassword" });
     expect(response.statusCode).toBe(401);
+  });
+
+  it("should return the user object with valid sign-in", async () => {
+    const response = await request(TEST_API_BASE_URL)
+      .post("/signin")
+      .send({ username: testUser.username, password: testUser.password });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.username).toBe(testUser.username);
+    expect(response.body.userId).toBeTruthy();
+    expect(response.body.roles).toBeDefined();
+    expect(response.body.accessToken).toBeTruthy();
   });
 });
 
@@ -30,22 +54,6 @@ describe("SignIn API", () => {
 //
 // const api = apiFn();
 //
-// describe("Test SignIn", () => {
-//   describe("SignIn", () => {
-//     it("Invalid signIn", async () => {
-//       await expect(api.signIn(username, "xyz")).to.eventually.be.rejectedWith(
-//         "Request failed with status code 401"
-//       );
-//       await expect(api.signIn("xyz", password)).to.eventually.be.rejectedWith(
-//         "Request failed with status code 401"
-//       );
-//     });
-//
-//     it("Valid signIn", async () => {
-//       const r = await api.signIn();
-//       expect(api.getAccessToken()).eq(r.accessToken);
-//     });
-//   });
 //
 //   describe("Change password", () => {
 //     it("change password", async () => {
