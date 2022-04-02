@@ -9,14 +9,15 @@ set -ex
 CODE_PACKAGE=$1
 
 # Move the code and configuration to the right locations
-cp $CODE_PACKAGE /var/www/preview/back-end/
 cd /var/www/preview/back-end
+rm -rf *
+cp ~/deployment/$CODE_PACKAGE .
 tar zxvf $CODE_PACKAGE
 rm $CODE_PACKAGE
 cp ~/deployment/back-end-preview.json config/preview.json
 
 # Run NPM install
-npm install
+npm ci
 
 # There could be steps for updating database here, but we have not run into this yet
 
