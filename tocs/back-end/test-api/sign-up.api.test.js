@@ -42,12 +42,10 @@ describe("Sign Up API", () => {
       .send({ username: testUsername, password: testPassword });
     expect(postSignUpResponse.statusCode).toBe(200);
 
-    // TODO - should check all records are setup and linked properly
-    // TODO - as of 2022-04-01, there is a bug where the address record is
-    // created but the address_id is not saved in the person record
-
     // TODO - should clean up after the test, but this involves at least
-    // 4 records, in users, people, addresses, roles_users
+    // 5 records, in users, people, families, addresses, roles_users
     // const testUserId = postSignUpResponse.body.userId;
   });
+
+  // TODO - should check all records are setup and linked properly
 });
