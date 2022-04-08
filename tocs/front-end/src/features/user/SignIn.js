@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 
 import { Card, CardBody, CardFooter } from "../../components/Cards";
+import { requiredOnly, trimAndRequired } from "../../utils/formFieldOptions";
 import { userSignIn } from "./userSlice";
 import { UserStatus } from "./UserStatus";
 
@@ -45,7 +46,7 @@ export const SignIn = () => {
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
-              {...register("username", { required: "Username is required" })}
+              {...register("username", trimAndRequired)}
               type="text"
               placeholder="username"
               className={`form-control ${errors.username ? "is-invalid" : ""}`}
@@ -55,7 +56,7 @@ export const SignIn = () => {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
-              {...register("password", { required: "Password is required" })}
+              {...register("password", trimAndRequired)}
               type="password"
               placeholder="password"
               className={`form-control ${errors.password ? "is-invalid" : ""}`}
@@ -66,7 +67,7 @@ export const SignIn = () => {
             <button className="btn btn-primary btn-block">
               {signInPending && (
                 <span className="spinner-border spinner-border-sm" />
-              )}
+              )}{" "}
               <span>Sign In</span>
             </button>
           </div>
@@ -89,7 +90,7 @@ export const SignIn = () => {
         <div className="">
           Don't have a user account?
           <br />
-          <Link to={"/register"}>Sign up for a new user account</Link>
+          <Link to={"/sign-up"}>Sign up for a new user account</Link>
         </div>
       </CardFooter>
     </Card>

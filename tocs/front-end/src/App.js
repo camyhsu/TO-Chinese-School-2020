@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./App.css";
 
-import Register from "./components/Register";
 import { Home } from "./features/home/Home";
 import Account from "./components/Account";
 import {
@@ -64,6 +63,7 @@ import { Footer } from "./app/Footer";
 import { PrivateRoute } from "./app/PrivateRoute";
 import { Role } from "./app/Role";
 import { SignIn } from "./features/user/SignIn";
+import { SignUp } from "./features/user/SignUp";
 import { UserStatus } from "./features/user/UserStatus";
 
 const App = () => {
@@ -81,7 +81,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/account" element={<Account />} />
             <Route
               path="/transaction-history"
