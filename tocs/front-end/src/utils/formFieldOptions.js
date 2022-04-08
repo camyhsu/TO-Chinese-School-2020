@@ -48,6 +48,6 @@ export const usernameValidation = {
 
 export const zipcodeValidation = {
   required: "Required!",
-  pattern: { value: /[0-9]{5}/, message: "At least 5 digits" },
+  pattern: { value: /^\d{5}(?:[- ]?\d{4})?$/, message: "Invalid zipcode" },
   setValueAs: (value) => value.trim(),
 };
