@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 
 import { Card, CardBody, CardFooter, CardTitle } from "../../components/Cards";
 import {
+  OptionalFieldMark,
+  ProgressSpinner,
+} from "../../components/decorationElements";
+import {
   birthYearValidation,
   emailValidation,
   passwordValidation,
@@ -14,7 +18,6 @@ import {
   zipcodeValidation,
   usernameValidation,
 } from "../../utils/formFieldOptions";
-import { OptionalField } from "../../utils/utilities";
 
 export const SignUp = () => {
   const {
@@ -97,7 +100,7 @@ export const SignUp = () => {
             <div className="row">
               <div className="form-group col-md-6 mb-3">
                 <label htmlFor="chineseName">
-                  Chinese Name <OptionalField />
+                  Chinese Name <OptionalFieldMark />
                 </label>
                 <input
                   {...register("chineseName", trimOnly)}
@@ -108,7 +111,7 @@ export const SignUp = () => {
               </div>
               <div className="form-group col-md-6 mb-3">
                 <label htmlFor="nativeLanguage">
-                  Native Language <OptionalField />
+                  Native Language <OptionalFieldMark />
                 </label>
                 <select
                   {...register("nativeLanguage")}
@@ -132,7 +135,7 @@ export const SignUp = () => {
               </div>
               <div className="form-group col-md-4 mb-3">
                 <label htmlFor="birthMonth">
-                  Birth Month <OptionalField />
+                  Birth Month <OptionalFieldMark />
                 </label>
                 <select {...register("birthMonth")} className="form-control">
                   <option value=""></option>
@@ -152,7 +155,7 @@ export const SignUp = () => {
               </div>
               <div className="form-group col-md-4 mb-3">
                 <label htmlFor="birthYear">
-                  Birth Year <OptionalField />
+                  Birth Year <OptionalFieldMark />
                 </label>
                 <input
                   {...register("birthYear", birthYearValidation)}
@@ -235,7 +238,7 @@ export const SignUp = () => {
               </div>
               <div className="form-group col-md-6 mb-3">
                 <label htmlFor="cellPhone">
-                  Second Phone Number <OptionalField />
+                  Second Phone Number <OptionalFieldMark />
                 </label>
                 <input
                   {...register("cellPhone", phoneNumberValidation)}
@@ -317,9 +320,7 @@ export const SignUp = () => {
             <div className="row">
               <div className="form-group col-md-12 mt-5 mb-3">
                 <button className="btn btn-primary btn-block">
-                  {true && (
-                    <span className="spinner-border spinner-border-sm" />
-                  )}{" "}
+                  {true && <ProgressSpinner />}
                   <span>Create User</span>
                 </button>
               </div>

@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 
 import { Card, CardBody, CardFooter } from "../../components/Cards";
-import { requiredOnly, trimAndRequired } from "../../utils/formFieldOptions";
+import { ProgressSpinner } from "../../components/decorationElements";
+import { trimAndRequired } from "../../utils/formFieldOptions";
 import { userSignIn } from "./userSlice";
 import { UserStatus } from "./UserStatus";
 
@@ -65,9 +66,7 @@ export const SignIn = () => {
           </div>
           <div className="form-group">
             <button className="btn btn-primary btn-block">
-              {signInPending && (
-                <span className="spinner-border spinner-border-sm" />
-              )}{" "}
+              {signInPending && <ProgressSpinner />}
               <span>Sign In</span>
             </button>
           </div>
