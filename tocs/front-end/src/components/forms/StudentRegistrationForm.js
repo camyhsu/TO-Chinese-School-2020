@@ -5,8 +5,8 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
+import { ContactEmails } from "../../utils/ContactEmails";
 import {
-  contacts,
   formatPersonNames,
   dateStarted,
   bilingualName,
@@ -225,7 +225,7 @@ const StudentRegistrationForm = () => {
                 </span>
                 <br />
                 <span className="text-info">
-                  Please email to {contacts.REGISTRATION_CONTACT} if there are
+                  Please email to {ContactEmails.REGISTRATION} if there are
                   questions.
                 </span>
               </li>
@@ -240,7 +240,7 @@ const StudentRegistrationForm = () => {
                 </span>
                 <br />
                 <span className="text-info">
-                  Please email to {contacts.REGISTRATION_CONTACT} if there are
+                  Please email to {ContactEmails.REGISTRATION} if there are
                   questions.
                 </span>
               </li>

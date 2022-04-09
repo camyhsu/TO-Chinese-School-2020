@@ -33,7 +33,7 @@ export const SignIn = () => {
   }
 
   const signInPending = status === UserStatus.PENDING;
-  const signInFailed = status === UserStatus.SIGNED_IN_FAILED;
+  const signInFailed = status === UserStatus.SIGN_IN_FAILED;
 
   return (
     <Card>

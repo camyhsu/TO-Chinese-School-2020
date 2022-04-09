@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import {
   OptionalFieldMark,
   ProgressSpinner,
 } from "../../components/decorationElements";
+import { ContactEmails } from "../../utils/ContactEmails";
 import {
   birthYearValidation,
   emailValidation,
@@ -18,6 +19,7 @@ import {
   zipcodeValidation,
   usernameValidation,
 } from "../../utils/formFieldOptions";
+import { SignUpStatus, userSignUp } from "./signUpApiClient";
 
 export const SignUp = () => {
   const {
@@ -31,9 +33,52 @@ export const SignUp = () => {
     document.title = "TOCS - Sign Up";
   }, []);
 
-  const submitHandler = (data) => {
-    console.log(data);
+  const [signUpStatus, setSignUpStatus] = useState(SignUpStatus.IDLE);
+
+  const submitHandler = async (data) => {
+    setSignUpStatus(SignUpStatus.PENDING);
+    const signUpData = { ...data };
+    delete signUpData.confirmPassword;
+    const responseFromServer = await userSignUp(signUpData);
+    setSignUpStatus(responseFromServer);
   };
+
+  if (signUpStatus === SignUpStatus.SIGN_UP_SUCCESSFUL) {
+    return (
+      <Card size="large">
+        <CardBody>
+          <img
+            src="/transparent-tree.png"
+            alt="profile-img"
+            className="profile-img-card"
+          />
+          <div>
+            <p className="mt-3">
+              User account sign-up successful. Please sign-in{" "}
+              <Link to={"/sign-in"}>Here</Link> using your new user.
+            </p>
+          </div>
+        </CardBody>
+      </Card>
+    );
+  }
+
+  const signUpFailed =
+    signUpStatus === SignUpStatus.EMAIL_CONFLICT ||
+    signUpStatus === SignUpStatus.USERNAME_CONFLICT ||
+    signUpStatus === SignUpStatus.SIGN_UP_FAILED;
+
+  let signUpErrorMessage = null;
+  if (signUpFailed) {
+    if (signUpStatus === SignUpStatus.EMAIL_CONFLICT) {
+      signUpErrorMessage = `Sign Up Failed - email address matches an existing account - please contact ${ContactEmails.WEB_SITE_SUPPORT} to recover your account`;
+    } else if (signUpStatus === SignUpStatus.USERNAME_CONFLICT) {
+      signUpErrorMessage =
+        "Sign Up Failed - username matches an existing account - please choose a different username";
+    } else {
+      signUpErrorMessage = "Server Unavailable - please try again later";
+    }
+  }
 
   return (
     <Card size="large">
@@ -44,14 +89,14 @@ export const SignUp = () => {
           className="profile-img-card"
         />
         <div>
-          <p className="text-danger">
+          <p className="text-danger mt-3">
             <span className="font-weight-bold">
               Families with existing or prior students in Thousand Oaks Chinese
               School
             </span>{" "}
-            - Please contact engineering@to-cs.org with your information if you
-            have troubles recovering your username or password. Do not use the
-            form below to create a new user.
+            - Please contact {ContactEmails.WEB_SITE_SUPPORT} with your
+            information if you have troubles recovering your username or
+            password. Do not use the form below to create a new user.
           </p>
           <p>
             For a new family who has not attend Thousand Oaks Chinese School
@@ -110,9 +155,7 @@ export const SignUp = () => {
                 />
               </div>
               <div className="form-group col-md-6 mb-3">
-                <label htmlFor="nativeLanguage">
-                  Native Language <OptionalFieldMark />
-                </label>
+                <label htmlFor="nativeLanguage">Native Language</label>
                 <select
                   {...register("nativeLanguage")}
                   className="form-control"
@@ -320,15 +363,15 @@ export const SignUp = () => {
             <div className="row">
               <div className="form-group col-md-12 mt-5 mb-3">
                 <button className="btn btn-primary btn-block">
-                  {true && <ProgressSpinner />}
+                  {signUpStatus === SignUpStatus.PENDING && <ProgressSpinner />}
                   <span>Create User</span>
                 </button>
               </div>
             </div>
             <div className="form-group">
-              {true && (
+              {signUpFailed && (
                 <div className="alert alert-danger" role="alert">
-                  {"signUpError"}
+                  {signUpErrorMessage}
                 </div>
               )}
             </div>

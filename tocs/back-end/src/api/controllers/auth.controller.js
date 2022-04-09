@@ -23,6 +23,9 @@ export default {
       username,
       password,
     } = req.body;
+    logger.info(
+      `signUp called with username => ${username} | email => ${email}`
+    );
     await authService.signUp({
       lastName,
       firstName,

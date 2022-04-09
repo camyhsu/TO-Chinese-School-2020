@@ -63,7 +63,7 @@ const userSlice = createSlice({
         } else {
           state.error = errorMessageFromSignInRequest;
         }
-        state.status = UserStatus.SIGNED_IN_FAILED;
+        state.status = UserStatus.SIGN_IN_FAILED;
       });
   },
 });

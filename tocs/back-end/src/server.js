@@ -68,7 +68,9 @@ app.use((obj, _req, res, _next) => {
   const { status, message, rtnObj } = obj;
 
   if (obj instanceof Error) {
-    logger.error(`Caught ${JSON.stringify(obj)}`);
+    logger.error(
+      `API responding with errors: status code => ${status} | message => ${message}`
+    );
     res
       .status(status || 500)
       .send({ message: message || "Internal Server Error" });

@@ -187,13 +187,6 @@ const bilingualName = (obj) =>
 
 const now = () => new Date().toLocaleString("en-US");
 
-const contacts = {
-  REGISTRATION_CONTACT: "registration@to-cs.org",
-  TEXT_BOOK_MANAGER: "academic-book@to-cs.org",
-  WEB_SITE_SUPPORT: "engineering@to-cs.org",
-  ACCOUNTING_CONTACT: "accountant@to-cs.org",
-};
-
 const dateStarted = (s) => s.localeCompare(isoToPacific(today(), true)) <= 0;
 
 export {
@@ -226,7 +219,6 @@ export {
   isoToPacific,
   labelForTuitionDiscountApplied,
   now,
-  contacts,
   dateStarted,
   getYear,
   BiCreditCard,
