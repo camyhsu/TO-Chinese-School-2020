@@ -7,7 +7,6 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "./App.css";
 
 import { Home } from "./features/home/Home";
-import Account from "./components/Account";
 import {
   ChargesCollected,
   InstructorDiscount,
@@ -62,6 +61,7 @@ import { TopNavbar } from "./app/TopNavbar";
 import { Footer } from "./app/Footer";
 import { PrivateRoute } from "./app/PrivateRoute";
 import { Role } from "./app/Role";
+import { Account } from "./features/user/Account";
 import { SignIn } from "./features/user/SignIn";
 import { SignUp } from "./features/user/SignUp";
 import { UserStatus } from "./features/user/UserStatus";
@@ -82,7 +82,14 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/account" element={<Account />} />
+            <Route
+              path="/account"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <Account />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/transaction-history"
               element={
