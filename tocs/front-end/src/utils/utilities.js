@@ -80,26 +80,6 @@ const validEmail = (value) => {
   }
 };
 
-const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
-      </div>
-    );
-  }
-};
-
-const vrepassword = (value, _props, components) => {
-  if (value !== components["password"][0].value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The passwords does not match.
-      </div>
-    );
-  }
-};
-
 const yesOrNo = (b) => (b ? "Yes" : "No");
 
 const today = () => new Date().toISOString().split("T")[0];
@@ -190,8 +170,6 @@ export {
   required,
   today,
   validEmail,
-  vpassword,
-  vrepassword,
   yesOrNo,
   Children,
   bilingualName,
