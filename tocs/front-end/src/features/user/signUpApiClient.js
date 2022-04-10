@@ -5,8 +5,8 @@ export const SignUpStatus = {
   EMAIL_CONFLICT: "emailConflict",
   IDLE: "idle",
   PENDING: "pending",
-  SIGN_UP_FAILED: "signUpFailed",
-  SIGN_UP_SUCCESSFUL: "signUpSuccessful",
+  FAILED: "signUpFailed",
+  SUCCESSFUL: "signUpSuccessful",
   USERNAME_CONFLICT: "usernameConflict",
 };
 
@@ -14,7 +14,7 @@ export const userSignUp = async (signUpData) => {
   try {
     const response = await axios.post(`${config.apiUrl}/signup`, signUpData);
     if (response.status === 200) {
-      return SignUpStatus.SIGN_UP_SUCCESSFUL;
+      return SignUpStatus.SUCCESSFUL;
     }
   } catch (error) {
     if (error.response?.status === 409) {
@@ -25,6 +25,6 @@ export const userSignUp = async (signUpData) => {
         return SignUpStatus.USERNAME_CONFLICT;
       }
     }
-    return SignUpStatus.SIGN_UP_FAILED;
+    return SignUpStatus.FAILED;
   }
 };

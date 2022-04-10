@@ -43,7 +43,7 @@ export const SignUp = () => {
     setSignUpStatus(responseFromServer);
   };
 
-  if (signUpStatus === SignUpStatus.SIGN_UP_SUCCESSFUL) {
+  if (signUpStatus === SignUpStatus.SUCCESSFUL) {
     return (
       <Card size="large">
         <CardBody>
@@ -63,21 +63,18 @@ export const SignUp = () => {
     );
   }
 
-  const signUpFailed =
-    signUpStatus === SignUpStatus.EMAIL_CONFLICT ||
-    signUpStatus === SignUpStatus.USERNAME_CONFLICT ||
-    signUpStatus === SignUpStatus.SIGN_UP_FAILED;
-
+  let signUpFailed = false;
   let signUpErrorMessage = null;
-  if (signUpFailed) {
-    if (signUpStatus === SignUpStatus.EMAIL_CONFLICT) {
-      signUpErrorMessage = `Sign Up Failed - email address matches an existing account - please contact ${ContactEmails.WEB_SITE_SUPPORT} to recover your account`;
-    } else if (signUpStatus === SignUpStatus.USERNAME_CONFLICT) {
-      signUpErrorMessage =
-        "Sign Up Failed - username matches an existing account - please choose a different username";
-    } else {
-      signUpErrorMessage = "Server Unavailable - please try again later";
-    }
+  if (signUpStatus === SignUpStatus.EMAIL_CONFLICT) {
+    signUpFailed = true;
+    signUpErrorMessage = `Sign Up Failed - email address matches an existing account - please contact ${ContactEmails.WEB_SITE_SUPPORT} to recover your account`;
+  } else if (signUpStatus === SignUpStatus.USERNAME_CONFLICT) {
+    signUpFailed = true;
+    signUpErrorMessage =
+      "Sign Up Failed - username matches an existing account - please choose a different username";
+  } else if (signUpStatus == SignUpStatus.FAILED) {
+    signUpFailed = true;
+    signUpErrorMessage = "Server Unavailable - please try again later";
   }
 
   return (
@@ -370,7 +367,7 @@ export const SignUp = () => {
             </div>
             <div className="form-group">
               {signUpFailed && (
-                <div className="alert alert-danger" role="alert">
+                <div className="alert alert-danger" role="alert-error">
                   {signUpErrorMessage}
                 </div>
               )}

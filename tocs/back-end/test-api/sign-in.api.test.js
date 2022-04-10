@@ -63,28 +63,35 @@ describe("Change Password API", () => {
     await User.deleteById(testUser.id);
   });
 
-  it("should return 400 if the current password is not correct", async () => {
+  it("should return 400 if the current password is not submitted", async () => {
+    const response = await request(TEST_API_BASE_URL)
+      .put("/api/change-password")
+      .set("x-access-token", accessToken)
+      .send({
+        newPassword: fakePassword,
+      });
+    expect(response.statusCode).toBe(400);
+  });
+
+  it("should return 400 if the new password is not submitted", async () => {
+    const response = await request(TEST_API_BASE_URL)
+      .put("/api/change-password")
+      .set("x-access-token", accessToken)
+      .send({
+        currentPassword: fakePassword,
+      });
+    expect(response.statusCode).toBe(400);
+  });
+
+  it("should return 403 if the current password is not correct", async () => {
     const response = await request(TEST_API_BASE_URL)
       .put("/api/change-password")
       .set("x-access-token", accessToken)
       .send({
         currentPassword: "badpassword",
         newPassword: fakePassword,
-        newPasswordConfirmation: fakePassword,
       });
-    expect(response.statusCode).toBe(400);
-  });
-
-  it("should return 400 if the new password confirmation does not match", async () => {
-    const response = await request(TEST_API_BASE_URL)
-      .put("/api/change-password")
-      .set("x-access-token", accessToken)
-      .send({
-        currentPassword: testUser.password,
-        newPassword: fakePassword,
-        newPasswordConfirmation: "noMatchPassword",
-      });
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(403);
   });
 
   it("should return 200 if the current password is correct and the new password confirmation does match", async () => {
@@ -94,7 +101,6 @@ describe("Change Password API", () => {
       .send({
         currentPassword: testUser.password,
         newPassword: fakePassword,
-        newPasswordConfirmation: fakePassword,
       });
     expect(response.statusCode).toBe(200);
     // Sign in again with the old password should now get a 401 response

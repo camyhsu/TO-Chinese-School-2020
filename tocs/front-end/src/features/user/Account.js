@@ -18,7 +18,7 @@ export const Account = () => {
       <CardFooter>
         <div className="row text-truncate">
           <div className="col-md-5 mb-md-0">
-            <Link to="/change-password-form" className="btn btn-light">
+            <Link to="/change-password" className="btn btn-light">
               <BiPencil /> Change Password
             </Link>
           </div>

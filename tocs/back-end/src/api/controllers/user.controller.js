@@ -24,13 +24,12 @@ export default {
     next(response(await accountingService.getBoard()));
   }),
   changePassword: asyncWrapper(async (req, _res, next) => {
-    const { currentPassword, newPassword, newPasswordConfirmation } = req.body;
+    const { currentPassword, newPassword } = req.body;
     next(
       response(
         await userService.changePassword(req.userId, {
           currentPassword,
           newPassword,
-          newPasswordConfirmation,
         })
       )
     );

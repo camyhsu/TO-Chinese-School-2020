@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./App.css";
 
-import { Home } from "./features/home/Home";
 import {
   ChargesCollected,
   InstructorDiscount,
@@ -34,7 +33,6 @@ import {
   SchoolYearForm,
   StudentRegistrationForm,
 } from "./components/forms/index";
-import ChangePasswordForm from "./components/ChangePasswordForm";
 import {
   Books,
   SearchStudentsByRegistrationDates,
@@ -61,7 +59,9 @@ import { TopNavbar } from "./app/TopNavbar";
 import { Footer } from "./app/Footer";
 import { PrivateRoute } from "./app/PrivateRoute";
 import { Role } from "./app/Role";
+import { Home } from "./features/home/Home";
 import { Account } from "./features/user/Account";
+import { ChangePassword } from "./features/user/ChangePassword";
 import { SignIn } from "./features/user/SignIn";
 import { SignUp } from "./features/user/SignUp";
 import { UserStatus } from "./features/user/UserStatus";
@@ -83,6 +83,14 @@ const App = () => {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route
+              path="/transaction-history"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <TransactionHistory />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/account"
               element={
                 <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
@@ -91,10 +99,10 @@ const App = () => {
               }
             />
             <Route
-              path="/transaction-history"
+              path="/change-password"
               element={
                 <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
-                  <TransactionHistory />
+                  <ChangePassword />
                 </PrivateRoute>
               }
             />
@@ -351,10 +359,6 @@ const App = () => {
                   <BookForm />
                 </PrivateRoute>
               }
-            />
-            <Route
-              path="/change-password-form"
-              element={<ChangePasswordForm />}
             />
             <Route
               path="/librarian/checkout-history/:bookId"

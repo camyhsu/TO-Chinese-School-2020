@@ -1,26 +1,17 @@
 import db from "../models/index";
 import { formatAddressPhoneNumbers } from "../utils/mutator";
-import { badRequest } from "../utils/response-factory";
+import { badRequest, unauthorized } from "../utils/response-factory";
 
 const { Address, Person, User, SchoolYear } = db;
 
 export default {
-  changePassword: async (
-    userId,
-    { currentPassword, newPassword, newPasswordConfirmation }
-  ) => {
-    if (
-      !userId ||
-      !currentPassword ||
-      !newPassword ||
-      !newPasswordConfirmation ||
-      newPassword !== newPasswordConfirmation
-    ) {
-      throw badRequest("Invalid password");
+  changePassword: async (userId, { currentPassword, newPassword }) => {
+    if (!userId || !currentPassword || !newPassword) {
+      throw badRequest("Invalid request parameters!");
     }
     const user = await User.getById(userId);
     if (!user.passwordCorrect(currentPassword)) {
-      throw badRequest("Invalid password");
+      throw unauthorized("Invalid current password!");
     }
     user.setPassword(newPassword);
     await user.save();
