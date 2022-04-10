@@ -15,6 +15,7 @@ export const ChangePassword = () => {
     getValues,
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -31,6 +32,9 @@ export const ChangePassword = () => {
     const changePasswordData = { ...data };
     delete changePasswordData.confirmPassword;
     const responseFromServer = await changePasswordRequest(data);
+    if (responseFromServer === ChangePasswordStatus.SUCCESSFUL) {
+      reset();
+    }
     setChangePasswordStatus(responseFromServer);
   };
 
