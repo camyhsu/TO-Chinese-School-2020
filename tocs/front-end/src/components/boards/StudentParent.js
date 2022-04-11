@@ -56,7 +56,7 @@ const Home = () => {
           <CardBody>
             <CardTitle>Person</CardTitle>
             <Person {...content.person} />
-            <Address {...(content.person && content.person.address)} />
+            {content.person?.address && <Address {...content.person.address} />}
           </CardBody>
           <CardFooter>
             <div className="row text-truncate">
