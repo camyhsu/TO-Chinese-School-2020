@@ -12,7 +12,7 @@ import {
 } from "../../utils/utilities";
 import { Card, CardBody, CardTitle, CardFooter } from "../Cards";
 import Address from "../Address";
-import Person from "../Person";
+import { Person } from "../../features/person/Person";
 import Table from "../Table";
 
 const PersonDetails = () => {

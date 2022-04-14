@@ -60,6 +60,7 @@ import { Footer } from "./app/Footer";
 import { PrivateRoute } from "./app/PrivateRoute";
 import { Role } from "./app/Role";
 import { Home } from "./features/home/Home";
+import { EditPerson } from "./features/person/EditPerson";
 import { Account } from "./features/user/Account";
 import { ChangePassword } from "./features/user/ChangePassword";
 import { SignIn } from "./features/user/SignIn";
@@ -106,6 +107,8 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="/parent/edit/:personId" element={<EditPerson />} />
+
             <Route
               path="/librarian/books"
               element={

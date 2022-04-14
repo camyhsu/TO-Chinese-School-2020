@@ -3,8 +3,8 @@ import config from "../../app/config";
 
 export const SignUpStatus = {
   EMAIL_CONFLICT: "emailConflict",
-  IDLE: "idle",
-  PENDING: "pending",
+  IDLE: "signUpIdle",
+  PENDING: "signUpPending",
   FAILED: "signUpFailed",
   SUCCESSFUL: "signUpSuccessful",
   USERNAME_CONFLICT: "usernameConflict",

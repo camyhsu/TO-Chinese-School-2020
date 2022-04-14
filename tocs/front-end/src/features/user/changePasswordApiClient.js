@@ -4,8 +4,8 @@ export const ChangePasswordStatus = {
   FAILED: "changePasswordFailed",
   SUCCESSFUL: "changePasswordSuccessful",
   INCORRECT_CURRENT: "incorrectCurrentPassword",
-  IDLE: "idle",
-  PENDING: "pending",
+  IDLE: "changePasswordIdle",
+  PENDING: "changePasswordPending",
 };
 
 export const changePasswordRequest = async (data) => {

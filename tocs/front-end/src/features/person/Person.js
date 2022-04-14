@@ -1,7 +1,7 @@
 import React from "react";
-import { formatPersonName } from "../utils/utilities";
+import { formatPersonName } from "../../utils/utilities";
 
-const Person = ({
+export const Person = ({
   chineseName,
   firstName,
   lastName,
@@ -12,13 +12,19 @@ const Person = ({
 }) => {
   return (
     <dl className="row">
+      <dt className="col-12 col-md-6 text-left text-md-right">English Name:</dt>
+      <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
+        {formatPersonName({ firstName, lastName })}
+      </dd>
       <dt className="col-12 col-md-6 text-left text-md-right">Chinese Name:</dt>
       <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
         {chineseName}
       </dd>
-      <dt className="col-12 col-md-6 text-left text-md-right">English Name:</dt>
+      <dt className="col-12 col-md-6 text-left text-md-right">
+        Native Language:
+      </dt>
       <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
-        {formatPersonName({ firstName, lastName })}
+        {nativeLanguage}
       </dd>
       <dt className="col-12 col-md-6 text-left text-md-right">Gender:</dt>
       <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
@@ -32,14 +38,6 @@ const Person = ({
           birthYear &&
           String(birthMonth).padStart(2, "0") + "/" + birthYear}
       </dd>
-      <dt className="col-12 col-md-6 text-left text-md-right">
-        Native Language:
-      </dt>
-      <dd className="col-12 col-md-6 text-left border-bottom border-md-bottom-0">
-        {nativeLanguage}
-      </dd>
     </dl>
   );
 };
-
-export default Person;

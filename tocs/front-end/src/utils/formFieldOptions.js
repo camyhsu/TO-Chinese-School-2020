@@ -4,7 +4,7 @@ export const birthYearValidation = {
     value: `${new Date().getFullYear() - 10}`,
     message: "A parent already?",
   },
-  setValueAs: (value) => value.trim(),
+  setValueAs: (value) => (value ? value : ""),
 };
 
 export const emailValidation = {
@@ -14,7 +14,7 @@ export const emailValidation = {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     message: "Invalid email address",
   },
-  setValueAs: (value) => value.trim().toLowerCase(),
+  setValueAs: (value) => value?.trim()?.toLowerCase(),
 };
 
 export const passwordValidation = {
@@ -28,16 +28,16 @@ export const phoneNumberValidation = {
     value: /^[0-9]{10}$/,
     message: "Phone number should be 10 digits",
   },
-  setValueAs: (value) => value.trim().replace(/\D/g, ""),
+  setValueAs: (value) => value?.trim()?.replace(/\D/g, ""),
 };
 
 export const requiredOnly = { required: "Required!" };
 
-export const trimOnly = { setValueAs: (value) => value.trim() };
+export const trimOnly = { setValueAs: (value) => value?.trim() };
 
 export const trimAndRequired = {
   required: "Required!",
-  setValueAs: (value) => value.trim(),
+  setValueAs: (value) => value?.trim(),
 };
 
 export const usernameValidation = {
@@ -49,5 +49,5 @@ export const usernameValidation = {
 export const zipcodeValidation = {
   required: "Required!",
   pattern: { value: /^\d{5}(?:[- ]?\d{4})?$/, message: "Invalid zipcode" },
-  setValueAs: (value) => value.trim(),
+  setValueAs: (value) => value?.trim(),
 };

@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import UserService from "../../services/user.service";
 import Address from "../Address";
-import Person from "../Person";
+import { Person } from "../../features/person/Person";
 import {
   formatPersonName,
   BiPencil,
@@ -54,7 +54,7 @@ const Home = () => {
       <div className="card-deck justify-content-center justify-content-xl-start">
         <Card size="medium" plain="true">
           <CardBody>
-            <CardTitle>Person</CardTitle>
+            <CardTitle>Parent</CardTitle>
             <Person {...content.person} />
             {content.person?.address && <Address {...content.person.address} />}
           </CardBody>
@@ -63,10 +63,10 @@ const Home = () => {
               <div className="col-md-5 mb-3 mb-md-0">
                 {content.person && (
                   <Link
-                    to={`/person-form/${content.person.id}/none/false/false`}
+                    to={`/parent/edit/${content.person.id}`}
                     className="btn btn-light"
                   >
-                    <BiPencil /> Person Details
+                    <BiPencil /> Parent
                   </Link>
                 )}
               </div>
