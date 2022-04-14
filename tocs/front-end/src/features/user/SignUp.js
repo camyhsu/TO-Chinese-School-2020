@@ -63,17 +63,13 @@ export const SignUp = () => {
     );
   }
 
-  let signUpFailed = false;
   let signUpErrorMessage = null;
   if (signUpStatus === SignUpStatus.EMAIL_CONFLICT) {
-    signUpFailed = true;
     signUpErrorMessage = `Sign Up Failed - email address matches an existing account - please contact ${ContactEmails.WEB_SITE_SUPPORT} to recover your account`;
   } else if (signUpStatus === SignUpStatus.USERNAME_CONFLICT) {
-    signUpFailed = true;
     signUpErrorMessage =
       "Sign Up Failed - username matches an existing account - please choose a different username";
   } else if (signUpStatus == SignUpStatus.FAILED) {
-    signUpFailed = true;
     signUpErrorMessage = "Server Unavailable - please try again later";
   }
 
@@ -365,8 +361,10 @@ export const SignUp = () => {
                 </button>
               </div>
             </div>
-            <div className="form-group">
-              {signUpFailed && (
+          </div>
+          <div className="row">
+            <div className="form-group col-md-12 mb-3">
+              {signUpErrorMessage && (
                 <div className="alert alert-danger" role="alert-error">
                   {signUpErrorMessage}
                 </div>

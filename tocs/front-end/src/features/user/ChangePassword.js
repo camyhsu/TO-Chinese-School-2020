@@ -38,14 +38,11 @@ export const ChangePassword = () => {
     setChangePasswordStatus(responseFromServer);
   };
 
-  let changePasswordFailed = false;
   let changePasswordErrorMessage = null;
   if (changePasswordStatus === ChangePasswordStatus.INCORRECT_CURRENT) {
-    changePasswordFailed = true;
     changePasswordErrorMessage =
       "Change Password Failed - incorrect current password";
   } else if (changePasswordStatus === ChangePasswordStatus.FAILED) {
-    changePasswordFailed = true;
     changePasswordErrorMessage = "Server Unavailable - please try again later";
   }
 
@@ -118,19 +115,21 @@ export const ChangePassword = () => {
                 </button>
               </div>
             </div>
-            <div className="form-group">
-              {changePasswordStatus === ChangePasswordStatus.SUCCESSFUL && (
-                <div className="alert alert-success" role="alert-success">
-                  {"Password changed successfully"}
-                </div>
-              )}
-            </div>
-            <div className="form-group">
-              {changePasswordFailed && (
-                <div className="alert alert-danger" role="alert-error">
-                  {changePasswordErrorMessage}
-                </div>
-              )}
+            <div className="row">
+              <div className="form-group col-md-12 mb-3">
+                {changePasswordStatus === ChangePasswordStatus.SUCCESSFUL && (
+                  <div className="alert alert-success" role="alert-success">
+                    {"Password changed successfully"}
+                  </div>
+                )}
+              </div>
+              <div className="form-group col-md-12 mb-3">
+                {changePasswordErrorMessage && (
+                  <div className="alert alert-danger" role="alert-error">
+                    {changePasswordErrorMessage}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </form>
