@@ -11,7 +11,7 @@ export default {
     next(response("Public Content."));
   },
   studentParentBoard: asyncWrapper(async (req, _res, next) => {
-    next(response(await userService.studentParentBoard(req.userId)));
+    next(response(await userService.studentParentBoard(req.personId)));
   }),
   instructorBoard: asyncWrapper(async (_req, _res, next) => {
     // TODO

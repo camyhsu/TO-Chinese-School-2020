@@ -17,21 +17,16 @@ export default {
     await user.save();
     return "Password changed successfully.";
   },
-  studentParentBoard: async (userId) => {
-    const users = await User.findAll({
-      where: { id: userId },
-      include: [
-        {
-          model: Person,
-          as: "person",
-          include: [{ model: Address, as: "address" }],
-        },
-      ],
+  studentParentBoard: async (personId) => {
+    const person = await Person.findByPk(personId, {
+      include: [{ model: Address, as: "address" }],
     });
-    const { person } = users[0];
-    const families = await person.families();
+    // Returns only the first family since most likely there will be only one
+    // TODO - a lot of code to clean-up in the model for really switching to
+    // only one family per person mapping
+    const family = (await person.families())[0];
     const result = formatAddressPhoneNumbers(
-      JSON.parse(JSON.stringify({ person, families }))
+      JSON.parse(JSON.stringify({ person, family }))
     );
     return result;
   },
