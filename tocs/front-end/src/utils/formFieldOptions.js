@@ -1,8 +1,8 @@
 export const birthYearValidation = {
   min: { value: 1901, message: "More than 120 years old?" },
   max: {
-    value: `${new Date().getFullYear() - 10}`,
-    message: "A parent already?",
+    value: `${new Date().getFullYear()}`,
+    message: "Not born yet?",
   },
   setValueAs: (value) => (value ? value : ""),
 };

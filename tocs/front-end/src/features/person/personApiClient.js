@@ -1,5 +1,13 @@
 import dataService from "../../services/data.service";
 
+export const AddPersonStatus = {
+  FAILED: "addPersonFailed",
+  SUCCESSFUL: "addPersonSuccessful",
+  IDLE: "addPersonIdle",
+  NOT_AUTHORIZED: "addPersonNotAuthorized",
+  PENDING: "addPersonPending",
+};
+
 export const GetPersonStatus = {
   FAILED: "getPersonFailed",
   SUCCESSFUL: "getPersonSuccessful",
@@ -14,6 +22,23 @@ export const UpdatePersonStatus = {
   IDLE: "updatePersonIdle",
   NOT_AUTHORIZED: "updatePersonNotAuthorized",
   PENDING: "updatePersonPending",
+};
+
+export const addPersonRequest = async (familyId, data) => {
+  try {
+    const response = await dataService.post(
+      `student/families/add_child/${familyId}`,
+      data
+    );
+    if (response.status === 200) {
+      return AddPersonStatus.SUCCESSFUL;
+    }
+  } catch (error) {
+    if (error.response?.status === 403) {
+      return AddPersonStatus.NOT_AUTHORIZED;
+    }
+    return AddPersonStatus.FAILED;
+  }
 };
 
 export const getPersonRequest = async (personId) => {

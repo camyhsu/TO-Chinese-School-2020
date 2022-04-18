@@ -1,91 +1,54 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useParams } from "react-router-dom";
 
 import { Card, CardBody, CardTitle } from "../../components/Cards";
+
+import {
+  birthYearValidation,
+  requiredOnly,
+  trimAndRequired,
+  trimOnly,
+} from "../../utils/formFieldOptions";
+import { addPersonRequest, AddPersonStatus } from "./personApiClient";
 import {
   BiPerson,
   OptionalFieldMark,
   ProgressSpinner,
 } from "../../components/decorationElements";
-import {
-  birthYearValidation,
-  trimAndRequired,
-  trimOnly,
-} from "../../utils/formFieldOptions";
-import {
-  getPersonRequest,
-  GetPersonStatus,
-  updatePersonRequest,
-  UpdatePersonStatus,
-} from "./personApiClient";
 
-export const EditPerson = () => {
-  const { personId } = useParams();
+export const AddPerson = () => {
+  const { familyId } = useParams();
 
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors },
   } = useForm();
 
-  const [getPersonStatus, setGetPersonStatus] = useState(GetPersonStatus.IDLE);
-  const [updatePersonStatus, setUpdatePersonStatus] = useState(
-    UpdatePersonStatus.IDLE
-  );
+  const [addPersonStatus, setAddPersonStatus] = useState(AddPersonStatus.IDLE);
 
   useEffect(() => {
-    document.title = "TOCS - Edit Parent";
+    document.title = "TOCS - Add Student";
   }, []);
 
-  useEffect(() => {
-    const getPersonData = async () => {
-      setGetPersonStatus(GetPersonStatus.PENDING);
-      const responseFromGetPersonRequest = await getPersonRequest(personId);
-      console.log(
-        `responseFromGetPersonRequest => ${JSON.stringify(
-          responseFromGetPersonRequest
-        )}`
-      );
-      if (responseFromGetPersonRequest.status === GetPersonStatus.SUCCESSFUL) {
-        // Set the form values to the data from the server
-        reset(responseFromGetPersonRequest.data);
-      }
-      setGetPersonStatus(responseFromGetPersonRequest.status);
-    };
-    if (getPersonStatus === GetPersonStatus.IDLE) {
-      console.log("GetPersonStatus is IDLE - calling the server");
-      getPersonData(personId);
-    }
-  }, [personId]);
-
   const submitHandler = async (data) => {
-    setUpdatePersonStatus(UpdatePersonStatus.PENDING);
-    const responseFromUpdatePersonRequest = await updatePersonRequest(
-      personId,
-      data
-    );
-    setUpdatePersonStatus(responseFromUpdatePersonRequest);
+    console.log(JSON.stringify(data));
+    setAddPersonStatus(AddPersonStatus.PENDING);
+    const responseFromAddPersonRequest = await addPersonRequest(familyId, data);
+    setAddPersonStatus(responseFromAddPersonRequest);
   };
 
-  if (updatePersonStatus === UpdatePersonStatus.SUCCESSFUL) {
+  if (addPersonStatus === AddPersonStatus.SUCCESSFUL) {
     return <Navigate to="/home" />;
   }
 
   let operationErrorMessage = null;
-  if (
-    getPersonStatus === GetPersonStatus.NOT_AUTHORIZED ||
-    updatePersonStatus === UpdatePersonStatus.NOT_AUTHORIZED
-  ) {
+  if (addPersonStatus === AddPersonStatus.NOT_AUTHORIZED) {
     operationErrorMessage = "Operation not authorized!!";
-  } else if (getPersonStatus === GetPersonStatus.FAILED) {
+  } else if (addPersonStatus === AddPersonStatus.FAILED) {
     operationErrorMessage =
-      "Problems getting current parent data - please try again later";
-  } else if (updatePersonStatus === UpdatePersonStatus.FAILED) {
-    operationErrorMessage =
-      "Problems updating parent data - please try again later";
+      "Problems getting adding the student - please try again later";
   }
 
   return (
@@ -94,7 +57,7 @@ export const EditPerson = () => {
         <form onSubmit={handleSubmit(submitHandler)}>
           <div>
             <CardTitle>
-              <BiPerson /> Edit Parent
+              <BiPerson /> Add Student
             </CardTitle>
             <div className="row">
               <div className="form-group col-md-6 mb-3">
@@ -161,10 +124,13 @@ export const EditPerson = () => {
                 </select>
               </div>
               <div className="form-group col-md-4 mb-3">
-                <label htmlFor="birthMonth">
-                  Birth Month <OptionalFieldMark />
-                </label>
-                <select {...register("birthMonth")} className="form-control">
+                <label htmlFor="birthMonth">Birth Month</label>
+                <select
+                  {...register("birthMonth", requiredOnly)}
+                  className={`form-control ${
+                    errors.birthMonth ? "is-invalid" : ""
+                  }`}
+                >
                   <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -179,13 +145,17 @@ export const EditPerson = () => {
                   <option value="11">11</option>
                   <option value="12">12</option>
                 </select>
+                <div className="invalid-feedback">
+                  {errors.birthMonth?.message}
+                </div>
               </div>
               <div className="form-group col-md-4 mb-3">
-                <label htmlFor="birthYear">
-                  Birth Year <OptionalFieldMark />
-                </label>
+                <label htmlFor="birthYear">Birth Year</label>
                 <input
-                  {...register("birthYear", birthYearValidation)}
+                  {...register("birthYear", {
+                    ...requiredOnly,
+                    ...birthYearValidation,
+                  })}
                   type="number"
                   placeholder="YYYY"
                   className={`form-control ${
@@ -200,10 +170,10 @@ export const EditPerson = () => {
             <div className="row">
               <div className="form-group col-md-6 mt-5 mb-3">
                 <button className="btn btn-primary btn-block">
-                  {updatePersonStatus === UpdatePersonStatus.PENDING && (
+                  {addPersonStatus === AddPersonStatus.PENDING && (
                     <ProgressSpinner />
                   )}
-                  <span>Save</span>
+                  <span>Add</span>
                 </button>
               </div>
               <div className="form-group col-md-6 mt-5 mb-3">

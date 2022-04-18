@@ -5,14 +5,9 @@ import UserService from "../../services/user.service";
 import Address from "../Address";
 import { Family } from "../../features/family/Family";
 import { Person } from "../../features/person/Person";
-import {
-  formatPersonName,
-  BiPlus,
-  BiPersonPlus,
-  Children,
-} from "../../utils/utilities";
+import { formatPersonName, BiPlus, Children } from "../../utils/utilities";
 import { Card, CardBody, CardFooter, CardTitle } from "../Cards";
-import { BiPencil } from "../decorationElements";
+import { BiPencil, BiPersonPlus } from "../decorationElements";
 import { userSignOut } from "../../features/user/userSlice";
 
 const Home = () => {
@@ -61,6 +56,16 @@ const Home = () => {
           </CardBody>
           <CardFooter>
             <div className="row text-truncate">
+              {content.family && (
+                <div className="col-md-3 text-md-right">
+                  <Link
+                    to={`/student/add/${content.family.id}`}
+                    className="btn btn-light"
+                  >
+                    <BiPersonPlus /> Child
+                  </Link>
+                </div>
+              )}
               {/* TODO - edit family address not working yet */}
               {/*<div className="col-md-5 mb-3 mb-md-0">*/}
               {/*  {content.family && (*/}
@@ -82,15 +87,6 @@ const Home = () => {
               {/*      <BiPersonPlus /> Parent*/}
               {/*    </Link>*/}
               {/*  )}*/}
-              {/*</div>*/}
-              {/* TODO - add child not working yet */}
-              {/*<div className="col-md-3 text-md-right">*/}
-              {/*  <Link*/}
-              {/*    to={`/person-form/none/${content.family.id}/false/false`}*/}
-              {/*    className="btn btn-light"*/}
-              {/*  >*/}
-              {/*    <BiPersonPlus /> Child*/}
-              {/*  </Link>*/}
               {/*</div>*/}
             </div>
           </CardFooter>

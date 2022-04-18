@@ -60,6 +60,7 @@ import { Footer } from "./app/Footer";
 import { PrivateRoute } from "./app/PrivateRoute";
 import { Role } from "./app/Role";
 import { Home } from "./features/home/Home";
+import { AddPerson } from "./features/person/AddPerson";
 import { EditPerson } from "./features/person/EditPerson";
 import { Account } from "./features/user/Account";
 import { ChangePassword } from "./features/user/ChangePassword";
@@ -107,7 +108,22 @@ const App = () => {
                 </PrivateRoute>
               }
             />
-            <Route path="/parent/edit/:personId" element={<EditPerson />} />
+            <Route
+              path="/parent/edit/:personId"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <EditPerson />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/add/:familyId"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <AddPerson />
+                </PrivateRoute>
+              }
+            />
 
             <Route
               path="/librarian/books"
