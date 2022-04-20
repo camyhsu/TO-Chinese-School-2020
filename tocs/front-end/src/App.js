@@ -112,7 +112,7 @@ const App = () => {
               path="/parent/edit/:personId"
               element={
                 <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
-                  <EditPerson />
+                  <EditPerson personType="parent" />
                 </PrivateRoute>
               }
             />
@@ -121,6 +121,14 @@ const App = () => {
               element={
                 <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
                   <AddPerson />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/edit/:personId"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <EditPerson personType="student" />
                 </PrivateRoute>
               }
             />

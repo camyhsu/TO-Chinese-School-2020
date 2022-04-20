@@ -9,8 +9,8 @@ import {
 } from "../../components/decorationElements";
 import { ContactEmails } from "../../utils/ContactEmails";
 import {
-  birthYearValidation,
   emailValidation,
+  parentBirthYearValidation,
   passwordValidation,
   phoneNumberValidation,
   requiredOnly,
@@ -69,7 +69,7 @@ export const SignUp = () => {
   } else if (signUpStatus === SignUpStatus.USERNAME_CONFLICT) {
     signUpErrorMessage =
       "Sign Up Failed - username matches an existing account - please choose a different username";
-  } else if (signUpStatus == SignUpStatus.FAILED) {
+  } else if (signUpStatus === SignUpStatus.FAILED) {
     signUpErrorMessage = "Server Unavailable - please try again later";
   }
 
@@ -194,7 +194,7 @@ export const SignUp = () => {
                   Birth Year <OptionalFieldMark />
                 </label>
                 <input
-                  {...register("birthYear", birthYearValidation)}
+                  {...register("birthYear", parentBirthYearValidation)}
                   type="number"
                   placeholder="YYYY"
                   className={`form-control ${

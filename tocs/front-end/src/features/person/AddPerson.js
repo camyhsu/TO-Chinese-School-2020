@@ -5,8 +5,8 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { Card, CardBody, CardTitle } from "../../components/Cards";
 
 import {
-  birthYearValidation,
   requiredOnly,
+  studentBirthYearValidation,
   trimAndRequired,
   trimOnly,
 } from "../../utils/formFieldOptions";
@@ -152,10 +152,7 @@ export const AddPerson = () => {
               <div className="form-group col-md-4 mb-3">
                 <label htmlFor="birthYear">Birth Year</label>
                 <input
-                  {...register("birthYear", {
-                    ...requiredOnly,
-                    ...birthYearValidation,
-                  })}
+                  {...register("birthYear", studentBirthYearValidation)}
                   type="number"
                   placeholder="YYYY"
                   className={`form-control ${

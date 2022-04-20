@@ -133,8 +133,8 @@ const Home = () => {
           </CardFooter>
         </Card>
         {content.family?.children &&
-          content.family.children.map((student) => (
-            <>
+          content.family.children.map((student, sindex) => (
+            <React.Fragment key={`student-${sindex}`}>
               <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
               <Card size="medium" plain="true">
                 <CardBody>
@@ -142,20 +142,19 @@ const Home = () => {
                   <Person {...student} />
                 </CardBody>
                 <CardFooter>
-                  {/* TODO - editing student not working yet */}
-                  {/*<div className="row text-truncate">*/}
-                  {/*  <div className="col-md-5 mb-md-0">*/}
-                  {/*    <Link*/}
-                  {/*      to={`/person-form/${student.id}/none/false/false`}*/}
-                  {/*      className="btn btn-light"*/}
-                  {/*    >*/}
-                  {/*      <BiPencil /> Student*/}
-                  {/*    </Link>*/}
-                  {/*  </div>*/}
-                  {/*</div>*/}
+                  <div className="row text-truncate">
+                    <div className="col-md-5 mb-md-0">
+                      <Link
+                        to={`/student/edit/${student.id}`}
+                        className="btn btn-light"
+                      >
+                        <BiPencil /> Student
+                      </Link>
+                    </div>
+                  </div>
                 </CardFooter>
               </Card>
-            </>
+            </React.Fragment>
           ))}
       </div>
     </div>

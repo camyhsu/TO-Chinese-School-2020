@@ -1,4 +1,14 @@
-export const birthYearValidation = {
+export const parentBirthYearValidation = {
+  min: { value: 1901, message: "More than 120 years old?" },
+  max: {
+    value: `${new Date().getFullYear() - 10}`,
+    message: "Already a parent?",
+  },
+  setValueAs: (value) => (value ? value : ""),
+};
+
+export const studentBirthYearValidation = {
+  required: "Required!",
   min: { value: 1901, message: "More than 120 years old?" },
   max: {
     value: `${new Date().getFullYear()}`,

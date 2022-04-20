@@ -10,7 +10,8 @@ import {
   ProgressSpinner,
 } from "../../components/decorationElements";
 import {
-  birthYearValidation,
+  parentBirthYearValidation,
+  studentBirthYearValidation,
   trimAndRequired,
   trimOnly,
 } from "../../utils/formFieldOptions";
@@ -21,7 +22,8 @@ import {
   UpdatePersonStatus,
 } from "./personApiClient";
 
-export const EditPerson = () => {
+export const EditPerson = ({ personType }) => {
+  console.log(`In EditPerson, personType => ${personType}`);
   const { personId } = useParams();
 
   const {
@@ -37,18 +39,17 @@ export const EditPerson = () => {
   );
 
   useEffect(() => {
-    document.title = "TOCS - Edit Parent";
+    if (personType === "student") {
+      document.title = "TOCS - Edit Student";
+    } else {
+      document.title = "TOCS - Edit Parent";
+    }
   }, []);
 
   useEffect(() => {
     const getPersonData = async () => {
       setGetPersonStatus(GetPersonStatus.PENDING);
       const responseFromGetPersonRequest = await getPersonRequest(personId);
-      console.log(
-        `responseFromGetPersonRequest => ${JSON.stringify(
-          responseFromGetPersonRequest
-        )}`
-      );
       if (responseFromGetPersonRequest.status === GetPersonStatus.SUCCESSFUL) {
         // Set the form values to the data from the server
         reset(responseFromGetPersonRequest.data);
@@ -56,7 +57,6 @@ export const EditPerson = () => {
       setGetPersonStatus(responseFromGetPersonRequest.status);
     };
     if (getPersonStatus === GetPersonStatus.IDLE) {
-      console.log("GetPersonStatus is IDLE - calling the server");
       getPersonData(personId);
     }
   }, [personId]);
@@ -82,10 +82,18 @@ export const EditPerson = () => {
     operationErrorMessage = "Operation not authorized!!";
   } else if (getPersonStatus === GetPersonStatus.FAILED) {
     operationErrorMessage =
-      "Problems getting current parent data - please try again later";
+      "Problems getting current data - please try again later";
   } else if (updatePersonStatus === UpdatePersonStatus.FAILED) {
-    operationErrorMessage =
-      "Problems updating parent data - please try again later";
+    operationErrorMessage = "Problems updating data - please try again later";
+  }
+
+  let forParent = true;
+  let birthYearValidation = parentBirthYearValidation;
+  let birthMonthValidation = {};
+  if (personType === "student") {
+    forParent = false;
+    birthMonthValidation = { required: "Required!" };
+    birthYearValidation = studentBirthYearValidation;
   }
 
   return (
@@ -94,7 +102,7 @@ export const EditPerson = () => {
         <form onSubmit={handleSubmit(submitHandler)}>
           <div>
             <CardTitle>
-              <BiPerson /> Edit Parent
+              <BiPerson /> Edit {forParent ? "Parent" : "Student"}
             </CardTitle>
             <div className="row">
               <div className="form-group col-md-6 mb-3">
@@ -162,9 +170,14 @@ export const EditPerson = () => {
               </div>
               <div className="form-group col-md-4 mb-3">
                 <label htmlFor="birthMonth">
-                  Birth Month <OptionalFieldMark />
+                  Birth Month {forParent && <OptionalFieldMark />}
                 </label>
-                <select {...register("birthMonth")} className="form-control">
+                <select
+                  {...register("birthMonth", birthMonthValidation)}
+                  className={`form-control ${
+                    errors.birthMonth ? "is-invalid" : ""
+                  }`}
+                >
                   <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -179,10 +192,13 @@ export const EditPerson = () => {
                   <option value="11">11</option>
                   <option value="12">12</option>
                 </select>
+                <div className="invalid-feedback">
+                  {errors.birthMonth?.message}
+                </div>
               </div>
               <div className="form-group col-md-4 mb-3">
                 <label htmlFor="birthYear">
-                  Birth Year <OptionalFieldMark />
+                  Birth Year {forParent && <OptionalFieldMark />}
                 </label>
                 <input
                   {...register("birthYear", birthYearValidation)}
