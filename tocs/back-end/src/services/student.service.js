@@ -2,7 +2,7 @@ import Sequelize from "sequelize";
 import config from "config";
 import db from "../models/index";
 import CreditCard from "../utils/credit-card";
-import { toExp4Digits, todayPacific } from "../utils/utilities";
+import { toExp4Digits, todayPacificString } from "../utils/utilities";
 import { process } from "../utils/payment-gateway";
 import { sendPaymentConfirmation } from "../utils/email";
 
@@ -146,7 +146,7 @@ const createStudentClassAssignments = async (registrationPayment) => {
       }
 
       studentStatusFlag.registered = true;
-      studentStatusFlag.lastStatusChangeDate = todayPacific();
+      studentStatusFlag.lastStatusChangeDate = todayPacificString();
       await studentStatusFlag.save();
     }
   );
