@@ -2,7 +2,8 @@ import Sequelize from "sequelize";
 import config from "config";
 import db from "../models/index";
 import CreditCard from "../utils/credit-card";
-import { toExp4Digits, todayPacificString } from "../utils/utilities";
+import { todayPacificString } from "../utils/pacific-date-time";
+import { toExp4Digits } from "../utils/utilities";
 import { process } from "../utils/payment-gateway";
 import { sendPaymentConfirmation } from "../utils/email";
 

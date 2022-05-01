@@ -1,4 +1,4 @@
-import { today } from "../utils/utilities";
+import { todayPacificString } from "../utils/pacific-date-time";
 
 export default (sequelize, Sequelize, fieldsFactory) => {
   const fields = fieldsFactory({
@@ -172,7 +172,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
     },
     async findCurrentAndFutureSchoolYears() {
       return SchoolYear.findAll({
-        where: { endDate: { [Sequelize.Op.gte]: today() } },
+        where: { endDate: { [Sequelize.Op.gte]: todayPacificString() } },
         include: [{ model: SchoolYear, as: "previousSchoolYear" }],
         order: [["startDate", "ASC"]],
       });
@@ -186,7 +186,7 @@ export default (sequelize, Sequelize, fieldsFactory) => {
       return r[1];
     },
     async findActiveRegistrationSchoolYears() {
-      const date = today();
+      const date = todayPacificString();
       return SchoolYear.findAll({
         where: {
           earlyRegistrationStartDate: { [Sequelize.Op.lte]: date },

@@ -2,7 +2,6 @@ import { v4 as uuid } from "uuid";
 import Chance from "chance";
 import sha256 from "crypto-js/sha256";
 import CryptoJS from "crypto-js";
-import moment from "moment-timezone";
 
 const { Base64, Hex } = CryptoJS.enc;
 const { WordArray } = CryptoJS.lib;
@@ -74,9 +73,6 @@ const isoToPacificDate = (s) =>
 
 const today = () => datePart(new Date().toISOString());
 
-const todayPacificString = () =>
-  moment().tz("America/Los_Angeles").format("YYYY-MM-DD");
-
 const dateBetween = (_date, duration) => {
   const date = datePart(_date);
   return date >= duration.startDate && date <= duration.endDate;
@@ -128,7 +124,6 @@ export {
   randUser,
   sha256Hex,
   today,
-  todayPacificString,
   createRandSchoolYear,
   tomorrow,
   toNumeric,

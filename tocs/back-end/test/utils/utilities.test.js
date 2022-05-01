@@ -113,7 +113,8 @@ describe("Utilities", () => {
   describe("todayPacific", () => {
     it("todayPacificString should return the YYYY-MM-DD string representing today in the Pacific timezone", () => {
       console.log(todayPacificString());
-      // there is no good way to assert this when running in the Pacific timezone
+      // there is no good way to assert this
+      // the result depends on the timezone of the development machine
     });
   });
 });
