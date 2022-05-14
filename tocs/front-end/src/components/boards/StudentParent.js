@@ -46,6 +46,20 @@ const Home = () => {
     return <Navigate to="/sign-in" />;
   }
 
+  const { person, family, registrationStarter } = content;
+  let registrationStartTargetRoute = null;
+  if (registrationStarter) {
+    if (registrationStarter.existingClassTrack) {
+      if (registrationStarter.existingClassTrack === "EC") {
+        registrationStartTargetRoute = `/student/registration/language-class-ec/${registrationStarter.schoolYearId}`;
+      } else {
+        registrationStartTargetRoute = `/student/registration/language-class-regular/${registrationStarter.schoolYearId}`;
+      }
+    } else {
+      registrationStartTargetRoute = `/student/registration/select-class-track/${registrationStarter.schoolYearId}`;
+    }
+  }
+
   return (
     <div className="container">
       <div className="card-deck justify-content-center justify-content-xl-start">
@@ -95,15 +109,15 @@ const Home = () => {
         <Card size="medium" plain="true">
           <CardBody>
             <CardTitle>Parent</CardTitle>
-            {content.person && <Person {...content.person} />}
-            {content.person?.address && <Address {...content.person.address} />}
+            {person && <Person {...person} />}
+            {person?.address && <Address {...person.address} />}
           </CardBody>
           <CardFooter>
             <div className="row text-truncate">
               <div className="col-md-5 mb-3 mb-md-0">
-                {content.person && (
+                {person && (
                   <Link
-                    to={`/parent/edit/${content.person.id}`}
+                    to={`/parent/edit/${person.id}`}
                     className="btn btn-light"
                   >
                     <BiPencil /> Parent
@@ -112,17 +126,17 @@ const Home = () => {
               </div>
               {/* TODO - adding / editing address not working yet */}
               {/*<div className="col-md-7 text-md-right">*/}
-              {/*  {content.person && !content.person.addressId && (*/}
+              {/*  {person && !person.addressId && (*/}
               {/*    <Link*/}
-              {/*      to={`/address-form/none/${content.person.id}/none/false`}*/}
+              {/*      to={`/address-form/none/${person.id}/none/false`}*/}
               {/*      className="btn btn-light"*/}
               {/*    >*/}
               {/*      <BiPlus /> Personal Address*/}
               {/*    </Link>*/}
               {/*  )}*/}
-              {/*  {content.person && content.person.addressId && (*/}
+              {/*  {person && person.addressId && (*/}
               {/*    <Link*/}
-              {/*      to={`/address-form/${content.person.addressId}/${content.person.id}/none/false`}*/}
+              {/*      to={`/address-form/${person.addressId}/${person.id}/none/false`}*/}
               {/*      className="btn btn-light"*/}
               {/*    >*/}
               {/*      <BiPencil /> Personal Address*/}
@@ -132,8 +146,8 @@ const Home = () => {
             </div>
           </CardFooter>
         </Card>
-        {content.family?.children &&
-          content.family.children.map((student, sindex) => (
+        {family?.children &&
+          family.children.map((student, sindex) => (
             <React.Fragment key={`student-${sindex}`}>
               <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
               <Card size="medium" plain="true">
@@ -156,6 +170,24 @@ const Home = () => {
               </Card>
             </React.Fragment>
           ))}
+        {registrationStarter && family?.children && (
+          <>
+            <div className="w-100 d-block d-xl-none pt-1">&nbsp;</div>
+            <Card size="medium" plain="true">
+              <CardBody>
+                <CardTitle>
+                  Register For {registrationStarter.schoolYearName} School Year
+                </CardTitle>
+                <Link
+                  to={registrationStartTargetRoute}
+                  className="btn btn-dark"
+                >
+                  Start
+                </Link>
+              </CardBody>
+            </Card>
+          </>
+        )}
       </div>
     </div>
   );

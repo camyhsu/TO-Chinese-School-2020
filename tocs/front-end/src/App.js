@@ -67,6 +67,8 @@ import { ChangePassword } from "./features/user/ChangePassword";
 import { SignIn } from "./features/user/SignIn";
 import { SignUp } from "./features/user/SignUp";
 import { UserStatus } from "./features/user/UserStatus";
+import { StudentRegistrationClassTrackSelection } from "./features/student-registration/StudentRegistrationClassTrackSelection";
+import { StudentRegistrationLanguageClassOptions } from "./features/student-registration/StudentRegistrationLanguageClassOptions";
 
 const App = () => {
   const { status } = useSelector((state) => state.user);
@@ -129,6 +131,30 @@ const App = () => {
               element={
                 <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
                   <EditPerson personType="student" />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/registration/select-class-track/:schoolYearId"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <StudentRegistrationClassTrackSelection />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/registration/language-class-regular/:schoolYearId"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <StudentRegistrationLanguageClassOptions classTrackDefault="regular" />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/registration/language-class-ec/:schoolYearId"
+              element={
+                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
+                  <StudentRegistrationLanguageClassOptions classTrackDefault="ec" />
                 </PrivateRoute>
               }
             />
@@ -413,14 +439,6 @@ const App = () => {
               element={
                 <PrivateRoute requiredRoles={[Role.REGISTRATION_OFFICER]}>
                   <SchoolYearForm />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/student-registration/:schoolYearId"
-              element={
-                <PrivateRoute requiredRoles={[Role.STUDENT_PARENT]}>
-                  <StudentRegistrationForm />
                 </PrivateRoute>
               }
             />

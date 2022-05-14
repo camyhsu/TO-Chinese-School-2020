@@ -88,18 +88,20 @@ export default {
 
     const activeRegistrationSchoolYear =
       await findActiveRegistrationSchoolYear();
-    let previousClassTrack = null;
+
+    let registrationStarter = null;
     if (activeRegistrationSchoolYear && family.children) {
-      previousClassTrack = await findPreviousClassTrack(
+      const previousClassTrack = await findPreviousClassTrack(
         activeRegistrationSchoolYear,
         family.children
       );
+      registrationStarter = {
+        schoolYearId: activeRegistrationSchoolYear.id,
+        schoolYearName: activeRegistrationSchoolYear.name,
+        existingClassTrack: previousClassTrack,
+      };
     }
-    const registrationStarter = {
-      school_year_id: activeRegistrationSchoolYear.id,
-      school_year_name: activeRegistrationSchoolYear.name,
-      existingClassTrack: previousClassTrack,
-    };
+
     const result = formatAddressPhoneNumbers(
       JSON.parse(
         JSON.stringify({

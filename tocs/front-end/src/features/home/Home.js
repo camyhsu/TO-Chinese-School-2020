@@ -45,7 +45,6 @@ export const Home = () => {
           {hasRole([Role.LIBRARIAN]) && <Librarian />}
           {hasRole([Role.INSTRUCTOR]) && <Instructor />}
           {/* Need a PVA board {hasRole([Role.PVA]) }*/}
-          <Announcement />
         </div>
       </div>
       {hasRole([Role.STUDENT_PARENT]) && <StudentParent />}

@@ -33,7 +33,6 @@ export const AddPerson = () => {
   }, []);
 
   const submitHandler = async (data) => {
-    console.log(JSON.stringify(data));
     setAddPersonStatus(AddPersonStatus.PENDING);
     const responseFromAddPersonRequest = await addPersonRequest(familyId, data);
     setAddPersonStatus(responseFromAddPersonRequest);
