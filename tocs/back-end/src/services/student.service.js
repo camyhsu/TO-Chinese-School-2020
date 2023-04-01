@@ -311,6 +311,14 @@ export default {
     }
     return null;
   },
+  getStudentRegistrationLanguageClassOptions: async (
+    schoolYearId,
+    personId
+  ) => {
+    const schoolYear = await SchoolYear.findByPk(schoolYearId, {
+      include: [{ model: SchoolYear, as: "previousSchoolYear" }],
+    });
+  },
   getStudentRegistrationDisplayOptions: async (schoolYearId, personId) => {
     const schoolYear = await SchoolYear.findOne({
       where: { id: schoolYearId },

@@ -16,7 +16,6 @@ export const StudentRegistrationClassTrackSelection = () => {
   }, []);
 
   const submitHandler = (data) => {
-    console.log(data);
     if (data.classTrack === "ec") {
       navigate(`/student/registration/language-class-ec/${schoolYearId}`);
     } else {

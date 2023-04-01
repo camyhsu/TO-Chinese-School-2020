@@ -15,8 +15,6 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = "TOCS - Home";
-
     UserService.getStudentParentBoard().then(
       (response) => {
         console.log(JSON.stringify(response.data));

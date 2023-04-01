@@ -15,6 +15,8 @@ export const StudentRegistrationLanguageClassOptions = ({
     document.title = "TOCS - Select Language Class Options";
   }, []);
 
+  useEffect(() => {});
+
   const submitHandler = async (data) => {
     console.log(data);
   };
